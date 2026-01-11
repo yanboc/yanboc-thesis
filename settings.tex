@@ -19,7 +19,11 @@
 }
 
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows, positioning, fit, calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} 
+\usepackage{tikz-3dplot}
+\tdplotsetmaincoords{70}{120}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, calc, shapes, backgrounds, matrix}
 
 \tikzset{
     block/.style={
@@ -98,3 +102,19 @@
 \DeclareMathOperator{\reg}{\text{reg}}
 \DeclareMathOperator{\relu}{\text{ReLU}}
 \DeclareMathOperator{\softmax}{\text{softmax}}
+
+% NC
+\newcommand{\iter}[1]{\{#1\}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\Radv}{R_{\rm{adv}}}
+\newcommand{\Rstd}{R_{\rm{std}}}
+\newcommand{\1}{\boldsymbol{1}}
+\newcommand{\0}{\boldsymbol{0}}
+
+% RBAD
+\usepackage{bm}
+\usepackage{subcaption}
+\newcommand{\V}{\mbox{Vol}}
+\newcommand{\ip}[1]{\left\langle #1 \right\rangle}
+\newcommand{\qm}[1]{``#1''}
+\renewcommand{\P}{\boldsymbol{P}}

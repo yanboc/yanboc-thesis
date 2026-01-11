@@ -1,25 +1,25 @@
 \chapter{通用任务的特征学习理论}\label{chap-PNAS}
 
-本章将围绕神经网络的特征塌缩（Neural Collapse，NC）现象展开，并探索其背后的特征学习机制。
-特征塌缩由Papyan等\cite{nc}首次发现并总结，是一种普遍存在于神经网络输出层的几何特征。
-具体而言，Papyan等\cite{nc}研究了分类任务中训练的最终阶段（Terminal Phase of Training，TPT），发现输出层特征在该阶段会坍缩为一个等角紧框架（Equiangular Tight Frame，ETF）结构。
+本章将围绕神经网络的特征塌缩 (Neural Collapse, NC) 现象展开, 并探索其背后的特征学习机制. 
+特征塌缩由Papyan等\cite{nc}首次发现并总结, 是一种普遍存在于神经网络输出层的几何特征. 
+具体而言, Papyan等\cite{nc}研究了分类任务中训练的最终阶段 (Terminal Phase of Training, TPT) , 发现输出层特征在该阶段会坍缩为一个等角紧框架 (Equiangular Tight Frame, ETF) 结构. 
 
 
-NC 已被证实是跨数据集和网络架构的普遍现象。
-许多先前的研究将这一几何结构特征应用于离分布检测（10）、长尾学习（11）和对抗训练（12）等任务。
-本文重点探讨AT下的神经网络特征。此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法（13），具体定义可参阅第1.1节。已有研究（12）发现，神经网络特征在对抗训练中普遍存在。然而，通过AT训练的神经网络与传统训练模型存在显著差异（14,15）。由此引出两个核心问题：标准神经网络特征与对抗性神经网络特征的本质区别是什么？这种差异背后的本质特征及其理论依据又是什么？
-本文的核心目标在于系统阐释标准神经压缩（NC）与对抗神经压缩（AT）的差异。具体而言，我们通过实证研究揭示了对抗训练（AT）对神经压缩几何结构的影响，并发现了单纯形压缩现象。研究发现，在AT的最终阶段，压缩后的单纯形 ETF 几何尺寸较标准神经压缩显著缩小，且随着对抗样本扰动半径的增大，压缩程度呈现递增趋势。图1直观展示了这一研究发现。
-我们首先通过实证研究证明，单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性。在此基础上，我们从理论层面阐释了自适应训练（AT）引发该现象的作用机制。研究还表明，随着扰动半径的增大，压缩程度会显著增强。特别值得注意的是，我们的理论预测与第3.3节展示的实验结果高度吻合，这为我们的实证发现提供了有力佐证。
-本文其余部分结构如下：第1节和第2节分别介绍相关研究及术语。我们在此呈现实证研究结果。
+NC 已被证实是跨数据集和网络架构的普遍现象. 
+许多先前的研究将这一几何结构特征应用于离分布检测 (10) 、长尾学习 (11) 和对抗训练 (12) 等任务. 
+本文重点探讨AT下的神经网络特征. 此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法 (13) , 具体定义可参阅第1.1节. 已有研究 (12) 发现, 神经网络特征在对抗训练中普遍存在. 然而, 通过AT训练的神经网络与传统训练模型存在显著差异 (14,15) . 由此引出两个核心问题：标准神经网络特征与对抗性神经网络特征的本质区别是什么？这种差异背后的本质特征及其理论依据又是什么？
+本文的核心目标在于系统阐释标准神经压缩 (NC) 与对抗神经压缩 (AT) 的差异. 具体而言, 我们通过实证研究揭示了对抗训练 (AT) 对神经压缩几何结构的影响, 并发现了单纯形压缩现象. 研究发现, 在AT的最终阶段, 压缩后的单纯形 ETF 几何尺寸较标准神经压缩显著缩小, 且随着对抗样本扰动半径的增大, 压缩程度呈现递增趋势. 图1直观展示了这一研究发现. 
+我们首先通过实证研究证明, 单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性. 在此基础上, 我们从理论层面阐释了自适应训练 (AT) 引发该现象的作用机制. 研究还表明, 随着扰动半径的增大, 压缩程度会显著增强. 特别值得注意的是, 我们的理论预测与第3.3节展示的实验结果高度吻合, 这为我们的实证发现提供了有力佐证. 
+本文其余部分结构如下：第1节和第2节分别介绍相关研究及术语. 我们在此呈现实证研究结果. 
 
 \newpage
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.95\textwidth]{figures/simplex_compression.png}
-  \caption{线型图（上）展示了关于单纯形压缩现象的主要实证结果。
-  我们绘制了三种对抗训练方法（包括\texttt{PGD-AT}、\texttt{TRADES}和\texttt{MART}）在不同扰动半径$\epsilon \in \{0，2/255，4/255，6/255，8/255\}$下的单纯形范数$P_c$（参见等式\ref{eq-simplex-norm}）观测值。。此处$\epsilon = 0$表示干净训练。单纯形范数是使用训练数据计算的。
-  底部：三分类任务中单纯形压缩现象的可视化。我们观察到几何尺寸（即单纯形 ETF 结构在AT下的单纯形范数$P_c$）的减小；且随着扰动半径的增加，单纯形范数减小（此处A、B和C分别代表扰动半径的增加）。
-  我们称这种塌缩ETF压缩的现象为单纯形压缩现象。}
+  \includegraphics[width=0.95\textwidth]{figures/nc_main/simplex_compression.png}
+  \caption{线型图 (上) 展示了关于单纯形压缩现象的主要实证结果. 
+  我们绘制了三种对抗训练方法 (包括\texttt{PGD-AT}、\texttt{TRADES}和\texttt{MART}) 在不同扰动半径$\epsilon \in \{0, 2/255, 4/255, 6/255, 8/255\}$下的单纯形范数$P_c$ (参见等式\ref{eq-simplex-norm}) 观测值. . 此处$\epsilon = 0$表示干净训练. 单纯形范数是使用训练数据计算的. 
+  底部：三分类任务中单纯形压缩现象的可视化. 我们观察到几何尺寸 (即单纯形 ETF 结构在AT下的单纯形范数$P_c$) 的减小；且随着扰动半径的增加, 单纯形范数减小 (此处A、B和C分别代表扰动半径的增加) . 
+  我们称这种塌缩ETF压缩的现象为单纯形压缩现象. }
   \label{fig-simplex-compression}
 \end{figure}
 \newpage
@@ -27,34 +27,34 @@ NC 已被证实是跨数据集和网络架构的普遍现象。
 \section{对抗训练与特征塌缩现象的基础概念}
 
 \subsection{对抗训练}\label{sec-adversarial-training}
-我们首先引入对抗样本（adversarial example）的概念。
-在图像分类问题中，\textit{对抗样本}$\xa$是一类经过恶意构造的样本，其在视觉上与干净样本$\x$高度相似，但会迫使分类器对$\xa$和$\x$做出不同的预测。
-更具体地说，给定分类器$f$，对于任意$\x \in \R^d$，我们称$\xa$为$f$在$\x$处的\textit{$\epsilon$-对抗样本}，如果$\xa$满足$f(\x) \neq f(\xa)$且$\|\xa - \x\|_p \leq \epsilon$。
-在此定义中，常数$\epsilon$量化了$\x$与$\xa$之间允许的最大扰动，以确保两者的视觉相似性，在文献中通常被称为 \textit{扰动半径}(\textit{perturbation radius})。
-对抗训练（AT）最初由Madry等\cite{MMSTV2017towards} 提出，是一种旨在提升机器学习模型对对抗样本鲁棒性的训练范式。
-AT 的核心思想是利用构造出的对抗样本来训练分类器。
-已有研究\cite{trades}, {wat,mart,fat,eat,robnc} 证明，经过对抗训练的分类器能够 “净化” 对抗样本的扰动，从而比正常训练的分类器具备更强的鲁棒性。
+我们首先引入对抗样本 (adversarial example) 的概念. 
+在图像分类问题中, \textit{对抗样本}$\xa$是一类经过恶意构造的样本, 其在视觉上与干净样本$\x$高度相似, 但会迫使分类器对$\xa$和$\x$做出不同的预测. 
+更具体地说, 给定分类器$f$, 对于任意$\x \in \R^d$, 我们称$\xa$为$f$在$\x$处的\textit{$\epsilon$-对抗样本}, 如果$\xa$满足$f(\x) \neq f(\xa)$且$\|\xa - \x\|_p \leq \epsilon$. 
+在此定义中, 常数$\epsilon$量化了$\x$与$\xa$之间允许的最大扰动, 以确保两者的视觉相似性, 在文献中通常被称为 \textit{扰动半径}(\textit{perturbation radius}). 
+对抗训练 (AT) 最初由Madry等\cite{MMSTV2017towards} 提出, 是一种旨在提升机器学习模型对对抗样本鲁棒性的训练范式. 
+AT 的核心思想是利用构造出的对抗样本来训练分类器. 
+已有研究\cite{trades}, {wat,mart,fat,eat,robnc} 证明, 经过对抗训练的分类器能够  ``净化''  对抗样本的扰动, 从而比正常训练的分类器具备更强的鲁棒性. 
 
 \subsection{特征塌缩}\label{sec-neural-collapse-setup}
 
-在\S\ref{sec-feature-and-feature-learning} 中，我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器（feature extractor）和一个线性分类器（linear classifier）组合而成。
-在本文中，我们用$\boldsymbol{h}: \R^d \to \R^{\dpr}$来表示特征提取器。
-对于任意输入$\x \in \R^d$，$\h(\x)$在文献中通常被称为最后一层特征（last layer feature），也即\S\ref{sec-feature-and-feature-learning} 中所提到的高级特征。
-这里，$d^{\prime}$表示最后一层特征的维度。
+在\S\ref{sec-feature-and-feature-learning} 中, 我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器 (feature extractor) 和一个线性分类器 (linear classifier) 组合而成. 
+在本文中, 我们用$\boldsymbol{h}: \R^d \to \R^{\dpr}$来表示特征提取器. 
+对于任意输入$\x \in \R^d$, $\h(\x)$在文献中通常被称为最后一层特征 (last layer feature) , 也即\S\ref{sec-feature-and-feature-learning} 中所提到的高级特征. 
+这里, $d^{\prime}$表示最后一层特征的维度. 
 NC 主要涵盖了以下四个特征：
 
 \begin{definition}[特征塌缩]\label{def-NC}
-  给定特征提取器$\boldsymbol{h}: \R^d \to \R^{\dpr}$，我们称$\h$发生了特征塌缩现象，如果$\h$满足以下四个性质（记为\textbf{(NC1)} - \textbf{(NC4)}）：
+  给定特征提取器$\boldsymbol{h}: \R^d \to \R^{\dpr}$, 我们称$\h$发生了特征塌缩现象, 如果$\h$满足以下四个性质 (记为\textbf{(NC1)} - \textbf{(NC4)}) ：
   \begin{itemize}
-    \item \textbf{(NC1)} {\heiti 方差塌缩}：通过计算单个类别$k$中所有特征的平均值，我们可以得到第$k$类类均值向量（$k$-th class mean vector）
+    \item \textbf{(NC1)} {\heiti 方差塌缩}：通过计算单个类别$k$中所有特征的平均值, 我们可以得到第$k$类类均值向量 ($k$-th class mean vector) 
     \begin{equation}\label{eq-def-class-mean-vector}
         \boldsymbol{\bar{h}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h(\x_{k,n}).
     \end{equation}
-    方差塌缩指的是在TPT阶段，最后一层特征的类内方差趋于$0$，即：
+    方差塌缩指的是在TPT阶段, 最后一层特征的类内方差趋于$0$, 即：
     \begin{equation}
       \left\|  \boldsymbol{\bar{h} } _{k} - \h(\x_{k,n}) \right\|_{2}  \to 0 , \quad \forall  k \in [K], n \in [N].
     \end{equation}
-    \item \textbf{(NC2)} {\heiti 收敛到广义单纯形等角紧框架}：在TPT阶段，最后一层特征的类均值向量收敛到定义\ref{def-simplex-ETF}给出的广义单纯形ETF。为了便于实证验证，Papyan等\cite{nc}进一步引入了以下数值特征来刻画\textbf{(NC2)}：
+    \item \textbf{(NC2)} {\heiti 收敛到广义单纯形等角紧框架}：在TPT阶段, 最后一层特征的类均值向量收敛到定义\ref{def-simplex-ETF}给出的广义单纯形ETF. 为了便于实证验证, Papyan等\cite{nc}进一步引入了以下数值特征来刻画\textbf{(NC2)}：
 
 \begin{equation}\label{eq-def-equiv-converge-to-simplex-ETF}
 \begin{aligned}
@@ -62,26 +62,26 @@ NC 主要涵盖了以下四个特征：
 &\cos \left ( \boldsymbol{\bar{h} } _{k}- \boldsymbol{\bar{h} } _{G}, \boldsymbol{\bar{h} } _{k^{\prime}} - \boldsymbol{\bar{h} } _{G}\right )\to-\frac{1}{K-1}  , \quad \forall k\ne k^{\prime},
 \end{aligned}
 \end{equation}
-其中 $\boldsymbol{\bar{h} } _{G} := \frac{1}{K} \sum_{k=1}^{K}\boldsymbol{\bar{h} } _{k} $被成为中心化类均值向量（centralized class mean vector）。
-公式 \ref{eq-def-equiv-converge-to-simplex-ETF} 表明中心化类均值向量将收敛到一个单纯形ETF。
-\item \textbf{(NC3)} {\heiti 收敛到自对偶性}：在TPT阶段，类均值向量和线性分类器收敛到彼此的重新缩放版本，即：
+其中 $\boldsymbol{\bar{h} } _{G} := \frac{1}{K} \sum_{k=1}^{K}\boldsymbol{\bar{h} } _{k} $被成为中心化类均值向量 (centralized class mean vector) . 
+公式 \ref{eq-def-equiv-converge-to-simplex-ETF} 表明中心化类均值向量将收敛到一个单纯形ETF. 
+\item \textbf{(NC3)} {\heiti 收敛到自对偶性}：在TPT阶段, 类均值向量和线性分类器收敛到彼此的重新缩放版本, 即：
 \begin{equation}
   \left\|\frac{\boldsymbol{W}^{\top}}{\|\boldsymbol{W}\|_{F}}-\frac{\dot{\boldsymbol{M}}}{\|\dot{\boldsymbol{M}}\|_{F}}\right\|_{F} \rightarrow 0 ,
 \end{equation}
-其中 $\dot{\boldsymbol{M}} = \left(\boldsymbol{\bar{h}}_{1}-\boldsymbol{\bar{h}}_{G}, \boldsymbol{\bar{h}}_{2}-\boldsymbol{\bar{h}}_{G}, \cdots, \boldsymbol{\bar{h}}_{K}-\boldsymbol{\bar{h}}_{G} \right) \in \mathbb{R}^{d^{\prime} \times k}$ 被成为中心化类均值矩阵（centralized class mean matrix）。
+其中 $\dot{\boldsymbol{M}} = \left(\boldsymbol{\bar{h}}_{1}-\boldsymbol{\bar{h}}_{G}, \boldsymbol{\bar{h}}_{2}-\boldsymbol{\bar{h}}_{G}, \cdots, \boldsymbol{\bar{h}}_{K}-\boldsymbol{\bar{h}}_{G} \right) \in \mathbb{R}^{d^{\prime} \times k}$ 被成为中心化类均值矩阵 (centralized class mean matrix) . 
 
-\item \textbf{(NC4)} {\heiti 简化到最近类中心}：在TPT阶段，分类器收敛到选择与训练类均值最近（在标准欧氏距离下）的类别，即：
+\item \textbf{(NC4)} {\heiti 简化到最近类中心}：在TPT阶段, 分类器收敛到选择与训练类均值最近 (在标准欧氏距离下) 的类别, 即：
 \begin{equation}
   \arg \max _{k^{\prime}}\left\langle\boldsymbol{w}_{k^{\prime}}, \boldsymbol{h}\right\rangle+b_{k^{\prime}} \rightarrow \underset{k^{\prime}}{\arg \min }\left\|\boldsymbol{h}-\boldsymbol{\bar{h}}_{k^{\prime}}\right\|_{2}.
 \end{equation}
-其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 被成为重新缩放的类均值（renormalized class mean）。\myqed
+其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 被成为重新缩放的类均值 (renormalized class mean) . \myqed
 \end{itemize}
 \end{definition}
 
-特征压缩现象刻画了神经网络特征提取器的几何特征。
-许多研究已经证明，多种不同场景下、不同网络在不同数据集上都观测到了定义\ref{def-NC}中所描述的四个特性，说明NC是神经网络的TPT阶段会出现的一个普遍现象。
-在这四个特征中，\textbf{(NC2)}是最相关的，因为它揭示了标准和对抗特征塌缩之间最显著的区别，即广义单纯形ETF定义的单纯形压缩现象。
-因此，本文的剩余部分将主要关注\textbf{(NC2)}。
+特征压缩现象刻画了神经网络特征提取器的几何特征. 
+许多研究已经证明, 多种不同场景下、不同网络在不同数据集上都观测到了定义\ref{def-NC}中所描述的四个特性, 说明NC是神经网络的TPT阶段会出现的一个普遍现象. 
+在这四个特征中, \textbf{(NC2)}是最相关的, 因为它揭示了标准和对抗特征塌缩之间最显著的区别, 即广义单纯形ETF定义的单纯形压缩现象. 
+因此, 本文的剩余部分将主要关注\textbf{(NC2)}. 
 
 \begin{definition}[广义单纯形等角紧框架\cite{nc}]
   \label{def-simplex-ETF}
@@ -89,114 +89,1219 @@ NC 主要涵盖了以下四个特征：
   \begin{equation}
       \W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}
   \end{equation}
-  如果$\W = c_1 \boldsymbol{U} \boldsymbol{M} $成立，则我们称$\W$为一个广义单纯形等角紧框架。
+  如果$\W = c_1 \boldsymbol{U} \boldsymbol{M} $成立, 则我们称$\W$为一个广义单纯形等角紧框架. 
   其中
   \begin{equation}\label{eq-def-simplex-ETF-M-in-paper}
       \boldsymbol{M} 
       = \sqrt{\frac{K}{K-1}} 
       \left( \boldsymbol{I}_{K} -\frac{1}{K} \mathbf{1}_{K}  \mathbf{1}_{K}^{\top}  \right) \in \R^{K \times K},
   \end{equation}
-  $\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }$ 是一个半正交矩阵（partial orthogonal matrix），即$\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}$，且$c_1 \in \R$是一个非零常数。
+  $\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }$ 是一个半正交矩阵 (partial orthogonal matrix) , 即$\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}$, 且$c_1 \in \R$是一个非零常数. 
   \myqed
   \end{definition}
-  值得指出的是，在NC研究中，单纯形ETF的定义与数学文献中的定义略有不同 \cite{arXiv:math/0301135,arXiv:1504.00253}。
-  为了消除歧义，本文中所有关于单纯形ETF的讨论都基于定义\ref{def-simplex-ETF}。
+  值得指出的是, 在NC研究中, 单纯形ETF的定义与数学文献中的定义略有不同 \cite{arXiv:math/0301135,arXiv:1504.00253}. 
+  为了消除歧义, 本文中所有关于单纯形ETF的讨论都基于定义\ref{def-simplex-ETF}. 
 
 \section{实证研究}\label{sec-nc-experiment}
-本章将通过实证研究，系统地探索标准和对抗特征塌缩之间的差异。
-我们首先研究对抗特征塌缩现象，然后探索对抗特征塌缩与标准特征塌缩之间的差异，揭示单纯形压缩现象。
-我们还提供了一系列消融实验，以消除扰动范数和PGD迭代步数的影响。
+本章将通过实证研究, 系统地探索标准和对抗特征塌缩之间的差异. 
+我们首先研究对抗特征塌缩现象, 然后探索对抗特征塌缩与标准特征塌缩之间的差异, 揭示单纯形压缩现象. 
+我们还提供了一系列消融实验, 以消除扰动范数和PGD迭代步数的影响. 
 
 \subsection{实验设置}\label{sec-nc-experiment-setup}
 
-{\heiti 数据集}：我们使用以下三个视觉数据集进行实验。
-\texttt{CIFAR-10} \cite{cifar10} 包含 60,000 张 32x32 像素的彩色图像，分为 10 类，每类 6,000 张。
-\texttt{CIFAR-100} 包含 60,000 张 32x32 像素的彩色图像，分为 100 类，每类 600 张。
-\texttt{Tiny ImageNet} \cite{deng2009imagenet} 包含 200 类，每类 500 张 64x64 像素的彩色图像。
+{\heiti 数据集}：我们使用以下三个视觉数据集进行实验. 
+\texttt{CIFAR-10} \cite{cifar10} 包含 60,000 张 32x32 像素的彩色图像, 分为 10 类, 每类 6,000 张. 
+\texttt{CIFAR-100} 包含 60,000 张 32x32 像素的彩色图像, 分为 100 类, 每类 600 张. 
+\texttt{Tiny ImageNet} \cite{deng2009imagenet} 包含 200 类, 每类 500 张 64x64 像素的彩色图像. 
 
-{\heiti 模型}：我们使用VGG \cite{simonyan2014very}, ResNet \cite{he2016deep}, 和Wide ResNet (WRN) \cite{wrn} 进行实验。
-具体的选择网络深度和宽度取决于数据集。
-我们参考支持信息文件获取更多细节。
-\paragraph{Models}
+{\heiti 模型}：我们使用VGG \cite{simonyan2014very}, ResNet \cite{he2016deep}, 和Wide ResNet (WRN) \cite{wrn} 进行实验. 
+具体的选择网络深度和宽度取决于数据集. 
+我们参考支持信息文件获取更多细节. 
+
 % We train VGG \cite{simonyan2014very}, ResNet \cite{he2016deep}, and Wide ResNet (WRN) \cite{wrn} with random initialization on these datasets.
 % The specific choice of network depth and width is related to the dataset.
 % We refer the readers to the supporting information file for further details.
  
-{\heiti 对抗训练方法}：我们使用三种基于PGD的对抗训练方法，包括标准\texttt{PGD-AT} \cite{DBLP:conf/iclr/MadryMSTV18}, \texttt{TRADES} \cite{trades}, 和\texttt{MART} \cite{mart}。
-许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准。许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准。
-我们设置PGD的最大迭代步数为 $T_{a}=\left \{ 10,20,30 \right \} $，扰动半径为 $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ 用于 $L_{\infty}$ 范数，和 $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ 用于 $L_2$ 范数。
-我们的 $T_a$ 和 $\epsilon$ 的选择与许多之前的工作 \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} 和社区的标准化对抗鲁棒性基准\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} 一致。
+{\heiti 对抗训练方法}：我们使用三种基于PGD的对抗训练方法, 包括标准\texttt{PGD-AT} \cite{DBLP:conf/iclr/MadryMSTV18}, \texttt{TRADES} \cite{trades}, 和\texttt{MART} \cite{mart}. 
+许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准. 许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准. 
+我们设置PGD的最大迭代步数为 $T_{a}=\left \{ 10,20,30 \right \} $, 扰动半径为 $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ 用于 $L_{\infty}$ 范数, 和 $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ 用于 $L_2$ 范数. 
+我们的 $T_a$ 和 $\epsilon$ 的选择与许多之前的工作 \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} 和社区的标准化对抗鲁棒性基准\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} 一致. 
 
-\paragraph{Adversarial Training Methods.}
-We conduct experiments using three PGD-based classical AT methods, including standard PGD-AT \cite{DBLP:conf/iclr/MadryMSTV18}, TRADES \cite{trades}, and MART \cite{mart}. 
-Many previous works \cite{robnc, wat, eat} use these methods as baselines.
-We set the maximum iteration steps for PGD to $T_{a}=\left \{ 10,20,30 \right \} $ with perturbation radius of $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ for the $L_{\infty}$ norm, and $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ for the $L_2$ norm. 
-\textcolor{red}{Our choices of $T_a$ and $\epsilon$ are consistent with many previous works \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} and the standardized adversarial robustness benchmark\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} in the community.}
+% \paragraph{Adversarial Training Methods.}
+% We conduct experiments using three PGD-based classical AT methods, including standard PGD-AT \cite{DBLP:conf/iclr/MadryMSTV18}, TRADES \cite{trades}, and MART \cite{mart}. 
+% Many previous works \cite{robnc, wat, eat} use these methods as baselines.
+% We set the maximum iteration steps for PGD to $T_{a}=\left \{ 10,20,30 \right \} $ with perturbation radius of $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ for the $L_{\infty}$ norm, and $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ for the $L_2$ norm. 
+% \textcolor{red}{Our choices of $T_a$ and $\epsilon$ are consistent with many previous works \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} and the standardized adversarial robustness benchmark\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} in the community.}
 
-\paragraph{Implementation Details.}
-We implement experiments using PyTorch \cite{pytorch} on an Ubuntu 64-bit Linux workstation having a 10-core Intel
-Xeon Silver CPU (2.20 GHz) and eight Nvidia GeForce RTX 4090 GPUs. All networks are trained for 200 epochs to reach the terminal phase of training, at which point the phenomenon of NC occurs.
-We use stochastic gradient descent (SGD) with momentum = 0.9 and weight decay = 0.001. The batch size is 128, and the learning rate is 0.001. We keep other parameters consistent with the referenced articles \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18}.
+{\heiti 实现细节}：我们在Ubuntu 64位Linux工作站上使用PyTorch \cite{pytorch} 实现实验, 该工作站配备10核Intel Xeon Silver CPU (2.20 GHz) 和8个Nvidia GeForce RTX 4090 GPU. 所有网络都训练200个epoch以达到训练的终端阶段, 此时特征塌缩现象发生. 我们使用动量=0.9和权重衰减=0.001的随机梯度下降 (SGD) . 批量大小为128, 学习率为0.001. 我们保持其他参数与参考文献 \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18} 一致. 
+
+% \paragraph{Implementation Details.}
+% We implement experiments using PyTorch \cite{pytorch} on an Ubuntu 64-bit Linux workstation having a 10-core Intel
+% Xeon Silver CPU (2.20 GHz) and eight Nvidia GeForce RTX 4090 GPUs. All networks are trained for 200 epochs to reach the terminal phase of training, at which point the phenomenon of NC occurs.
+% We use stochastic gradient descent (SGD) with momentum = 0.9 and weight decay = 0.001. The batch size is 128, and the learning rate is 0.001. We keep other parameters consistent with the referenced articles \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Empirical Exploration-Neural Collapse %  %%%%%%%%%%%%%%%%%%
-\subsection{Neural Collapse in Adversarial Training}\label{sec-Empirical Exploration-Neural Collapse}
-In this subsection, we train Resnet-18 on the CIFAR-10 dataset using PGD-AT, MART, and TRADES. 
-\textcolor{red}{For each epoch, we calculate the numerical characteristics of NC1-NC4 using adversarial examples crafted from in the training data.}
-As illustrated in Figure \ref{fig:Neural Collapse}, our experiments substantiate the occurrence of NC phenomena (NC1-NC4) within our settings, thereby serving as a critical underpinning for our analyses. 
-This observation is consistent with findings reported in prior studies \cite{robnc,nc}.
-The remaining results can be found in the supporting information file (cf. Fig. S2 - S10).
+
+\subsection{对抗训练中的特征塌缩现象}\label{sec-Empirical Exploration-Neural Collapse}
+在节中, 我们训练ResNet-18在CIFAR-10数据集上使用PGD-AT、MART和TRADES. 
+对于每个epoch, 我们使用对抗样本计算NC1-NC4的数值特征. 
+如图\ref{fig:Neural Collapse}所示, 我们的实验证实了在设置中发生了NC现象 (NC1-NC4) , 从而为我们提供了分析的基础. 
+这个观察与之前研究 \cite{robnc,nc} 的发现一致. 
+剩余的结果可以在支持信息文件中找到 (参见图S2 - S10) . 
+
+% \subsection{Neural Collapse in Adversarial Training}\label{sec-Empirical Exploration-Neural Collapse}
+% In this subsection, we train Resnet-18 on the CIFAR-10 dataset using PGD-AT, MART, and TRADES. 
+% For each epoch, we calculate the numerical characteristics of NC1-NC4 using adversarial examples crafted from in the training data.
+% As illustrated in Figure \ref{fig:Neural Collapse}, our experiments substantiate the occurrence of NC phenomena (NC1-NC4) within our settings, thereby serving as a critical underpinning for our analyses. 
+% This observation is consistent with findings reported in prior studies \cite{robnc,nc}.
+% The remaining results can be found in the supporting information file (cf. Fig. S2 - S10).
 
 
-\begin{figure*}[hb]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/nc-1.png}
-    \caption{Result of $NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$. We train ResNet-18 on the CIFAR-10 dataset using PGD-AT, MART and TRADES, respectively. The perturbation radius are set to $\epsilon=8/255$ for $L_\infty $($L_{\infty} $) and $\epsilon=0.125$ for $L_2$. We set $T_{a}=10$. The results are obtained from adversarial samples.}
-   \label{fig:Neural Collapse}
-  \end{figure*}
+    \includegraphics[width=1\linewidth]{figures/nc_main/nc-1.png}
+    \caption{
+      结果为$NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$. 
+      我们在CIFAR-10数据集上使用PGD-AT、MART和TRADES训练ResNet-18. 
+      扰动半径设置为$\epsilon=8/255$用于$L_\infty $($L_{\infty} $)和$\epsilon=0.125$用于$L_2$. 
+      我们设置$T_{a}=10$. 结果来自对抗样本. 
+      % Result of $NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$. We train ResNet-18 on the CIFAR-10 dataset using PGD-AT, MART and TRADES, respectively. The perturbation radius are set to $\epsilon=8/255$ for $L_\infty $($L_{\infty} $) and $\epsilon=0.125$ for $L_2$. We set $T_{a}=10$. The results are obtained from adversarial samples.
+      }
+    \label{fig:Neural Collapse}
+\end{figure}
+
   %%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration-Simplex Collapse Phenomenon  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \subsection{Simplex Compression Phenomenon}\label{sec-simplex-compression-phenomenon}
+\subsection{单纯形压缩现象}\label{sec-simplex-compression-phenomenon}
+本节中, 我们考察对抗训练对最后一层特征表示的影响. 
+我们定义类间特征距离的平均值为每个类均值向量与全局均值向量之间的差异, 数学表达为：
+\begin{equation}\label{eq-def-P-eps}
+\boldsymbol{P}_{\epsilon} =\frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G}  \right \|_{2} .
+\end{equation}
+我们设置相同的扰动半径$\epsilon$和PGD迭代步数进行实验. 
+结果如图\ref{fig:Simplex Collapse}所示 ($L_2$范数的实验结果见附录图S1) . 
+我们可以看到, 随着扰动半径的增加, $\boldsymbol{P}_{\epsilon}$减小. 
+这个观察表明单纯形ETF结构的几何尺寸随着扰动半径的增加而减小. 
+我们称这种塌缩ETF压缩的现象为单纯形压缩现象. 
+单纯形压缩现象的解释是, 对抗训练得到的类均值向量比干净训练得到的类均值向量更相似. 
+单纯形压缩现象可以被视为模型鲁棒性的一种特征. 
+
+% \subsection{Simplex Compression Phenomenon}\label{sec-simplex-compression-phenomenon}
+
+% In this subsection, we investigate the influence of AT on the feature representations of the last layer. We define the average inter-class feature distance as the difference between the mean feature vector of each class and the global mean feature vector across all classes, expressed mathematically as:
+% \begin{equation}\label{eq-def-P-eps}
+% \boldsymbol{P}_{\epsilon} =\frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G}  \right \|_{2} .
+% \end{equation} 
+% We set the same perturbation radius $\epsilon$ and PGD iterations for each experiment.
+% The results of PGD-AT, TRADES and MART are shown in \ref{fig:Simplex Collapse} (the results of $L_2$ norm are in SI Appendix Fig. S1.).
+% We can see that $\boldsymbol{P}_{\epsilon } $ decreases as $\epsilon$ increases in each figure.
+% This observation suggests the geometric size of the simplex ETF structure decreases as the perturbation radius increases.
+% We refer to this experimental finding as the \textit{simplex compression phenomenon}.
   
-  In this subsection, we investigate the influence of AT on the feature representations of the last layer. We define the average inter-class feature distance as the difference between the mean feature vector of each class and the global mean feature vector across all classes, expressed mathematically as:
-  \begin{equation}\label{eq-def-P-eps}
-  \boldsymbol{P}_{\epsilon} =\frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G}  \right \|_{2} .
-  \end{equation} 
-  We set the same perturbation radius $\epsilon$ and PGD iterations for each experiment.
-  The results of PGD-AT, TRADES and MART are shown in \ref{fig:Simplex Collapse} (the results of $L_2$ norm are in SI Appendix Fig. S1.).
-  We can see that $\boldsymbol{P}_{\epsilon } $ decreases as $\epsilon$ increases in each figure.
-  This observation suggests the geometric size of the simplex ETF structure decreases as the perturbation radius increases.
-  We refer to this experimental finding as the \textit{simplex compression phenomenon}.
+% An explanation for simplex compression is that the representations of different classes obtained from AT are more similar than those from clean training. Simplex compression can be seen as a characteristic of the robustness of models. 
   
-  % An explanation for simplex compression is that the representations of different classes obtained from AT are more similar than those from clean training. Simplex compression can be seen as a characteristic of the robustness of models. 
-  
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration - Ablation Experiment   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \subsection{Ablation Experiment}\label{sec-Ablation Experiment}
-  
-  In the context of AT, the selection of hyper-parameters plays a pivotal role in defining the robustness and adaptability of learning models. 
-  Specifically, the choice of norms to quantify the deviation between adversarial and natural examples is critical. 
-  The $L_\infty$ norm focuses on the maximum component of the perturbation vector, and the $L_2$ norm measures the Euclidean distance between clean examples and adversarial examples.
-  Both are commonly used norms for characterizing adversarial perturbations.
-  Furthermore, the iterative process of generating adversarial examples, as delineated in Equation \eqref{eq:advsample}, necessitates multiple iterations for convergence. 
-  
-  To investigate the potential confounding effects of these hyper-parameters in previous experiments, we design additional experiments with varying hyperparameter selections. 
-  For the $L_\infty$ norm, perturbation radius are set to $\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$, while for the $L_2$ norm, they are adjusted to $\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$. 
-  These selections are consistent with those used in previous experiments. And we set PGD iterations $T_{a}=\left \{10, 20 ,30\right \} $ to repeat our experiments.
-  The results are displayed in \ref{fig:pgd_effect}. 
-  We can see that simplex compression exits for different perturbation norms and PGD iterations.
-  \begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/pgd.png}
-    \caption{Result of $\boldsymbol{P}_{\epsilon}$. 
-  We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=\{  10,20,30\}$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples. Here, 'PGD-10' means $T_{a}=10$.}
-    \label{fig:pgd_effect}
-  \end{figure}
-  
-  Furthermore, we extend our analysis by presenting the results of $\boldsymbol{P}_{\epsilon}$ for clean examples. 
-  As shown in \ref{fig:sample_effect}, we observe that the $\boldsymbol{P}_{\epsilon}$ values for clean examples are comparatively larger than those for adversarial examples, but they remain consistent with the simplex compression phenomenon.
-  
-  \begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/sample.png}
-    \caption{Result of $\boldsymbol{P}_{\epsilon }$. 
-  We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=10$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples and clean samples. The 'Adv-samples' means adversarial samples.}
-    \label{fig:sample_effect}
-  \end{figure}
+\subsection{消融实验}\label{sec-Ablation Experiment}
+% \subsection{Ablation Experiment}\label{sec-Ablation Experiment}
+
+在 AT 中, 超参数的选择对模型的鲁棒性和适应性至关重要. 
+具体来说, 选择量化对抗样本和自然样本之间差异的范数是关键. 
+$L_\infty$范数关注扰动向量的最大分量, $L_2$范数测量干净样本和对抗样本之间的欧氏距离. 
+两者都是常用的范数来刻画对抗扰动. 
+此外, 生成对抗样本的迭代过程, 如等式\eqref{eq:advsample}所示, 需要多次迭代才能收敛. 
+
+% In the context of AT, the selection of hyper-parameters plays a pivotal role in defining the robustness and adaptability of learning models. 
+% Specifically, the choice of norms to quantify the deviation between adversarial and natural examples is critical. 
+% The $L_\infty$ norm focuses on the maximum component of the perturbation vector, and the $L_2$ norm measures the Euclidean distance between clean examples and adversarial examples.
+% Both are commonly used norms for characterizing adversarial perturbations.
+% Furthermore, the iterative process of generating adversarial examples, as delineated in Equation \eqref{eq:advsample}, necessitates multiple iterations for convergence. 
+
+为了研究超参数对单纯形压缩现象的影响, 我们设计了消融实验. 
+我们设置PGD迭代步数为$T_{a}=\left \{10, 20 ,30\right \} $, 扰动半径为$\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$用于$L_\infty$范数, 和$\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$用于$L_2$范数. 
+结果如图 \ref{fig:pgd_effect} 所示. 
+我们可以看到, 单纯形压缩现象在不同的PGD迭代步数和扰动半径下都存在. 
+
+
+% To investigate the potential confounding effects of these hyper-parameters in previous experiments, we design additional experiments with varying hyperparameter selections. 
+% For the $L_\infty$ norm, perturbation radius are set to $\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$, while for the $L_2$ norm, they are adjusted to $\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$. 
+% These selections are consistent with those used in previous experiments. And we set PGD iterations $T_{a}=\left \{10, 20 ,30\right \} $ to repeat our experiments.
+% The results are displayed in \ref{fig:pgd_effect}. 
+% We can see that simplex compression exits for different perturbation norms and PGD iterations.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/nc_main/pgd.png}
+  \caption{
+    结果为$\boldsymbol{P}_{\epsilon}$. 
+    我们在CIFAR-10数据集上使用PGD-AT训练ResNet-18. 
+    我们选择$T_{a}=\{ 10,20,30\}$和范数$p=\{L_\infty , L_2\}$. 
+    结果来自对抗样本. 
+    此处'PGD-10'表示$T_{a}=10$. 
+    % Result of $\boldsymbol{P}_{\epsilon}$. 
+    % We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=\{  10,20,30\}$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples. Here, 'PGD-10' means $T_{a}=10$.
+    }
+  \label{fig:pgd_effect}
+\end{figure}
+
+此外, 我们通过展示干净样本的$\boldsymbol{P}_{\epsilon}$结果, 进一步扩展了我们的分析. 
+如图\ref{fig:sample_effect}所示, 我们观察到干净样本的$\boldsymbol{P}_{\epsilon}$值相对于对抗样本较大, 但它们与单纯形压缩现象保持一致. 
+
+% Furthermore, we extend our analysis by presenting the results of $\boldsymbol{P}_{\epsilon}$ for clean examples. 
+% As shown in \ref{fig:sample_effect}, we observe that the $\boldsymbol{P}_{\epsilon}$ values for clean examples are comparatively larger than those for adversarial examples, but they remain consistent with the simplex compression phenomenon.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/nc_main/sample.png}
+  \caption{
+    我们展示了$\boldsymbol{P}_{\epsilon}$ (纵轴) 随扰动半径 (横轴) 的变化情况. 
+    我们在\texttt{CIFAR-10}数据集上使用\texttt{PGD-AT}训练\texttt{ResNet-18}. 
+    我们选择$T_{a}=10$和范数$p=\{L_\infty , L_2\}$. 
+    结果来自对抗样本和干净样本. 
+    此处\texttt{Adv-samples} (浅蓝色) 表示对抗样本, \texttt{Clean-samples} (深蓝色) 表示干净样本. 
+    % Result of $\boldsymbol{P}_{\epsilon }$. 
+    % We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=10$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples and clean samples. The 'Adv-samples' means adversarial samples.
+    }
+  \label{fig:sample_effect}
+\end{figure}
+
+\section{关于单纯形压缩现象的理论解释}\label{sec-theoretical-explanation}
+% \section{Theoretical Explanation for Simplex Compression}\label{sec-theoretical-analysis}
+
+在本节中, 我们通过分析干净训练和对抗训练过程, 理论解释单纯形压缩现象. 
+我们指定数据模型、网络结构和训练范式在\S\ref{subsec-preliminaries}中. 
+假设总结在\S\ref{subsec-assumptions}中. 
+我们将在\S\ref{subsec-theoretical-main-results}中展示主要结果, 并将证明推迟到支持信息文件中. 
+\S\ref{subsec-intuition}总结了我们的分析的核心直觉. 
+
+% In this section, we \textcolor{red}{theoretically explain} the simplex compression phenomenon by analyzing the clean and adversarial training processes of \textcolor{red}{a 2-layer fully connected neural network.}
+% We specify the data model, network structure, \textcolor{red}{and training paradigm} in \ref{subsec-preliminaries}.
+% The assumptions are summarized in \ref{subsec-assumptions}.
+% We present the main results in \ref{subsec-theoretical-main-results} and postpone the proofs to the supporting information file.
+% \ref{subsec-intuition} summarizes the core intuition of our analysis.
+
+% The proofs of the results in this section are postponed to the SI Appendix (Section 1. Theoretical Analysis) due to limited space.
+
+% We start our analysis by specifying the training processes for clean training.
+% We consider a binary classification task,n.e., $K=2$, for simplicity.
+% Following the notations in \ref{sec-preliminaries}, we denote the training set by $\mathcal{D} = \{ (\x_{i,k}, y_k) : k \in \{1,2\}, n \in [N] \}$.
+% Given learning rate $\eta$, for $\forall j \in [\dpr]$ and $t > 0$, the iteration rule for clean training is given by
+% \begin{equation}\label{eq-def-GD}
+%     \w^{t+1}_j = \w^t_j - \eta_t \nabla_{\w_j} R(\w^t).
+% \end{equation}
+% The initialization of $\w$ is given by 
+% \begin{equation}\label{eq-def-random-initialization}
+%     \w^{0}_j \sim \mathcal{N} (0,\sigma_0 \boldsymbol{I}_d),
+% \end{equation}
+% for $\forall j \in [\dpr]$.
+% Here, $\mathcal{N}(0,\sigma_0 \boldsymbol{I}_d)$ is the $d$-dimensional Gaussian distribution and $\sigma_0$ is a given constant.
+% Recall that the definitions of $R(\cdot)$ and $\Radv(\cdot)$ are given by \ref{eq-def-adversarial-risk,eq-def-clean-risk}.
+
+\subsection{符号}\label{subsec-notations}
+我们在\S\ref{sec-feature-learning-theory-basics}中引入了一些符号. 
+在本节中, 我们重述一些关键符号以保持完整性. 
+给定$K \in \mathbb{Z}^+$, 我们的分析专注于具有$K$个类的平衡分类任务. 
+后续段落详细描述了数据模型、网络结构和训练范式. 
+
+% \subsection{Notations}\label{subsec-preliminaries}
+% The notations used in our theoretical analysis are essentially consistent with those introduced in \ref{sec-preliminaries}.
+% We restate some of the key notations for completeness.
+% Given \( K \in \mathbb{Z}^+ \), our analysis focuses on a balanced classification task with \( K \) classes. The subsequent paragraphs detail the data model, network structure, and training paradigm.
+
+{\heiti 数据模型}:
+在我们的论文中, 样本被收集在欧几里得空间$\R^d$上,  equipped with the Euclidean norm $\|\cdot\|$. 
+我们记$[K]:= \{ 1,2, \cdots, K \}$为方便. 
+对于任意$\x_1, \x_2 \in \R^{d}$, $\x_1$和$\x_2$的内积 (点积) 记为$\x_1^{\top}\x_2$. 
+给定$N \in \mathbb{Z}^+$, 平衡训练数据集$\mathcal{D}$有$N$个样本, 每个类一个, 记为
+\begin{equation}\label{eq-def-dataset}
+    \mathcal{D} :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},    
+\end{equation}
+其中$\x_{k,n} \in \R^d$和$y_k \in [K]$分别是训练样本和其标签. 
+我们还使用$y(\x)$来表示$\x$的标签, 当它不明确时. 
+向量 (列) 的元素记为
+\begin{equation}
+    \x = (\x^{(1)}, \x^{(2)}, \cdots, \x^{(d)})^{\top}.    
+\end{equation}
+
+% \paragraph{Data Model}
+% In our paper, the samples are collected from the Euclidean space $\R^d$ equipped with the Euclidean norm $\|\cdot\|$.
+% Denote $[K]:= \{ 1,2, \cdots, K \}$ for ease of notation.
+% For any $\x_1, \x_2 \in \R^{d}$, the inner (dot) product of $\x_1$ and $\x_2$ is denoted by $\x_1^{\top}\x_2$.
+% Given $N \in \mathbb{Z}^+$, the balanced training dataset $\mathcal{D}$ with $N$ samples in each class is denoted by 
+% \begin{equation}\label{eq-def-dataset}
+%     \mathcal{D} :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},    
+% \end{equation}
+% in which $\x_{k,n} \in \R^d$ and $y_k \in [K]$ is the training sample and its label, respectively.
+% We also employ \( y(\x) \) to denote the label of \( \x \) when it is unspecified.
+% The entries of a (column) vector are denoted as 
+% \begin{equation}
+% \x = (\x^{(1)}, \x^{(2)}, \cdots, \x^{(d)})^{\top}.    
+% \end{equation}
+
+{\heiti 网络结构}:
+在分类任务中, 一个基于神经网络的分类器$f$被用来将样本映射到每个类的预测概率. 
+以前的研究倾向于使用UFM来表征$f$. 
+下面的注释指出了原始UFM的一个局限性. 
+% In classification tasks, an NN-based classifier $f$ is used to map the samples to the prediction probability of each class.
+% {\color{red}
+% Previous studies tend to characterize $f$ using UFM.
+% The following remark pointed out one of the limitations of the original UFM.
+
+\begin{remark}[UFM的局限性]\label{remark-ufm}
+    UFM将最后一层特征$\h$视为独立的可优化变量. 
+    然而, 我们的研究需要控制对$\x$应用小扰动后$\h$的变化 (即引入对抗样本) . 
+    因此, 将$\h$视为独立变量可能不适合分析AT下的NC. 
+    \myqed
+\end{remark}
+% \begin{remark}[The limitation of UFM]\label{remark-ufm}
+%     UFM characterizes the last layer features $\h$ as independent optimizable variables. 
+%     However, our study requires controlling the change of $\h$ after applying small perturbation on $\x$ (i.e., introducing adversarial examples).
+%     Therefore, treating $\h$ as independent variables might not be well-suited for analyzing NC under AT. 
+%     \myqed
+% \end{remark}
+
+在本文中, 我们采用以下方式表征$f$：
+\begin{definition}[$f$的表征]\label{def-f}
+令$f: \R^d \to \R^K$为一个2层神经网络分类器, 定义为：
+\begin{itemize}
+  \item 给定$\x \in \R^d$, $f$的第一层是一个特征提取器$\h$, 记为$\h(\x) = {\relu}( \w^{\top} \x + \bbeta) \in \R^{d^{\prime}}$, 它将输入样本$\x$映射到特征$\h(\x)$. 
+  \item $f$的第二层是一个线性分类器, 记为$\softmax(\W^{\top} \h(\x) + \b) \in \R^K$, 它将特征映射到预测概率. 
+\end{itemize}
+得到的分类器记为
+\begin{equation}
+\begin{aligned}
+    f(\x)
+    &= \softmax(\W^{\top} \h(\x) + \b) \\
+    &= \softmax(\W^{\top} \left( {\relu}( \w^{\top} \x + \boldsymbol{\beta}) \right) + \b)
+\end{aligned}
+\end{equation}
+对于任意$\x \in \R^d$. 
+\myqed
+\end{definition}
+
+% Instead of adopting the UFM framework, we characterize $f$ by a 2-layer fully connected NN as follows.
+% \begin{definition}\label{def-f}
+% Let $f: \R^d \to \R^K$ be a 2-layer neural network classifier defined as follows.
+% \begin{itemize}
+%     \item Given $\x \in \R^d$, the first layer of $f$ is a \textit{feature extractor} $\boldsymbol{h}$ denoted by $\boldsymbol{h}(\boldsymbol{x}) = {\relu}( \w^{\top} \x + \boldsymbol{\beta}) \in \R^{d^{\prime}}$ that maps the input sample $\x$ to the \textit{feature} $\h(\x)$, and
+%     \item The second layer of $f$ is the following \textit{linear classifier} that maps the features to the prediction probability: 
+%     \begin{equation}
+%         \h(\x) \mapsto \softmax(\W^{\top} \h(\x) + \b) \in \R^K.
+%     \end{equation}
+% \end{itemize}
+% The obtained classifier is denoted by 
+% \begin{equation}
+% \begin{aligned}
+%     f(\x)
+%     &= \softmax(\W^{\top} \h(\x) + \b) \\
+%     &= \softmax(\W^{\top} \left( {\relu}( \w^{\top} \x + \boldsymbol{\beta}) \right) + \b)
+% \end{aligned}
+% \end{equation}
+% for all $\x \in \R^d$. \myqed
+% \end{definition}
+
+我们提供以下解释来介绍\ref{def-f}中引入的新术语. 
+$d^{\prime} \in \mathbb{Z}^{+}$是最后一层的维度. 
+$\bbeta \in \R^{\dpr}$和$\b \in \R^k$是向量；
+$\w \in \R^{d \times \dpr}$和$\W \in \R^{\dpr \times K}$是矩阵. 
+$\softmax(\cdot)$用于归一化输出概率, 定义为
+\begin{equation}\label{eq-def-softmax}
+  \softmax(\u)^{(i)} = \frac{\exp(\u^{(i)})}{\sum_{j \in [K]}(\exp(\u^{(j)}))}
+\end{equation}
+对于任意$\u \in \R^K$. 
+% We provide the following explanations for the new terms introduced in \ref{def-f}.
+% $d^{\prime} \in \mathbb{Z}^{+}$ is the dimension of the final layer. 
+% $\boldsymbol{\beta} \in \R^{\dpr}$ and $\b \in \R^k$ are vectors; 
+% $\w \in \R^{d \times \dpr}$ and $\W \in \R^{\dpr \times K}$ are matrices.
+% $\softmax(\cdot)$ is used to normalize the output probability, which is given by
+% \begin{equation}\label{eq-def-softmax}
+%   \softmax(\u)^{(i)} = \frac{\exp(\u^{(i)})}{\sum_{j \in [K]}(\exp(\u^{(j)}))}
+% \end{equation}
+% for any $\u \in \R^K$.
+$\relu(\cdot)$定义为
+\begin{equation}
+  \relu(u) = \left\{
+  \begin{aligned}
+      0,& \ {\rm{if}}\ u \in [0, \theta] \\
+      u,& \ {\rm{if}}\ u \notin [0,\theta]
+  \end{aligned}
+  \right.
+\end{equation}
+对于任意$u \in \R$和给定参数$\theta > 0$. 
+下面这条注释讨论了以前工作中用于描述特征$\h(\x)$的各种术语. 
+% The following remark discusses the various terms used in previous works to describe the features $\h(\x)$. 
+% $\relu(\cdot)$ is defined as follows.
+% \begin{equation}\label{eq-def-relu}
+%     \relu(u) = \left\{
+%     \begin{aligned}
+%         0,& \ {\rm{if}}\ u \in [0, \theta] \\
+%         u,& \ {\rm{if}}\ u \notin [0,\theta]
+%     \end{aligned}
+%     \right.
+% \end{equation}
+% for any $u \in \R$ and some given parameter $\theta > 0$.
+% The following remark discusses the various terms used in previous works to describe the features $\h(\x)$. 
+
+\begin{remark}
+  特征$\h(\x)$位于NC分析的中心部分, 可以被视为最后一层和倒数第二层的输入和输出. 
+  因此,  ``最后一层特征'' 和 ``倒数第二层特征'' 在NC的上下文中通常指的是同一个概念. 
+  \myqed
+\end{remark}
+% The feature $\boldsymbol{h}(\x)$ lies in the central part of the NC analyses, which can be viewed as both the input of the last layer and the output of the penultimate layer. 
+% Therefore, the ``last layer feature'' and the ``penultimate layer feature'' often refer to the same concept in the context of NC.
+% \myqed
+% \end{remark}
+% \begin{remark}
+% The feature $\boldsymbol{h}(\x)$ lies in the central part of the NC analyses, which can be viewed as both the input of the last layer and the output of the penultimate layer. 
+% Therefore, the ``last layer feature'' and the ``penultimate layer feature'' often refer to the same concept in the context of NC.
+% \myqed
+% \end{remark}
+
+% Following the {unconstrained feature model} (UFM) framework \cite{ufm1,ufm2,ufm3,ufm+1,ufm+2,yyy,allloss,mse,fang2021exploring} mentioned in \ref{sec-related-work}, we let the classifiers $f(\x;  \W, \h, \b)$ be the feed-forward neural network defined as
+% \begin{equation}\label{eq-def-UFM}
+%     f(\x) = f(\x; \W, \h, \b) = \softmax(\W^{\top} \h(\x) + \b) \in \R^K,
+% \end{equation}
+% The matrix $\W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}$ and the vector $\b=(b_1, b_2, \cdots, b_K)^{\top} \in \R^K$ are the weight and the bias term of the final layer linear classifier.
+% In this work, we consider a high-dimensional and over-parameterized setting such that $\dpr > d > K$.
+% % Here, $\dpr$ is the dimension of the final layer.
+% As we have discussed in \ref{sec-characterization-of-the-feature-extractor}, $\h: \R^d \to \R^{\dpr}$ is the \textit{feature extractor} that maps the samples to the features in the final layer.
+% The softmax function $\softmax(\cdot)$ is defined as
+% \begin{equation}\label{eq-def-softmax}
+%     \softmax(\u)^{(i)} = \frac{\exp(\u^{(i)})}{\sum_{j \in [K]}(\exp(\u^{(j)}))}
+% \end{equation}
+% % for any $\u \in \R^K$. 
+% The output label of $f$ is the class with maximum prediction probability.
+% In this sense, the definitions of $f$ in \ref{sec-preliminaries,sec-theoretical-analysis} are equivalent.
+
+% \paragraph{Main Intuition}
+% % The network structure introduced in \ref{eq-def-UFM,eq-def-softmax} is called the \textit{unconstrained feature model} (UFM) in the literature.
+
+{\heiti 训练范式}:
+我们首先介绍干净训练的范式. 
+干净训练的损失函数定义为
+\begin{equation}
+  \ell(f(\x), y(\x)) = - \log \left( f(\x)^{(y(\x))} \right).
+\end{equation}
+然后, 干净训练的风险定义为
+\begin{equation}
+  R(f,\mathcal{D}) := \frac{1}{NK} \sum_{(\x, y(\x)) \in \mathcal{D}} \ell(f(\x), y(\x)).
+\end{equation}
+给定正步长$\eta$, 特征提取器$\h$根据以下梯度下降规则更新：
+\begin{equation}
+  \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} R(f, \mathcal{D}).
+\end{equation}
+在第$t$次迭代时. 
+
+% We move on to introducing the paradigms for clean training and AT. 
+% The clean training of \( f \) follows the empirical risk minimization framework, utilizing a standard \textit{cross-entropy loss} $\ell(\cdot)$ defined as
+% \begin{equation}\label{eq-def-loss-function-in-paper}
+%     \ell(f(\x), y(\x))
+%     = 
+%     - \log \left( f(\x)^{(y(\x))} \right).
+% \end{equation}
+% Then, the \textit{empirical training risk} with regard to $\ell$ is
+% \begin{equation}\label{eq-def-clean-risk-in-paper}
+%   R(f,\mathcal{D}) := \frac{1}{NK} \sum_{(\x, y(\x)) \in \mathcal{D}} \ell(f(\x), y(\x)).
+% \end{equation}
+% Given positive step size $\eta$, the feature extractor \(\boldsymbol{h}\) is updated according to the following gradient descent rule
+% \begin{equation}\label{eq-def-GD-in-paper}
+% \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} R(f, \mathcal{D})
+% \end{equation}
+% at iteration step $t$.
+
+As for AT, we adopt a strategy similar to PGD \cite{DBLP:conf/iclr/MadryMSTV18}.
+Recall that \ref{eq-def-adversarial-risk} defines the adversarial risk as
+\begin{equation}
+\label{eq-def-adversarial-risk-restate}
+    \Radv(f,\mathcal{D})
+    = \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in \mathcal{D}} \ell\left(f\left( \xa_{k,n} \right), y_{k}\right),
+\end{equation}
+in which the adversarial examples are crafted through a finite-step projected gradient descent procedure.
+More specifically, given clean sample $\x$ and the maximum PGD steps $T_a$, the adversarial example of $\x$ is generated by iterating on the following rule:
+{\color{red}
+\begin{equation}\label{eq-def-gradient-based-attack-itertion-in-paper}
+\begin{aligned}
+    \x^{0} &= \x, \\
+    \x^{\tau+1} &= \x^{\tau} + \epsilon \nabla_{\x^{\tau}} \ell(f(\x^{\tau}), y(\x^{\tau})),
+\end{aligned}
+\end{equation}
+for $0 \leq \tau < T_a$.
+AT involves the generation of adversarial examples for every $\x_{k,n} \in \mathcal{D}$, which can be characterized by
+\begin{equation}\label{eq-def-gradient-based-attack-in-paper}
+    \xa_{k,n} = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \nabla_{\x^{\tau}_{k,n}} \ell(f(\x^{\tau}_{k,n}), y_k).  
+\end{equation}
+Here, $\epsilon$ is the perturbation radius of the adversarial example that rescales the adversarial attack.
+It is worth noting that AT collapses to clean training when $\epsilon=0$. 
+}
+% In practical implementations, adversarial examples are constrained to reside within an $\epsilon$-ball centered at the clean example $\x$, i.e., $\|\x - \xa\| \leq \epsilon$. 
+% By scaling on $\alpha(\x^{\tau})$, we can let
+% \begin{equation}
+%     \left\| \sum_{t \in [T_a] } \alpha(\x^{\tau}) \nabla_{\x^{\tau}_{k,n}} \ell(f(\x^{\tau}_{k,n}), y_k) \right\| = \epsilon
+% \end{equation}
+% to ensure the adversarial examples are projected into the $\epsilon$-ball centered at the clean examples.
+The corresponding iteration rule for AT can be written as
+\begin{equation}\label{eq-def-GD-AT-in-paper}
+\h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} \Radv(f, \mathcal{D}).
+\end{equation}
+
+Notice that we have not yet specified the initialization of the iterations in \ref{eq-def-GD-AT-in-paper,eq-def-GD-in-paper}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Assumptions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\color{red}
+\subsection{Assumptions}\label{subsec-assumptions}
+This section introduces a set of necessary assumptions that facilitate the analysis of NC under AT, namely the normalization, TPT, and NC3 assumptions.
+
+\paragraph{Normalization} 
+As the empirically observed geometrical properties of NC require proper rescaling and centralizing, we also adopt the following normalization assumptions:
+}
+\begin{itemize}
+    {\color{red}
+    % \item The training data are centralized, i.e., 
+    % \begin{equation}
+    %     \sum_{k} \x_{k,n} = \mathbf{0}, \ \forall n \in [N].
+    % \end{equation}
+    \item The training data are symmetric, i.e., we assume
+    \begin{equation}
+        \left\{
+    \begin{aligned}
+        (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \geq \theta,& \ {\rm{if}}\ l = k \\
+        (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \leq 0,& \ {\rm{if}}\ l \neq k
+    \end{aligned}
+    \right.
+    \end{equation}
+    We postpone the definition of $T_0$ to \ref{assumption-tpt-in-papar}.
+    \item The similarity within the same class and the dissimilarity between different classes are normalized. 
+    Specifically, given $\rho > 0$, for all $n_1, n_2 \in [N]$ and $k_1 \neq k_2 \in [K]$, we assume that
+    \begin{enumerate}
+        \item $(\x_{k,n_1})^{\top} \x_{k,n_2} \in [1-\rho,1+\rho]$, for all $n_1, n_2 \in [N]$,
+        \item $(\x_{k_1,n_1})^{\top} \x_{k_2,n_2} \in [-\rho, \rho]$, for all $k_1 \neq k_2 \in [K]$. 
+    \end{enumerate}
+    Notice that $\rho$ is independent of $K$.}
+    \item The bias terms in $f$ are fixed to zero, i.e., we can assume that $\bbeta = \0$ after centralization, and $\b = \0$ by choosing a proper translation transformation.
+\end{itemize}
+
+
+\paragraph{TPT}
+As mentioned in \ref{sec-related-work}, standard and adversarial NC both occur during TPT.
+Here, TPT refers to the training epochs after the training risk has converged to effectively zero.
+By definition, we have
+\begin{equation}\label{eq-exp-loss-function}
+    \exp(\ell(f(\x_{k,n}),y_k)) = \frac{\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h(\x_{k,n}) \right)}{\exp \left( \W^{\top}_k \h(\x_{k,n}) \right)}.
+\end{equation}
+{\color{red}
+With \ref{eq-exp-loss-function}, we can characterize TPT as follows.
+\begin{assumption}[The terminal phase of training]\label{assumption-tpt-in-papar}
+    
+    In the remainder of this paper, the \textit{terminal phase of training (TPT)} is characterized as follows.
+    For all $k \in [K]$, $l \neq k$, and $n \in [N]$, we denote by $T_0$ the \textit{starting step of TPT} such that
+    \begin{equation}\label{eq-def-assumption-TPT-k}
+        \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = 1 - \sigma
+    \end{equation}
+    and
+    \begin{equation}\label{eq-def-assumption-TPT-k1-k2}
+        \frac{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = \frac{\sigma}{K-1}.
+    \end{equation}
+    In \ref{eq-def-assumption-TPT-k,eq-def-assumption-TPT-k1-k2}, the parameter $\sigma \in (0, 1)$ is used to characterize the precision of training.
+    It is worth noting that the training risk turns zero if $\sigma=0$.
+    \myqed 
+\end{assumption}
+
+
+The following corollary is immediately after \ref{assumption-tpt-in-papar}.
+\begin{corollary}\label{corollary-TPT}
+    Let $C_1 > C_2 > 0$ be parameters. 
+    If we let $\W_k \h^{\iter{t_i}}(\x_{k,n}) = C_i$ and $\W_{l} \h^{\iter{t_i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}$ for all $k \in [K]$, $l \neq k$, $n \in [N]$ and $i \in \{1, 2\}$, then 
+    \begin{equation*}
+        \frac{\exp \left( \W^{\top}_k \h^{\{t_1\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t_1\}}(\x_{k,n}) \right)} 
+        > 
+        \frac{\exp \left( \W^{\top}_k \h^{\{t_2\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t_2\}}(\x_{k,n}) \right)}.
+    \end{equation*}
+\end{corollary}
+
+It is worth noting that $\W_k \h(\x_{k,n}) = C$ and $\W_{l} \h(\x_{k,n}) = -C (K-1)^{-1}$ for all $k \in [K]$, $n \in [N]$, and $l \neq k$ implies the convergence of $\h$ to simplex ETF (after normalization).
+In this sense, \ref{corollary-TPT} demonstrates the features' better convergence to simplex ETF does not imply a smaller training error.
+}
+
+To facilitate a more accurate comparison between standard and adversarial NC, we assume that the iterations for both clean training and AT commence at \( T_0 \), i.e., we require that \( t \geq T_0 \) in \ref{eq-def-GD-AT-in-paper,eq-def-GD-in-paper}.
+
+{\color{red}
+\paragraph{NC3}
+As the primary focus of our analysis is centered on NC2 and $\h$, we assume that the results regarding $\W$ in NC3 hold at the start of TPT for simplicity.
+More specifically, we adopt the following assumption based on \ref{def-simplex-ETF}.
+\begin{assumption}[NC3]
+We assume that the linear classifier $\W$ has converged to simplex ETF at the beginning of TPT.
+Specifically, let $\boldsymbol{M}$ denote the matrix defined in \ref{eq-def-simplex-ETF-M-in-paper}, we assume that
+\begin{equation}
+    \W = c_1 \boldsymbol{U} \boldsymbol{M} = \sqrt{\frac{K-1}{K}} \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \boldsymbol{M},
+\end{equation}
+where $\left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \in \R^{\dpr \times K}$ is a binary partial orthogonal matrix such that for any $k \in [K]$, only the $k$-th entry of $\boldsymbol{e}_k$ takes $1$ while the other entries take $0$. \myqed
+\end{assumption}
+
+Notice that taking $c_1 = \sqrt{\frac{K-1}{K}}$ and $\boldsymbol{U} = \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right)$ is without loss of generality as the simplex ETFs are invariant under orthogonal transformation. 
+% as our analysis can be straightforwardly extended by rescaling \( c_1 \) and applying an additional orthogonal transformation to \(\boldsymbol{U}\).
+}
+
+{\color{red}
+\subsection{Main Results}\label{subsec-theoretical-main-results}
+For any $k \in [K]$ and $t \geq T_0$, let
+\begin{equation}
+    \boldsymbol{\bar{h}}^{\iter{t}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h^{\iter{t}}(\x_{k,n})
+\end{equation}
+be the $k$-th class mean vector at iteration $t$ (cf. \ref{eq-def-class-mean-vector}).
+We first validate NC2 under the assumptions in \ref{subsec-assumptions}.
+
+\begin{theorem}[NC2]
+Given perturbation radius $\epsilon$, there are constants $\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R$ such that
+\begin{itemize}
+    \item $\bar{\h}^{(k)}_k \to \boldsymbol{P}_{0} (K-1){K}^{-1}$ and $\bar{\h}^{(l)}_k \to -\boldsymbol{P}_{0} K^{-1}$ under clean training, and
+    \item $\bar{\h}^{(k)}_k \to \boldsymbol{P}_{\epsilon} (K-1){K}^{-1}$ and $\bar{\h}^{(l)}_k \to -\boldsymbol{P}_{\epsilon} K^{-1}$ under AT,
+\end{itemize}
+for all $k \in [K]$ and $l \neq K$ when $t \to \infty$ and $\rho \to 0$.
+\label{theorem-NC2}
+\end{theorem}
+\ref{theorem-NC2} implies that the class mean vectors converge to simplex ETF in both clean training and AT, validating our empirical results regarding NC2.
+The geometric interpretation of $\boldsymbol{P}_{0}$ and $\boldsymbol{P}_{\epsilon}$ is the simplex norm in \ref{eq-def-P-eps} up to scaling.
+Furthermore, we can prove the following result based on \ref{theorem-NC2}.
+\begin{theorem}[Simplex compression]
+\label{theorem-simplex-compression}
+Let $\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R$ be the constants specified in \ref{theorem-NC2}.
+We can prove that
+\begin{itemize}
+    \item $\boldsymbol{P}_{0} = \boldsymbol{P}_{\epsilon}$ when $\epsilon=0$, and
+    \item $\boldsymbol{P}_{\epsilon_1} < \boldsymbol{P}_{\epsilon_2}$ for any $\epsilon_1 > \epsilon_2 \geq 0$.
+\end{itemize} 
+\end{theorem}
+\ref{theorem-simplex-compression} demonstrates a negative correlation between the perturbation radius ($\epsilon$) and the simplex norms ($\boldsymbol{P}_{0}, \boldsymbol{P}_{\epsilon}$), which further validates the simplex compression phenomenon.
+}
+
+
+\subsection{Intuition and Explanation}\label{subsec-intuition}
+The core intuition underlying our analysis is illustrated by 
+\ref{fig-intuition}.
+Given $k \in [K]$, we prove that $\boldsymbol{h}(\x_{k,n})$ would exhibit faster growth rates along a principal direction decided by $\W_k$ than other directions. 
+As the training iterations progress, $\boldsymbol{h}(\x)$ would gradually align more closely with the simplex ETF structure. 
+More importantly, we prove that \textbf{the presence of adversarial examples in the training data would weaken the signal from $\x$ and thus reduce the growth rate of $\boldsymbol{h}(\x)$}, thereby inducing the simplex compression phenomenon.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/nc_main/intuition.png}
+  \caption{A illustration of the core intuition of our theoretical analysis. To facilitate visualization, we consider a $3$-class classification task in a $2$-dimensional space. }
+  \label{fig-intuition}
+\end{figure}
+
+\section{Discussion and Conclusion}\label{sec-conclusion}
+Many previous works have leveraged NC to enhance the performance of NNs. 
+For instance, \cite{DBLP:conf/cvpr/ZhongCY0QZJ23} proposes a method for semantic segmentation with the constraint of NC2, and \cite{DBLP:conf/iccv/0001SHLW23} explores federated learning inspired by NC. Additionally, NC has been utilized in various tasks across different fields, e.g., out-of-distribution detection \cite{DBLP:conf/icassp/ZhangCJZG24,DBLP:conf/iclr/AmmarBPMF24}, class-imbalanced learning \cite{DBLP:conf/icml/0003HNH24}.
+Considering the proven validity of the simplex compression phenomenon through extensive experiments and theoretical analysis, leveraging these insights to enhance the performance of adversarial defenses could further improve the robustness of NNs in the future.
+
+\textcolor{red}{Our experimental results and theoretical analysis exhibit a significant negative correlation between the simplex norm $\boldsymbol{P}_{\epsilon}$ and the perturbation radius $\epsilon$, which lies at the core of our novelly discovered simplex compression phenomenon.
+However, the precise mathematical form of this relationship is beyond the scope of this paper and is open for future studies.}
+
+In conclusion, the present paper focuses on exploring and explaining the difference between standard and adversarial NC.
+We observe the simplex compression phenomenon that only occurs under AT.
+More specifically, we find that the simplex norm compresses as the perturbation radius grows.
+Based on extensive experiments, we validate the universality of our findings across various datasets, models, and AT algorithms. 
+We also provide a theoretical explanation for the simplex compression phenomenon.
+Under the assumptions in \ref{subsec-assumptions}, we first prove the results regarding NC2 under both clean training and AT by specifying the simplex norms (i.e., $\boldsymbol{P}_{0}$ and $\boldsymbol{P}_{\epsilon}$) under clean training and AT in \ref{theorem-NC2}.
+Moreover, we demonstrate a negative correlation between the perturbation radius and the simplex norm in \ref{theorem-simplex-compression}.
+Our theoretical results are consistent with the empirical finding, which further validates our novelly discovered simplex compression phenomenon.
+
+\subsection{Proofs for Main Results}\label{subsec-main-proof}
+
+The main goal of our analysis can be summarized as follows.
+\paragraph{Main goal} We aim to prove that $\exists C, C^{adv} \in \R$ such that
+\begin{itemize}
+    \item Under clean training, $\w_k \x_{k,n} \to C (K-1){K}^{-1}$ and $\w_{l} \x_{k,n} \to -C (K)^{-1}$ for all $k \in [K]$ and $l \neq k$ (\ref{lemma-TPT-clean}), and
+    \item Under AT, $\w_k \x_{k,n} \to C^{adv} (K-1){K}^{-1}$ and $\w_{l} \x_{k,n} \to -C^{adv} (K)^{-1}$ for all $k \in [K]$ and $l \neq k$ (\ref{lemma-TPT-AT}).
+    \item More importantly, we prove that $C > C^{adv}$, which implies the simplex compression phenomenon.
+    We also demonstrate a positive correlation between the perturbation radius $\epsilon$ and the compression rate.
+\end{itemize}
+
+\paragraph{Proof Sketch}
+\ref{theorem-NC2,theorem-simplex-compression} can be implied by \ref{lemma-TPT-AT,lemma-TPT-clean}. \ref{lemma-principal-entry-of-h} is directly derived from Assumptions \ref{assumption-tpt} and \ref{assumption-NC3}.
+The proofs of \ref{lemma-TPT-AT,lemma-TPT-clean} mainly utilized mathematical induction.
+
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.1cm}
+
+As a warm-up, the following corollary can be directly driven from \ref{assumption-tpt}. The proof is thus omitted.
+\begin{corollary}
+    Let $C_1 > C_2 > 0$ be positive parameters. If  we let $\W_k \h^{\iter{i}}(\x_{k,n}) = C_i$ and $\W_{l} \h^{\iter{i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}$ for all $k \in [K]$, $l \neq k$, and $i \in \{1, 2\}$, then 
+    \begin{equation}
+        \frac{\exp \left( \W^{\top}_k \h^{\{1\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{1\}}(\x_{k,n}) \right)} 
+        > 
+        \frac{\exp \left( \W^{\top}_k \h^{\{2\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{2\}}(\x_{k,n}) \right)}.
+    \end{equation}
+\end{corollary}
+
+This corollary demonstrates that the features' better convergence to simplex ETF (after normalization) does not imply a smaller training error.
+There is a gap between the minimization of training risk (characterized by $\sigma$) and the formation of simplex ETF (characterized by the entries of $\h$).
+The following lemma narrows this gap by providing a quantitative relationship between $\sigma$ and the entries of $\h$.
+
+
+\begin{lemma}\label{lemma-principal-entry-of-h}
+For all $k \in [K]$ and $n \in [N]$, according to \ref{assumption-tpt}, we can obtain that  
+\begin{equation}
+\h^{(k)}(\x_{k,n}) - \h^{(l)}(\x_{k,n}) =
+\relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) - 
+\relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right)
+= \log(K-1) + \log(\sigma^{-1} - 1)
+\end{equation}
+holds for all $l \neq k$ at iteration $T_0$.
+\end{lemma}
+
+\begin{proof}
+For all $k \in [K]$ and for any $l \neq k$, \ref{assumption-tpt} implies that
+% \begin{equation}
+%     \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)} 
+%     = \exp \left( 
+%         \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) - 
+%         \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) 
+%         \right) > (K - 1)^2,
+% \end{equation}
+\begin{equation}
+    \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)} 
+    = \exp \left( 
+        \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) - 
+        \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) 
+        \right) = \frac{(1-\sigma)(K-1)}{\sigma},
+\end{equation}
+in which
+% \begin{equation}
+%     \W^{\top}_{k} \h^{\{t\}}(\x_{k,n}) - \W^{\top}_{l} \h^{\{t\}}(\x_{k,n}) = - \frac{1}{K} \sum_{k^{\prime} \neq l} \w_{k^{\prime} }^{\top} \x_{k,n} + \frac{K-1}{K} \w_{l}^{\top} \x_{k,n}
+% \end{equation}
+\begin{equation}
+\begin{aligned}
+    \W^{\top}_{k} \h^{\{t\}}(\x_{k,n}) - \W^{\top}_{l} \h^{\{t\}}(\x_{k,n}) =& 
+    \frac{K-1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right) -
+    \left(
+    \frac{K-1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) \right)\\
+    =& \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \relu\left(\w_{l}^{\top} \x_{k,n}\right).
+\end{aligned}
+\end{equation}
+Combine the above two equations, we have
+\begin{equation}
+\relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) - 
+\relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right)
+> \log(K-1) + \log(\sigma^{-1} - 1)
+\end{equation}
+for all $l \neq k$, which completes the proof. 
+\end{proof}
+
+With the help of \ref{lemma-principal-entry-of-h}, we can obtain the following two lemmas regarding the dynamics of the growth of the features during TPT.
+
+
+\begin{lemma}[The terminal phase of clean training]\label{lemma-TPT-clean}
+For all $k \in [K]$, $n \in [N]$, and $t \geq T_0$, we have
+\begin{equation}\label{eq-def-assumption-TPT-k-general-t-in-lemma}
+    \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
+    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}
+\end{equation}
+and
+\begin{equation}\label{eq-def-assumption-TPT-k1-k2-general-t-in-lemma}
+    \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
+    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} 
+    = \frac{\sigma^{\iter{t}}}{K-1},
+\end{equation}
+in which $\sigma^{\iter{T_0}} = \sigma$ and
+\begin{equation}\label{eq-def-sigma-t-clean}
+   \sigma^{\iter{t+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \sigma (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
+\end{equation}
+More importantly, the feature $\h$ at iteration $T$ satisfy
+\begin{equation}
+    \frac{\h^{(k),\iter{T}} (\x_{k,n}) }{\h^{(l),\iter{T}} (\x_{k,n})} \to -(K-1)
+\end{equation}
+for any $k \in [K]$ and $l \neq k$ as $T \to \infty$ and $\rho \to 0$.
+\end{lemma}
+
+\begin{proof}[Proof of \ref{lemma-TPT-clean}]
+We prove this lemma by induction and first consider the case when $t = T_0$.
+By \ref{eq-nabla-h-R-Whb-Jacobian-h-wl}, we have
+\begin{equation}\label{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}
+\begin{aligned}
+    \nabla_{\w_l} R(\W, \h)
+    =& \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} 
+    \1(\w^{\top}_{l} \x_{k,n})
+    \left(
+    \sum_{k^{\prime} \in [K]}
+    \left( 
+        \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} 
+    \right)   \W_{k^{\prime}}^{(l)} 
+    \right)   \x_{k,n}
+\end{aligned}
+\end{equation}
+When $k \neq l$ in \ref{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}, we have
+\begin{equation}
+\begin{aligned}
+    \sum_{k^{\prime} \in [K]}
+    \left( 
+        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k} 
+    \right)   \W_{k^{\prime}}^{(l)}
+    &=
+    \frac{K-1}{K}
+    \left( 
+        \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} 
+    \right)
+    -
+    \frac{1}{K}  \sum_{k^{\prime} \neq l}
+    \left( 
+        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+    \right)
+    + \frac{1}{K} \\
+    &= \frac{K-1}{K} \cdot \frac{\sigma}{K-1}
+    -
+    \frac{1}{K} \cdot (K-2) \cdot \frac{\sigma}{K-1}
+    - \frac{1}{K} \cdot (1-\sigma)
+    + \frac{1}{K} \\
+    % &= \frac{1-\sigma}{K(K-1)}. 
+    &= \frac{\sigma}{K-1}
+\end{aligned}
+\end{equation}
+Otherwise, when $k = l$ in \ref{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}, we have
+% \begin{equation}
+% \begin{aligned}
+%     \sum_{k^{\prime} \in [K]}
+%     \left( 
+%         \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k} 
+%     \right)   \W_{k^{\prime}}^{(l)}
+%     &=
+%     \frac{K-1}{K}
+%     \left( 
+%         \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - 1
+%     \right)
+%     -
+%     \frac{1}{K}  \sum_{k^{\prime} \neq l}
+%     \left( 
+%         \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+%     \right) \\
+%     &=
+%     - \frac{K-1}{K}
+%     \cdot
+%     \frac{1-\sigma}{K}
+%     -
+%     \frac{K-1}{K} \cdot (K-1) \cdot
+%     \frac{1-\sigma}{K(K-1)} \\
+%     &=
+%     - \frac{2(K-1)(1-\sigma)}{K^2}
+%     .   
+% \end{aligned}
+% \end{equation}
+\begin{equation}
+\begin{aligned}
+    \sum_{k^{\prime} \in [K]}
+    \left( 
+        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k} 
+    \right)   \W_{k^{\prime}}^{(l)}
+    &=
+    \frac{K-1}{K}
+    \left( 
+        \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - 1
+    \right)
+    -
+    \frac{1}{K}  \sum_{k^{\prime} \neq l}
+    \left( 
+        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+    \right) \\
+    &=
+    - \frac{K-1}{K}
+    \cdot
+    \sigma
+    -
+    \frac{1}{K} \cdot (K-1) \cdot
+    \frac{\sigma}{K-1} \\
+    &=
+    - \sigma
+    .   
+\end{aligned}
+\end{equation}
+% Denote by $\mathcal{S}^{\iter{t}}_{n+}(l)$ and $\mathcal{S}^{\iter{t}}_{n-}$ the index sets such that $\1(\w^{\top}_{l} \x_{k,n}) = 1$ when $k \in \mathcal{S}^{\iter{t}}_{n+}(l)$ and $\1(\w^{\top}_{l} \x_{k,n}) = 0$ when $k \in \mathcal{S}^{\iter{t}}_{n-}(l)$.
+% \ref{assumption-tpt} implies that $\mathcal{S}^{\iter{T_0}}_{n+}(l) = \{l\}$.
+% Recall the centralized assumption 
+% \begin{equation}
+%     \sum_{k \in [K]} x_{k,n} = 0
+% \end{equation}
+Combining the above three equations, we can simplify $\nabla_{\w_l} R(\W, \h)$ to
+% \begin{equation}
+% \begin{aligned}
+%     \nabla_{\w_l} R(\W, \h)
+%     &= 
+%     \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sum_{k \neq l} \1(\w^{\top}_{l} \x_{k,n}) \left(\frac{1-\sigma}{K(K-1)} \cdot \x_{k,n}\right) 
+%     - \frac{2(K-1)(1-\sigma)}{K^2} \cdot \x_{l,n}
+%     \right) \\
+%     &= - \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sum_{k \in \mathcal{S}^{\iter{t}}_{n-}} \left(\frac{1-\sigma}{K(K-1)} \cdot \x_{k,n}\right) 
+%     + \frac{\left(2(K-1)^2 + K\right)(1-\sigma)}{K^2(K-1)} \cdot \x_{l,n}
+%     \right)
+% \end{aligned}
+% \end{equation}
+% \begin{equation}
+% \begin{aligned}
+%     \nabla_{\w_l} R(\W, \h)
+%     &= 
+%     \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sum_{k \neq l} \1(\w^{\top}_{l} \x_{k,n}) \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right) 
+%     - \sigma \cdot \x_{l,n}
+%     \right) \\
+%     &= - \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sum_{k \in \mathcal{S}^{\iter{t}}_{n-}} \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right) 
+%     + \frac{K \sigma}{K-1} \cdot \x_{l,n}
+%     \right)
+% \end{aligned}
+% \end{equation}
+% \begin{equation}
+%     \nabla_{\w_l} R(\W, \h)
+%     = 
+%     \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sum_{k \neq l} \1(\w^{\top}_{l} \x_{k,n}) \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right) 
+%     - \sigma \cdot \x_{l,n}
+%     \right) 
+%     = - \frac{1}{NK} \sum_{n \in [N]} \left(
+%     \sigma \cdot \x_{l,n} 
+%     \right) 
+%     = - \frac{\sigma}{K} x_{l,n}.
+% \end{equation}
+\begin{equation}
+    \nabla_{\w_l} R(\W, \h)
+    = 
+    \frac{1}{NK} \sum_{n \in [N]} \left(
+    \sum_{k \neq l} \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right) 
+    - \sigma \cdot \x_{l,n}
+    \right).
+\end{equation}
+The update of $\h$ and $\w$ at $t = T_0$ can be written as
+\begin{equation}\label{eq-def-update-h-T0}
+    \h^{\iter{t+1},(l)}(\x_{x_{k^{\prime}, n}}) 
+    = 
+    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k^{\prime},n}
+    =
+    \left(\w^{\iter{t}}_l \right)^{\top} \x_{k^{\prime},n} -
+    \frac{\eta}{NK} \sum_{n \in [N]} \left(
+    \sum_{k \neq l} \left(\frac{\sigma}{K-1} \cdot \left(\x_{k,n}\right)^{\top} \x_{k^{\prime},n} \right) 
+    - \sigma \cdot 
+    \left(\x_{l,n}\right)^{\top} \x_{k^{\prime},n}
+    \right).
+\end{equation}
+We discuss the relationship between $l$ and $k^{\prime}$ in \ref{eq-def-update-h-T0} as follows.
+\begin{itemize}
+    \item When $k^{\prime} = l$, we have
+    \begin{equation}\label{eq-def-update-h-T0-bound-k=l-geq}
+    \begin{aligned}
+    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+    &=
+    \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right) 
+    - 
+    \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( 
+        \sum_{n^{\prime} \in [N]} 
+        \sum_{k^{\prime} \neq l}
+        \x_{k^{\prime},n^{\prime}} \right)\\
+    &\geq
+    \frac{\eta\sigma}{K} (1 - \rho)^2 - \frac{\eta\sigma(K-1)}{K}\rho(1+\rho)\\
+    &=
+    \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho).
+    \end{aligned}
+    \end{equation}
+    Similarly, we can obtain
+    \begin{equation}\label{eq-def-update-h-T0-bound-k=l-leq}
+    \begin{aligned}
+    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} 
+    -
+    \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+    &\leq  
+    \frac{\eta\sigma}{K} (1 + \rho)^2 + \frac{\eta\sigma(K-1)}{K}\rho(1+\rho)\\
+    &=
+    \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho).
+    \end{aligned}
+    \end{equation}
+    \item Otherwise, when $k^{\prime} \neq l$, we have
+    \begin{equation}\label{eq-def-update-h-T0-bound-k-neq-l-leq}
+    \begin{aligned}
+        \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+        &=
+        -
+        \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right) 
+        -
+        \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left( 
+            \sum_{n^{\prime} \in [N]}
+            \sum_{k \neq l,k^{\prime}}
+            \x_{k,n^{\prime}} \right)
+        +
+        \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{k^{\prime},n^{\prime}} \right)
+        \\
+        &\leq
+        -
+        \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
+        +
+        \frac{\eta\sigma(K-2)}{K(K-1)} \rho(1+\rho)
+        +
+        \frac{\eta\sigma}{K} \rho (1+\rho)\\
+        &= 
+        -
+        \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
+        + O(\rho).
+    \end{aligned}
+    \end{equation}
+    and
+    \begin{equation}\label{eq-def-update-h-T0-bound-k-neq-l-geq}
+    \begin{aligned}
+        \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n}
+        -
+        \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+        &\geq
+        -
+        \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
+        -
+        \frac{\eta\sigma(K-2)}{K(K-1)} \rho(1+\rho)
+        -
+        \frac{\eta\sigma}{K} \rho (1+\rho)\\
+        &=
+        -
+        \frac{\eta\sigma}{K(K-1)} (1+\rho)^2 + O(\rho).
+    \end{aligned}
+    \end{equation}
+\end{itemize}
+Now, consider the output of the linear layer at iteration $t+1$.
+For any $k, l \in [K]$, we have
+\begin{equation}\label{eq-output-T+1}
+\begin{aligned}
+    \W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) 
+    &= 
+    \frac{K-1}{K} \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k,n} 
+    - 
+    \frac{1}{K} \sum_{k^{\prime} \neq l} \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n}\\
+    &= \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
+    +
+    \frac{K-1}{K} \left(
+    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n} 
+    \right)
+    -
+    \frac{1}{K} \sum_{k^{\prime} \neq l}
+    \left(
+    \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n}
+    -
+    \left(\w^{\iter{t}}_{k^{\prime}} \right)^{\top} \x_{k,n}
+    \right).
+\end{aligned}
+\end{equation}
+The following bounds are derived from \ref{eq-def-update-h-T0-bound-k=l-geq,eq-def-update-h-T0-bound-k=l-leq,eq-def-update-h-T0-bound-k-neq-l-geq,eq-def-update-h-T0-bound-k-neq-l-leq}.
+When $k=l$, the growth of \ref{eq-output-T+1} can be bounded by
+\begin{equation}
+\left\{
+\begin{aligned}
+\W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n}) 
+&\leq
+\frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho) \right) 
++ 
+\frac{1}{K} \cdot (K-1) \cdot \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
++ O(\rho) \right) \\
+\W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n}) 
+&\geq
+\frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho) \right) 
++ 
+\frac{1}{K} \cdot (K-1) \cdot \left( \frac{\eta\sigma}{K(K-1)} (1 - \rho)^2
++ O(\rho) \right),
+\end{aligned}
+\right.
+\end{equation}
+and for $l \neq k$, the similar bounds are as follows.
+\begin{equation}
+\left\{
+\begin{aligned}
+\W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
+&\leq
+- \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
++ O(\rho) \right) 
++ 
+\frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2 + O(\rho) \right) 
+-
+\frac{1}{K} \left( \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho) \right)
+\\
+\W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
+&\geq
+- \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
++ O(\rho) \right) 
++ 
+\frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1-\rho)^2 + O(\rho) \right) 
+-
+\frac{1}{K} \left( \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho) \right)
+\end{aligned}
+\right.
+\end{equation}
+We check the principal entry of $\h$ and establish bounds in a similar style to \ref{lemma-principal-entry-of-h}.
+For any $k \in [K]$ and $l\neq k$, we have
+\begin{equation}
+\begin{aligned}
+&\relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) - 
+\relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right)
+\\
+\geq& \log(K-1) + \log(\sigma^{-1} - 1) + 
+\frac{\eta\sigma(K+2)}{K^2} (1 - \rho)^2
+- 
+\frac{\eta\sigma(K-2)}{K^2(K-1)} (1+\rho)^2 
++ O(\rho) \\
+=& \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 - \rho)^2 + O(\rho).
+\end{aligned}
+\end{equation}
+and
+\begin{equation}
+\relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) - 
+\relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right)
+\leq \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 + \rho)^2 + O(\rho).
+\end{equation}
+Denote
+\begin{equation}
+    C_1 = \frac{\eta (K^2-2)}{K^2(K-1)}.
+\end{equation}
+The updated training risk can be characterized by $\sigma^{\iter{T_0+1}}$ that satisfies
+\begin{equation}
+    \log\left(\left(\sigma^{\iter{T_0+1}}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) + C_1 \sigma (1 \pm \rho)^2 + O(\rho), 
+\end{equation}
+which can be simplified to
+\begin{equation}
+   \sigma^{\iter{T_0+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(C_1 \sigma (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
+\end{equation}
+Back to the main goal of this lemma. 
+We have proved \ref{eq-def-assumption-TPT-k-general-t-in-lemma,eq-def-assumption-TPT-k1-k2-general-t-in-lemma} when $t=T_0$.
+Now, for any $t > T_0$, observe that 
+\ref{eq-def-update-h-T0-bound-k=l-geq,eq-def-update-h-T0-bound-k=l-leq,eq-def-update-h-T0-bound-k-neq-l-geq,eq-def-update-h-T0-bound-k-neq-l-leq} still hold for $\sigma^{\iter{t}}$ defined in \ref{eq-def-sigma-t-clean}.
+We immediately obtain \ref{eq-def-assumption-TPT-k-general-t-in-lemma,eq-def-assumption-TPT-k1-k2-general-t-in-lemma} for all $t \geq T_0$ by induction.
+The feature at iteration $T$ can be calculated by taking the following sum
+\begin{equation}\label{eq-def-update-h-k=l}
+\begin{aligned}
+\left(\w^{\iter{T}}_l \right)^{\top} \x_{l,n} 
+=
+\left(\w^{\iter{T_0}}_l \right)^{\top} \x_{l,n} 
++
+\sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2 + O(\rho)
+\to \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2.
+\end{aligned}
+\end{equation}
+for $l=k$, and 
+\begin{equation}\label{eq-def-update-h-k-neq-l}
+    \left(\w^{\iter{T}}_l \right)^{\top} \x_{k,n}
+    =
+    \left(\w^{\iter{T_0}}_l \right)^{\top} \x_{k,n}
+    -
+    \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K(K-1)} (1+\tilde{\rho})^2 + O(\rho) 
+    \to -\frac{1}{K-1} \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2.
+\end{equation}
+for $k \neq l$ as $T \to \infty$ and $\rho \to 0$.
+We complete the proof by combining \ref{eq-def-update-h-k=l,eq-def-update-h-k-neq-l}.
+\end{proof}
+
+
+
+\begin{lemma}[The terminal phase of AT]\label{lemma-TPT-AT}
+For all $k \in [K]$, $n \in [N]$, and $t \geq T_0$, we have
+\begin{equation}\label{eq-def-assumption-TPT-k-general-t-AT-in-lemma}
+    \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
+    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}_{adv}
+\end{equation}
+and
+\begin{equation}\label{eq-def-assumption-TPT-k1-k2-general-t-AT-in-lemma}
+    \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
+    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} 
+    = \frac{\sigma^{\iter{t}}_{adv}}{K-1},
+\end{equation}
+in which $\sigma^{\iter{T_0}}_{adv}$ can be obtained by iterating with $\sigma^{0} = \sigma$ and
+\begin{equation}\label{eq-def-sigma-adv-at-T0}
+    \sigma^{\tau+1} = \left(\left(\left(\sigma^{\tau}\right)^{-1} - 1\right) 
+    \exp\left(
+        -\frac{\epsilon \left(\sigma^{\tau}\right) K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l
+        \right) 
+    + O(\rho)\right) + 1\right)^{-1} > \sigma^{\tau}.
+\end{equation}
+to the maximum PGD step $\tau=T_a$, and
+\begin{equation}
+   \sigma^{\iter{t+1}}_{adv} = \left(\left(\left(\sigma^{t}\right)^{-1}_{adv} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \left(\sigma^{t}\right)_{adv} (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
+\end{equation}
+More importantly, the feature $\h$ at iteration $T$ satisfy
+\begin{equation}
+    \frac{\h^{(k),\iter{T}} (\x^{adv}_{k,n}) }{\h^{(l),\iter{T}} (\x^{adv}_{k,n})} \to -(K-1)
+\end{equation}
+for any $k \in [K]$ and $l \neq k$ as $T \to \infty$.
+\end{lemma}
+
+\begin{proof}[Proof of \ref{lemma-TPT-AT}]
+The main difference between \ref{lemma-TPT-clean,lemma-TPT-AT} lies in the characteristic of adversarial examples.
+It suffices to prove \ref{eq-def-sigma-adv-at-T0} at iteration $t = T_0$.
+The remainder of the proof is similar to that of \ref{lemma-TPT-clean}.
+Combining \ref{assumption-tpt} and \ref{eq-def-gradient-based-attack-itertion,eq-nabla-x-l}, we can obtain that
+\begin{equation}\label{eq-PGD-attack-iteration-1}
+\begin{aligned}
+    \x_{k,n}^{1} &= \x_{k,n} + \left(
+    \sum_{l \in [K]} \epsilon \left(
+    \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right) 
+    \left(\nabla_{\x} \h(\x_{k,n})\right)^{\top} \W_l \right) \\
+    &= \x_{k,n} + \left(
+    \sum_{l \in [K]} \epsilon \left(
+    \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right) 
+    \left(
+        \frac{K-1}{K} \cdot \1\left((\w_l)^{\top}\x_{k,n}\right) \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \1\left((\w_{k^{\prime}})^{\top}\x_{k,n}\right) \w_{k^{\prime}}
+    \right)
+    \right)
+\end{aligned}
+\end{equation}
+By discussing the second term in \ref{eq-PGD-attack-iteration-1}, we have
+
+\begin{equation}
+\x_{k,n}^{1} = \x_{k,n} -
+\epsilon\sigma \left( 
+    \left(
+        \frac{K-1}{K} \cdot \w_k - \frac{1}{K}\sum_{k^{\prime} \neq k} \w_{k^{\prime}}
+    \right)
+-
+\sum_{l \neq k} \frac{1}{K-1} \cdot 
+    \left(
+        \frac{K-1}{K} \cdot \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \w_{k^{\prime}}
+    \right)
+\right).
+\end{equation}
+By arranging the terms by $\w_l$ (and utilizing the symmetry of $l \neq k$), we have
+\begin{equation}
+\x_{k,n}^{1} = \x_{k,n} -
+\epsilon\sigma 
+\left( 
+    \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
+\right).
+\end{equation}
+Again, we check the principal entry of $\h$ after a one-step adversarial attack on $\x$.
+For any $k \in [K]$ and $l\neq k$, we have
+\begin{equation}
+\begin{aligned}
+&\relu\left(\left(\w_{k}\right)^{\top} \x^{1}_{k,n}\right) - 
+\relu\left(\left(\w_{l}\right)^{\top} \x^{1}_{k,n}\right)
+\\
+\geq& \log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left( 
+    \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
+\right)
+\\
+=&\log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left( 
+    \frac{K}{K-1} \w_k + O(\rho)
+\right) \\
+=& \log(K-1) + \log(\sigma^{-1} - 1) - 
+   \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\rho).
+\end{aligned}
+\end{equation}
+It can be observed that the training risk increases after the gradient step, which is due to the nature of the adversarial example.
+The updated training risk can be characterized by $\sigma^{\iter{T_0+1}}$ that satisfies
+\begin{equation}
+\log\left(\left(\tilde{\sigma}^{1}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) - 
+   \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\rho), 
+\end{equation}
+which can be simplified to
+\begin{equation}
+    \sigma^{1} = \left(\left(\sigma^{-1} - 1\right) 
+    \exp\left(
+        -\frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l
+        \right) 
+    + O(\rho)\right) + 1\right)^{-1}.
+\end{equation}
+We prove the lemma by induction.
+\end{proof}

@@ -153,13 +153,14 @@
 %\theoremseparator{\hspace{1em}}
 \theoremnumbering{arabic}
 %\theoremsymbol{} %定理结束时自动添加的标志
-\newtheorem{theorem}{\hspace{2em}定理}[section]
-\newtheorem{definition}{\hspace{2em}定义}[section]
-\newtheorem{lemma}{\hspace{2em}引理}[section]
-\newtheorem{corollary}{\hspace{2em}推论}[section]
-\newtheorem{proposition}{\hspace{2em}性质}[section]
-\newtheorem{example}{\hspace{2em}例}
-\newtheorem{remark}{\hspace{2em}注}
+\newtheorem{theorem}{\vspace{6pt}\noindent 定理}[chapter]
+\newtheorem{definition}{\vspace{6pt}\noindent 定义}[theorem]
+\newtheorem{lemma}{\vspace{6pt}\noindent 引理}[theorem]
+\newtheorem{corollary}{\vspace{6pt}\noindent 推论}[theorem]
+\newtheorem{proposition}{\vspace{6pt}\noindent 性质}[theorem]
+\newtheorem{example}{\vspace{6pt}\noindent 例}[chapter]
+\newtheorem{remark}{\vspace{6pt}\noindent 注}[chapter]
+\newtheorem{assumption}{\vspace{6pt}\noindent 假设}[theorem]
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\heiti}

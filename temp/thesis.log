@@ -1,74 +1,74 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.31)  11 JAN 2026 14:00
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.7.12)  11 JAN 2026 17:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**e:/hutou/projects/yanboc-thesis/thesis -aux-directory=e:/hutou/projects/yanboc-thesis/temp
-(e:/hutou/projects/yanboc-thesis/thesis.tex
-LaTeX2e <2024-11-01> patch level 1
-L3 programming layer <2024-12-09>
+**c:/coding/FLT/yanboc-thesis/thesis -aux-directory=c:/coding/FLT/yanboc-thesis/temp
+(c:/coding/FLT/yanboc-thesis/thesis.tex
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-05-27>
 (./WHUPhd.cls
 Document Class: WHUPhd 2015/11/07 4.0 Wuhan University Thesis Template for PHD -- TeX Live 2015 version
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/ctexbook.cls (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/config/ctexbackend.cfg
+(c:/software/texlive/2024/texmf-dist/tex/latex/ctex/ctexbook.cls (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/config/ctexbackend.cfg
 File: ctexbackend.cfg 2022/07/14 v2.5.10 Backend configuration file (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-12-09 L3 programming layer (loader) 
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+) (c:/software/texlive/2024/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2024-05-27 L3 programming layer (loader) 
+ (c:/software/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
-\g__graphics_track_int=\count192
+\g__graphics_track_int=\count190
 \l__pdf_internal_box=\box52
-\g__pdf_backend_annotation_int=\count193
-\g__pdf_backend_link_int=\count194
+\g__pdf_backend_annotation_int=\count191
+\g__pdf_backend_link_int=\count192
 ))
 Document Class: ctexbook 2022/07/14 v2.5.10 Chinese adapter for class book (CTEX)
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/ctexhook.sty
+(c:/software/texlive/2024/texmf-dist/tex/latex/ctex/ctexhook.sty
 Package: ctexhook 2022/07/14 v2.5.10 Document and package hooks (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/ctexpatch.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/ctexpatch.sty
 Package: ctexpatch 2022/07/14 v2.5.10 Patching commands (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/fix-cm.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/base/fix-cm.sty
 Package: fix-cm 2020/11/24 v1.1t fixes to LaTeX
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/ts1enc.def
+ (c:/software/texlive/2024/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
 ))
-\l__ctex_tmp_int=\count195
+\l__ctex_tmp_int=\count193
 \l__ctex_tmp_box=\box53
 \l__ctex_tmp_dim=\dimen141
-\g__ctex_section_depth_int=\count196
-\g__ctex_font_size_int=\count197
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/config/ctexopts.cfg
+\g__ctex_section_depth_int=\count194
+\g__ctex_font_size_int=\count195
+ (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/config/ctexopts.cfg
 File: ctexopts.cfg 2022/07/14 v2.5.10 Option configuration file (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/book.cls
-Document Class: book 2024/06/29 v1.4n Standard LaTeX document class
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/base/bk12.clo
-File: bk12.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
+) (c:/software/texlive/2024/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2024/02/08 v1.4n Standard LaTeX document class
+(c:/software/texlive/2024/texmf-dist/tex/latex/base/bk12.clo
+File: bk12.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count198
-\c@chapter=\count199
-\c@section=\count266
-\c@subsection=\count267
-\c@subsubsection=\count268
-\c@paragraph=\count269
-\c@subparagraph=\count270
-\c@figure=\count271
-\c@table=\count272
+\c@part=\count196
+\c@chapter=\count197
+\c@section=\count198
+\c@subsection=\count199
+\c@subsubsection=\count266
+\c@paragraph=\count267
+\c@subparagraph=\count268
+\c@figure=\count269
+\c@table=\count270
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen142
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/engine/ctex-engine-xetex.def
+) (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/engine/ctex-engine-xetex.def
 File: ctex-engine-xetex.def 2022/07/14 v2.5.10 XeLaTeX adapter (CTEX)
- (e:/hutou/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.sty
+ (c:/software/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.sty
 Package: xeCJK 2022/08/05 v3.9.1 Typesetting CJK scripts with XeLaTeX
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty
-Package: xtemplate 2024-08-16 L3 Experimental prototype document functions
+ (c:/software/texlive/2024/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty
+Package: xtemplate 2024-05-08 L3 Experimental prototype document functions
 )
-\l__xeCJK_tmp_int=\count273
+\l__xeCJK_tmp_int=\count271
 \l__xeCJK_tmp_box=\box54
 \l__xeCJK_tmp_dim=\dimen143
 \l__xeCJK_tmp_skip=\skip51
-\g__xeCJK_space_factor_int=\count274
-\l__xeCJK_begin_int=\count275
-\l__xeCJK_end_int=\count276
+\g__xeCJK_space_factor_int=\count272
+\l__xeCJK_begin_int=\count273
+\l__xeCJK_end_int=\count274
 \c__xeCJK_CJK_class_int=\XeTeXcharclass1
 \c__xeCJK_FullLeft_class_int=\XeTeXcharclass2
 \c__xeCJK_FullRight_class_int=\XeTeXcharclass3
@@ -78,8 +78,8 @@ Package: xtemplate 2024-08-16 L3 Experimental prototype document functions
 \c__xeCJK_CM_class_int=\XeTeXcharclass7
 \c__xeCJK_HangulJamo_class_int=\XeTeXcharclass8
 \l__xeCJK_last_skip=\skip52
-\c__xeCJK_none_node=\count277
-\g__xeCJK_node_int=\count278
+\c__xeCJK_none_node=\count275
+\g__xeCJK_node_int=\count276
 \c__xeCJK_CJK_node_dim=\dimen144
 \c__xeCJK_CJK-space_node_dim=\dimen145
 \c__xeCJK_default_node_dim=\dimen146
@@ -90,10 +90,10 @@ Package: xtemplate 2024-08-16 L3 Experimental prototype document functions
 \l__xeCJK_ecglue_skip=\skip55
 \l__xeCJK_punct_kern_skip=\skip56
 \l__xeCJK_indent_box=\box55
-\l__xeCJK_last_penalty_int=\count279
+\l__xeCJK_last_penalty_int=\count277
 \l__xeCJK_last_bound_dim=\dimen149
 \l__xeCJK_last_kern_dim=\dimen150
-\l__xeCJK_widow_penalty_int=\count280
+\l__xeCJK_widow_penalty_int=\count278
 
 LaTeX template Info: Declaring template type 'xeCJK/punctuation' taking 0
 (template)           argument(s) on line 2396.
@@ -117,55 +117,55 @@ LaTeX template Info: Declaring template type 'xeCJK/punctuation' taking 0
 \l__xeCJK_margin_dim=\dimen167
 \l__xeCJK_minimum_bound_dim=\dimen168
 \l__xeCJK_kerning_margin_dim=\dimen169
-\g__xeCJK_family_int=\count281
-\l__xeCJK_fam_int=\count282
-\g__xeCJK_fam_allocation_int=\count283
-\l__xeCJK_verb_case_int=\count284
+\g__xeCJK_family_int=\count279
+\l__xeCJK_fam_int=\count280
+\g__xeCJK_fam_allocation_int=\count281
+\l__xeCJK_verb_case_int=\count282
 \l__xeCJK_verb_exspace_skip=\skip57
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.sty (e:/hutou/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2024-08-16 L3 Experimental document command parser
+ (c:/software/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.sty (c:/software/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2024-05-08 L3 Experimental document command parser
 )
 Package: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
 Package: fontspec-xetex 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
-\l__fontspec_script_int=\count285
-\l__fontspec_language_int=\count286
-\l__fontspec_strnum_int=\count287
-\l__fontspec_tmp_int=\count288
-\l__fontspec_tmpa_int=\count289
-\l__fontspec_tmpb_int=\count290
-\l__fontspec_tmpc_int=\count291
-\l__fontspec_em_int=\count292
-\l__fontspec_emdef_int=\count293
-\l__fontspec_strong_int=\count294
-\l__fontspec_strongdef_int=\count295
+\l__fontspec_script_int=\count283
+\l__fontspec_language_int=\count284
+\l__fontspec_strnum_int=\count285
+\l__fontspec_tmp_int=\count286
+\l__fontspec_tmpa_int=\count287
+\l__fontspec_tmpb_int=\count288
+\l__fontspec_tmpc_int=\count289
+\l__fontspec_em_int=\count290
+\l__fontspec_emdef_int=\count291
+\l__fontspec_strong_int=\count292
+\l__fontspec_strongdef_int=\count293
 \l__fontspec_tmpa_dim=\dimen170
 \l__fontspec_tmpb_dim=\dimen171
 \l__fontspec_tmpc_dim=\dimen172
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/fontenc.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.cfg))) (e:/hutou/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.cfg
+) (c:/software/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.cfg))) (c:/software/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK.cfg
 File: xeCJK.cfg 2022/08/05 v3.9.1 Configuration file for xeCJK package
 ))
 \ccwd=\dimen173
 \l__ctex_ccglue_skip=\skip58
 )
 \l__ctex_ziju_dim=\dimen174
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber.sty
 Package: zhnumber 2022/07/14 v3.0 Typesetting numbers with Chinese glyphs
-\l__zhnum_scale_int=\count296
-\l__zhnum_tmp_int=\count297
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber-utf8.cfg
+\l__zhnum_scale_int=\count294
+\l__zhnum_tmp_int=\count295
+ (c:/software/texlive/2024/texmf-dist/tex/latex/zhnumber/zhnumber-utf8.cfg
 File: zhnumber-utf8.cfg 2022/07/14 v3.0 Chinese numerals with UTF8 encoding
 ))
 \l__ctex_heading_skip=\skip59
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/scheme/ctex-scheme-chinese-book.def
+ (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/scheme/ctex-scheme-chinese-book.def
 File: ctex-scheme-chinese-book.def 2022/07/14 v2.5.10 Chinese scheme for book (CTEX)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
+ (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
 File: ctex-name-utf8.cfg 2022/07/14 v2.5.10 Caption with encoding UTF-8 (CTEX)
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/ctex-cs4size.clo
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/ctex-cs4size.clo
 File: ctex-cs4size.clo 2022/07/14 v2.5.10 cs4size option (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-windows.def
+) (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-windows.def
 File: ctex-fontset-windows.def 2022/07/14 v2.5.10 Windows fonts definition (CTEX)
 
 Package fontspec Info: 
@@ -198,10 +198,10 @@ Package fontspec Info:
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
 (fontspec)             <->"KaiTi/OT:script=hani;language=dflt;"
 
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ctex/config/ctex.cfg
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/ctex/config/ctex.cfg
 File: ctex.cfg 2022/07/14 v2.5.10 Configuration file (CTEX)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-Package: fancyhdr 2024/12/09 v4.5 Extensive control of page headers and footers
+) (c:/software/texlive/2024/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2024/04/23 v4.2 Extensive control of page headers and footers
 \f@nch@headwidth=\skip60
 \f@nch@O@elh=\skip61
 \f@nch@O@erh=\skip62
@@ -211,58 +211,58 @@ Package: fancyhdr 2024/12/09 v4.5 Extensive control of page headers and footers
 \f@nch@O@erf=\skip66
 \f@nch@O@olf=\skip67
 \f@nch@O@orf=\skip68
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2024/12/12 v1.0g TeX engine tests
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/keyval.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-07-10 v7.01j Hypertext links for LaTeX
+ (c:/software/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+) (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (c:/software/texlive/2024/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+ (c:/software/texlive/2024/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+ (c:/software/texlive/2024/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode not found.
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/hycolor/hycolor.sty
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/hyperref/nameref.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/refcount/refcount.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+) (c:/software/texlive/2024/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count298
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+\c@section@level=\count296
+) (c:/software/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count299
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/stringenc/stringenc.sty
+\etb@tempcnta=\count297
+) (c:/software/texlive/2024/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
 \@linkdim=\dimen175
-\Hy@linkcounter=\count300
-\Hy@pagecounter=\count301
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/intcalc/intcalc.sty
+\Hy@linkcounter=\count298
+\Hy@pagecounter=\count299
+ (c:/software/texlive/2024/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-07-10 v7.01j Hyperref: PDFDocEncoding definition (HO)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count302
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+\Hy@SavedSpaceFactor=\count300
+ (c:/software/texlive/2024/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-07-10 v7.01j Hyperref: PDF Unicode definition (HO)
 )
 Package hyperref Info: Option `unicode' set `true' on input line 4040.
 Package hyperref Info: Hyper figures OFF on input line 4157.
@@ -272,19 +272,19 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count303
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/url/url.sty
+\c@Hy@tempcnt=\count301
+ (c:/software/texlive/2024/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
 \XeTeXLinkMargin=\dimen176
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/bitset/bitset.sty
+ (c:/software/texlive/2024/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+ (c:/software/texlive/2024/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count304
+\Fld@menulength=\count302
 \Field@Width=\dimen177
 \Fld@charsize=\dimen178
 Package hyperref Info: Hyper figures OFF on input line 6042.
@@ -294,67 +294,67 @@ Package hyperref Info: backreferencing OFF on input line 6057.
 Package hyperref Info: Link coloring OFF on input line 6062.
 Package hyperref Info: Link coloring with OCG OFF on input line 6067.
 Package hyperref Info: PDF/A mode OFF on input line 6072.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count305
-\c@Item=\count306
-\c@Hfootnote=\count307
+\Hy@abspage=\count303
+\c@Item=\count304
+\c@Hfootnote=\count305
 )
 Package hyperref Info: Driver (autodetected): hxetex.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/hyperref/hxetex.def
-File: hxetex.def 2024-11-05 v7.01l Hyperref driver for XeTeX
+ (c:/software/texlive/2024/texmf-dist/tex/latex/hyperref/hxetex.def
+File: hxetex.def 2024-07-10 v7.01j Hyperref driver for XeTeX
 \pdfm@box=\box56
-\c@Hy@AnnotLevel=\count308
-\HyField@AnnotCount=\count309
-\Fld@listcount=\count310
-\c@bookmark@seq@number=\count311
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+\c@Hy@AnnotLevel=\count306
+\HyField@AnnotCount=\count307
+\Fld@listcount=\count308
+\c@bookmark@seq@number=\count309
+ (c:/software/texlive/2024/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/base/atveryend-ltx.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+) (c:/software/texlive/2024/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip69
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2024/06/23 v1.3e Standard LaTeX Color (DPC)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
+) (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2024/01/14 v1.3d Standard LaTeX Color (DPC)
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: xetex.def on input line 149.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics-def/xetex.def
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics-def/xetex.def
 File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
+) (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (c:/software/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: xetex.def on input line 274.
-LaTeX Info: Redefining \color on input line 762.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
-Package xcolor Info: Model `RGB' extended on input line 1365.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+LaTeX Info: Redefining \color on input line 758.
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
+Package xcolor Info: Model `RGB' extended on input line 1366.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 32.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/geometry/geometry.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
+ (c:/software/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count312
-\Gm@cntv=\count313
-\c@Gm@tempcnt=\count314
+\Gm@cnth=\count310
+\Gm@cntv=\count311
+\c@Gm@tempcnt=\count312
 \Gm@bindingoffset=\dimen179
 \Gm@wd@mp=\dimen180
 \Gm@odd@mp=\dimen181
@@ -379,31 +379,31 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Esupervisor=\toks30
 \Csupervisor=\toks31
 \Schoolname=\toks32
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2024/11/05 v2.17t AMS math features
+ (c:/software/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/05/23 v2.17q AMS math features
 \@mathmargin=\skip70
 
 For additional information on amsmath, use the `?' option.
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/amsmath/amstext.sty
+(c:/software/texlive/2024/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsmath/amsgen.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks33
 \ex@=\dimen187
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen188
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count315
+\inf@bad=\count313
 LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count316
-\leftroot@=\count317
+\uproot@=\count314
+\leftroot@=\count315
 LaTeX Info: Redefining \overline on input line 398.
 LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count318
-\DOTSCASE@=\count319
+\classnum@=\count316
+\DOTSCASE@=\count317
 LaTeX Info: Redefining \ldots on input line 495.
 LaTeX Info: Redefining \dots on input line 498.
 LaTeX Info: Redefining \cdots on input line 619.
@@ -416,20 +416,20 @@ LaTeX Info: Redefining \Bigg on input line 724.
 \big@size=\dimen189
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count320
+\macc@depth=\count318
 LaTeX Info: Redefining \bmod on input line 904.
 LaTeX Info: Redefining \pmod on input line 909.
 LaTeX Info: Redefining \smash on input line 939.
 LaTeX Info: Redefining \relbar on input line 969.
 LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count321
+\c@MaxMatrixCols=\count319
 \dotsspace@=\muskip18
-\c@parentequation=\count322
-\dspbrk@lvl=\count323
+\c@parentequation=\count320
+\dspbrk@lvl=\count321
 \tag@help=\toks34
-\row@=\count324
-\column@=\count325
-\maxfields@=\count326
+\row@=\count322
+\column@=\count323
+\maxfields@=\count324
 \andhelp@=\toks35
 \eqnshift@=\dimen190
 \alignsep@=\dimen191
@@ -443,19 +443,19 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks37
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/ntheorem/ntheorem.sty
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/ntheorem/ntheorem.sty
 Style `ntheorem', Version 1.33 <2011/08/15>
 Package: ntheorem 2011/08/15 1.33
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/base/ifthen.sty
+(c:/software/texlive/2024/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
 \theorem@style=\toks38
@@ -489,60 +489,63 @@ Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 \thm@topsep=\skip79
 \thm@topsepadd=\skip80
 Package ntheorem Info: Option `thmmarks' loaded on input line 1175.
-\c@endNonectr=\count327
-\c@currNonectr=\count328
+\c@endNonectr=\count325
+\c@currNonectr=\count326
 \mysavskip=\skip81
 Package ntheorem Info: option `amsmath' handling for `thmmarks' loaded on input line 1175.
 \thm@amstmpdepth=\dimen256
 \tagwidth=\dimen257
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics/trig.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/05/23 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (c:/software/texlive/2024/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/software/texlive/2024/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 106.
 )
 \Gin@req@height=\dimen258
 \Gin@req@width=\dimen259
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/cite/cite.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/cite/cite.sty
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tools/enumerate.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tools/enumerate.sty
 Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
 \@enLab=\toks56
 )
-\c@currtheoremctr=\count329
-\c@endtheoremctr=\count330
-\c@theorem=\count331
-\c@currdefinitionctr=\count332
-\c@enddefinitionctr=\count333
-\c@definition=\count334
-\c@currlemmactr=\count335
-\c@endlemmactr=\count336
-\c@lemma=\count337
-\c@currcorollaryctr=\count338
-\c@endcorollaryctr=\count339
-\c@corollary=\count340
-\c@currpropositionctr=\count341
-\c@endpropositionctr=\count342
-\c@proposition=\count343
-\c@currexamplectr=\count344
-\c@endexamplectr=\count345
-\c@example=\count346
-\c@currremarkctr=\count347
-\c@endremarkctr=\count348
-\c@remark=\count349
-\c@currproofctr=\count350
-\c@endproofctr=\count351
-\c@proof=\count352
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/caption/caption.sty
+\c@currtheoremctr=\count327
+\c@endtheoremctr=\count328
+\c@theorem=\count329
+\c@currdefinitionctr=\count330
+\c@enddefinitionctr=\count331
+\c@definition=\count332
+\c@currlemmactr=\count333
+\c@endlemmactr=\count334
+\c@lemma=\count335
+\c@currcorollaryctr=\count336
+\c@endcorollaryctr=\count337
+\c@corollary=\count338
+\c@currpropositionctr=\count339
+\c@endpropositionctr=\count340
+\c@proposition=\count341
+\c@currexamplectr=\count342
+\c@endexamplectr=\count343
+\c@example=\count344
+\c@currremarkctr=\count345
+\c@endremarkctr=\count346
+\c@remark=\count347
+\c@currassumptionctr=\count348
+\c@endassumptionctr=\count349
+\c@assumption=\count350
+\c@currproofctr=\count351
+\c@endproofctr=\count352
+\c@proof=\count353
+ (c:/software/texlive/2024/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@tempdima=\dimen260
 \captionmargin=\dimen261
@@ -554,34 +557,34 @@ Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@hangindent=\dimen267
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count353
-\c@continuedfloat=\count354
+\c@caption@flags=\count354
+\c@continuedfloat=\count355
 Package caption Info: hyperref package is loaded.
-)) (./settings.tex (e:/hutou/texlive/2024/texmf-dist/tex/latex/float/float.sty
+)) (./settings.tex (c:/software/texlive/2024/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count355
+\c@float@type=\count356
 \float@exts=\toks57
 \float@box=\box59
 \@float@everytoks=\toks58
 \@floatcapt=\box60
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
-Package: tcolorbox 2024/10/22 version 6.4.1 text color boxes
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2024/07/10 version 6.3.0 text color boxes
+ (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks59
 \pgfutil@tempdima=\dimen268
 \pgfutil@tempdimb=\dimen269
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box61
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
 Package: pgf 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks60
 \pgfkeys@temptoks=\toks61
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks62
 ))
 \pgf@x=\dimen270
@@ -596,44 +599,44 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yd=\dimen279
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count356
-\c@pgf@countb=\count357
-\c@pgf@countc=\count358
-\c@pgf@countd=\count359
+\c@pgf@counta=\count357
+\c@pgf@countb=\count358
+\c@pgf@countc=\count359
+\c@pgf@countd=\count360
 \t@pgf@toka=\toks63
 \t@pgf@tokb=\toks64
 \t@pgf@tokc=\toks65
-\pgf@sys@id@count=\count360
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+\pgf@sys@id@count=\count361
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
 Driver file for pgf: pgfsys-xetex.def
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.def
 File: pgfsys-xetex.def 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
 File: pgfsys-dvipdfmx.def 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 )
-\pgfsys@objnum=\count361
-))) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+\pgfsys@objnum=\count362
+))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count362
-\pgfsyssoftpath@bigbuffer@items=\count363
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+\pgfsyssoftpath@smallbuffer@items=\count363
+\pgfsyssoftpath@bigbuffer@items=\count364
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen280
-\pgfmath@count=\count364
+\pgfmath@count=\count365
 \pgfmath@box=\box62
 \pgfmath@toks=\toks66
 \pgfmath@stack@operand=\toks67
 \pgfmath@stack@operation=\toks68
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count365
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count366
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@picminx=\dimen281
 \pgf@picmaxx=\dimen282
@@ -649,77 +652,77 @@ File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yy=\dimen292
 \pgf@zx=\dimen293
 \pgf@zy=\dimen294
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@path@lastx=\dimen295
 \pgf@path@lasty=\dimen296
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@shorten@end@additional=\dimen297
 \pgf@shorten@start@additional=\dimen298
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box63
 \pgf@hbox=\box64
 \pgf@layerbox@main=\box65
-\pgf@picture@serial@count=\count366
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+\pgf@picture@serial@count=\count367
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgflinewidth=\dimen299
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@pt@x=\dimen300
 \pgf@pt@y=\dimen301
 \pgf@pt@temp=\dimen302
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfarrowsep=\dimen303
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen304
-\pgf@sys@shading@range@num=\count367
-\pgf@shadingcount=\count368
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+\pgf@sys@shading@range@num=\count368
+\pgf@shadingcount=\count369
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfexternal@startupbox=\box66
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfnodeparttextbox=\box67
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
 \pgf@nodesepstart=\dimen305
 \pgf@nodesepend=\dimen306
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/pgf/math/pgfmath.sty (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen307
 \pgffor@skip=\dimen308
 \pgffor@stack=\toks69
 \pgffor@toks=\toks70
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count369
+\pgf@plot@mark@count=\count370
 \pgfplotmarksize=\dimen309
 )
 \tikz@lastx=\dimen310
@@ -734,62 +737,62 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@figbox@bg=\box69
 \tikz@tempbox=\box70
 \tikz@tempbox@bg=\box71
-\tikztreelevel=\count370
-\tikznumberofchildren=\count371
-\tikznumberofcurrentchild=\count372
-\tikz@fig@count=\count373
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+\tikztreelevel=\count371
+\tikznumberofchildren=\count372
+\tikznumberofcurrentchild=\count373
+\tikz@fig@count=\count374
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count374
-\pgfmatrixcurrentcolumn=\count375
-\pgf@matrix@numberofcolumns=\count376
+\pgfmatrixcurrentrow=\count375
+\pgfmatrixcurrentcolumn=\count376
+\pgf@matrix@numberofcolumns=\count377
 )
-\tikz@expandcount=\count377
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+\tikz@expandcount=\count378
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tools/verbatim.sty
+))) (c:/software/texlive/2024/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks71
 \verbatim@line=\toks72
 \verbatim@in@stream=\read3
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/environ/environ.sty
+) (c:/software/texlive/2024/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
 \tcb@titlebox=\box72
 \tcb@upperbox=\box73
 \tcb@lowerbox=\box74
 \tcb@phantombox=\box75
-\c@tcbbreakpart=\count378
-\c@tcblayer=\count379
-\c@tcolorbox@number=\count380
+\c@tcbbreakpart=\count379
+\c@tcblayer=\count380
+\c@tcolorbox@number=\count381
 \l__tcobox_tmpa_box=\box76
 \l__tcobox_tmpa_dim=\dimen318
 \tcb@temp=\box77
 \tcb@temp=\box78
 \tcb@temp=\box79
 \tcb@temp=\box80
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
-Library (tcolorbox): 'tcbraster.code.tex' version '6.4.1'
-\c@tcbrastercolumn=\count381
-\c@tcbrasterrow=\count382
-\c@tcbrasternum=\count383
-\c@tcbraster=\count384
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
-Library (tcolorbox): 'tcbskins.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzfill.image.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
+Library (tcolorbox): 'tcbraster.code.tex' version '6.3.0'
+\c@tcbrastercolumn=\count382
+\c@tcbrasterrow=\count383
+\c@tcbrasternum=\count384
+\c@tcbraster=\count385
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
+Library (tcolorbox): 'tcbskins.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzfill.image.sty
 Package: tikzfill.image 2023/08/08 v1.0.1 Image filling library for TikZ
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzfill-common.sty
+ (c:/software/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzfill-common.sty
 Package: tikzfill-common 2023/08/08 v1.0.1 Auxiliary code for tikzfill
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzlibraryfill.image.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tikzfill/tikzlibraryfill.image.code.tex
 File: tikzlibraryfill.image.code.tex 2023/08/08 v1.0.1 Image filling library
 \l__tikzfill_img_box=\box81
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
-Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '6.4.1'
-)) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
-Library (tcolorbox): 'tcbbreakable.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/pdfcol/pdfcol.sty
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
+Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '6.3.0'
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/latex/pdfcol/pdfcol.sty
 Package: pdfcol 2022-09-21 v1.7 Handle new color stacks for pdfTeX (HO)
 Package pdfcol Info: Interface disabled because of missing PDF mode of pdfTeX.
 )
@@ -797,108 +800,219 @@ Package pdfcol Info: pdfTeX's color stacks are not available.
 \tcb@testbox=\box82
 \tcb@totalupperbox=\box83
 \tcb@totallowerbox=\box84
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
-Library (tcolorbox): 'tcbhooks.code.tex' version '6.4.1'
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
-Library (tcolorbox): 'tcbtheorems.code.tex' version '6.4.1'
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
-Library (tcolorbox): 'tcbfitting.code.tex' version '6.4.1'
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
+Library (tcolorbox): 'tcbhooks.code.tex' version '6.3.0'
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
+Library (tcolorbox): 'tcbtheorems.code.tex' version '6.3.0'
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
+Library (tcolorbox): 'tcbfitting.code.tex' version '6.3.0'
 \tcbfitdim=\dimen319
 \tcb@lowerfitdim=\dimen320
 \tcb@upperfitdim=\dimen321
-\tcb@cur@hbadness=\count385
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
-Library (tcolorbox): 'tcblistingsutf8.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
-Library (tcolorbox): 'tcblistings.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count386
+\tcb@cur@hbadness=\count386
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
+Library (tcolorbox): 'tcblistingsutf8.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
+Library (tcolorbox): 'tcblistings.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count387
 \lst@gtempboxa=\box85
 \lst@token=\toks73
-\lst@length=\count387
+\lst@length=\count388
 \lst@currlwidth=\dimen322
-\lst@column=\count388
-\lst@pos=\count389
+\lst@column=\count389
+\lst@pos=\count390
 \lst@lostspace=\dimen323
 \lst@width=\dimen324
-\lst@newlines=\count390
-\lst@lineno=\count391
+\lst@newlines=\count391
+\lst@lineno=\count392
 \lst@maxwidth=\dimen325
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/listings/lstpatch.sty
-File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count392
-\lst@skipnumbers=\count393
+ (c:/software/texlive/2024/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/05/25 1.10b (Carsten Heinz)
+) (c:/software/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/05/25 1.10b (Carsten Heinz)
+\c@lstnumber=\count393
+\lst@skipnumbers=\count394
 \lst@framebox=\box86
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2024/09/23 1.10c listings configuration
+) (c:/software/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/05/25 1.10b listings configuration
 ))
-Package: listings 2024/09/23 1.10c (Carsten Heinz)
- (e:/hutou/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK-listings.sty
+Package: listings 2024/05/25 1.10b (Carsten Heinz)
+ (c:/software/texlive/2024/texmf-dist/tex/xelatex/xecjk/xeCJK-listings.sty
 Package: xeCJK-listings 2022/08/05 v3.9.1 xeCJK patch file for listings
-\l__xeCJK_listings_max_char_int=\count394
-\l__xeCJK_listings_flag_int=\count395
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistingscore.code.tex
-Library (tcolorbox): 'tcblistingscore.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbprocessing.code.tex
-Library (tcolorbox): 'tcbprocessing.code.tex' version '6.4.1'
+\l__xeCJK_listings_max_char_int=\count395
+\l__xeCJK_listings_flag_int=\count396
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcblistingscore.code.tex
+Library (tcolorbox): 'tcblistingscore.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbprocessing.code.tex
+Library (tcolorbox): 'tcbprocessing.code.tex' version '6.3.0'
 )
-\c@tcblisting=\count396
+\c@tcblisting=\count397
 ))
 Package tcolorbox Info: Library `listingsutf8' is compatible with pdftex only. Library `listings` is loaded instead. on input line 29.
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
-Library (tcolorbox): 'tcbexternal.code.tex' version '6.4.1'
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
-Library (tcolorbox): 'tcbmagazine.code.tex' version '6.4.1'
-) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbvignette.code.tex
-Library (tcolorbox): 'tcbvignette.code.tex' version '6.4.1'
-(e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfadings.code.tex
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
+Library (tcolorbox): 'tcbexternal.code.tex' version '6.3.0'
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
+Library (tcolorbox): 'tcbmagazine.code.tex' version '6.3.0'
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbvignette.code.tex
+Library (tcolorbox): 'tcbvignette.code.tex' version '6.3.0'
+(c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfadings.code.tex
 File: tikzlibraryfadings.code.tex 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
 File: pgflibraryfadings.code.tex 2023-01-15 v3.1.10 (3.1.10)
-))) (e:/hutou/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
-Library (tcolorbox): 'tcbposter.code.tex' version '6.4.1'
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
-File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.geometric.code.tex
-File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
-File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
- (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
-File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\arrowsize=\dimen326
-)) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
-File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfit.code.tex
-File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
-) (e:/hutou/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
-File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/software/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
+Library (tcolorbox): 'tcbposter.code.tex' version '6.3.0'
+)) (c:/software/texlive/2024/texmf-dist/tex/latex/pgfplots/pgfplots.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+\t@pgfplots@toka=\toks74
+\t@pgfplots@tokb=\toks75
+\t@pgfplots@tokc=\toks76
+\pgfplots@tmpa=\dimen326
+\c@pgfplots@coordindex=\count398
+\c@pgfplots@scanlineindex=\count399
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_loader.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex)
+Package pgfplots: loading complementary utilities for your pgf version...
+\t@pgf@toka=\toks77
+\t@pgf@tokb=\toks78
+\t@pgf@tokc=\toks79
+(c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplotsoldpgfsupp_pgfutil-common-lists.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsliststructure.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsliststructureext.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsarray.code.tex
+\c@pgfplotsarray@tmp=\count400
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsmatrix.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstableshared.code.tex
+\c@pgfplotstable@counta=\count401
+\t@pgfplotstable@a=\toks80
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/liststructure/pgfplotsdeque.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.data.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count402
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surfshading.pgfsys-xetex.def (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots.surfshading.pgfsys-dvipdfmx.def
+\c@pgfplotslibrarysurf@streamlen=\count403
+)))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandler.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.code.tex))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessing.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.tex) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduledecorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen327
+\pgfdecoratedremainingdistance=\dimen328
+\pgfdecoratedinputsegmentcompleteddistance=\dimen329
+\pgfdecoratedinputsegmentremainingdistance=\dimen330
+\pgf@decorate@distancetomove=\dimen331
+\pgf@decorate@repeatstate=\count404
+\pgfdecorationsegmentamplitude=\dimen332
+\pgfdecorationsegmentlength=\dimen333
 )
-\pgf@layerbox@bg1=\box87
-\pgf@layerboxsaved@bg1=\box88
-\pgf@layerbox@bg2=\box89
-\pgf@layerboxsaved@bg2=\box90
-\pgf@layerbox@bg3=\box91
-\pgf@layerboxsaved@bg3=\box92
-\pgf@layerbox@fg1=\box93
-\pgf@layerboxsaved@fg1=\box94
-\pgf@layerbox@fg2=\box95
-\pgf@layerboxsaved@fg2=\box96
-\pgf@layerbox@fg3=\box97
-\pgf@layerboxsaved@fg3=\box98
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/titlesec/titlesec.sty
+\tikz@lib@dec@box=\box87
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.pathmorphing.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.pathmorphing.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.pathreplacing.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrarydecorations.pathreplacing.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.contourlua.code.tex)
+\pgfplots@numplots=\count405
+\pgfplots@xmin@reg=\dimen334
+\pgfplots@xmax@reg=\dimen335
+\pgfplots@ymin@reg=\dimen336
+\pgfplots@ymax@reg=\dimen337
+\pgfplots@zmin@reg=\dimen338
+\pgfplots@zmax@reg=\dimen339
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/software/texlive/2024/texmf-dist/tex/latex/tikz-3dplot/tikz-3dplot.sty (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary3d.code.tex
+File: tikzlibrary3d.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
+File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\arrowsize=\dimen340
+))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfit.code.tex
+File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.code.tex
+File: tikzlibraryshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.misc.code.tex
+File: tikzlibraryshapes.misc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.misc.code.tex
+File: pgflibraryshapes.misc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.symbols.code.tex
+File: tikzlibraryshapes.symbols.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.symbols.code.tex
+File: pgflibraryshapes.symbols.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.arrows.code.tex
+File: tikzlibraryshapes.arrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.arrows.code.tex
+File: pgflibraryshapes.arrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.callouts.code.tex (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.callouts.code.tex)) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+ (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodepartlowerbox=\box88
+\pgfnodeparttwobox=\box89
+\pgfnodepartthreebox=\box90
+\pgfnodepartfourbox=\box91
+\pgfnodeparttwentybox=\box92
+\pgfnodepartnineteenbox=\box93
+\pgfnodeparteighteenbox=\box94
+\pgfnodepartseventeenbox=\box95
+\pgfnodepartsixteenbox=\box96
+\pgfnodepartfifteenbox=\box97
+\pgfnodepartfourteenbox=\box98
+\pgfnodepartthirteenbox=\box99
+\pgfnodeparttwelvebox=\box100
+\pgfnodepartelevenbox=\box101
+\pgfnodeparttenbox=\box102
+\pgfnodepartninebox=\box103
+\pgfnodeparteightbox=\box104
+\pgfnodepartsevenbox=\box105
+\pgfnodepartsixbox=\box106
+\pgfnodepartfivebox=\box107
+))) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@layerbox@background=\box108
+\pgf@layerboxsaved@background=\box109
+) (c:/software/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarymatrix.code.tex
+File: tikzlibrarymatrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+\pgf@layerbox@bg1=\box110
+\pgf@layerboxsaved@bg1=\box111
+\pgf@layerbox@bg2=\box112
+\pgf@layerboxsaved@bg2=\box113
+\pgf@layerbox@bg3=\box114
+\pgf@layerboxsaved@bg3=\box115
+\pgf@layerbox@fg1=\box116
+\pgf@layerboxsaved@fg1=\box117
+\pgf@layerbox@fg2=\box118
+\pgf@layerboxsaved@fg2=\box119
+\pgf@layerbox@fg3=\box120
+\pgf@layerboxsaved@fg3=\box121
+ (c:/software/texlive/2024/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2023/10/27 v2.16 Sectioning titles
-\ttl@box=\box99
+\ttl@box=\box122
 \beforetitleunit=\skip82
 \aftertitleunit=\skip83
-\ttl@plus=\dimen327
-\ttl@minus=\dimen328
-\ttl@toksa=\toks74
-\titlewidth=\dimen329
-\titlewidthlast=\dimen330
-\titlewidthfirst=\dimen331
-)) (e:/hutou/projects/yanboc-thesis/temp/thesis.aux)
+\ttl@plus=\dimen341
+\ttl@minus=\dimen342
+\ttl@toksa=\toks81
+\titlewidth=\dimen343
+\titlewidthlast=\dimen344
+\titlewidthfirst=\dimen345
+) (c:/software/texlive/2024/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2023/12/19 v1.2f Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+Package bm Info: No bold for \U/msa/m/n, using \pmb.
+Package bm Info: No bold for \U/msb/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+) (c:/software/texlive/2024/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count406
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count407
+)) (c:/coding/FLT/yanboc-thesis/temp/thesis.aux
+
+LaTeX Warning: Label `sec-conclusion' multiply defined.
+
+)
 \openout1 = `thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
@@ -926,7 +1040,7 @@ Package fontspec Info:
 (fontspec)             Adjusting the maths setup (use [no-math] to avoid
 (fontspec)             this).
 
-\symlegacymaths=\mathgroup6
+\symlegacymaths=\mathgroup9
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
 (Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 5.
 LaTeX Font Info:    Redeclaring math accent \acute on input line 5.
@@ -979,7 +1093,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 5.
 Package hyperref Info: Link coloring ON on input line 5.
- (e:/hutou/projects/yanboc-thesis/temp/thesis.out) (e:/hutou/projects/yanboc-thesis/temp/thesis.out)
+ (c:/coding/FLT/yanboc-thesis/temp/thesis.out) (c:/coding/FLT/yanboc-thesis/temp/thesis.out)
 \@outlinefile=\write4
 \openout4 = `thesis.out'.
 
@@ -1021,8 +1135,10 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count397
-(e:/hutou/texlive/2024/texmf-dist/tex/generic/stringenc/se-ascii-print.def
+\c@lstlisting=\count408
+Package pgfplots notification 'compat/show suggested version=true': document has been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
+
+(c:/software/texlive/2024/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
 
@@ -1052,11 +1168,11 @@ Package fontspec Info:
 (fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 29.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (c:/software/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 29.
- (e:/hutou/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (c:/software/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
@@ -1148,8 +1264,8 @@ Package fontspec Info:
 [2
 
 ] (./includefile/frontmatter.tex
-File: figures/whulogo.png Graphic file (type bmp)
-<figures/whulogo.png>
+File: figures/whu.png Graphic file (type bmp)
+<figures/whu.png>
 
 
 [3]
@@ -1174,30 +1290,34 @@ File: figures/whulogo.png Graphic file (type bmp)
 
 [10
 
-]) (e:/hutou/projects/yanboc-thesis/temp/thesis.toc
+]) (c:/coding/FLT/yanboc-thesis/temp/thesis.toc
 
 [1
 
 
-])
+]
+
+[2])
 \tf@toc=\write5
 \openout5 = `thesis.toc'.
 
 
 
-[2] (./includefile/midmatter.tex
-
-[3
-
-]
+[3] (./includefile/midmatter.tex
 
 [4
 
-])
+]
 
 [5]
 
 [6
+
+])
+
+[7]
+
+[8
 
 ] (./chapters/chap1.tex
 第一章
@@ -1212,14 +1332,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [2]
 
-[3] (./figures/learning-theory-taxonomy.tex)
+[3] (./figures/tikz/learning-theory-taxonomy.tex)
 
 [4]
 Underfull \vbox (badness 2818) has occurred while \output is active []
 
 
 
-[5] (./figures/research_roadmap.tex)
+[5] (./figures/tikz/research_roadmap.tex)
 
 [6]) (./chapters/chap2.tex
 
@@ -1248,20 +1368,12 @@ LaTeX Warning: Citation `nc' on page 11 undefined on input line 5.
 [11
 
 ]
-File: figures/simplex_compression.png Graphic file (type bmp)
-<figures/simplex_compression.png>
+File: figures/nc_main/simplex_compression.png Graphic file (type bmp)
+<figures/nc_main/simplex_compression.png>
 
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
 
 LaTeX Warning: Reference `eq-simplex-norm' on page 12 undefined on input line 22.
 
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no ， (U+FF0C) in font [lmroman10-regular]:mapping=tex-text;!
 
 LaTeX Warning: Reference `eq-simplex-norm' on page 12 undefined on input line 22.
 
@@ -1298,10 +1410,6 @@ LaTeX Warning: Citation `he2016deep' on page 15 undefined on input line 117.
 
 
 LaTeX Warning: Citation `wrn' on page 15 undefined on input line 117.
-
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 120.
 
 
 LaTeX Warning: Citation `DBLP:conf/iclr/MadryMSTV18' on page 15 undefined on input line 125.
@@ -1346,167 +1454,2113 @@ LaTeX Warning: Citation `eat' on page 15 undefined on input line 128.
 LaTeX Warning: Citation `DBLP:conf/icml/WangPDL0Y23' on page 15 undefined on input line 128.
 
 
-LaTeX Warning: Citation `DBLP:conf/iclr/MadryMSTV18' on page 15 undefined on input line 131.
+LaTeX Warning: Citation `pytorch' on page 15 undefined on input line 136.
 
 
-LaTeX Warning: Citation `trades' on page 15 undefined on input line 131.
+LaTeX Warning: Citation `fat' on page 15 undefined on input line 136.
 
 
-LaTeX Warning: Citation `mart' on page 15 undefined on input line 131.
+LaTeX Warning: Citation `trades' on page 15 undefined on input line 136.
 
 
-LaTeX Warning: Citation `robnc' on page 15 undefined on input line 132.
+LaTeX Warning: Citation `mart' on page 15 undefined on input line 136.
 
 
-LaTeX Warning: Citation `wat' on page 15 undefined on input line 132.
+LaTeX Warning: Citation `DBLP:conf/iclr/MadryMSTV18' on page 15 undefined on input line 136.
 
 
-LaTeX Warning: Citation `eat' on page 15 undefined on input line 132.
+LaTeX Warning: Citation `robnc' on page 15 undefined on input line 149.
 
 
-LaTeX Warning: Citation `fat' on page 15 undefined on input line 134.
+LaTeX Warning: Citation `nc' on page 15 undefined on input line 149.
 
-
-LaTeX Warning: Citation `mart' on page 15 undefined on input line 134.
-
-
-LaTeX Warning: Citation `trades' on page 15 undefined on input line 134.
-
-
-LaTeX Warning: Citation `eat' on page 15 undefined on input line 134.
-
-
-LaTeX Warning: Citation `DBLP:conf/icml/WangPDL0Y23' on page 15 undefined on input line 134.
-
-
-LaTeX Warning: Citation `pytorch' on page 15 undefined on input line 137.
-
-
-LaTeX Warning: Citation `fat' on page 15 undefined on input line 139.
-
-
-LaTeX Warning: Citation `trades' on page 15 undefined on input line 139.
-
-
-LaTeX Warning: Citation `mart' on page 15 undefined on input line 139.
-
-
-LaTeX Warning: Citation `DBLP:conf/iclr/MadryMSTV18' on page 15 undefined on input line 139.
-
+File: figures/nc_main/nc-1.png Graphic file (type bmp)
+<figures/nc_main/nc-1.png>
 
 
 [15]
 
-LaTeX Warning: Citation `robnc' on page 16 undefined on input line 145.
+LaTeX Warning: Reference `fig:Simplex Collapse' on page 16 undefined on input line 181.
 
 
-LaTeX Warning: Citation `nc' on page 16 undefined on input line 145.
+LaTeX Warning: Reference `eq:advsample' on page 16 undefined on input line 209.
 
-File: figures/nc-1.png Graphic file (type bmp)
-<figures/nc-1.png>
 
 
 [16]
+File: figures/nc_main/pgd.png Graphic file (type bmp)
+<figures/nc_main/pgd.png>
+File: figures/nc_main/sample.png Graphic file (type bmp)
+<figures/nc_main/sample.png>
 
-LaTeX Warning: Reference `fig:Simplex Collapse' on page 17 undefined on input line 163.
-
-
-LaTeX Warning: Reference `eq:advsample' on page 17 undefined on input line 178.
-
-File: figures/pgd.png Graphic file (type bmp)
-<figures/pgd.png>
-
-Overfull \hbox (9.2649pt too wide) in paragraph at lines 180--192
-\TU/lmr/m/n/12.045 tions. For the $\OML/cmm/m/it/12.045 L[]$ \TU/lmr/m/n/12.045 norm, perturbation radius are set to $\OML/cmm/m/it/12.045 ^^O \OT1/cmr/m/n/12.045 = []$\TU/lmr/m/n/12.045 ,
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [17]
-File: figures/sample.png Graphic file (type bmp)
-<figures/sample.png>
-) (./chapters/chap4.tex
+
+LaTeX Warning: Reference `subsec-preliminaries' on page 18 undefined on input line 269.
+
+
 
 [18]
+Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 347.
+
 
 [19]
 
-[20
+LaTeX Warning: Citation `DBLP:conf/iclr/MadryMSTV18' on page 20 undefined on input line 509.
 
-]
-第四章
-) (./chapters/chap5.tex
+
+LaTeX Warning: Reference `eq-def-adversarial-risk' on page 20 undefined on input line 510.
+
+
+LaTeX Warning: Reference `eq-def-GD-AT-in-paper,eq-def-GD-in-paper' on page 20 undefined on input line 544.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 554.
+
+
+
+[20]
+
+LaTeX Warning: Reference `sec-related-work' on page 21 undefined on input line 585.
+
+Package hyperref Info: bookmark level for unknown assumption defaults to 0 on input line 593.
+
+LaTeX Warning: Reference `eq-def-assumption-TPT-k,eq-def-assumption-TPT-k1-k2' on page 21 undefined on input line 606.
+
+Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 613.
+
 
 [21]
 
-[22
+LaTeX Warning: Reference `eq-def-GD-AT-in-paper,eq-def-GD-in-paper' on page 22 undefined on input line 629.
+
+Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 657.
+
+
+[22]
+File: figures/nc_main/intuition.png Graphic file (type bmp)
+<figures/nc_main/intuition.png>
+
+
+LaTeX Warning: Citation `DBLP:conf/cvpr/ZhongCY0QZJ23' on page 23 undefined on input line 698.
+
+
+LaTeX Warning: Citation `DBLP:conf/iccv/0001SHLW23' on page 23 undefined on input line 698.
+
+
+LaTeX Warning: Citation `DBLP:conf/icassp/ZhangCJZG24' on page 23 undefined on input line 698.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/AmmarBPMF24' on page 23 undefined on input line 698.
+
+
+LaTeX Warning: Citation `DBLP:conf/icml/0003HNH24' on page 23 undefined on input line 698.
+
+
+
+[23]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 716.
+
+
+
+[24]
+
+LaTeX Warning: Reference `theorem-NC2,theorem-simplex-compression' on page 25 undefined on input line 725.
+
+
+LaTeX Warning: Reference `lemma-TPT-AT,lemma-TPT-clean' on page 25 undefined on input line 725.
+
+
+LaTeX Warning: Reference `assumption-tpt' on page 25 undefined on input line 725.
+
+
+LaTeX Warning: Reference `assumption-NC3' on page 25 undefined on input line 725.
+
+
+LaTeX Warning: Reference `lemma-TPT-AT,lemma-TPT-clean' on page 25 undefined on input line 726.
+
+
+LaTeX Warning: Reference `assumption-tpt' on page 25 undefined on input line 731.
+
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 748.
+
+LaTeX Warning: Reference `assumption-tpt' on page 25 undefined on input line 749.
+
+
+Overfull \hbox (60.05733pt too wide) detected at line 755
+\OML/cmm/b/it/12.045 h[]\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 x[]\OT1/cmr/m/n/12.045 ) \OMS/cmsy/m/n/12.045 ^^@ \OML/cmm/b/it/12.045 h[]\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 x[]\OT1/cmr/m/n/12.045 ) = [] [] \OMS/cmsy/m/n/12.045 ^^@ [] [] \OT1/cmr/m/n/12.045 = [](\OML/cmm/m/it/12.045 K \OMS/cmsy/m/n/12.045 ^^@ \OT1/cmr/m/n/12.045 1) + [](\OML/cmm/m/it/12.045 ^^[[] \OMS/cmsy/m/n/12.045 ^^@ \OT1/cmr/m/n/12.045 1)
+ []
+
+Package hyperref Info: bookmark level for unknown proof defaults to 0 on input line 760.
+
+LaTeX Warning: Reference `assumption-tpt' on page 25 undefined on input line 760.
+
+
+Overfull \hbox (207.40761pt too wide) detected at line 787
+[][]
+ []
+
+
+
+[25]
+
+LaTeX Warning: Reference `eq-nabla-h-R-Whb-Jacobian-h-wl' on page 26 undefined on input line 825.
+
+
+Overfull \hbox (38.12505pt too wide) detected at line 838
+[][]
+ []
+
+
+Overfull \hbox (113.5696pt too wide) detected at line 865
+[][]
+ []
+
+
+Overfull \hbox (106.36292pt too wide) detected at line 922
+[][]
+ []
+
+
+
+[26]
+Overfull \hbox (127.70274pt too wide) detected at line 990
+\OML/cmm/b/it/12.045 h[]\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 x[]\OT1/cmr/m/n/12.045 ) = [][] \OML/cmm/b/it/12.045 x[] \OT1/cmr/m/n/12.045 = [][] \OML/cmm/b/it/12.045 x[] \OMS/cmsy/m/n/12.045 ^^@ [] [] [] \OML/cmm/m/it/12.045 :
+ []
+
+
+Overfull \hbox (12.99176pt too wide) detected at line 1009
+[][]
+ []
+
+
+Overfull \hbox (241.25917pt too wide) detected at line 1049
+[][]
+ []
+
+
+Overfull \hbox (33.76508pt too wide) detected at line 1067
+[][]
+ []
+
+
+
+[27]
+Overfull \hbox (171.43428pt too wide) detected at line 1091
+[][]
+ []
+
+
+LaTeX Warning: Reference `eq-def-update-h-T0-bound-k=l-geq,eq-def-update-h-T0-bound-k=l-leq,eq-def-update-h-T0-bound-k-neq-l-geq,eq-def-update-h-T0-bound-k-neq-l-leq' on page 28 undefined on input line 1092.
+
+
+Overfull \hbox (139.51677pt too wide) detected at line 1111
+[]
+ []
+
+
+Overfull \hbox (289.44218pt too wide) detected at line 1135
+[]
+ []
+
+
+Overfull \hbox (102.15222pt too wide) detected at line 1156
+[] [] \OMS/cmsy/m/n/12.045 ^^@ [] [] ^^T []\OT1/cmr/m/n/12.045 (\OML/cmm/m/it/12.045 K \OMS/cmsy/m/n/12.045 ^^@ \OT1/cmr/m/n/12.045 1) + [](\OML/cmm/m/it/12.045 ^^[[] \OMS/cmsy/m/n/12.045 ^^@ \OT1/cmr/m/n/12.045 1) + [](1 + \OML/cmm/m/it/12.045 ^^Z\OT1/cmr/m/n/12.045 )[] + \OML/cmm/m/it/12.045 O\OT1/cmr/m/n/12.045 (\OML/cmm/m/it/12.045 ^^Z\OT1/cmr/m/n/12.045 )\OML/cmm/m/it/12.045 :
+ []
+
+
+
+[28]
+
+LaTeX Warning: Reference `eq-def-assumption-TPT-k-general-t-in-lemma,eq-def-assumption-TPT-k1-k2-general-t-in-lemma' on page 29 undefined on input line 1170.
+
+
+LaTeX Warning: Reference `eq-def-update-h-T0-bound-k=l-geq,eq-def-update-h-T0-bound-k=l-leq,eq-def-update-h-T0-bound-k-neq-l-geq,eq-def-update-h-T0-bound-k-neq-l-leq' on page 29 undefined on input line 1172.
+
+
+LaTeX Warning: Reference `eq-def-assumption-TPT-k-general-t-in-lemma,eq-def-assumption-TPT-k1-k2-general-t-in-lemma' on page 29 undefined on input line 1173.
+
+
+Overfull \hbox (37.52747pt too wide) detected at line 1193
+[][] \OML/cmm/b/it/12.045 x[] \OT1/cmr/m/n/12.045 = [][] \OML/cmm/b/it/12.045 x[] \OMS/cmsy/m/n/12.045 ^^@ [] []\OT1/cmr/m/n/12.045 (1 + [])[] + \OML/cmm/m/it/12.045 O\OT1/cmr/m/n/12.045 (\OML/cmm/m/it/12.045 ^^Z\OT1/cmr/m/n/12.045 ) \OMS/cmsy/m/n/12.045 ! ^^@[] [] []\OT1/cmr/m/n/12.045 (1 + [])[]\OML/cmm/m/it/12.045 :
+ []
+
+
+LaTeX Warning: Reference `eq-def-update-h-k=l,eq-def-update-h-k-neq-l' on page 29 undefined on input line 1195.
+
+
+LaTeX Warning: Reference `lemma-TPT-clean,lemma-TPT-AT' on page 29 undefined on input line 1232.
+
+
+LaTeX Warning: Reference `assumption-tpt' on page 29 undefined on input line 1235.
+
+
+LaTeX Warning: Reference `eq-def-gradient-based-attack-itertion,eq-nabla-x-l' on page 29 undefined on input line 1235.
+
+
+
+[29]
+Overfull \hbox (128.21162pt too wide) detected at line 1250
+[][]
+ []
+
+
+Overfull \hbox (16.87276pt too wide) detected at line 1265
+\OML/cmm/b/it/12.045 x[] \OT1/cmr/m/n/12.045 = \OML/cmm/b/it/12.045 x[] \OMS/cmsy/m/n/12.045 ^^@ \OML/cmm/m/it/12.045 ^^O^^[ [] :
+ []
+
+
+
+[30]) (./chapters/chap4.tex
+
+[31]
+
+[32
+
+]
+第四章
+
+LaTeX Warning: Citation `DBLP:journals/corr/abs-1901-03407' on page 33 undefined on input line 5.
+
+
+LaTeX Warning: Citation `DBLP:journals/pieee/RuffKVMSKDM21' on page 33 undefined on input line 5.
+
+
+LaTeX Warning: Citation `credit-card-fraud-2011' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Citation `DBLP:journals/ijcv/BergmannBFSS21' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Citation `ourbreaks-of-disease-2023' on page 33 undefined on input line 6.
+
+
+LaTeX Warning: Citation `DBLP:conf/cvpr/SalehiSBRR21' on page 33 undefined on input line 9.
+
+
+LaTeX Warning: Citation `DBLP:journals/corr/abs-2305-15956' on page 33 undefined on input line 9.
+
+
+LaTeX Warning: Citation `DBLP:journals/corr/abs-2305-18593' on page 33 undefined on input line 11.
+
+
+LaTeX Warning: Citation `DBLP:conf/icml/LvSWXX24' on page 33 undefined on input line 11.
+
+
+LaTeX Warning: Citation `DBLP:conf/icml/LiF0CWHSQZ24' on page 33 undefined on input line 11.
+
+
+LaTeX Warning: Reference `sec-related-work' on page 33 undefined on input line 14.
+
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 24.
+
+
+LaTeX Warning: Citation `DBLP:conf/focs/Allen-ZhuL21' on page 33 undefined on input line 25.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/Allen-ZhuL23' on page 33 undefined on input line 25.
+
+
+LaTeX Warning: Reference `sec-related-work' on page 33 undefined on input line 26.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/Allen-ZhuL23' on page 33 undefined on input line 27.
+
+
+
+[33]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 37.
+
+
+
+[34]
+
+LaTeX Warning: Reference `sec-list-of-terms-and-notations' on page 35 undefined on input line 78.
+
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 80.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 80.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 80.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/Allen-ZhuL23' on page 35 undefined on input line 81.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/Allen-ZhuL23' on page 35 undefined on input line 83.
+
+
+LaTeX Warning: Citation `DBLP:journals/corr/abs-2303-04145' on page 35 undefined on input line 83.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 84.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 84.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 85.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 89.
+
+Missing character: There is no ̋ ("30B) in font cmmi8!
+
+
+[35]
+
+LaTeX Warning: Command \H invalid in math mode on input line 95.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 97.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 99.
+
+
+Overfull \hbox (1.99362pt too wide) in paragraph at lines 98--104
+[] []|\TU/lmr/bx/n/12.045 4.2.0.0.2 Features.[] \TU/lmr/m/n/12.045 We characterize the features as $\OML/cmm/m/it/12.045 d$\TU/lmr/m/n/12.045 -dimensional orthogonal patch-
+ []
+
+File: figures/rbad/assets/original patch.png Graphic file (type bmp)
+<figures/rbad/assets/original patch.png>
+File: figures/rbad/assets/sensory anomaly patch.png Graphic file (type bmp)
+<figures/rbad/assets/sensory anomaly patch.png>
+File: figures/rbad/assets/semantic anomaly patch.png Graphic file (type bmp)
+<figures/rbad/assets/semantic anomaly patch.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[36]
+./chapters/chap4.tex:148: Undefined control sequence.
+l.148 For any $k \in [d]$ and $\z \sim \D
+                                         _{nor}$, we let the probability of ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:158: Undefined control sequence.
+l.158 ... all $k \in [d]$, $\mathbf{P}_{\z \sim \D
+                                                  _{nor}} \left[\exists i \i...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[37]
+
+LaTeX Warning: Command \H invalid in math mode on input line 169.
+
+
+LaTeX Warning: Command \H invalid in math mode on input line 169.
+
+Missing character: There is no ̋ ("30B) in font cmmi8!
+Missing character: There is no ̋ ("30B) in font cmmi8!
+
+LaTeX Warning: Command \H invalid in math mode on input line 174.
+
+Missing character: There is no ̋ ("30B) in font cmmi8!
+./chapters/chap4.tex:178: Undefined control sequence.
+l.178 Given input $\z \in \Z
+                            $, the output of $\phi_e$ is noted as $\phi_e(\z...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[38]
+./chapters/chap4.tex:214: Undefined control sequence.
+l.214         i = \argmax
+                         _{i^{\prime} \in [P]} \sigma(\ip{\w_j,\x_{i^{\prime...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq-def-delta-ij,eq-simplify-extension-of-perfect-reconstruction' on page 39 undefined on input line 230.
+
+
+LaTeX Warning: Citation `DBLP:books/daglib/UML-0033642' on page 39 undefined on input line 240.
+
+./chapters/chap4.tex:246: Undefined control sequence.
+<recently read> \risk 
+                      
+l.246 ...econstruction error} is defined as $\risk
+                                                  _N(\w) = \frac{1}{N}\sum_{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:247: Undefined control sequence.
+<recently read> \risk 
+                      
+l.247 We minimize $\risk
+                        _N(\w)$ using gradient descent with random initializ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (13.479pt too wide) in paragraph at lines 245--249
+\TU/lmr/m/n/12.045 The corresponding \TU/lmr/m/it/12.045 (empirical) reconstruction error \TU/lmr/m/n/12.045 is defined as $[]\OT1/cmr/m/n/12.045 ([]) = [] [][] \OML/cmm/m/it/12.045 `\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 z[]\OT1/cmr/m/n/12.045 ; [])$\TU/lmr/m/n/12.045 .
+ []
+
+./chapters/chap4.tex:250: Undefined control sequence.
+l.250 ...}_j = \w^t_j - \eta_t \nabla_{\w_j} \risk
+                                                  _N(\w^t)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:250: Double subscript.
+l.250 ..._j = \w^t_j - \eta_t \nabla_{\w_j} \risk_
+                                                  N(\w^t)
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+LaTeX Warning: Reference `sec-parameters' on page 39 undefined on input line 253.
+
+./chapters/chap4.tex:255: Undefined control sequence.
+l.255 ... of $\w_j$ is given by  $\w^{0}_j \sim \N
+                                                   (0,\sigma_0 \I)$, in whic...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:255: Undefined control sequence.
+l.255 ...iven by  $\w^{0}_j \sim \N (0,\sigma_0 \I
+                                                  )$, in which $\N(0,\sigma_...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:255: Undefined control sequence.
+<recently read> \N 
+                   
+l.255 ..._j \sim \N (0,\sigma_0 \I)$, in which $\N
+                                                  (0,\sigma_0 \I)$ is the $d...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:255: Undefined control sequence.
+l.255 ...\sigma_0 \I)$, in which $\N(0,\sigma_0 \I
+                                                  )$ is the $d$-dimensional ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `sec-list-of-terms-and-notations' on page 39 undefined on input line 262.
+
+
+
+[39]
+File: figures/rbad/assets/RBAD Theoretical Roadmap.pdf Graphic file (type pdf)
+<use figures/rbad/assets/RBAD Theoretical Roadmap.pdf>
+
+./chapters/chap4.tex:284: Undefined control sequence.
+l.284 ...} - \w_j^{t} = -\eta_t \nabla_{\w_j}\risk
+                                                  _N(\w^t)$ in \ref{eq-def-G...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:284: Double subscript.
+l.284 ... - \w_j^{t} = -\eta_t \nabla_{\w_j}\risk_
+                                                  N(\w^t)$ in \ref{eq-def-GD...
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+./chapters/chap4.tex:284: Undefined control sequence.
+l.284 ...{eq-def-GD}, in which $\nabla_{\w_j}\risk
+                                                  _N(\w^t)$ can be calculate...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:284: Double subscript.
+l.284 ...eq-def-GD}, in which $\nabla_{\w_j}\risk_
+                                                  N(\w^t)$ can be calculated...
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+./chapters/chap4.tex:288: Undefined control sequence.
+l.288 \nabla_{\w_j} \risk
+                         _N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j)...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:288: Double subscript.
+l.288 \nabla_{\w_j} \risk_
+                          N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j)...
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+
+[40]
+
+LaTeX Warning: Reference `sec-list-of-terms-and-notations' on page 41 undefined on input line 317.
+
+
+LaTeX Warning: Reference `sec-parameters' on page 41 undefined on input line 319.
+
+
+LaTeX Warning: Reference `eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper' on page 41 undefined on input line 322.
+
+./chapters/chap4.tex:338: Undefined control sequence.
+<recently read> \smost 
+                       
+l.338 ...v_k$ at iteration $t$, denoted by $\smost
+                                                  ^t(k)$, be the collection ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:344: Undefined control sequence.
+l.344 ...t_0 \in [T]$ such that $\w_j^t \in \smost
+                                                  ^{t}(k)$ for all $t \geq t...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:351: Undefined control sequence.
+l.351 ...smost-in-paper}, those $\w_j^t \in \smost
+                                                  ^{t}(k)$ are bounded by th...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:360: Undefined control sequence.
+l.360     For all $ t \geq 1$, if $j \in \smost
+                                               ^t(k)$ and $\x_i$ contain $\v...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[41]
+./chapters/chap4.tex:368: Undefined control sequence.
+l.368     For all $k \in [d]$, if $|\smost
+                                          ^{0}(k)| \geq 1$, then $\smost^{t}...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:368: Undefined control sequence.
+<recently read> \smost 
+                       
+l.368 ...if $|\smost^{0}(k)| \geq 1$, then $\smost
+                                                  ^{t}(k) \subseteq \smost^{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:368: Undefined control sequence.
+l.368 ... 1$, then $\smost^{t}(k) \subseteq \smost
+                                                  ^{t+1}(k)$ for all $t \in ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:373: Undefined control sequence.
+l.373 ...bset-st+1k} implies that $\w_j \in \smost
+                                                  ^t(k)$ will keep growing f...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:379: Undefined control sequence.
+<recently read> \smost 
+                       
+l.379 ...the following theorem proves that $\smost
+                                                  (k)^{0}$ is not empty with...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:382: Undefined control sequence.
+<recently read> \smost 
+                       
+l.382 For all $ k \in [d]$, the size of $\smost
+                                               ^0(k)$ can be upper-bounded by
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:384: Undefined control sequence.
+l.384      | \smost
+                   ^0(k) |  \leq C p_2 + \lambda,
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:389: Undefined control sequence.
+l.389     | \smost
+                  ^0(k) | \geq C p_1 - \lambda
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ...and $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. The kernels are ab...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ... if $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. \ref {theorem-init...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `theorem-initial-size-in-paper,theorem-Stk-subset-st+1k' on page 42 undefined on input line 475.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ...and $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. The kernels are ab...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ... if $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. \ref {theorem-init...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `theorem-initial-size-in-paper,theorem-Stk-subset-st+1k' on page 42 undefined on input line 475.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ...and $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. The kernels are ab...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:475: Undefined control sequence.
+<argument> ... if $\w _{j_1},\w _{j_2} \in \smost 
+                                                  (3)^0$. \ref {theorem-init...
+l.475     }
+           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[42]
+
+LaTeX Warning: Command \H invalid in math mode on input line 502.
+
+
+
+[43]
+
+LaTeX Warning: Command \H invalid in math mode on input line 523.
+
+./chapters/chap4.tex:530: Undefined control sequence.
+l.530     =  \sigma(\ipsmall
+                            {\w_j^*, \sum_{k \in [d]} \ip{\x_a,\v_k} \v_k})
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (6.12103pt too wide) in paragraph at lines 532--537
+\TU/lmr/m/n/12.045 For all $\OML/cmm/m/it/12.045 j \OMS/cmsy/m/n/12.045 2 \OT1/cmr/m/n/12.045 [\OML/cmm/m/it/12.045 C\OT1/cmr/m/n/12.045 ]$\TU/lmr/m/n/12.045 , by definition, the max pooling operation only reserves $[][] \OML/cmm/m/it/12.045 ^^[\OT1/cmr/m/n/12.045 (\OMS/cmsy/m/n/12.045 h[][]\OML/cmm/m/it/12.045 ; \OML/cmm/b/it/12.045 x[]\OMS/cmsy/m/n/12.045 i\OT1/cmr/m/n/12.045 )$\TU/lmr/m/n/12.045 .
+ []
+
+
+LaTeX Warning: Citation `DBLP:journals/pieee/RuffKVMSKDM21' on page 44 undefined on input line 551.
+
+
+LaTeX Warning: Citation `DBLP:conf/iclr/Allen-ZhuL23' on page 44 undefined on input line 552.
+
+
+
+[44]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 567.
+
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.2.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.5.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.5.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[45]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 607.
+
+./chapters/chap4.tex:612: Undefined control sequence.
+l.612 ...uch that $j \notin \cup_{k\in [d]} \smost
+                                                  (k)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figures/rbad/assets/visualization/mnist_vae_0.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/mnist_vae_0.pdf>
+File: figures/rbad/assets/visualization/mnist_vae_10.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/mnist_vae_10.pdf>
+File: figures/rbad/assets/visualization/mnist_vae_50.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/mnist_vae_50.pdf>
+File: figures/rbad/assets/visualization/imagenet_scnn_0.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/imagenet_scnn_0.pdf>
+File: figures/rbad/assets/visualization/imagenet_scnn_10.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/imagenet_scnn_10.pdf>
+File: figures/rbad/assets/visualization/imagenet_scnn_40.pdf Graphic file (type pdf)
+<use figures/rbad/assets/visualization/imagenet_scnn_40.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[46]
+Overfull \hbox (8.31805pt too wide) in paragraph at lines 683--686
+\TU/lmr/m/n/12.045 i.e., the difference between the original patch $\OML/cmm/b/it/12.045 x[]$ \TU/lmr/m/n/12.045 and the reconstructed patch $\OML/cmm/m/it/12.045 ^^^[]\OT1/cmr/m/n/12.045 (\OML/cmm/m/it/12.045 ^^^[]\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 z[]\OT1/cmr/m/n/12.045 ))$\TU/lmr/m/n/12.045 .
+ []
+
+./chapters/chap4.tex:687: Undefined control sequence.
+l.687     \risk
+               _N(\w)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:692: Undefined control sequence.
+<recently read> \risk 
+                      
+l.692 ...oposition computes the gradient of $\risk
+                                                  _N(\w)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:693: LaTeX Error: Environment customprop undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.693 \begin{customprop}
+                        {\ref{prop-gradient}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:696: Undefined control sequence.
+l.696 \nabla_{\w_j} \risk
+                         _N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j)...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:696: Double subscript.
+l.696 \nabla_{\w_j} \risk_
+                          N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j)...
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+./chapters/chap4.tex:699: LaTeX Error: \begin{document} ended by \end{customprop}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.699 \end{customprop}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:703: Undefined control sequence.
+l.703     \nabla_{\w_j} \risk
+                             _N(\w)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:703: Double subscript.
+l.703     \nabla_{\w_j} \risk_
+                              N(\w)
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+
+[47]
+
+LaTeX Warning: Reference `eq-def-phi-d-in-proof,eq-def-loss-in-proof' on page 48 undefined on input line 716.
+
+
+Overfull \hbox (2.38399pt too wide) detected at line 721
+\OML/cmm/m/it/12.045 `\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 z[]\OT1/cmr/m/n/12.045 ) = \OMS/cmsy/m/n/12.045 k\OML/cmm/m/it/12.045 ^^^\OT1/cmr/m/n/12.045 (\OML/cmm/b/it/12.045 z[]\OT1/cmr/m/n/12.045 ) \OMS/cmsy/m/n/12.045 ^^@ \OML/cmm/b/it/12.045 z[]\OMS/cmsy/m/n/12.045 k[] \OT1/cmr/m/n/12.045 = [] [] = [] [] \OML/cmm/m/it/12.045 ;
+ []
+
+
+LaTeX Warning: Command \l invalid in math mode on input line 722.
+
+Missing character: There is no ł ("142) in font cmmi12!
+
+LaTeX Warning: Command \l invalid in math mode on input line 727.
+
+Missing character: There is no ł ("142) in font cmmi12!
+
+
+[48]
+./chapters/chap4.tex:781: Undefined control sequence.
+l.781 ...}_j = \w^t_j - \eta_t \nabla_{\w_j} \risk
+                                                  _N(\w^t).
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:781: Double subscript.
+l.781 ..._j = \w^t_j - \eta_t \nabla_{\w_j} \risk_
+                                                  N(\w^t).
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+./chapters/chap4.tex:786: LaTeX Error: Environment customlemma undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.786 \begin{customlemma}
+                         {\ref{lemma-size-of-wj-in-paper}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `eq-lemma-size-of-wj-random-initialization,eq-lemma-size-of-wj-result-2' on page 49 undefined on input line 796.
+
+
+./chapters/chap4.tex:801: LaTeX Error: \begin{document} ended by \end{customlemma}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.801 \end{customlemma}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:806: Undefined control sequence.
+l.806 ...}, \cdots, \w_j^{0,(d)} \right)^T \sim \N
+                                                  (0,\sigma_0 \I)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:806: Undefined control sequence.
+l.806 ...j^{0,(d)} \right)^T \sim \N(0,\sigma_0 \I
+                                                  )
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:830: Undefined control sequence.
+l.830 ...1} - \eta_{t-1} \nabla_{\w_j^{t-1}} \risk
+                                                  _N(\w^{t-1}) \right\| \\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:830: Double subscript.
+l.830 ...} - \eta_{t-1} \nabla_{\w_j^{t-1}} \risk_
+                                                  N(\w^{t-1}) \right\| \\
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+
+[49]
+
+./chapters/chap4.tex:862: LaTeX Error: Environment customlemma undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.862 \begin{customlemma}
+                         {\ref{lemma-smost-delta-ij-in-paper}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:863: Undefined control sequence.
+l.863     For all $ t \geq 1$, if $j \in \smost
+                                               ^t(k)$ and $\x_i$ (or $\x_{n,...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:865: LaTeX Error: \begin{document} ended by \end{customlemma}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.865 \end{customlemma}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:869: Undefined control sequence.
+l.869             i = \argmax
+                             _{i^{\prime} \in [P]} \sigma(\ip{\w^t_j,\x_{i^{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:874: Undefined control sequence.
+l.874         \argmax
+                     _{i \in [P]} \sigma(\ip{\w_j,\x_i}) = \argmax_{i \in [P...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:874: Undefined control sequence.
+l.874 ...\in [P]} \sigma(\ip{\w_j,\x_i}) = \argmax
+                                                  _{i \in [P]} \ip{\w_j,\x_i}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:876: Undefined control sequence.
+l.876 When $j \in \smost
+                        ^t(k)$ and $\x_i$ contains $\v_k$, $\ip{ \w_j , \x_{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[50]
+
+LaTeX Warning: Reference `eq-lemma-smost-delta-ij-upper,eq-lemma-smost-delta-ij-lower' on page 51 undefined on input line 892.
+
+./chapters/chap4.tex:914: Undefined control sequence.
+<recently read> \smost 
+                       
+l.914 ...ing lemma proves that the size of $\smost
+                                                  $ at random initialization...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:916: LaTeX Error: Environment customlemma undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.916 \begin{customlemma}
+                         {\ref{theorem-initial-size-in-paper}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:918: Undefined control sequence.
+<recently read> \smost 
+                       
+l.918 For all $ k \in [d]$, the size of $\smost
+                                               ^0(k)$ can be upper-bounded by
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:920: Undefined control sequence.
+l.920      | \smost
+                   ^0(k) |  \leq C p_2 + \lambda,
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:925: Undefined control sequence.
+l.925     | \smost
+                  ^0(k) | \geq C p_1 - \lambda
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:928: LaTeX Error: \begin{document} ended by \end{customlemma}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.928 \end{customlemma}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Citation `Dumbgen10' on page 51 undefined on input line 930.
+
+./chapters/chap4.tex:933: Undefined control sequence.
+l.933      < \mathop{\P}_{g \sim \N
+                                   (0,1)} \left[ g > x \right]
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:939: Undefined control sequence.
+l.939 ...)} \frac{\w_j^{1,(k)}}{\sigma_0}  \sim \N
+                                                  (0,1).
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[51]
+./chapters/chap4.tex:956: Undefined control sequence.
+l.956     {\P}_{\w^{0}} \left[ j \in  \smost
+                                            ^0(k) \right] =
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq-lemma-inti-prob-4-pm-c0,eq-lemma-inti-prob-constraint-2,eq-lemma-inti-prob-by-def-smost' on page 52 undefined on input line 960.
+
+./chapters/chap4.tex:962: Undefined control sequence.
+l.962 ...\leq {\P}_{\w_j^{0}} \left[ j \in  \smost
+                                                  ^0(k) \right] \leq p_2
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq-lemma-init-prob-smost-result-upper-bound,eq-lemma-init-prob-smost-result-lower-bound' on page 52 undefined on input line 964.
+
+
+./chapters/chap4.tex:1020: LaTeX Error: Environment customthm undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1020 \begin{customthm}
+                        {\ref{theorem-Stk-subset-st+1k}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:1021: Undefined control sequence.
+l.1021     Assume that $|\smost
+                               ^{0}(k)| \geq 1$ for all $k \in [d]$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1022: Undefined control sequence.
+<recently read> \smost 
+                       
+l.1022 ...and $\forall k \in [d]$, we have $\smost
+                                                  ^{t}(k) \subseteq \smost^{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1022: Undefined control sequence.
+l.1022 ... we have $\smost^{t}(k) \subseteq \smost
+                                                  ^{t+1}(k)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:1023: LaTeX Error: \begin{document} ended by \end{customthm}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1023 \end{customthm}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:1029: Undefined control sequence.
+<recently read> \smost 
+                       
+l.1029 We prove $\smost
+                       ^{t}(k) \subseteq \smost^{t+1}(k)$ by induction.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1029: Undefined control sequence.
+l.1029 We prove $\smost^{t}(k) \subseteq \smost
+                                               ^{t+1}(k)$ by induction.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1030: Undefined control sequence.
+l.1030 ...j \in [C]$, assume that $\w_j \in \smost
+                                                  ^{t}(k)$ at iteration $t$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1035: Undefined control sequence.
+<argument>  - \eta _t \nabla _{\w _j^{t}} \risk 
+                                                _N (\w ) , \v _k
+l.1035 ...t \nabla_{\w_j^{t}} \risk_N (\w) , \v_k}
+                                                    \\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1035: Double subscript.
+<argument>  - \eta _t \nabla _{\w _j^{t}} \risk _
+                                                 N (\w ) , \v _k
+l.1035 ...t \nabla_{\w_j^{t}} \risk_N (\w) , \v_k}
+                                                    \\
+I treat `x_1_2' essentially like `x_1{}_2'.
+
+
+Overfull \hbox (59.56119pt too wide) detected at line 1039
+[][]
+ []
+
+
+Overfull \hbox (19.67407pt too wide) detected at line 1060
+[] \OT1/cmr/m/n/12.045 = 2\OML/cmm/m/it/12.045 ^^Q[] [] ^^[ [] [] [] [] ^^[[] [] []
+ []
+
+
+
+[52]
+./chapters/chap4.tex:1081: Undefined control sequence.
+l.1081     &\leq (1 + \sqrt{2\epsilon}) \wbound
+                                               .
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1084: Undefined control sequence.
+l.1084 ...^{t},\x_{n,i_n}}  }$ since $j \in \smost
+                                                  ^t(k)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq-theorem-phase-I-main-sum-ip-delta-ni-vi,eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi' on page 53 undefined on input line 1085.
+
+./chapters/chap4.tex:1090: Undefined control sequence.
+l.1090 ...psilon - (1 + \sqrt{2 \epsilon})(\wbound
+                                                  )^2|\S^t_n(i_n)|.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1092: Undefined control sequence.
+<recently read> \smost 
+                       
+l.1092 Since we assume $\smost
+                              ^{0}(k) \geq 1$ for all features, we have
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1109: Undefined control sequence.
+l.1109     &\geq \wbound
+                         \cdot \left( c_1
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1111: Undefined control sequence.
+l.1111     - (1 + \sqrt{2\epsilon})(\wbound
+                                           )^2 |\S_n^t(i_n)| \right).
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1122: Undefined control sequence.
+l.1122 &\geq (c_1 - \sqrt{2\epsilon}) \wbound
+                                             ,
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[53]
+./chapters/chap4.tex:1126: Undefined control sequence.
+l.1126 ... } \geq (c_1 - \sqrt{2\epsilon}) \wbound
+                                                   $ and $\relup{\ip{\w_j^{t...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1126: Undefined control sequence.
+<recently read> \relup 
+                       
+l.1126 ... \sqrt{2\epsilon}) \wbound $ and $\relup
+                                                  {\ip{\w_j^{t},\x_{n,i_n}} ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1134: Undefined control sequence.
+l.1134     (c_1 - \sqrt{2\epsilon}) \wbound
+                                            \left( 1 - \epsilon - (1 + \sqrt...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1134: Undefined control sequence.
+l.1134 ...psilon - (1 + \sqrt{2 \epsilon})(\wbound
+                                                  )^2|\S^t_n(i_n)| \right)\r...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1135: Undefined control sequence.
+l.1135     &+ (1 - \epsilon) N \beta_k \wbound
+                                               \cdot \left( c_1
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1137: Undefined control sequence.
+l.1137     - (1 + \sqrt{2\epsilon})(\wbound
+                                           )^2 |\S_n^t(i_n)| \right),
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1144: Undefined control sequence.
+l.1144 ...})(\tilde{c}_1 + \hat{\epsilon})(\wbound
+                                                  )^2 \! \cdot \! (c_2 - 1)d
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `sec-parameters' on page 54 undefined on input line 1148.
+
+./chapters/chap4.tex:1152: Undefined control sequence.
+l.1152 ...})(\tilde{c}_1 + \hat{\epsilon})(\wbound
+                                                  )^2 \! \cdot \! (c_2 - 1)d
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1164: Undefined control sequence.
+l.1164 ...{t} , \v_{k^{\prime}} } \leq \slessbound
+                                                  .
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq-theorem-phase-I-main-xni-contains-vk,eq-theorem-phase-I-main-smost-combine' on page 54 undefined on input line 1175.
+
+
+
+[54]
+Overfull \hbox (33.04097pt too wide) detected at line 1189
+[] \OT1/cmr/m/n/12.045 = 2\OML/cmm/m/it/12.045 ^^Q[] [] ^^[ [] [] [] [] ^^[[] [] [] :
+ []
+
+
+LaTeX Warning: Reference `eq-theorem-phase-I-main-xni-contains-vk-but-the-feature-is-vkprime,eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime' on page 55 undefined on input line 1190.
+
+
+LaTeX Warning: Reference `{eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}' on page 55 undefined on input line 1191.
+
+./chapters/chap4.tex:1217: Undefined control sequence.
+l.1217 ... \sigma_0 f_r + \sqrt{2\epsilon} \wbound
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1218: Undefined control sequence.
+l.1218     + \wbound
+                     \cdot \left(
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1219: Undefined control sequence.
+l.1219     \sqrt{2\epsilon}\wbound
+                                   + t\sigma_0 f_r \right) \cdot
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1228: Undefined control sequence.
+l.1228 ...  (2\epsilon + \sqrt{2\epsilon}) \wbound
+                                                   \\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1229: Undefined control sequence.
+l.1229 ... \sigma_0 f_r + \sqrt{2\epsilon} \wbound
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1230: Undefined control sequence.
+l.1230     + \wbound
+                     \cdot \left(
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1231: Undefined control sequence.
+l.1231     \sqrt{2\epsilon}\wbound
+                                   + t\sigma_0 f_r \right) \cdot
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1240: Undefined control sequence.
+l.1240 ...rt{2\epsilon} + \sqrt{2\epsilon} \wbound
+                                                   (c_2 - 1)d ) + f_r \cdot ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1240: Undefined control sequence.
+l.1240 ...d (c_2 - 1)d ) + f_r \cdot \left(\wbound
+                                                   \cdot (c_2 - 1) d + \sqrt...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[55]
+
+LaTeX Warning: Reference `sec-parameters' on page 56 undefined on input line 1244.
+
+
+LaTeX Warning: Reference `eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2' on page 56 undefined on input line 1249.
+
+./chapters/chap4.tex:1249: Undefined control sequence.
+l.1249 ...-2} together prove that $\w_j \in \smost
+                                                  ^{t+1}(k)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1311: Undefined control sequence.
+<recently read> \smost 
+                       
+l.1311 ...ubset-st+1k}, the member of each $\smost
+                                                  (K)$ is decided by random ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1312: Undefined control sequence.
+<recently read> \smost 
+                       
+l.1312 ...iple kernels are included in one $\smost
+                                                  (k)$.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:1318: LaTeX Error: Environment customcor undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1318 \begin{customcor}
+                        {\ref{corollary-cone}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2' on page 56 undefined on input line 1322.
+
+
+./chapters/chap4.tex:1323: LaTeX Error: \begin{document} ended by \end{customcor}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1323 \end{customcor}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./chapters/chap4.tex:1394: LaTeX Error: Environment customthm undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1394 \begin{customthm}
+                        {\ref{theorem-small-convolution-in-paper}}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./chapters/chap4.tex:1400: LaTeX Error: \begin{document} ended by \end{customthm}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1400 \end{customthm}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:1412: Undefined control sequence.
+l.1412     \P\left[ X \geq \E
+                             \left[ X \right] + \lambda \right]
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1415: Undefined control sequence.
+<argument> 6 \sum _i \E 
+                        (X_i^2) + {2M\lambda } 
+l.1415 ...da^2}{6 \sum_i \E(X_i^2) + {2M\lambda} }
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1427: Undefined control sequence.
+l.1427     \P\left[ X \leq \E
+                             \left[ X \right] - \lambda \right]
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1430: Undefined control sequence.
+<argument> 6 \sum _i \E 
+                        (X_i^2) + {2M\lambda } 
+l.1430 ...da^2}{6 \sum_i \E(X_i^2) + {2M\lambda} }
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+
+[56]
+
+LaTeX Warning: Citation `wainwright_2019' on page 57 undefined on input line 1457.
+
+
+Overfull \hbox (2.70024pt too wide) in paragraph at lines 1613--1614
+[]\TU/lmr/m/n/12.045 The following lemma characterizes the concentration of probability on $\OML/cmm/m/it/12.045 d$\TU/lmr/m/n/12.045 -dimensional
+ []
+
+
+
+[57]
+
+./chapters/chap4.tex:1636: LaTeX Error: Environment algorithm undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1636 \begin{algorithm}
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./chapters/chap4.tex:1637: Package caption Error: \caption outside float.
+
+See the caption package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1637 \caption
+               {Generate normal data}
+If you do not understand this error, please take a closer look
+at the documentation of the `caption' package, especially the
+section about errors.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./chapters/chap4.tex:1638: LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1638 \begin{algorithmic}
+                          [1]
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./chapters/chap4.tex:1639: Undefined control sequence.
+l.1639 \REQUIRE
+                Sample size $N \in \mathbb{Z}^{+}$, features $\V = \V_{nor} ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1640: Undefined control sequence.
+l.1640 \FOR
+           {$n \in [N]$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1641: Undefined control sequence.
+l.1641 \STATE
+              $\V_{n, aux} \gets$ randomly sample $P -2$ features from $\V_{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1642: Undefined control sequence.
+l.1642 \STATE
+              $\V_{n} \gets \V_{n, aux} \cup \V_{nor}$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1643: Undefined control sequence.
+l.1643 \FOR
+           {$i \in [P]$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1644: Undefined control sequence.
+l.1644 \STATE
+              $\v_{k_i} \gets$ randomly sampled from $\V_n$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1645: Undefined control sequence.
+l.1645 \STATE
+              $\rho \gets$ randomly sampled from $\N(0, \epsilon)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1645: Undefined control sequence.
+<recently read> \N 
+                   
+l.1645 ...E $\rho \gets$ randomly sampled from $\N
+                                                  (0, \epsilon)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1646: Undefined control sequence.
+l.1646 \STATE
+              $\z_n^{(i)} \gets \v_{k_i} + \rho$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1647: Undefined control sequence.
+l.1647 \ENDFOR
+              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1648: Undefined control sequence.
+l.1648 \FOR
+           {$\v_k \in \V$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1649: Undefined control sequence.
+l.1649 \STATE
+              $\beta_k \gets$ (total occurrence of $\v_k$ in $[\z_N]$) / $N$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1650: Undefined control sequence.
+l.1650 \ENDFOR
+              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1651: Undefined control sequence.
+l.1651 \ENDFOR
+              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./chapters/chap4.tex:1652: Undefined control sequence.
+l.1652 \RETURN
+               $[\z_{N}]$, $\beta$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+./chapters/chap4.tex:1653: LaTeX Error: \begin{document} ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1653 \end{algorithmic}
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./chapters/chap4.tex:1654: LaTeX Error: \begin{document} ended by \end{algorithm}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1654 \end{algorithm}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+
+[58]
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.1.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.1.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.2.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.5.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.5.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[59]
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png>
+File: figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.4, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png Graphic file (type bmp)
+<figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.4, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[60]
+
+[61]
+
+LaTeX Warning: Reference `eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper' on page 62 undefined on input line 1766.
+
+
+LaTeX Warning: Reference `eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper' on page 62 undefined on input line 1769.
+
+
+
+[62]
+File: figures/rbad/figs/P=20_d=24_C=24_NNF=10.png Graphic file (type bmp)
+<figures/rbad/figs/P=20_d=24_C=24_NNF=10.png>
+File: figures/rbad/figs/P=60_d=72_C=72_NNF=30.png Graphic file (type bmp)
+<figures/rbad/figs/P=60_d=72_C=72_NNF=30.png>
+
+
+LaTeX Warning: Reference `sec-inner-product-experiments,sec-kernel-norm-growth-experiments' on page 63 undefined on input line 1802.
+
+
+
+[63]
+File: figures/rbad/figs/P=28_d=33_C=33_NNF=14.png Graphic file (type bmp)
+<figures/rbad/figs/P=28_d=33_C=33_NNF=14.png>
+File: figures/rbad/figs/P=36_d=43_C=43_NNF=18.png Graphic file (type bmp)
+<figures/rbad/figs/P=36_d=43_C=43_NNF=18.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[64]
+File: figures/rbad/figs/P=44_d=52_C=52_NNF=22.png Graphic file (type bmp)
+<figures/rbad/figs/P=44_d=52_C=52_NNF=22.png>
+File: figures/rbad/figs/P=52_d=62_C=62_NNF=26.png Graphic file (type bmp)
+<figures/rbad/figs/P=52_d=62_C=62_NNF=26.png>
+) (./chapters/chap5.tex
+
+[65]
+
+[66
 
 ]
 第五章
 ) (./chapters/chap6.tex
 
-[23]
+[67]
 
-[24
+[68
 
 ]
 第六章
 )
 
-[25]
+[69]
 
-[26
+[70
 
 ] (./includefile/reference.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[27]
+[71]
 Missing character: There is no ̧ (U+0327) in font [lmroman10-regular]:mapping=tex-text;!
 )
 
-[28] (./includefile/backmatter.tex
+[72] (./includefile/backmatter.tex
 
-[29
+[73
 
 
-
-]
-
-[30
 
 ]
 
-[31
+[74
 
 ]
 
-[32
+[75
+
+]
+
+[76
 
 ])
 \tf@thm=\write6
 \openout6 = `thesis.thm'.
 
- (e:/hutou/projects/yanboc-thesis/temp/thesis.aux)
+ (c:/coding/FLT/yanboc-thesis/temp/thesis.aux)
  ***********
-LaTeX2e <2024-11-01> patch level 1
+LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2022/08/05>
  ***********
 
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 00FCC65B76FDEB3606F396E2CFF10C07;3616.
+(rerunfilecheck)             Checksum: 994F84A2F11EB751ABFCBCE4D5D444AA;6866.
  ) 
 Here is how much of TeX's memory you used:
- 37953 strings out of 473889
- 869155 string characters out of 5732094
- 1267690 words of memory out of 5000000
- 60253 multiletter control sequences out of 15000+600000
- 578268 words of font info for 173 fonts, out of 8000000 for 9000
+ 50463 strings out of 474240
+ 1284160 string characters out of 5741913
+ 1952560 words of memory out of 5000000
+ 72200 multiletter control sequences out of 15000+600000
+ 581053 words of font info for 185 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 107i,14n,125p,1319b,917s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 107i,14n,125p,1311b,929s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on e:/hutou/projects/yanboc-thesis/temp/thesis.pdf (48 pages).
+Output written on c:/coding/FLT/yanboc-thesis/temp/thesis.pdf (94 pages).

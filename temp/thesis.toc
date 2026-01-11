@@ -1,5 +1,5 @@
-\contentsline {chapter}{摘要}{III}{chapter*.2}%
-\contentsline {chapter}{ABSTRACT}{V}{chapter*.3}%
+\contentsline {chapter}{摘要}{V}{chapter*.2}%
+\contentsline {chapter}{ABSTRACT}{VII}{chapter*.3}%
 \contentsline {chapter}{\numberline {第一章\hspace {.3em}}绪论}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}研究背景与意义}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}国内外研究现状}{3}{section.1.2}%
@@ -19,15 +19,54 @@
 \contentsline {subsection}{\numberline {3.1.2}特征塌缩}{13}{subsection.3.1.2}%
 \contentsline {section}{\numberline {3.2}实证研究}{15}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}实验设置}{15}{subsection.3.2.1}%
-\contentsline {paragraph}{\numberline {3.2.1.0.1}Models}{15}{paragraph.3.2.1.0.1}%
-\contentsline {paragraph}{\numberline {3.2.1.0.2}Adversarial Training Methods.}{15}{paragraph.3.2.1.0.2}%
-\contentsline {paragraph}{\numberline {3.2.1.0.3}Implementation Details.}{15}{paragraph.3.2.1.0.3}%
-\contentsline {subsection}{\numberline {3.2.2}Neural Collapse in Adversarial Training}{16}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Simplex Compression Phenomenon}{17}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Ablation Experiment}{17}{subsection.3.2.4}%
-\contentsline {chapter}{\numberline {第四章\hspace {.3em}}图像任务的特征学习理论}{21}{chapter.4}%
-\contentsline {chapter}{\numberline {第五章\hspace {.3em}}文本任务的特征学习理论}{23}{chapter.5}%
-\contentsline {chapter}{\numberline {第六章\hspace {.3em}}总结与展望}{25}{chapter.6}%
-\contentsline {chapter}{参考文献}{25}{section*.10}%
-\contentsline {chapter}{攻博期间发表的科研成果目录}{29}{chapter*.12}%
-\contentsline {chapter}{致谢}{31}{chapter*.13}%
+\contentsline {subsection}{\numberline {3.2.2}对抗训练中的特征塌缩现象}{15}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}单纯形压缩现象}{16}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}消融实验}{16}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}关于单纯形压缩现象的理论解释}{18}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}符号}{18}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Assumptions}{20}{subsection.3.3.2}%
+\contentsline {paragraph}{\numberline {3.3.2.0.1}Normalization}{21}{paragraph.3.3.2.0.1}%
+\contentsline {paragraph}{\numberline {3.3.2.0.2}TPT}{21}{paragraph.3.3.2.0.2}%
+\contentsline {paragraph}{\numberline {3.3.2.0.3}NC3}{22}{paragraph.3.3.2.0.3}%
+\contentsline {subsection}{\numberline {3.3.3}Main Results}{22}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Intuition and Explanation}{23}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Discussion and Conclusion}{24}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Proofs for Main Results}{24}{subsection.3.4.1}%
+\contentsline {paragraph}{\numberline {3.4.1.0.1}Main goal}{24}{paragraph.3.4.1.0.1}%
+\contentsline {paragraph}{\numberline {3.4.1.0.2}Proof Sketch}{25}{paragraph.3.4.1.0.2}%
+\contentsline {chapter}{\numberline {第四章\hspace {.3em}}图像任务的特征学习理论}{33}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{33}{section.4.1}%
+\contentsline {paragraph}{\numberline {4.1.0.0.1}Setup.}{33}{paragraph.4.1.0.0.1}%
+\contentsline {paragraph}{\numberline {4.1.0.0.2}Theoretical Analysis.}{34}{paragraph.4.1.0.0.2}%
+\contentsline {paragraph}{\numberline {4.1.0.0.3}Empirical Validation.}{34}{paragraph.4.1.0.0.3}%
+\contentsline {paragraph}{\numberline {4.1.0.0.4}Contribution Statement.}{35}{paragraph.4.1.0.0.4}%
+\contentsline {section}{\numberline {4.2}Problem Setup}{35}{section.4.2}%
+\contentsline {paragraph}{\numberline {4.2.0.0.1}$P$-Patch Data.}{35}{paragraph.4.2.0.0.1}%
+\contentsline {paragraph}{\numberline {4.2.0.0.2}Features.}{36}{paragraph.4.2.0.0.2}%
+\contentsline {subsection}{\numberline {4.2.1}Data Distribution}{37}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Network Structure}{38}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Training Paradigm}{39}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Theoretical Analysis}{40}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Training Phase}{40}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Reconstruction Phase}{43}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Numerical Validation}{45}{section.4.4}%
+\contentsline {paragraph}{\numberline {4.4.0.0.1}Synthesized Experiments}{45}{paragraph.4.4.0.0.1}%
+\contentsline {paragraph}{\numberline {4.4.0.0.2}Visualization of the kernels}{46}{paragraph.4.4.0.0.2}%
+\contentsline {section}{\numberline {4.5}Conclusion}{47}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Complete Proofs}{47}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Technical Lemmas}{56}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Experiments Details}{57}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Implementation Details}{58}{subsection.4.8.1}%
+\contentsline {subsubsection}{\numberline {4.8.1.1}Synthesized Experiments}{58}{subsubsection.4.8.1.1}%
+\contentsline {subsubsection}{\numberline {4.8.1.2}Visualization of the kernels}{58}{subsubsection.4.8.1.2}%
+\contentsline {paragraph}{\numberline {4.8.1.2.1}Dataset and network structure}{58}{paragraph.4.8.1.2.1}%
+\contentsline {subsection}{\numberline {4.8.2}Discussions}{58}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}Auxiliary Experiments}{59}{subsection.4.8.3}%
+\contentsline {subsubsection}{\numberline {4.8.3.1}Hyper-Parameters Study}{60}{subsubsection.4.8.3.1}%
+\contentsline {subsubsection}{\numberline {4.8.3.2}The Growth of the Norm of the Kernels}{62}{subsubsection.4.8.3.2}%
+\contentsline {subsubsection}{\numberline {4.8.3.3}Inner Product between the Kernels and the Features}{62}{subsubsection.4.8.3.3}%
+\contentsline {chapter}{\numberline {第五章\hspace {.3em}}文本任务的特征学习理论}{67}{chapter.5}%
+\contentsline {chapter}{\numberline {第六章\hspace {.3em}}总结与展望}{69}{chapter.6}%
+\contentsline {chapter}{参考文献}{69}{section*.24}%
+\contentsline {chapter}{攻博期间发表的科研成果目录}{73}{chapter*.26}%
+\contentsline {chapter}{致谢}{75}{chapter*.27}%

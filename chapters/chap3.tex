@@ -1,0 +1,202 @@
+\chapter{通用任务的特征学习理论}\label{chap-PNAS}
+
+本章将围绕神经网络的特征塌缩（Neural Collapse，NC）现象展开，并探索其背后的特征学习机制。
+特征塌缩由Papyan等\cite{nc}首次发现并总结，是一种普遍存在于神经网络输出层的几何特征。
+具体而言，Papyan等\cite{nc}研究了分类任务中训练的最终阶段（Terminal Phase of Training，TPT），发现输出层特征在该阶段会坍缩为一个等角紧框架（Equiangular Tight Frame，ETF）结构。
+
+
+NC 已被证实是跨数据集和网络架构的普遍现象。
+许多先前的研究将这一几何结构特征应用于离分布检测（10）、长尾学习（11）和对抗训练（12）等任务。
+本文重点探讨AT下的神经网络特征。此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法（13），具体定义可参阅第1.1节。已有研究（12）发现，神经网络特征在对抗训练中普遍存在。然而，通过AT训练的神经网络与传统训练模型存在显著差异（14,15）。由此引出两个核心问题：标准神经网络特征与对抗性神经网络特征的本质区别是什么？这种差异背后的本质特征及其理论依据又是什么？
+本文的核心目标在于系统阐释标准神经压缩（NC）与对抗神经压缩（AT）的差异。具体而言，我们通过实证研究揭示了对抗训练（AT）对神经压缩几何结构的影响，并发现了单纯形压缩现象。研究发现，在AT的最终阶段，压缩后的单纯形 ETF 几何尺寸较标准神经压缩显著缩小，且随着对抗样本扰动半径的增大，压缩程度呈现递增趋势。图1直观展示了这一研究发现。
+我们首先通过实证研究证明，单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性。在此基础上，我们从理论层面阐释了自适应训练（AT）引发该现象的作用机制。研究还表明，随着扰动半径的增大，压缩程度会显著增强。特别值得注意的是，我们的理论预测与第3.3节展示的实验结果高度吻合，这为我们的实证发现提供了有力佐证。
+本文其余部分结构如下：第1节和第2节分别介绍相关研究及术语。我们在此呈现实证研究结果。
+
+\newpage
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{figures/simplex_compression.png}
+  \caption{线型图（上）展示了关于单纯形压缩现象的主要实证结果。
+  我们绘制了三种对抗训练方法（包括\texttt{PGD-AT}、\texttt{TRADES}和\texttt{MART}）在不同扰动半径$\epsilon \in \{0，2/255，4/255，6/255，8/255\}$下的单纯形范数$P_c$（参见等式\ref{eq-simplex-norm}）观测值。。此处$\epsilon = 0$表示干净训练。单纯形范数是使用训练数据计算的。
+  底部：三分类任务中单纯形压缩现象的可视化。我们观察到几何尺寸（即单纯形 ETF 结构在AT下的单纯形范数$P_c$）的减小；且随着扰动半径的增加，单纯形范数减小（此处A、B和C分别代表扰动半径的增加）。
+  我们称这种塌缩ETF压缩的现象为单纯形压缩现象。}
+  \label{fig-simplex-compression}
+\end{figure}
+\newpage
+
+\section{对抗训练与特征塌缩现象的基础概念}
+
+\subsection{对抗训练}\label{sec-adversarial-training}
+我们首先引入对抗样本（adversarial example）的概念。
+在图像分类问题中，\textit{对抗样本}$\xa$是一类经过恶意构造的样本，其在视觉上与干净样本$\x$高度相似，但会迫使分类器对$\xa$和$\x$做出不同的预测。
+更具体地说，给定分类器$f$，对于任意$\x \in \R^d$，我们称$\xa$为$f$在$\x$处的\textit{$\epsilon$-对抗样本}，如果$\xa$满足$f(\x) \neq f(\xa)$且$\|\xa - \x\|_p \leq \epsilon$。
+在此定义中，常数$\epsilon$量化了$\x$与$\xa$之间允许的最大扰动，以确保两者的视觉相似性，在文献中通常被称为 \textit{扰动半径}(\textit{perturbation radius})。
+对抗训练（AT）最初由Madry等\cite{MMSTV2017towards} 提出，是一种旨在提升机器学习模型对对抗样本鲁棒性的训练范式。
+AT 的核心思想是利用构造出的对抗样本来训练分类器。
+已有研究\cite{trades}, {wat,mart,fat,eat,robnc} 证明，经过对抗训练的分类器能够 “净化” 对抗样本的扰动，从而比正常训练的分类器具备更强的鲁棒性。
+
+\subsection{特征塌缩}\label{sec-neural-collapse-setup}
+
+在\S\ref{sec-feature-and-feature-learning} 中，我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器（feature extractor）和一个线性分类器（linear classifier）组合而成。
+在本文中，我们用$\boldsymbol{h}: \R^d \to \R^{\dpr}$来表示特征提取器。
+对于任意输入$\x \in \R^d$，$\h(\x)$在文献中通常被称为最后一层特征（last layer feature），也即\S\ref{sec-feature-and-feature-learning} 中所提到的高级特征。
+这里，$d^{\prime}$表示最后一层特征的维度。
+NC 主要涵盖了以下四个特征：
+
+\begin{definition}[特征塌缩]\label{def-NC}
+  给定特征提取器$\boldsymbol{h}: \R^d \to \R^{\dpr}$，我们称$\h$发生了特征塌缩现象，如果$\h$满足以下四个性质（记为\textbf{(NC1)} - \textbf{(NC4)}）：
+  \begin{itemize}
+    \item \textbf{(NC1)} {\heiti 方差塌缩}：通过计算单个类别$k$中所有特征的平均值，我们可以得到第$k$类类均值向量（$k$-th class mean vector）
+    \begin{equation}\label{eq-def-class-mean-vector}
+        \boldsymbol{\bar{h}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h(\x_{k,n}).
+    \end{equation}
+    方差塌缩指的是在TPT阶段，最后一层特征的类内方差趋于$0$，即：
+    \begin{equation}
+      \left\|  \boldsymbol{\bar{h} } _{k} - \h(\x_{k,n}) \right\|_{2}  \to 0 , \quad \forall  k \in [K], n \in [N].
+    \end{equation}
+    \item \textbf{(NC2)} {\heiti 收敛到广义单纯形等角紧框架}：在TPT阶段，最后一层特征的类均值向量收敛到定义\ref{def-simplex-ETF}给出的广义单纯形ETF。为了便于实证验证，Papyan等\cite{nc}进一步引入了以下数值特征来刻画\textbf{(NC2)}：
+
+\begin{equation}\label{eq-def-equiv-converge-to-simplex-ETF}
+\begin{aligned}
+&\left | \left \| \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G} \right \|_{2} - \left \| \boldsymbol{\bar{h} } _{k^{\prime} } - \boldsymbol{\bar{h} } _{G} \right \|_{2} \right | \to 0, \quad \forall k \neq k^{\prime},\\
+&\cos \left ( \boldsymbol{\bar{h} } _{k}- \boldsymbol{\bar{h} } _{G}, \boldsymbol{\bar{h} } _{k^{\prime}} - \boldsymbol{\bar{h} } _{G}\right )\to-\frac{1}{K-1}  , \quad \forall k\ne k^{\prime},
+\end{aligned}
+\end{equation}
+其中 $\boldsymbol{\bar{h} } _{G} := \frac{1}{K} \sum_{k=1}^{K}\boldsymbol{\bar{h} } _{k} $被成为中心化类均值向量（centralized class mean vector）。
+公式 \ref{eq-def-equiv-converge-to-simplex-ETF} 表明中心化类均值向量将收敛到一个单纯形ETF。
+\item \textbf{(NC3)} {\heiti 收敛到自对偶性}：在TPT阶段，类均值向量和线性分类器收敛到彼此的重新缩放版本，即：
+\begin{equation}
+  \left\|\frac{\boldsymbol{W}^{\top}}{\|\boldsymbol{W}\|_{F}}-\frac{\dot{\boldsymbol{M}}}{\|\dot{\boldsymbol{M}}\|_{F}}\right\|_{F} \rightarrow 0 ,
+\end{equation}
+其中 $\dot{\boldsymbol{M}} = \left(\boldsymbol{\bar{h}}_{1}-\boldsymbol{\bar{h}}_{G}, \boldsymbol{\bar{h}}_{2}-\boldsymbol{\bar{h}}_{G}, \cdots, \boldsymbol{\bar{h}}_{K}-\boldsymbol{\bar{h}}_{G} \right) \in \mathbb{R}^{d^{\prime} \times k}$ 被成为中心化类均值矩阵（centralized class mean matrix）。
+
+\item \textbf{(NC4)} {\heiti 简化到最近类中心}：在TPT阶段，分类器收敛到选择与训练类均值最近（在标准欧氏距离下）的类别，即：
+\begin{equation}
+  \arg \max _{k^{\prime}}\left\langle\boldsymbol{w}_{k^{\prime}}, \boldsymbol{h}\right\rangle+b_{k^{\prime}} \rightarrow \underset{k^{\prime}}{\arg \min }\left\|\boldsymbol{h}-\boldsymbol{\bar{h}}_{k^{\prime}}\right\|_{2}.
+\end{equation}
+其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 被成为重新缩放的类均值（renormalized class mean）。\myqed
+\end{itemize}
+\end{definition}
+
+特征压缩现象刻画了神经网络特征提取器的几何特征。
+许多研究已经证明，多种不同场景下、不同网络在不同数据集上都观测到了定义\ref{def-NC}中所描述的四个特性，说明NC是神经网络的TPT阶段会出现的一个普遍现象。
+在这四个特征中，\textbf{(NC2)}是最相关的，因为它揭示了标准和对抗特征塌缩之间最显著的区别，即广义单纯形ETF定义的单纯形压缩现象。
+因此，本文的剩余部分将主要关注\textbf{(NC2)}。
+
+\begin{definition}[广义单纯形等角紧框架\cite{nc}]
+  \label{def-simplex-ETF}
+  给定正整数 $d^{\prime} > K$与矩阵
+  \begin{equation}
+      \W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}
+  \end{equation}
+  如果$\W = c_1 \boldsymbol{U} \boldsymbol{M} $成立，则我们称$\W$为一个广义单纯形等角紧框架。
+  其中
+  \begin{equation}\label{eq-def-simplex-ETF-M-in-paper}
+      \boldsymbol{M} 
+      = \sqrt{\frac{K}{K-1}} 
+      \left( \boldsymbol{I}_{K} -\frac{1}{K} \mathbf{1}_{K}  \mathbf{1}_{K}^{\top}  \right) \in \R^{K \times K},
+  \end{equation}
+  $\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }$ 是一个半正交矩阵（partial orthogonal matrix），即$\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}$，且$c_1 \in \R$是一个非零常数。
+  \myqed
+  \end{definition}
+  值得指出的是，在NC研究中，单纯形ETF的定义与数学文献中的定义略有不同 \cite{arXiv:math/0301135,arXiv:1504.00253}。
+  为了消除歧义，本文中所有关于单纯形ETF的讨论都基于定义\ref{def-simplex-ETF}。
+
+\section{实证研究}\label{sec-nc-experiment}
+本章将通过实证研究，系统地探索标准和对抗特征塌缩之间的差异。
+我们首先研究对抗特征塌缩现象，然后探索对抗特征塌缩与标准特征塌缩之间的差异，揭示单纯形压缩现象。
+我们还提供了一系列消融实验，以消除扰动范数和PGD迭代步数的影响。
+
+\subsection{实验设置}\label{sec-nc-experiment-setup}
+
+{\heiti 数据集}：我们使用以下三个视觉数据集进行实验。
+\texttt{CIFAR-10} \cite{cifar10} 包含 60,000 张 32x32 像素的彩色图像，分为 10 类，每类 6,000 张。
+\texttt{CIFAR-100} 包含 60,000 张 32x32 像素的彩色图像，分为 100 类，每类 600 张。
+\texttt{Tiny ImageNet} \cite{deng2009imagenet} 包含 200 类，每类 500 张 64x64 像素的彩色图像。
+
+{\heiti 模型}：我们使用VGG \cite{simonyan2014very}, ResNet \cite{he2016deep}, 和Wide ResNet (WRN) \cite{wrn} 进行实验。
+具体的选择网络深度和宽度取决于数据集。
+我们参考支持信息文件获取更多细节。
+\paragraph{Models}
+% We train VGG \cite{simonyan2014very}, ResNet \cite{he2016deep}, and Wide ResNet (WRN) \cite{wrn} with random initialization on these datasets.
+% The specific choice of network depth and width is related to the dataset.
+% We refer the readers to the supporting information file for further details.
+ 
+{\heiti 对抗训练方法}：我们使用三种基于PGD的对抗训练方法，包括标准\texttt{PGD-AT} \cite{DBLP:conf/iclr/MadryMSTV18}, \texttt{TRADES} \cite{trades}, 和\texttt{MART} \cite{mart}。
+许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准。许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准。
+我们设置PGD的最大迭代步数为 $T_{a}=\left \{ 10,20,30 \right \} $，扰动半径为 $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ 用于 $L_{\infty}$ 范数，和 $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ 用于 $L_2$ 范数。
+我们的 $T_a$ 和 $\epsilon$ 的选择与许多之前的工作 \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} 和社区的标准化对抗鲁棒性基准\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} 一致。
+
+\paragraph{Adversarial Training Methods.}
+We conduct experiments using three PGD-based classical AT methods, including standard PGD-AT \cite{DBLP:conf/iclr/MadryMSTV18}, TRADES \cite{trades}, and MART \cite{mart}. 
+Many previous works \cite{robnc, wat, eat} use these methods as baselines.
+We set the maximum iteration steps for PGD to $T_{a}=\left \{ 10,20,30 \right \} $ with perturbation radius of $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ for the $L_{\infty}$ norm, and $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ for the $L_2$ norm. 
+\textcolor{red}{Our choices of $T_a$ and $\epsilon$ are consistent with many previous works \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} and the standardized adversarial robustness benchmark\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} in the community.}
+
+\paragraph{Implementation Details.}
+We implement experiments using PyTorch \cite{pytorch} on an Ubuntu 64-bit Linux workstation having a 10-core Intel
+Xeon Silver CPU (2.20 GHz) and eight Nvidia GeForce RTX 4090 GPUs. All networks are trained for 200 epochs to reach the terminal phase of training, at which point the phenomenon of NC occurs.
+We use stochastic gradient descent (SGD) with momentum = 0.9 and weight decay = 0.001. The batch size is 128, and the learning rate is 0.001. We keep other parameters consistent with the referenced articles \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Empirical Exploration-Neural Collapse %  %%%%%%%%%%%%%%%%%%
+\subsection{Neural Collapse in Adversarial Training}\label{sec-Empirical Exploration-Neural Collapse}
+In this subsection, we train Resnet-18 on the CIFAR-10 dataset using PGD-AT, MART, and TRADES. 
+\textcolor{red}{For each epoch, we calculate the numerical characteristics of NC1-NC4 using adversarial examples crafted from in the training data.}
+As illustrated in Figure \ref{fig:Neural Collapse}, our experiments substantiate the occurrence of NC phenomena (NC1-NC4) within our settings, thereby serving as a critical underpinning for our analyses. 
+This observation is consistent with findings reported in prior studies \cite{robnc,nc}.
+The remaining results can be found in the supporting information file (cf. Fig. S2 - S10).
+
+
+\begin{figure*}[hb]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/nc-1.png}
+    \caption{Result of $NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$. We train ResNet-18 on the CIFAR-10 dataset using PGD-AT, MART and TRADES, respectively. The perturbation radius are set to $\epsilon=8/255$ for $L_\infty $($L_{\infty} $) and $\epsilon=0.125$ for $L_2$. We set $T_{a}=10$. The results are obtained from adversarial samples.}
+   \label{fig:Neural Collapse}
+  \end{figure*}
+  %%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration-Simplex Collapse Phenomenon  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \subsection{Simplex Compression Phenomenon}\label{sec-simplex-compression-phenomenon}
+  
+  In this subsection, we investigate the influence of AT on the feature representations of the last layer. We define the average inter-class feature distance as the difference between the mean feature vector of each class and the global mean feature vector across all classes, expressed mathematically as:
+  \begin{equation}\label{eq-def-P-eps}
+  \boldsymbol{P}_{\epsilon} =\frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G}  \right \|_{2} .
+  \end{equation} 
+  We set the same perturbation radius $\epsilon$ and PGD iterations for each experiment.
+  The results of PGD-AT, TRADES and MART are shown in \ref{fig:Simplex Collapse} (the results of $L_2$ norm are in SI Appendix Fig. S1.).
+  We can see that $\boldsymbol{P}_{\epsilon } $ decreases as $\epsilon$ increases in each figure.
+  This observation suggests the geometric size of the simplex ETF structure decreases as the perturbation radius increases.
+  We refer to this experimental finding as the \textit{simplex compression phenomenon}.
+  
+  % An explanation for simplex compression is that the representations of different classes obtained from AT are more similar than those from clean training. Simplex compression can be seen as a characteristic of the robustness of models. 
+  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration - Ablation Experiment   %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \subsection{Ablation Experiment}\label{sec-Ablation Experiment}
+  
+  In the context of AT, the selection of hyper-parameters plays a pivotal role in defining the robustness and adaptability of learning models. 
+  Specifically, the choice of norms to quantify the deviation between adversarial and natural examples is critical. 
+  The $L_\infty$ norm focuses on the maximum component of the perturbation vector, and the $L_2$ norm measures the Euclidean distance between clean examples and adversarial examples.
+  Both are commonly used norms for characterizing adversarial perturbations.
+  Furthermore, the iterative process of generating adversarial examples, as delineated in Equation \eqref{eq:advsample}, necessitates multiple iterations for convergence. 
+  
+  To investigate the potential confounding effects of these hyper-parameters in previous experiments, we design additional experiments with varying hyperparameter selections. 
+  For the $L_\infty$ norm, perturbation radius are set to $\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$, while for the $L_2$ norm, they are adjusted to $\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$. 
+  These selections are consistent with those used in previous experiments. And we set PGD iterations $T_{a}=\left \{10, 20 ,30\right \} $ to repeat our experiments.
+  The results are displayed in \ref{fig:pgd_effect}. 
+  We can see that simplex compression exits for different perturbation norms and PGD iterations.
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/pgd.png}
+    \caption{Result of $\boldsymbol{P}_{\epsilon}$. 
+  We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=\{  10,20,30\}$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples. Here, 'PGD-10' means $T_{a}=10$.}
+    \label{fig:pgd_effect}
+  \end{figure}
+  
+  Furthermore, we extend our analysis by presenting the results of $\boldsymbol{P}_{\epsilon}$ for clean examples. 
+  As shown in \ref{fig:sample_effect}, we observe that the $\boldsymbol{P}_{\epsilon}$ values for clean examples are comparatively larger than those for adversarial examples, but they remain consistent with the simplex compression phenomenon.
+  
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/sample.png}
+    \caption{Result of $\boldsymbol{P}_{\epsilon }$. 
+  We train ResNet-18 on the CIFAR-10 dataset using PGD-AT. We choose $T_{a}=10$ and norm $p=\{L_\infty , L_2\}$. The results are obtained from adversarial samples and clean samples. The 'Adv-samples' means adversarial samples.}
+    \label{fig:sample_effect}
+  \end{figure}

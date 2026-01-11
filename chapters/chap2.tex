@@ -1,0 +1,58 @@
+\chapter{特征学习理论的分析框架}\label{sec-preliminaries}
+
+FLT作为深度学习领域新兴的基础理论分支，既承袭了传统统计学习理论的系统性理论框架，又深受深度学习应用中实际问题的驱动。
+本章将从基础定义出发，系统阐述特征学习理论的核心概念与关注焦点。
+我们首先基于机器学习理论的视角，解构一般学习任务并剖析其 “四要素”，随后顺势引出“特征”与“特征学习”这两个核心概念，并辅以必要的概率统计工具。
+最后，我们将归纳总结特征学习理论的分析框架。
+
+\section{特征学习理论的基本概念}\label{sec-feature-learning-theory-basics}
+
+在本文中，我们分别用小写与大写粗体字母来表示（列）向量和矩阵。
+给定$d \in \mathbb{N}^{+}$和$\v \in \R^d$，记$\v$的第$i$个元素（$1 \leq i \leq d$）为$\v^{(i)}$，即$\v = (\v^{(1)}, \v^{(2)}, \cdots, \v^{(d)})^{\top}$。
+类似地，我们用$\M^{(i)}$来表示矩阵$\M$的第$i$列，并记$\M = (\M^{(1)}, \M^{(2)}, \cdots, \M^{(d)})$。
+给定$N \in \mathbb{N}^{+}$，我们记指标集$\{1, 2, \cdots, N\}$为$[N]$。
+对任意$n \in [N]$，为简单起见，我们令$[N \backslash n] := \{ 1, \cdots, n-1, n+1, \cdots, N \}$。
+
+给定模型族$\calF$，机器学习的核心任务是训练一个模型$f \in \calF$，使其能够对输入数据$\z$做出精准的预测。
+其中，根据不同的学习任务，$\z$可以取不同的形式，例如图像、文本、基因序列等，而模型的功能则可以是分类、回归、生成或聚类等。
+对于任意输入值$\z$，我们可以通过定义一个损失函数（loss function）$\ell(f, \z)$来量化模型预测值$f(\z)$的准确程度。
+给定数据集$\calD$，模型$f$在$\calD$上的经验风险（empirical risk）定义为：
+\begin{equation}
+  \hat{R}(f; \calD) = \frac{1}{|\calD|} \sum_{\z \in \calD} \ell(f, \z).
+\end{equation}
+经验风险是模型$f$在训练数据集$\calD$上的平均损失，可用于评估模型$f$在训练数据集$\calD$上的性能，并作为优化目标来训练模型。
+具体来说，我们希望找到一个模型$f^{*}$，使得经验风险最小化，也即：
+\begin{equation}
+  f^{*} = \arg \min_{f \in \mathcal{F}} \hat{R}(f; \calD).
+\end{equation}
+在实际场景中，我们需要借助优化算法来求解上述优化问题。
+常见的优化算法包括梯度下降（Gradient Descent，GD）、随机梯度下降（Stochastic Gradient Descent，SGD）、Adam等。
+在相关文献中，数据集、模型族、损失函数与优化算法共同定义了一个具体的学习任务，构成了该任务的四大核心要素。
+
+具体来说，我们希望模型$f$能够满足以下条件：
+\begin{equation}
+  f(\x) = y
+\end{equation}
+其中$y$是$\x$的标签。
+在统计学习理论中，我们通常将模型$f$表示为函数空间$\mathcal{F}$中的一个元素，即$f \in \mathcal{F}$。
+我们称$\mathcal{F}$为假设类（hypothesis class）。
+我们称$\mathcal{F}$为假设类（hypothesis class）。
+
+学习任务（learning task）一般由数据集、假设类（hypothesis class）、优化算法与评价指标决定。
+这四个东西一般也被成为机器学习的四大核心要素。
+具体来说，给定数据集$\calD$与假设类$\calH$，我们需要设计一个风险函数$\calR: \calH \times \calD \to \R$来评价模型在学习任务上的性能，
+并基于该风险函数设计优化算法$\mathcal{A}$，最终通过评价指标$\mathcal{E}$来评估模型的性能。
+数据层面，FLT一般采取信号-噪音模型（Signal-to-Noise Model，SNM）来刻画数据分布。
+以图像为例，。
+因此，
+
+\begin{proposition}[高维正交性]\label{prop-almost-ortho-in-high-d-space}
+
+\end{proposition}
+性质\ref{prop-almost-ortho-in-high-d-space}说明了正交假设的合理性，因为高位空间中的总是趋近于正交的。
+
+\section{特征与特征学学习}\label{sec-feature-and-feature-learning}
+
+
+
+\section{特征学习理论的分析框架}\label{sec-feature-learning-theory-analysis-framework}

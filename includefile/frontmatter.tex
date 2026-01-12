@@ -1,12 +1,6 @@
 % !Mode:: "TeX:UTF-8"
 
-%%% 说明: 此部分需要自己填写的内容:  论文创新点.
-
-%%% ``郑重申明'' 和``论文使用授权协议书'' 分别在 statement.tex 和 protocol.tex 中, 无需改动.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% -------------  英文封面 (无需改动)-------------   %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 英文封面
 \thispagestyle{empty}
 \renewcommand{\baselinestretch}{1.5}  %下文的行距
 \vspace*{0.5cm}
@@ -55,61 +49,18 @@
   \cleardoublepage
   \fi
 %%%%%%%-------------------------------------------------
-{\pagestyle{empty}
-%%%--- 加入``郑重声明'' --- %%%%%%%%%%%%%%%%%
-\input{includefile/statement}%%%%%%%%%%%%%%%%%
-%%% ---加入``武汉大学学位论文使用授权协议书'' ---  %%%%%%
-\input{includefile/protocol}%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{
+  \pagestyle{empty}
+  \input{includefile/statement} % 郑重声明
+  \input{includefile/protocol} % 武汉大学学位论文使用授权协议书
 }
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% ------------------- 论文创新点----------------------- %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage\vspace*{20pt}\thispagestyle{empty}
 \begin{center}{\zihao{-2}\heiti 论文创新点}\end{center}
 \par\vspace*{30pt}
 \baselineskip=20pt
 
-本文从动力学视角出发对神经网络的特征学习过程进行了深入探究，建立了丰富的理论成果，为高性能深度学习模型的设计与优化提供了理论支撑。本文的主要创新点可以概括如下。
-
-\begin{itemize}
-
-  \item 1
-  \item 2
-
-\end{itemize}
-
-\begin{enumerate}[(1)]
-
-  \item  给出了神经网络特征学习的范式.
-
-  \item  在计算机视觉（computer vision, CV）、自然语言处理（natural language processing, NLP），以及
-
-  \item  强调了标点符号等的用法. 指出了
-
-
-\end{enumerate}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\input{includefile/innovation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%--请勿删除以下内容 -------------------------------%

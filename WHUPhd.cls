@@ -152,15 +152,18 @@
 \theorempostskip{0pt}
 %\theoremseparator{\hspace{1em}}
 \theoremnumbering{arabic}
-%\theoremsymbol{} %定理结束时自动添加的标志
-\newtheorem{theorem}{\vspace{6pt}\noindent 定理}[chapter]
-\newtheorem{definition}{\vspace{6pt}\noindent 定义}[theorem]
-\newtheorem{lemma}{\vspace{6pt}\noindent 引理}[theorem]
-\newtheorem{corollary}{\vspace{6pt}\noindent 推论}[theorem]
-\newtheorem{proposition}{\vspace{6pt}\noindent 性质}[theorem]
-\newtheorem{example}{\vspace{6pt}\noindent 例}[chapter]
-\newtheorem{remark}{\vspace{6pt}\noindent 注}[chapter]
-\newtheorem{assumption}{\vspace{6pt}\noindent 假设}[theorem]
+
+\newtheorem{thm-like}{}[chapter]
+\newtheorem{theorem}[thm-like]{\vspace{6pt}\noindent 定理}
+\newtheorem{lemma}[thm-like]{\vspace{6pt}\noindent 引理}
+\newtheorem{corollary}[thm-like]{\vspace{6pt}\noindent 推论}
+\newtheorem{proposition}[thm-like]{\vspace{6pt}\noindent 性质}
+
+\newtheorem{def-like}{}[chapter]
+\newtheorem{definition}[def-like]{\vspace{6pt}\noindent 定义}
+\newtheorem{example}[def-like]{\vspace{6pt}\noindent 例}
+\newtheorem{remark}[def-like]{\vspace{6pt}\noindent 注}
+\newtheorem{assumption}[def-like]{\vspace{6pt}\noindent 假设}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\heiti}

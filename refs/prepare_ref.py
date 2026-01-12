@@ -2,17 +2,29 @@
 维护文献清单
 '''
 
+import os
+import bibtexparser as bp
+from semanticscholar import SemanticScholar
+from semanticscholar.Paper import Paper
 from pathlib import Path
 
-REF_FILE = Path("C:/coding/FLT/yanboc-thesis/includefile/reference.tex")
+SOURCE_BIB_FILE = Path("E:/hutou/projects/yanboc-thesis/refs/ref.bib")
 
-def remove_duplicate(ref_file: Path=REF_FILE):
-    tex_lines = []
-    with open(ref_file, 'r', encoding='utf-8') as file:
-        for line in file:
-            line_content = line.strip('\n')
-            tex_lines.append(line_content)
-    tex_lines = list(set(tex_lines))
+def deduplicate_ref(bib_file: Path):
+    with open(bib_file, mode='r', encoding='utf-8', newline='') as f:
+        bib_text = f.read()
+    bib_database = bp.loads(bib_text)
+    existing_bib_ids = set()
+    for entry in bib_database.entries:
+        if entry["ID"] in existing_bib_ids:
+            bib_database.entries.remove(entry)
+            print(f"Removed {entry['ID']} from {bib_file}")
+        else:
+            print(f"Added {entry['ID']} to {bib_file}")
+            existing_bib_ids.add(entry["ID"])
     
+    with bib_file.open(mode='w', encoding='utf-8', newline='') as f:
+        bp.dump(bib_database, f)
 
-def to_thesis_format(conf_format: str, thesis_format: str):
+if __name__ == "__main__":
+    deduplicate_ref(SOURCE_BIB_FILE)

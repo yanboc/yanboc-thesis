@@ -1,7 +1,7 @@
-% \documentclass{WHUPhd}
-\documentclass[forprint]{WHUPhd}
+\documentclass{WHUPhd}
+% \documentclass[forprint]{WHUPhd}
 % \documentclass[forlib]{WHUPhd}
-\input{settings}
+\input{includefile/settings}
 \begin{document}
 
 \fenleihao{TP391} % 分类号:《中国图书资料分类法》的类号. 必填. 要根据自己的学科方向填写!!
@@ -29,6 +29,7 @@
 \maketitle
 
 %-----------------------------------------------------------------------------
+\newpage
 \input{includefile/frontmatter} % 加入英文封面, 论文创新点, 等等目录之前的部分.
 \frontmatter
 \pagenumbering{Roman} % 正文之前的页码用大写罗马字母编号.
@@ -37,13 +38,14 @@
 \pdfbookmark[0]{目录}{toc}%%%%%%%%%%%%
 \pagestyle{oldplain}
 \tableofcontents
-\pagestyle{oldplain}
+\pagestyle{oldplain}\cleardoublepage
 \newpage  \pagestyle{fancy} \fancyfancy
 %------------------------------------------------------------------------------
 \input{includefile/midmatter} % 加入中英文摘要.
 %------------------------------------------------------------------------------
 \mainmatter %% 以下是正文
 \baselineskip=20pt  % 正文行距为 20 磅
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \input{chapters/chap1}
@@ -53,14 +55,26 @@
 \input{chapters/chap5}
 \input{chapters/chap6}
 
-\phantomsection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\input{appendix/app3}
+\input{appendix/app4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cleardoublepage\phantomsection
 \addcontentsline{toc}{chapter}{参考文献}
-\begin{thebibliography}{000}\zihao{5}
-\input{includefile/reference.tex}
-\end{thebibliography}
+% \bibliographystyle{gbt7714}
+\bibliography{refs/ref}
+% \begin{thebibliography}{000}\zihao{5}
+% \input{includefile/reference.tex}
+% \end{thebibliography}
 
 \backmatter
 
 \input{includefile/backmatter} %%%致谢、作品列表 ．
 
+\cleardoublepage
 \end{document}

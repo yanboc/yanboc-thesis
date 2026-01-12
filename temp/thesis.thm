@@ -1,43 +1,49 @@
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{2.{0}.{1}}{高维正交性}}{10}{proposition.2.0.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{0}.{1}}{特征塌缩}}{13}{definition.3.0.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{0}.{2}}{广义单纯形等角紧框架\cite {nc}}}{14}{definition.3.0.2}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{3.{1}}{UFM的局限性}}{19}{remark.3.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{0}.{3}}{$f$的表征}}{19}{definition.3.0.3}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{3.{2}}{}}{19}{remark.3.2}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{3.{0}.{1}}{The terminal phase of training}}{21}{assumption.3.0.1}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{0}.{1}}{}}{22}{corollary.3.0.1}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{3.{0}.{2}}{NC3}}{22}{assumption.3.0.2}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{1}}{NC2}}{22}{theorem.3.1}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{2}}{Simplex compression}}{23}{theorem.3.2}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{2}.{1}}{}}{25}{corollary.3.2.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{2}.{1}}{}}{25}{lemma.3.2.1}%
-\contentsline {proof}{{\hspace {2em}证明}{1}{}}{25}{proof.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{2}.{2}}{The terminal phase of clean training}}{26}{lemma.3.2.2}%
-\contentsline {proof}{{\hspace {2em}证明}{2}{Proof of \ref {lemma-TPT-clean}}}{26}{proof.2}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{2}.{3}}{The terminal phase of AT}}{29}{lemma.3.2.3}%
-\contentsline {proof}{{\hspace {2em}证明}{3}{Proof of \ref {lemma-TPT-AT}}}{30}{proof.3}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{4.{0}.{1}}{Normal data model}}{37}{assumption.4.0.1}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{4.{0}.{1}}{}}{40}{proposition.4.0.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{0}.{1}}{}}{40}{lemma.4.0.1}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{1}}{\textbf {\textit {Parameter Analysis}}}}{41}{remark.4.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{4.{0}.{1}}{Cone set}}{41}{definition.4.0.1}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{2}}{\textbf {\textit {Cone Set Intuition}}}}{41}{remark.4.2}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{0}.{2}}{}}{41}{lemma.4.0.2}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{1}}{}}{42}{theorem.4.1}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{3}}{\textbf {\textit {Interpretation of \ref {theorem-Stk-subset-st+1k}}}}}{42}{remark.4.3}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{2}}{}}{42}{theorem.4.2}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{2}.{1}}{Informal}}{43}{corollary.4.2.1}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{3}}{}}{44}{theorem.4.3}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{4}}{\textbf {\textit {Semantic Anomalies are hard to detect}}}}{44}{remark.4.4}%
-\contentsline {proof}{{\hspace {2em}证明}{4}{Proof of Proposition \ref {prop-gradient}}}{47}{proof.4}%
-\contentsline {proof}{{\hspace {2em}证明}{5}{Proof of Lemma \ref {lemma-size-of-wj-in-paper}}}{49}{proof.5}%
-\contentsline {proof}{{\hspace {2em}证明}{6}{}}{50}{proof.6}%
-\contentsline {proof}{{\hspace {2em}证明}{7}{Proof of \ref {theorem-initial-size-in-paper}}}{51}{proof.7}%
-\contentsline {proof}{{\hspace {2em}证明}{8}{Proof of \ref {theorem-Stk-subset-st+1k}}}{52}{proof.8}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{5}}{Over-parameterized model is necessary}}{56}{remark.4.5}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}.{1}}{Upper tail}}{56}{lemma.4.3.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}.{2}}{Lower tail}}{57}{lemma.4.3.2}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{3}.{1}}{}}{57}{corollary.4.3.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}.{3}}{Concentration inequality for chi-squared random variables}}{57}{lemma.4.3.3}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}.{4}}{}}{57}{lemma.4.3.4}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{6}}{Discussions on the results in \ref {sec-inner-product-experiments,sec-kernel-norm-growth-experiments}}}{63}{remark.4.6}%
+\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{2.{1}}{高维正交性}}{9}{thm-like.2.1}%
+\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{1}}{特征塌缩}}{13}{def-like.3.1}%
+\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{2}}{广义单纯形等角紧框架\cite {neural-collapse}}}{14}{def-like.3.2}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{3.{3}}{UFM的局限性}}{18}{def-like.3.3}%
+\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{4}}{$f$的表征}}{18}{def-like.3.4}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{3.{5}}{}}{19}{def-like.3.5}%
+\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{3.{6}}{TPT}}{21}{def-like.3.6}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{1}}{}}{21}{thm-like.3.1}%
+\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{3.{7}}{NC3}}{21}{def-like.3.7}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{2}}{NC2}}{22}{thm-like.3.2}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{3}}{单纯形压缩}}{22}{thm-like.3.3}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{4}}{}}{24}{thm-like.3.4}%
+\contentsline {proof}{{\hspace {2em}证明}{1}{引理\ref {lemma-nabla-h-R-Whb}}}{25}{proof.1}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{5}}{}}{26}{thm-like.3.5}%
+\contentsline {proof}{{\hspace {2em}证明}{2}{推论\ref {corollary-nabla-h-Radv-Whb}}}{26}{proof.2}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{6}}{}}{28}{thm-like.3.6}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{7}}{}}{28}{thm-like.3.7}%
+\contentsline {proof}{{\hspace {2em}证明}{3}{引理\ref {lemma-principal-entry-of-h}}}{28}{proof.3}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{8}}{干净训练的TPT阶段}}{29}{thm-like.3.8}%
+\contentsline {proof}{{\hspace {2em}证明}{4}{Proof of \ref {lemma-TPT-clean}}}{29}{proof.4}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{9}}{对抗训练的TPT阶段}}{32}{thm-like.3.9}%
+\contentsline {proof}{{\hspace {2em}证明}{5}{Proof of \ref {lemma-TPT-AT}}}{33}{proof.5}%
+\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{4.{1}}{正常数据模型}}{38}{def-like.4.1}%
+\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{4.{1}}{}}{40}{thm-like.4.1}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{2}}{}}{41}{thm-like.4.2}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{2}}{参数分析}}{41}{def-like.4.2}%
+\contentsline {definition}{{\vspace {6pt}\noindent 定义}{4.{3}}{锥集}}{41}{def-like.4.3}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{4}}{锥集直觉}}{41}{def-like.4.4}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}}{}}{41}{thm-like.4.3}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{4}}{}}{42}{thm-like.4.4}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{5}}{定理\ref {theorem-Stk-subset-st+1k}的解释}}{42}{def-like.4.5}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{5}}{}}{42}{thm-like.4.5}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{6}}{非正式}}{43}{thm-like.4.6}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{7}}{}}{43}{thm-like.4.7}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{6}}{语义异常难以检测}}{44}{def-like.4.6}%
+\contentsline {proof}{{\hspace {2em}证明}{6}{Proof of Proposition \ref {prop-gradient}}}{46}{proof.6}%
+\contentsline {proof}{{\hspace {2em}证明}{7}{Proof of Lemma \ref {lemma-size-of-wj-in-paper}}}{47}{proof.7}%
+\contentsline {proof}{{\hspace {2em}证明}{8}{}}{48}{proof.8}%
+\contentsline {proof}{{\hspace {2em}证明}{9}{Proof of \ref {theorem-initial-size-in-paper}}}{49}{proof.9}%
+\contentsline {proof}{{\hspace {2em}证明}{10}{Proof of \ref {theorem-Stk-subset-st+1k}}}{50}{proof.10}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{7}}{过参数化模型是必要的}}{53}{def-like.4.7}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{8}}{}}{53}{thm-like.4.8}%
+\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{9}}{}}{54}{thm-like.4.9}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{10}}{上尾}}{54}{thm-like.4.10}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{11}}{下尾}}{54}{thm-like.4.11}%
+\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{12}}{}}{54}{thm-like.4.12}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{13}}{卡方随机变量的集中不等式}}{54}{thm-like.4.13}%
+\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{14}}{}}{55}{thm-like.4.14}%
+\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{8}}{对\S \ref {sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论}}{60}{def-like.4.8}%

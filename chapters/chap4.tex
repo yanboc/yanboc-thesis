@@ -1,185 +1,181 @@
 \chapter{图像任务的特征学习理论}\label{chap-RBAD}
 
-\section{Introduction}\label{sec-introduction}
+\section{引言}\label{sec-introduction}
 
-Anomalies are rare or suspicious observations that deviate significantly from the pre-defined normal data \cite{DBLP:journals/corr/abs-1901-03407,DBLP:journals/pieee/RuffKVMSKDM21}.
-Examples of anomalies include credit card fraud \cite{credit-card-fraud-2011}, defects in manufacturing products \cite{DBLP:journals/ijcv/BergmannBFSS21}, and outbreaks of disease \cite{ourbreaks-of-disease-2023}.
-Anomaly detection is a challenging task since negative samples (i.e., anomalies) are hard to obtain at the training stage.
-Nevertheless, researchers have developed various anomaly detection methods that require only normal training data.
-For example, empirical studies \cite{DBLP:conf/cvpr/SalehiSBRR21,DBLP:journals/corr/abs-2305-15956} have observed an intriguing phenomenon that generative models trained on normal data tend to produce larger reconstruction errors when reconstructing anomalies than normal data.
-Accordingly, anomalies can be detected by setting up thresholds for reconstruction errors.
-Such anomaly detection methods are referred to as reconstruction-based anomaly detection (RBAD) \cite{DBLP:journals/corr/abs-2305-18593,DBLP:conf/icml/LvSWXX24,DBLP:conf/icml/LiF0CWHSQZ24} in the literature.
+异常是罕见或可疑的观测, 它们显著偏离预定义的正常数据 \cite{DBLP:journals/corr/abs-1901-03407,DBLP:journals/pieee/RuffKVMSKDM21}.
+异常的例子包括信用卡欺诈 \cite{credit-card-fraud-2011}, 制造产品中的缺陷 \cite{DBLP:journals/ijcv/BergmannBFSS21}, 以及疾病爆发 \cite{ourbreaks-of-disease-2023}.
+异常检测是一项具有挑战性的任务, 因为在训练阶段很难获得负样本 (即异常).
+尽管如此, 研究人员已经开发了各种只需要正常训练数据的异常检测方法.
+例如, 实证研究 \cite{DBLP:conf/cvpr/SalehiSBRR21,DBLP:journals/corr/abs-2305-15956} 观察到一个有趣的现象, 即在正常数据上训练的生成模型在重构异常时往往比重构正常数据产生更大的重构误差.
+因此, 可以通过为重构误差设置阈值来检测异常.
+这种异常检测方法在文献中被称为基于重构的异常检测 (RBAD) \cite{DBLP:journals/corr/abs-2305-18593,DBLP:conf/icml/LvSWXX24,DBLP:conf/icml/LiF0CWHSQZ24}.
 
-Despite the empirical success of RBAD, the theoretical understanding of RBAD is still limited.
-A detailed discussion on the related works is postponed to Appendix \ref{sec-related-work} due to limited space.
-The main goal of our paper is to establish a theoretical framework for analyzing RBAD and find a plausible explanation for RBAD.
-More specifically, we raise the following three research questions.
+尽管RBAD在实证上取得了成功, 但对RBAD的理论理解仍然有限.
+由于篇幅有限, 对相关工作的详细讨论推迟到附录\ref{sec-related-work}.
+本文的主要目标是建立一个用于分析RBAD的理论框架, 并为RBAD找到一个合理的解释.
+更具体地说, 我们提出以下三个研究问题.
 \begin{itemize}
-    \item ($\bm{Q}_1$) \textit{How does the model learn the features from normal training data in RBAD?}
-    \item ($\bm{Q}_2$) \textit{What is the role of the learned features in the reconstruction phase?}
-    \item ($\bm{Q}_3$) \textit{Why are the anomalies harder to reconstruct compared to normal data?}
+    \item ($\bm{Q}_1$) {在RBAD中, 模型如何从正常训练数据中学习特征?}
+    \item ($\bm{Q}_2$) {学习的特征在重构阶段的作用是什么?}
+    \item ($\bm{Q}_3$) {为什么异常比正常数据更难重构?}
 \end{itemize}
-This paper comprehensively discusses $\bm{Q}_1$ - $\bm{Q}_3$ and provide a brief answer in \ref{sec-conclusion}.
+本文全面讨论了$\bm{Q}_1$ - $\bm{Q}_3$, 并在\ref{sec-rbad-conclusion}中提供了简要答案.
 
-\paragraph{Setup.}
-We analyze the training and reconstructing processes of RBADs using tools from \textit{feature learning} \cite{DBLP:conf/focs/Allen-ZhuL21,DBLP:conf/iclr/Allen-ZhuL23};
-we refer the readers to Appendix \ref{sec-related-work} for more related works.
-Following \cite{DBLP:conf/iclr/Allen-ZhuL23}, we characterize the inputs images as an array of $P$ \textit{patches}.
-As illustrated in \ref{fig-different-types-of-anomalies}, patches are small parts of an image that might contain various features and non-feature noise.
-In this paper, we adopt the signal-noise data model that characterizes the patches as the sum of a feature and a random noise.
-For normal data, the patches contain different features according to some given distribution (cf. \ref{sec-data-assumption}).
-We characterize the anomalies as normal data with some of the normal patches replaced by abnormal patches.
+\paragraph{设置}
+我们使用{特征学习} \cite{DBLP:conf/focs/Allen-ZhuL21,DBLP:conf/iclr/Allen-ZhuL23}的工具分析RBAD的训练和重构过程;
+我们请读者参考附录\ref{sec-related-work}了解更多相关工作.
+遵循\cite{DBLP:conf/iclr/Allen-ZhuL23}, 我们将输入图像刻画为$P$个{补丁}的数组.
+如\ref{fig-different-types-of-anomalies}所示, 补丁是图像的小部分, 可能包含各种特征和非特征噪声.
+在本文中, 我们采用信号-噪声数据模型, 将补丁刻画为特征和随机噪声的和.
+对于正常数据, 补丁根据某个给定分布包含不同的特征 (参见\ref{sec-data-assumption}).
+我们将异常刻画为正常数据, 其中一些正常补丁被异常补丁替换.
 
-We consider a \textit{two-layer convolutional autoencoder} that includes a convolutional hidden layer with max pooling operation.
-The network is parameterized by the convolutional kernels $\w$ and is trained by minimizing the empirical reconstruction error using gradient descent with random initialization.
-We analyze the training dynamics of the kernels by setting up probability bounds for the growth rates and the magnitude of the kernels.
+我们考虑一个{两层卷积自编码器}, 它包括一个带最大池化操作的卷积隐藏层.
+网络由卷积核$\w$参数化, 并通过使用随机初始化的梯度下降最小化经验重构误差来训练.
+我们通过为核的增长率和大小的概率界限来分析核的训练动力学.
 
-\paragraph{Theoretical Analysis.}
-We quantitatively analyze the training and reconstruction phases of RBADs in \ref{sec-main-results}.
-Given feature and iteration step, Definition \ref{def-smost-in-paper} introduces the \textit{cone set} of the feature at that iteration step.
-By definition, the ``cones'' would get sharper as iteration steps increase (cf. \ref{fig-geometric-intuition}), which ensures that the kernels in the cone sets would get more aligned to the corresponding feature.
-We prove that the cone sets of the features would absorb the kernels during training.
-As a result, the absorbed kernels would eventually approximates the features' directions, and by this means, the model extract and learn the features from the training data.
-The above analysis provides a plausible answer to question $\bm{Q}_1$.
+\paragraph{理论分析}
+我们在\ref{sec-main-results}中定量分析RBAD的训练和重构阶段.
+给定特征和迭代步, 定义\ref{def-smost-in-paper}引入了该迭代步时特征的{锥集}.
+根据定义, ``锥''会随着迭代步的增加而变得更尖锐 (参见\ref{fig-geometric-intuition}), 这确保了锥集中的核会更对齐到相应的特征.
+我们证明特征的锥集在训练过程中会吸收核.
+因此, 被吸收的核最终会近似特征的方向, 通过这种方式, 模型从训练数据中提取和学习特征.
+上述分析为问题$\bm{Q}_1$提供了一个合理的答案.
 
-We answer the questions $\bm{Q}_2$ and $\bm{Q}_3$ by further analyzing the reconstruction phase of RBAD.
-Our paper characterizes the anomalies as normal data with some of the normal patches replaced by the abnormal patches.
-In \ref{sec-reconstruction}, we study how the learned features process the signal from the input image.
-\ref{theorem-small-convolution-in-paper} proves that the processed signal of the abnormal patches would be significantly weaker than those of the normal patches, explaining why the anomalies are hard to reconstruct.
+我们通过进一步分析RBAD的重构阶段来回答问题$\bm{Q}_2$和$\bm{Q}_3$.
+本文将异常刻画为正常数据, 其中一些正常补丁被异常补丁替换.
+在\ref{sec-reconstruction}中, 我们研究学习的特征如何处理来自输入图像的信号.
+\ref{theorem-small-convolution-in-paper}证明了异常补丁的处理信号会显著弱于正常补丁的处理信号, 这解释了为什么异常难以重构.
 
-\paragraph{Empirical Validation.}
-We conduct experiments on synthesized and real-world datasets to validate the theoretical findings and intuitions.
-The setting of the synthesized experiment is identical to our theoretical setting.
-As reported in Figure \ref{fig-synthesized-experiment-results}, there is a clear gap between the reconstruction errors of the normal data and the anomalies, which is in consistent with both our theoretical claims and the existing empirical results on RBAD.
-We also train networks on real-world anomaly detection datasets and visualize the growth of the kernels in these networks.
-The results exhibit clear feature learning processes, which further validate our proposed cone set intuition.
+\paragraph{实证验证}
+我们在合成和真实世界数据集上进行实验, 以验证理论发现和直觉.
+合成实验的设置与我们的理论设置相同.
+如图\ref{fig-synthesized-experiment-results}所示, 正常数据和异常的重构误差之间存在明显差距, 这与我们的理论主张和RBAD的现有实证结果一致.
+我们还在真实世界的异常检测数据集上训练网络, 并可视化这些网络中核的增长.
+结果展示了清晰的特征学习过程, 这进一步验证了我们提出的锥集直觉.
 
-\paragraph{Contribution Statement.}
-The main contributions of our paper are summarized as follows.
+\paragraph{贡献声明}
+本文的主要贡献总结如下.
 
 \begin{enumerate}
-    \item We establish a theoretical framework for analyzing RBAD.
-The main results and intuitions are summarized in the theoretical roadmap (\ref{fig-theoretical-roadmap}).
-Our proposed framework introduces the cone set intuition (Remark \ref{remark-cone-set-intuition} and \ref{fig-geometric-intuition}).
-We characterize how neural networks extract features ($\bm{Q}_1$) and reconstruct normal data and anomalies ($\bm{Q}_2$). 
-In particular, we prove that a 2-layer convolutional autoencoder trained on normal data cannot accurately reconstruct the anomalies with high probability ($\bm{Q}_3$).
+    \item 我们建立了一个用于分析RBAD的理论框架.
+主要结果和直觉总结在理论路线图中 (\ref{fig-theoretical-roadmap}).
+我们提出的框架引入了锥集直觉 (备注\ref{remark-cone-set-intuition}和\ref{fig-geometric-intuition}).
+我们刻画了神经网络如何提取特征 ($\bm{Q}_1$) 以及重构正常数据和异常 ($\bm{Q}_2$). 
+特别地, 我们证明了在正常数据上训练的2层卷积自编码器以高概率无法准确重构异常 ($\bm{Q}_3$).
 
-\item We also conduct extensive experiments on synthesized and real-world datasets.
-With an identical setting to our theory, the results of the synthesized experiment are consistent with both our theoretical findings and the existing empirical results.
-We also visualize the feature learning process on real-world datasets, validating our proposed cone set intuition.
-{\color{red} Note that the main goal of our paper is to complement, not compete with, existing RBAD methods. The experiments are mainly conducted to validate our theoretical findings.}
+\item 我们还在合成和真实世界数据集上进行了大量实验.
+在与我们理论相同的设置下, 合成实验的结果与我们的理论发现和现有实证结果一致.
+我们还在真实世界数据集上可视化特征学习过程, 验证了我们提出的锥集直觉.
+请注意, 本文的主要目标是补充而非与现有RBAD方法竞争. 实验主要是为了验证我们的理论发现.
 \end{enumerate}
 
-\section{Problem Setup} \label{sec-problem-setup}
-Throughout this paper, we denote the vectors by bold letters (e.g., $\x$, $\v$, and $\w$).
-The $i$-th entry of $\x$ is noted by $\x^{(i)}$.
-For any $N \in \mathbb{Z}^+$, we write $[N] := \{1,2,\cdots, N\}$  and $[\x_{N}] = \{\x : \exists i \in [N]\ s.t.\ \x = \x_i \}$ for simplicity.
-The $2$-norm of $\x$ is denoted by $\|\x\|$.
-A summarized list of terms and notations is included in Appendix \ref{sec-list-of-terms-and-notations}.
+\section{问题设置} \label{sec-problem-setup}
+在整篇论文中, 我们用粗体字母表示向量 (例如, $\x$, $\v$, 和$\w$).
+$\x$的第$i$个元素记为$\x^{(i)}$.
+对于任意$N \in \mathbb{Z}^+$, 为简便起见, 我们记$[N] := \{1,2,\cdots, N\}$和$[\x_{N}] = \{\x : \exists i \in [N]\ s.t.\ \x = \x_i \}$.
+$\x$的$2$-范数记为$\|\x\|$.
+术语和符号的汇总列表包含在附录\ref{sec-list-of-terms-and-notations}中.
 
-\paragraph{$P$-Patch Data.}
-Following \cite{DBLP:conf/iclr/Allen-ZhuL23}, we consider the following {$P$-patch data} ($P \in \mathbb{Z}^+$) model.
-As demonstrated in \ref{fig-different-types-of-anomalies}, a patch $\x$ refers to a small part of an image $\z$ that might contain various features (e.g., edges and shapes).
-Previous works of feature learning \cite{DBLP:conf/iclr/Allen-ZhuL23,DBLP:journals/corr/abs-2303-04145} characterize the patches as vectors.
-In this paper, we let $\H$ be a $d$-dimensional Hilbert space equipped with the inner product $\ip{\x_1,\x_2} := \sum_{i \in [d]} \x_1^{(i)} \cdot \x_2^{(i)}$ for all $ \x_1, \x_2 \in \H$. 
-In the rest of this paper, we will call $\x$ a \textit{patch-like vector} if $\x \in \H$.
+\paragraph{$P$-补丁数据.}
+遵循\cite{DBLP:conf/iclr/Allen-ZhuL23}, 我们考虑以下{$P$-补丁数据} ($P \in \mathbb{Z}^+$) 模型.
+如\ref{fig-different-types-of-anomalies}所示, 补丁$\x$指的是图像$\z$的一小部分, 可能包含各种特征 (例如, 边缘和形状).
+特征学习的先前工作 \cite{DBLP:conf/iclr/Allen-ZhuL23,DBLP:journals/corr/abs-2303-04145} 将补丁刻画为向量.
+在本文中, 我们设$\H$为一个$d$维Hilbert空间, 配备对所有$ \x_1, \x_2 \in \H$的内积$\ip{\x_1,\x_2} := \sum_{i \in [d]} \x_1^{(i)} \cdot \x_2^{(i)}$. 
+在本文的其余部分, 如果$\x \in \H$, 我们将称$\x$为{类补丁向量}.
 
-Real-world images can be split into patches.
-Motivated by this, our paper uses disjoint patch-like vectors to represent the images.
-More specifically, we say that $\z$ is \textit{$P$-patch data} (or $\z$ has \textit{$P$-patch structure}) if $\z$ can be represented by an array of patch-like vectors, i.e., $\z = (\x_1, \x_2, \cdots ,\x_P)^T \in \H^P$.
-For all $ i \in [P]$, we call $\x_i$ a $d$-dimensional \textit{patch} of $\z$. 
+真实世界的图像可以分割成补丁.
+受此启发, 本文使用不相交的类补丁向量来表示图像.
+更具体地说, 如果$\z$可以由类补丁向量的数组表示, 即$\z = (\x_1, \x_2, \cdots ,\x_P)^T \in \H^P$, 我们说$\z$是{$P$-补丁数据} (或$\z$具有{$P$-补丁结构}).
+对于所有$ i \in [P]$, 我们称$\x_i$为$\z$的$d$维{补丁}. 
 
-Our paper assumes that both the normal data and the anomalies are $P$-patch data with fixed $P$ and $d$. 
-In the context of convolutional neural networks, the (convolutional) kernels $\w$ and the patches have identical sizes and shapes. 
-Therefore, we assume that the kernels $\w$ are also patch-like vectors.
-For all $ \x, \w \in \H$, we call $\ip{\x,\w}$ the \textit{convolution} of $\x$ and $\w$ by convention. 
+本文假设正常数据和异常都是具有固定$P$和$d$的$P$-补丁数据. 
+在卷积神经网络的上下文中, (卷积) 核$\w$和补丁具有相同的大小和形状. 
+因此, 我们假设核$\w$也是类补丁向量.
+对于所有$ \x, \w \in \H$, 按照惯例, 我们称$\ip{\x,\w}$为$\x$和$\w$的{卷积}. 
 
-\paragraph{Features.}
-We characterize the features as $d$-dimensional orthogonal patch-like vectors.
-Specifically, we assume that the set of all features $\V := \{ \v_1, \v_2,\cdots, \v_d \}$ form an orthonormal basis of $\H$.
-Based on whether it is related to the semantic information of the normal data, we further categorize the features into normal and auxiliary features.
-As illustrated in \ref{fig-different-types-of-anomalies}, if hand-written digit ``1'' is considered as the normal data, then the patches $\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, and $\x_{c,1}$ might contain normal features that capture part of the semantic information of the normal data.
-In Figure \ref{fig-different-types-of-anomalies}.c, $\x_{c,2}$ contains an auxiliary feature that captures the semantic information of a semantic anomaly of ``7'' instead of the normal data ``1''.
-However, we argue that these auxiliary features can be regarded as either acceptable errors or sample diversity, and thus might appear in normal data with a small yet non-negligible probability.
+\paragraph{特征.}
+我们将特征刻画为$d$维正交类补丁向量.
+具体地, 我们假设所有特征的集合$\V := \{ \v_1, \v_2,\cdots, \v_d \}$构成$\H$的一个标准正交基.
+根据是否与正常数据的语义信息相关, 我们进一步将特征分类为正常特征和辅助特征.
+如\ref{fig-different-types-of-anomalies}所示, 如果手写数字``1''被认为是正常数据, 那么补丁$\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, 和$\x_{c,1}$可能包含捕获正常数据部分语义信息的正常特征.
+在图\ref{fig-different-types-of-anomalies}.c中, $\x_{c,2}$包含一个辅助特征, 它捕获语义异常``7''的语义信息, 而不是正常数据``1''.
+然而, 我们认为这些辅助特征可以被视为可接受的误差或样本多样性, 因此可能以较小但不可忽略的概率出现在正常数据中.
 
-In this paper, we formalize the collection of normal and auxiliary features of the normal data as disjoint subsets of $\V$, noted by $\V_{nor}$ and $\V_{aux}$, respectively.
-Without loss of generality, we assume that $\V_{nor} = \{ \v_1, \v_2\}$ and $\V_{aux} = \{ \v_3, \v_4, \cdots , \v_d  \} $.
-Notice that our results can be easily extended to $\V_{nor}$ and $\V_{aux}$ taking arbitrary complementary subsets of $\V$ at the cost of tedious computation.
+在本文中, 我们将正常数据的正常特征和辅助特征的集合形式化为$\V$的不相交子集, 分别记为$\V_{nor}$和$\V_{aux}$.
+不失一般性, 我们假设$\V_{nor} = \{ \v_1, \v_2\}$和$\V_{aux} = \{ \v_3, \v_4, \cdots , \v_d  \} $.
+注意到我们的结果可以很容易地扩展到$\V_{nor}$和$\V_{aux}$取$\V$的任意互补子集, 代价是繁琐的计算.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \begin{center}
    \begin{subfigure}{0.3\columnwidth}
    \centering
    \includegraphics[width=\columnwidth]{figures/rbad/assets/original patch.png}
-   \caption{Normal data}
+   \caption{正常数据}
    \label{fig-original-patch}
    \end{subfigure}
    \hfill
    \begin{subfigure}{0.3\columnwidth}
    \centering
    \includegraphics[width=\textwidth]{figures/rbad/assets/sensory anomaly patch.png}
-   \caption{Non-semantic anomaly}
+   \caption{非语义异常}
    \label{fig-sensory-patch}
    \end{subfigure}
    \hfill
    \begin{subfigure}{0.3\columnwidth}
    \centering
    \includegraphics[width=\textwidth]{figures/rbad/assets/semantic anomaly patch.png}
-   \caption{Semantic anomaly}
+   \caption{语义异常}
    \label{fig-semantic-patch}
    \end{subfigure}
    \end{center}
    \caption{{
-   \textbf{Patches, features, and different types of anomalies}.
-   As an illustrative example, consider the handwritten digits with only \qm{1} being normal data.
-   Patches $\x$ are small parts of the images, e.g., those outlined with red boxes.
-   $\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, and $\x_{c,1}$ contain a \textbf{normal feature} that captures the semantic information of \qm{1}.
-   \ref{fig-sensory-patch} is called the non-semantic (or sensory) anomaly in the literature since $\x_{b,2}$ contains \textbf{non-feature noise}.
-   $\x_{c,2}$ contains an \textbf{auxiliary feature} that does not capture the semantic information of \qm{1}, making \ref{fig-semantic-patch} a semantic anomaly.
+   补丁, 特征和不同类型的异常.
+   作为一个说明性例子, 考虑只有\qm{1}是正常数据的手写数字.
+   补丁$\x$是图像的小部分, 例如, 用红色框标出的那些.
+   $\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, 和$\x_{c,1}$包含一个捕获\qm{1}语义信息的正常特征.
+   \ref{fig-sensory-patch}在文献中被称为非语义 (或感官) 异常, 因为$\x_{b,2}$包含非特征噪声.
+   $\x_{c,2}$包含一个不捕获\qm{1}语义信息的辅助特征, 使得\ref{fig-semantic-patch}成为语义异常.
    }}
    \label{fig-different-types-of-anomalies}
    \end{figure}
 
-\subsection{Data Distribution}\label{sec-data-assumption}
-Our paper assumes that the normal data $\z$ is drawn independently from an implicit distribution $D_{nor}$.
-Given normal data $\z$, we assume that each of the patches of $\z$ contains one feature.
-Here, we say that a patch $\x_i$ \textit{contains} a feature $\v_k$ if $\x_i = \v_k + \rho$,  in which $\rho$ is a noise term that satisfies $|\langle \rho, \v_k \rangle| \leq \epsilon$ for some given constant $\epsilon > 0$.
+\subsection{数据分布}\label{sec-data-assumption}
+本文假设正常数据$\z$从隐式分布$D_{nor}$中独立抽取.
+给定正常数据$\z$, 我们假设$\z$的每个补丁包含一个特征.
+这里, 如果$\x_i = \v_k + \rho$, 我们说补丁$\x_i$ {包含}特征$\v_k$, 其中$\rho$是满足$|\langle \rho, \v_k \rangle| \leq \epsilon$的噪声项, 对于某个给定常数$\epsilon > 0$.
 
-For any $k \in [d]$ and $\z \sim \D_{nor}$, we let the probability of the event \{$\exists \x_i \in \z$ such that $\x_i$ contains $\v_k$\} be a given constant $\beta_k \in [0,1]$.
-Intuitively, normal data would contain more normal features than auxiliary features.
-For simplicity, we assume that $\beta_k = 1$ for all $ k \in \{1,2\}$,
-i.e., normal data surely contain normal features.
-As for the auxiliary features, we require $\beta_k < 1$ for any $k \in \{ 3,4,\cdots,d \}$ and $\sum_{k^{\prime}=1}^d \beta_{k^{\prime}} = P$ to ensure there is no empty patches.
-In summary, we adopt the following assumption for the normal data.
-\begin{assumption}[Normal data model]\label{assumption-normal-data}
-We assume that normal data $\z = (\x_1, \x_2, \cdots, \x_P)$ is drawn independently from an implicit distribution $D_{nor}$ that satisfies
+对于任意$k \in [d]$和$\z \sim \D_{nor}$, 我们设事件\{$\exists \x_i \in \z$使得$\x_i$包含$\v_k$\}的概率为给定常数$\beta_k \in [0,1]$.
+直观地, 正常数据会比辅助特征包含更多的正常特征.
+为简单起见, 我们假设对所有$ k \in \{1,2\}$有$\beta_k = 1$,
+即, 正常数据肯定包含正常特征.
+对于辅助特征, 我们要求对任意$k \in \{ 3,4,\cdots,d \}$有$\beta_k < 1$, 且$\sum_{k^{\prime}=1}^d \beta_{k^{\prime}} = P$以确保没有空补丁.
+总之, 我们对正常数据采用以下假设.
+\begin{assumption}[正常数据模型]\label{assumption-normal-data}
+我们假设正常数据$\z = (\x_1, \x_2, \cdots, \x_P)$从满足以下条件的隐式分布$D_{nor}$中独立抽取
 \begin{enumerate}
-    \item for all $i \in [P]$, $\exists k \in [d]$ such that $\x_i$ contains $\v_k$;
-    \item for all $k \in [d]$, $\mathbf{P}_{\z \sim \D_{nor}} \left[\exists i \in [P] \mbox{ s.t. } \x_i \mbox{ contains } \v_k\right] = \beta_k$;
-    \item $\beta_1 = \beta_2 =1$, $\beta_k < 1$ for all $k \in \{ 3,4,\cdots, d \}$, and $\sum_{k^{\prime}=1}^d \beta_{k^{\prime}} = P$.
+    \item 对所有$i \in [P]$, 存在$k \in [d]$使得$\x_i$包含$\v_k$;
+    \item 对所有$k \in [d]$, $\mathbf{P}_{\z \sim \D_{nor}} \left[\exists i \in [P] \mbox{ s.t. } \x_i \mbox{ contains } \v_k\right] = \beta_k$;
+    \item $\beta_1 = \beta_2 =1$, 对所有$k \in \{ 3,4,\cdots, d \}$有$\beta_k < 1$, 且$\sum_{k^{\prime}=1}^d \beta_{k^{\prime}} = P$.
 \end{enumerate}
 \end{assumption}
-Given $N \in \mathbb{Z}^+$, let $[\z_N]$ be the training data that is drawn independently from $D_{nor}$, in which $\z_n \in [\z_N]$ is noted by $\z_n := (\x_{n,1}, \x_{n,2}, \cdots, \x_{n,d})$
-in the remainder of this paper.
-% Note that the anomalies are not considered in the training phase of typical RBADs.
-{\color{red}Notably, RBAD does not require anomalies during training, which constitutes one of the core advantages of this method.}
-We will introduce the data model for the anomalies later in \ref{sec-reconstruction}.
+给定$N \in \mathbb{Z}^+$, 设$[\z_N]$为从$D_{nor}$中独立抽取的训练数据, 其中$\z_n \in [\z_N]$记为$\z_n := (\x_{n,1}, \x_{n,2}, \cdots, \x_{n,d})$
+在本文的其余部分.
+{值得注意的是, RBAD在训练期间不需要异常, 这构成了该方法的核心优势之一.}
+我们将在\ref{sec-reconstruction}中稍后介绍异常的数据模型.
 
-\subsection{Network Structure}\label{sec-network-structure}
-Let $\phi: \H^P \to \H^P$ be a function that reconstructs the inputs.
-% One of the main steps of RBAD is to reconstruct the input data. 
-It is not hard to show that simple models (e.g., principal component analysis) would fail to reconstruct the normal data due to the unspecified ordering rule of the patches.
-Therefore, we use a slightly more sophisticated model, i.e., the 2-layer convolutional autoencoder. 
+\subsection{网络结构}\label{sec-network-structure}
+设$\phi: \H^P \to \H^P$为一个重构输入的函数.
+不难证明, 简单模型 (例如, 主成分分析) 由于补丁的未指定排序规则而无法重构正常数据.
+因此, 我们使用一个稍微更复杂的模型, 即2层卷积自编码器. 
 
-An autoencoder $\phi$ is composed of an encoder $\phi_e$ and a decoder $\phi_d$, i.e., $\phi(\z) = \phi_d(\phi_e(\z))$ for all $ \z \in \H^P$.
-% , i.e., $\phi = \phi_d \circ \phi_e$. 
-% Here, $\Z_f$ is a low-dimensional feature space.
-Denote the number of channels by $C = c_2 d$ for some given constant $c_2$ and let $\w = (\w_1, \w_2, \cdots, \w_{C})$ be the weight of $\phi_e$, in which $\w_j$ ($j \in [C]$) are kernels as described earlier.
-Given input $\z \in \Z$, the output of $\phi_e$ is noted as $\phi_e(\z; \w) = (\phi_e(\z; \w_1), \cdots, \phi_e(\z; \w_C))$, in which
+自编码器$\phi$由编码器$\phi_e$和解码器$\phi_d$组成, 即对所有$ \z \in \H^P$有$\phi(\z) = \phi_d(\phi_e(\z))$.
+对于某个给定常数$c_2$, 记通道数为$C = c_2 d$, 并设$\w = (\w_1, \w_2, \cdots, \w_{C})$为$\phi_e$的权重, 其中$\w_j$ ($j \in [C]$) 是如前所述的核.
+给定输入$\z \in \Z$, $\phi_e$的输出记为$\phi_e(\z; \w) = (\phi_e(\z; \w_1), \cdots, \phi_e(\z; \w_C))$, 其中
 \begin{equation}\label{eq-def-phi-e-entries}
     \phi_e(\z; \w_j) = \left( \sigma(\ip{\w_j,\x_1}), \cdots, \sigma(\ip{\w_j,\x_P}) \right).
 \end{equation}
-Here, $\sigma(\cdot)$ is the \textit{smoothed ReLU function} defined as
+这里, $\sigma(\cdot)$是{平滑ReLU函数}, 定义为
 \begin{equation}\label{eq-def-smoothed-relu}
     \sigma(x) = \left\{
     \begin{array}{cl}
@@ -189,143 +185,128 @@ Here, $\sigma(\cdot)$ is the \textit{smoothed ReLU function} defined as
     \end{array}
     \right. 
 \end{equation}
-for given constant $c_0$.
-Unlike the original ReLU function, $\sigma$ is derivable near $0$.
-Note that $\phi_e(\z; \w_j)$ is also $P$-patch data, but the dimension of the patch is reduced from $d$ to $1$.
+对于给定常数$c_0$.
+与原始ReLU函数不同, $\sigma$在$0$附近可导.
+注意$\phi_e(\z; \w_j)$也是$P$-补丁数据, 但补丁的维度从$d$减少到$1$.
 
-The decoder reconstructs $\z$ according to the features learned by $\phi_e$.
-To illustrate how the features are used in construction, consider the following ideal case in which $\w$ perfectly learns the features, i.e., let $C(d) = d$ and $\w_j = \v_j$ for all $ j \in [d]$.
-In this case, we can write
+解码器根据$\phi_e$学习的特征重构$\z$.
+为了说明特征如何在构造中使用, 考虑以下理想情况, 其中$\w$完美地学习了特征, 即对所有$ j \in [d]$设$C(d) = d$和$\w_j = \v_j$.
+在这种情况下, 我们可以写
 \begin{equation}\label{eq-perfect-reconstruction}
     \tilde{\x}_i = \sum_{j \in [d]} \ip{\x_i,\w_j} \w_j = \x_i,
 \end{equation}
-which provides a trivial yet perfect reconstruction of the patches in $\z$.
+这提供了$\z$中补丁的平凡但完美的重构.
 
-We modify the reconstruction in \ref{eq-perfect-reconstruction} by considering an over-parameterized setting with a max pooling operation.
-We make these modifications for the following reasons.
-First of all, the proof of \ref{theorem-Stk-subset-st+1k} implies that the reconstruction in \ref{eq-perfect-reconstruction} would easily converge to local minima; 
-we refer the readers to \ref{remark-overpara-is-necessary} for detailed discussion.
-To avoid reaching local minima, we consider an over-parameterized setting with $c_2 > 1$.
+我们通过考虑带有最大池化操作的过参数化设置来修改\ref{eq-perfect-reconstruction}中的重构.
+我们出于以下原因进行这些修改.
+首先, \ref{theorem-Stk-subset-st+1k}的证明意味着\ref{eq-perfect-reconstruction}中的重构容易收敛到局部最小值; 
+我们请读者参考\ref{remark-overpara-is-necessary}了解详细讨论.
+为了避免达到局部最小值, 我们考虑$c_2 > 1$的过参数化设置.
 
-In practice, the max pooling operation is placed after the convolution layer to select the most representative patch, i.e., the patch with the maximum convolution value. 
-For ease of computation, our work also adds a max pooling operation in the decoder.
-For all $ j \in [C]$, let $\delta(i,j)$ be a binary-value function that takes $1$ when 
+在实践中, 最大池化操作放置在卷积层之后, 以选择最具代表性的补丁, 即具有最大卷积值的补丁. 
+为了便于计算, 我们的工作还在解码器中添加了最大池化操作.
+对于所有$ j \in [C]$, 设$\delta(i,j)$为二元值函数, 当满足以下条件时取$1$ 
 \begin{equation}\label{eq-def-delta-ij}
         i = \argmax_{i^{\prime} \in [P]} \sigma(\ip{\w_j,\x_{i^{\prime}}})
 \end{equation}
 and $0$ otherwise.
-% \footnote{As discussed in \ref{remark-simplify-delta}, the notation of $\delta(i,j)$ is slightly modified in the proofs after we introduce the training data $\x_{n,i}$ and the iteration step $t$.}. 
-Finally, we have the over-parameterized version of \ref{eq-perfect-reconstruction} with max pooling
-% A natural extension of \ref{eq-perfect-reconstruction} might be
-% \begin{equation}\label{eq-extension-of-perfect-reconstruction}
-%     \tilde{\x}_i = \sum_{j \in [C]} a_{i,j} \cdot \sigma( \ip{\w_j, \x_i} ) \w_j,
-% \end{equation}
-% in which $a_{i,j}$ are parameters.
-% However, \ref{eq-extension-of-perfect-reconstruction} introduces too many parameters to the following optimization, making the theoretical analysis hard to proceed. 
-% To fix this, we consider
+ 
+最后, 我们得到带有最大池化的\ref{eq-perfect-reconstruction}的过参数化版本
 \begin{equation}\label{eq-simplify-extension-of-perfect-reconstruction}
     \phi_d^{(i)} \left(\phi_e(\z) \right) = \sum_{j \in [C]} \sigma(\ip{\w_j,\x_i}) \delta(i,j) \w_j.
 \end{equation}
-Intuitively, for all $ \x_i \in [\x_P]$, $\phi_d^{(i)} \left(\phi_e(\z) \right)$ reconstructs $\x_i$ by adding together those $\w_j$ such that $\x_i$ is the \qm{most related} patch to $\w_j$.
-Combining \ref{eq-def-delta-ij,eq-simplify-extension-of-perfect-reconstruction}, our decoder $\phi_d$ is defined as
+直观地, 对于所有$ \x_i \in [\x_P]$, $\phi_d^{(i)} \left(\phi_e(\z) \right)$通过将那些$\x_i$是与$\w_j$\qm{最相关}补丁的$\w_j$相加来重构$\x_i$.
+结合\ref{eq-def-delta-ij,eq-simplify-extension-of-perfect-reconstruction}, 我们的解码器$\phi_d$定义为
 \begin{equation}\label{eq-def-phi-d}
 \phi_d \left(\phi_e(\z) \right)
 = \left( \phi_d^{(1)} \left(\phi_e(\z) \right) , \cdots , \phi_d^{(P)}\left(\phi_e(\z) \right) \right).
 \end{equation}
-In the rest of this paper, we will always omit the parameter $\w$ if it does not cause confusion.
-% \ref{eq-def-phi-e,eq-def-phi-e-entries,eq-def-smoothed-relu,eq-perfect-reconstruction,eq-simplify-extension-of-perfect-reconstruction,eq-def-delta-ij,eq-def-phi-d} give a clear definition of the autoencoder $\phi = \phi_d \circ \phi_e$. 
-% We also provide a concrete example of $\phi$ in \ref{appendix-sec-autoencoder} together with several illustrative figures.
+在本文的其余部分, 如果不会引起混淆, 我们将总是省略参数$\w$.
 
-\subsection{Training Paradigm}
-We train the autoencoder $\phi$ under a standard empirical risk minimization paradigm \cite{DBLP:books/daglib/UML-0033642}.
-As mentioned in \ref{sec-data-assumption}, given $N \in \mathbb{Z}^+$, the training data $[\z_{N}]$ are drawn independently from distribution $D_{nor}$.
-To measure how well $\phi$ reconstructs the input data, we let the \textit{reconstruction loss} be
+\subsection{训练范式}
+我们在标准经验风险最小化范式下训练自编码器$\phi$ \cite{DBLP:books/daglib/UML-0033642}.
+如\ref{sec-data-assumption}所述, 给定$N \in \mathbb{Z}^+$, 训练数据$[\z_{N}]$从分布$D_{nor}$中独立抽取.
+为了衡量$\phi$重构输入数据的程度, 我们设{重构损失}为
 \begin{equation}\label{eq-def-loss}
     \ell(\z;\w) = \| \phi(\z;\w) - \z \|^2.
 \end{equation}
-The corresponding \textit{(empirical) reconstruction error} is defined as $\risk_N(\w) = \frac{1}{N}\sum_{n \in [N]} \ell(\z_n;\w)$.
-We minimize $\risk_N(\w)$ using gradient descent with random initialization. 
-For all $ j \in [C]$ and $t > 0$, we iterate $\w_j$ by
+相应的{(经验)重构误差}定义为$\risk_N(\w) = \frac{1}{N}\sum_{n \in [N]} \ell(\z_n;\w)$.
+我们使用随机初始化的梯度下降来最小化$\risk_N(\w)$. 
+对于所有$ j \in [C]$和$t > 0$, 我们通过以下方式迭代$\w_j$
 \begin{equation}\label{eq-def-GD}
     \w^{t+1}_j = \w^t_j - \eta_t \nabla_{\w_j} \risk_N(\w^t)
 \end{equation}
-for all $ t \in \mathbb{N}$. 
-The learning rate $\eta_t$, specified in \ref{sec-parameters}, is a parameter that gradually decreases to $0$ as the iteration step $t$ grows.
-Note that $\eta_t$ is independent of $\w_j$.
-For all $ j \in [C]$, the random initialization  of $\w_j$ is given by  $\w^{0}_j \sim \N (0,\sigma_0 \I)$, in which $\N(0,\sigma_0 \I)$ is the $d$-dimensional Gaussian distribution and $\sigma_0$ is a given constant.
+对所有$ t \in \mathbb{N}$成立. 
+学习率$\eta_t$在\ref{sec-parameters}中指定, 是一个随着迭代步$t$增长逐渐减小到$0$的参数.
+注意$\eta_t$独立于$\w_j$.
+对于所有$j \in [C]$, $\w_j$的随机初始化由$\w^{0}_j \sim \N (0,\sigma_0 \I)$给出, 其中$\N(0,\sigma_0 \I)$是$d$维高斯分布, $\sigma_0$是给定常数.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Theoretical Analysis}\label{sec-main-results}
-Our analyses can be roughly divided into two phases: the \textit{training phase} (\ref{sec-training-phase}) and the \textit{reconstruction phase} (\ref{sec-reconstruction}).
-The main results and intuitions are summarized in the following theoretical roadmap.
-We include a list of summarized terms and notations in \ref{sec-list-of-terms-and-notations}.
-The proofs are postponed to \ref{sec-proof}.
+\section{理论分析}\label{sec-main-results}
+我们的分析可以大致分为两个阶段: {训练阶段} (\ref{sec-training-phase}) 和{重构阶段} (\ref{sec-reconstruction}).
+主要结果和直觉总结在以下理论路线图中.
+我们在\ref{sec-list-of-terms-and-notations}中包含了一个汇总的术语和符号列表.
+证明推迟到\ref{sec-proof}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/assets/RBAD Theoretical Roadmap.pdf}
-    \caption{A \textit{theoretical roadmap} of our analysis. We visualize the dependency of the results and attach a brief explanation for each. We also summarize two major intuitions.}
+    \caption{我们分析的{理论路线图}. 我们可视化结果的依赖关系, 并为每个结果附上简要说明. 我们还总结了两个主要直觉.}
     \label{fig-theoretical-roadmap}
 \end{figure}
 
-% The difference between reconstructing the normal data and the anomalies is discussed in the detection phase.
-
-\subsection{Training Phase}\label{sec-training-phase}
+\subsection{训练阶段}\label{sec-training-phase}
 
 % The central idea of our analysis is that the kernels  by growing fast along the direction of these features.
 % In our analyses, the growth rate of the kernels, i.e., $\w_j^{t+1} - \w_j^{t} = -\eta_t \nabla_{\w_j}\risk_N(\w^t)$ is a crucial variable to control.
-We start with analyzing the growth of the kernels.
-Given $n \in [N]$ and $i \in [P]$, we use
+我们从分析核的增长开始.
+给定$n \in [N]$和$i \in [P]$, 我们使用
 \begin{equation}
 \Delta_{n,i} = \x_{n,i} - \phi_d^{(i)} (\phi_e(\z_n))    
 \end{equation}
-to denote the difference between the input patch $\x_{n,i}$ and its reconstruction $\phi_d^{(i)} (\phi_e(\z_n))$.
-Recall that the growth of the kernel is given by $\w_j^{t+1} - \w_j^{t} = -\eta_t \nabla_{\w_j}\risk_N(\w^t)$ in \ref{eq-def-GD}, in which $\nabla_{\w_j}\risk_N(\w^t)$ can be calculated by the following proposition.
+表示输入补丁$\x_{n,i}$与其重构$\phi_d^{(i)} (\phi_e(\z_n))$之间的差异.
+回顾\ref{eq-def-GD}中核的增长由$\w_j^{t+1} - \w_j^{t} = -\eta_t \nabla_{\w_j}\risk_N(\w^t)$给出, 其中$\nabla_{\w_j}\risk_N(\w^t)$可以通过以下命题计算.
 \begin{proposition}\label{prop-gradient}
-For any $j \in [C]$, the gradient of the empirical reconstruction error is
+对于任意$j \in [C]$, 经验重构误差的梯度为
 \begin{equation}\label{eq-prop-gradient-gradient}
 \nabla_{\w_j} \risk_N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j) \left[ \sigma\! \left(\ip{\w_j,\x_{n,i}} \right) \Delta_{n,i} 
 +  \ip{\Delta_{n,i}, \w_j} \sigma^{\prime}\!\left(\ip{\w_j,\x_{n,i}} \right) \x_{n,i} \right].
 \end{equation}
 \end{proposition}
-Proposition \ref{prop-gradient} implies a positive correlation between the growth rate of $\w_j$ and 
-the size of $\w_j$ (i.e., $\| \w_j\|$), considering that the sizes of $\sigma(\ip{\w_j,\x_{n,i}})$, $\ip{\Delta_{n,i}, \w_j}$, and $\sigma^{\prime}(\ip{\w_j,\x_{n,i}})$ in \ref{eq-prop-gradient-gradient} are all directly related to $\| \w_j \|$. 
-The following lemma further controls the initial value and the growth rate of $\|\w_j\|$.
+命题\ref{prop-gradient}意味着$\w_j$的增长率与 
+$\w_j$的大小 (即$\| \w_j\|$) 之间存在正相关关系, 考虑到\ref{eq-prop-gradient-gradient}中$\sigma(\ip{\w_j,\x_{n,i}})$, $\ip{\Delta_{n,i}, \w_j}$, 和$\sigma^{\prime}(\ip{\w_j,\x_{n,i}})$的大小都与$\| \w_j \|$直接相关. 
+以下引理进一步控制$\|\w_j\|$的初始值和增长率.
 \begin{lemma}\label{lemma-size-of-wj-in-paper}
-Let $p_0 = p_0(d)$ and $f_h = f_h(d)$ be parameters.
+设$p_0 = p_0(d)$和$f_h = f_h(d)$为参数.
 For all $ j \in [C]$, we have
 \begin{equation}\label{eq-lemma-size-of-wj-random-initialization-in-paper}
     \|\w_j^0\| \leq \sigma_0 f_h
 \end{equation}
-with probability at least $1 - p_0$ with regard to the random initialization of $\w$.
-Moreover, for all $ t \in [T]$, the size of $\w_j^t$ is controlled by 
+以至少$1 - p_0$的概率, 关于$\w$的随机初始化.
+此外, 对于所有$ t \in [T]$, $\w_j^t$的大小由以下控制 
     \begin{equation}\label{eq-lemma-size-of-wj-result-2-in-paper}
         \|\w_j^t\| \leq  t \sigma_0 f_h.
     \end{equation}
-    with probability at least $1 - p_0$.
-    Here, $T(t,d)$ is a parameter depending on $t$ and $d$.
-    % In both \ref{eq-lemma-size-of-wj-random-initialization,eq-lemma-size-of-wj-result-2}, we let $p_0$ take
-    % \begin{equation}\label{eq-lemma-size-of-wj-p0}
-    %      p_0 = 2\exp \left(- \frac{(f_h - d)^2}{8d}\right).
-    % \end{equation}
+    以至少$1 - p_0$的概率成立.
+    这里, $T(t,d)$是一个依赖于$t$和$d$的参数.
 \end{lemma}
 
-\begin{remark}[\textbf{\textit{Parameter Analysis}}]
-Some parameters in this paper, e.g., $p_0$, $f_h$, and $T$, have clear geometrical or probabilistic intuition.
-We will explain them in later parts of this paper.
-A summary for the parameters can be found in Appendix \ref{sec-list-of-terms-and-notations}.
-For simplicity, we will omit the sup- or sub-scripts $t$ and $d$ if it does not cause confusion. 
-A set of recommended parameters is given in Appendix \ref{sec-parameters}. \myqed    
+\begin{remark}[参数分析]
+本文中的一些参数, 例如$p_0$, $f_h$, 和$T$, 具有明确的几何或概率直觉.
+我们将在本文的后续部分解释它们.
+参数的总结可以在附录\ref{sec-list-of-terms-and-notations}中找到.
+为简单起见, 如果不会引起混淆, 我们将省略上标或下标$t$和$d$. 
+一组推荐的参数在附录\ref{sec-parameters}中给出. \myqed    
 \end{remark}
 
-Note that the probability lower bound for \ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper} to hold (i.e., at least $1-p_0$) is the same  because, after random initialization, the kernels would grow in a deterministic manner; 
-the iteration rule given by \ref{eq-def-GD} introduces no randomness.
-The above discussion implies that
-those kernels with larger initial values will grow faster.
-A simple deduction is that after multiple iterations, the \textit{faster-growing kernels} would take larger values, thus significantly affecting the reconstruction phase of RBAD. 
+注意\ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}成立的概率下界 (即至少$1-p_0$) 是相同的, 因为在随机初始化之后, 核将以确定性方式增长; 
+\ref{eq-def-GD}给出的迭代规则不引入随机性.
+上述讨论意味着
+那些初始值较大的核将增长得更快.
+一个简单的推论是, 经过多次迭代后, {增长更快的核}将取更大的值, 从而显著影响RBAD的重构阶段. 
 
-The following definition introduces the main intuition of our analysis.
+以下定义介绍了我们分析的主要直觉.
 
 % Similarly, we can prove that kernels with a high correlation with the features will also grow faster.
 % The following definition specifies a subset of $[\w_{C}]$ that is \qm{most related} to one of the features. 
@@ -333,68 +314,68 @@ The following definition introduces the main intuition of our analysis.
 % As discussed in \ref{sec-introduction,sec-related-work}, our analysis is non-asymptotic. The results in our paper include very complicated expressions.
 % Therefore, due to limited space, we do not specify the choice of some parameters in this section.
 % The choice of parameters is discussed in \ref{sec-remarks}.
-\begin{definition}[Cone set]\label{def-smost-in-paper}
-    Let $c_1 = c_1(d) \in (0,1)$ and $f_r = f_r(d,t) \leq c_1(d) f_h(d)$ be parameters with $f_r = f_h \cdot o(t)$.
-    For any $t \in [T]$ and $k \in [d]$, let the cone set of feature $\v_k$ at iteration $t$, denoted by $\smost^t(k)$, be the collection of $\w_j \in [w_C]$ such that
+\begin{definition}[锥集]\label{def-smost-in-paper}
+    设$c_1 = c_1(d) \in (0,1)$和$f_r = f_r(d,t) \leq c_1(d) f_h(d)$为参数, 其中$f_r = f_h \cdot o(t)$.
+    对于任意$t \in [T]$和$k \in [d]$, 设特征$\v_k$在第$t$次迭代时的锥集, 记为$\smost^t(k)$, 是$\w_j \in [w_C]$的集合, 使得
 \begin{itemize}
-    \item $ \ip{ \w_j^{t} , \v_{k} } \geq t \sigma_0 c_1 f_h $, and
-    \item for any $k^{\prime} \neq k $, $ \ip{ \w_{j}^{t} ,  \v_{k^{\prime}} } \leq t \sigma_0 f_r $.
+    \item $ \ip{ \w_j^{t} , \v_{k} } \geq t \sigma_0 c_1 f_h $, 且
+    \item 对于任意$k^{\prime} \neq k $, $ \ip{ \w_{j}^{t} ,  \v_{k^{\prime}} } \leq t \sigma_0 f_r $.
     % \item $\| \w_j \| \leq (c_1 - c_2) (\sqrt{2\epsilon})^{-1} \eta_t \sigma_0 \sqrt{ \log d }$
 \end{itemize}
-We say that kernel $\w_j$ is \textbf{absorbed} by the cone sets of feature $\v_k$ if $\exists t_0 \in [T]$ such that $\w_j^t \in \smost^{t}(k)$ for all $t \geq t_0$, i.e., after the iteration step $t_0$, the kernel $\w_j$ is always in the cone set of feature $\v_k$.
+如果存在$t_0 \in [T]$使得对所有$t \geq t_0$有$\w_j^t \in \smost^{t}(k)$, 我们说核$\w_j$被特征$\v_k$的锥集吸收, 即, 在迭代步$t_0$之后, 核$\w_j$总是在特征$\v_k$的锥集中.
 \myqed
 \end{definition}
 
-\begin{remark}[\textbf{\textit{Cone Set Intuition}}]
+\begin{remark}[锥集直觉]
 \label{remark-cone-set-intuition}
-For any $k \in [d]$ and $t \in [T]$, $k$, $t$ together with the parameters $\sigma_0$,  $c_1$, $f_h$ and $f_r$ specify a $d$-dimensional hypercone with height $t \sigma_0 c_1 f_h$ and radius $t \sigma_0 f_r$.
-According to Definition \ref{def-smost-in-paper}, those $\w_j^t \in \smost^{t}(k)$ are bounded by the surface of the cone.
-Since we let $f_r = f_h \cdot o(t)$, the cone would get sharper during training (cf. \ref{fig-geometric-intuition}).
-As a result, the kernels in the cone would get more aligned to feature $\v_k$.
-In particular, the kernels absorbed by the cone set of a feature will eventually approximate to the direction of that feature.
+对于任意$k \in [d]$和$t \in [T]$, $k$, $t$与参数$\sigma_0$,  $c_1$, $f_h$和$f_r$一起指定一个高度为$t \sigma_0 c_1 f_h$, 半径为$t \sigma_0 f_r$的$d$维超锥.
+根据定义\ref{def-smost-in-paper}, 那些$\w_j^t \in \smost^{t}(k)$被锥的表面所界定.
+由于我们设$f_r = f_h \cdot o(t)$, 锥在训练过程中会变得更尖锐 (参见\ref{fig-geometric-intuition}).
+因此, 锥中的核会更对齐到特征$\v_k$.
+特别地, 被特征的锥集吸收的核最终会近似到该特征的方向.
 \myqed
 \end{remark}
 
-We can obtain the following lemma directly from Definition \ref{def-smost-in-paper}.
+我们可以直接从定义\ref{def-smost-in-paper}得到以下引理.
 \begin{lemma}\label{lemma-smost-delta-ij-in-paper}
-    For all $ t \geq 1$, if $j \in \smost^t(k)$ and $\x_i$ contain $\v_k$, then we have $\delta(i,j) = 1$.
+    对于所有$ t \geq 1$, 如果$j \in \smost^t(k)$且$\x_i$包含$\v_k$, 那么我们有$\delta(i,j) = 1$.
 \end{lemma}
 % The good properties of $\smost$ would greatly simplify the analysis of the training process of $\phi$.
-Lemma \ref{lemma-smost-delta-ij-in-paper} implies that the kernels in the cones of a feature $\v_k$ will contribute to the reconstruction of the patches that contain $\v_k$ at all iterations.
-Lemma \ref{lemma-smost-delta-ij-in-paper} also simplifies the iteration analysis for the kernels in the cones.
-We can prove the following theorem with the help of Lemmas \ref{lemma-size-of-wj-in-paper} and \ref{lemma-smost-delta-ij-in-paper}.
+引理\ref{lemma-smost-delta-ij-in-paper}意味着特征$\v_k$的锥中的核将在所有迭代中为包含$\v_k$的补丁的重构做出贡献.
+引理\ref{lemma-smost-delta-ij-in-paper}还简化了锥中核的迭代分析.
+我们可以在引理\ref{lemma-size-of-wj-in-paper}和\ref{lemma-smost-delta-ij-in-paper}的帮助下证明以下定理.
 
 \begin{theorem}\label{theorem-Stk-subset-st+1k}
-    For all $k \in [d]$, if $|\smost^{0}(k)| \geq 1$, then $\smost^{t}(k) \subseteq \smost^{t+1}(k)$ for all $t \in [T]$.
+    对于所有$k \in [d]$, 如果$|\smost^{0}(k)| \geq 1$, 那么对所有$t \in [T]$有$\smost^{t}(k) \subseteq \smost^{t+1}(k)$.
 \end{theorem}
 
-\begin{remark}[\textbf{\textit{Interpretation of \ref{theorem-Stk-subset-st+1k}}}]
-\ref{theorem-Stk-subset-st+1k} characterizes how the kernels of the autoencoder extract features from the training data, providing an answer for question $\bm{Q}_1$.
-For all $k \in [d]$ and $t \in [T]$, \ref{theorem-Stk-subset-st+1k} implies that $\w_j \in \smost^t(k)$ will keep growing faster along $\v_k$ than along $\v_{k^{\prime}}$ for all $ k^{\prime} \neq k$.
-The geometrical intuition is that \textit{the kernel will be absorbed by the cone set of a feature if it comes into the cone set once}.
-After multiple iterations, $\langle \w_{j}^{t} ,  \v_{k^{\prime}} \rangle$ would become almost negligible compared to $ \langle  \w_j^{t} , \v_{k} \rangle$ since $f_r = f_h \cdot o(t)$.
-The direction of $\w_j$ gradually approximates to the direction of $\v_k$ as $t$ increases, i.e., $\w_j$ learns the direction of $\v_k$.
+\begin{remark}[定理\ref{theorem-Stk-subset-st+1k}的解释]
+\ref{theorem-Stk-subset-st+1k}刻画了自编码器的核如何从训练数据中提取特征, 为问题$\bm{Q}_1$提供了答案.
+对于所有$k \in [d]$和$t \in [T]$, \ref{theorem-Stk-subset-st+1k}意味着$\w_j \in \smost^t(k)$将一直沿着$\v_k$比沿着任何$ k^{\prime} \neq k$的$\v_{k^{\prime}}$增长得更快.
+几何直觉是如果核一旦进入特征的锥集, 它就会被该特征的锥集吸收.
+经过多次迭代后, 由于$f_r = f_h \cdot o(t)$, $\langle \w_{j}^{t} ,  \v_{k^{\prime}} \rangle$与$ \langle  \w_j^{t} , \v_{k} \rangle$相比将变得几乎可忽略.
+随着$t$的增加, $\w_j$的方向逐渐近似到$\v_k$的方向, 即$\w_j$学习了$\v_k$的方向.
 \end{remark}
 
-For any $ k \in [d]$, the following theorem proves that $\smost(k)^{0}$ is not empty with high probability.
+对于任意$ k \in [d]$, 以下定理证明了$\smost(k)^{0}$以高概率非空.
 \begin{theorem}\label{theorem-initial-size-in-paper}
-Let $p_1 = p_1(d)$ and $p_2 = p_2(d)$ be parameters.
-For all $ k \in [d]$, the size of $\smost^0(k)$ can be upper-bounded by
+设$p_1 = p_1(d)$和$p_2 = p_2(d)$为参数.
+对于所有$ k \in [d]$, $\smost^0(k)$的大小可以被以下上界限制
 \begin{equation}\label{eq-lemma-init-prob-smost-result-upper-bound}
      | \smost^0(k) |  \leq C p_2 + \lambda,
 \end{equation}
-with probability at least $ 1 - \exp\left( - \frac{3\lambda^2}{6C p_2 + 2\lambda} \right)$ over random initialization.
-The lower-bound
+在随机初始化上以至少$ 1 - \exp\left( - \frac{3\lambda^2}{6C p_2 + 2\lambda} \right)$的概率成立.
+下界
 \begin{equation}\label{eq-lemma-init-prob-smost-result-lower-bound}
     | \smost^0(k) | \geq C p_1 - \lambda
 \end{equation}
-hold with probability at least $1 - \exp \left( - \frac{\lambda^2}{2 C p_2} \right)$.
+以至少$1 - \exp \left( - \frac{\lambda^2}{2 C p_2} \right)$的概率成立.
 \end{theorem}
 
-Theorems \ref{theorem-Stk-subset-st+1k} and \ref{theorem-initial-size-in-paper} together characterize the growth of the kernels $\w_j$ in the cones of the features.
-\ref{fig-geometric-intuition} demonstrates the geometric intuition of our results. 
+定理\ref{theorem-Stk-subset-st+1k}和\ref{theorem-initial-size-in-paper}一起刻画了特征锥中核$\w_j$的增长.
+\ref{fig-geometric-intuition}展示了我们结果的几何直觉. 
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}{0.32\columnwidth}
     \centering
@@ -417,7 +398,7 @@ Theorems \ref{theorem-Stk-subset-st+1k} and \ref{theorem-initial-size-in-paper} 
     \node[anchor=center] at (0.3,-0.5,-0.05) {$\w_{j_2}$};
 
     \end{tikzpicture}
-    \caption{{At initialization ($t = 0$)}}
+    \caption{{在初始化时 ($t = 0$)}}
     \label{fig-geometric-intuition-1}
     \end{subfigure}
     \hfill
@@ -440,7 +421,7 @@ Theorems \ref{theorem-Stk-subset-st+1k} and \ref{theorem-initial-size-in-paper} 
     \draw[->] (0,0,0) -- ({0.2*cos(165)}, {0.2*sin(165)}, {0.8});     \node[anchor=center] at (0,0.5,1.1) {$\w_{j_1}$};
 
     \end{tikzpicture}
-    \caption{{After multiple steps}}
+    \caption{{经过多步之后}}
     \label{fig-geometric-intuition-2}
     \end{subfigure}
     \hfill
@@ -463,120 +444,120 @@ Theorems \ref{theorem-Stk-subset-st+1k} and \ref{theorem-initial-size-in-paper} 
     \draw[->] (0,0,0) -- ({0.2*cos(165)}, {0.2*sin(165)}, {1.8});     \node[anchor=center] at (0,0.8,1.6) {$\w_{j_1}$};
     
     \end{tikzpicture}
-    \caption{At convergence}
+    \caption{在收敛时}
     \label{fig-geometric-intuition-3}
     \end{subfigure}
-    \caption{\textbf{The geometry intuition for \ref{theorem-initial-size-in-paper,theorem-Stk-subset-st+1k}.}
-    Consider $d = 3$ and $\w_{j_1},\w_{j_2} \in \smost(3)^0$.
-    The kernels are absorbed in the cone represented by the light blue surface.
-    Definition \ref{def-smost-in-paper} implies that the cone would get sharper as $t$ increases. 
-    \ref{theorem-Stk-subset-st+1k} proves that $\w_{j_1}, \w_{j_2}$ will be absorbed if $\w_{j_1},\w_{j_2} \in \smost(3)^0$.
-    \ref{theorem-initial-size-in-paper} implies that the cone set is non-empty with high probability.
+    \caption{定理\ref{theorem-initial-size-in-paper,theorem-Stk-subset-st+1k}的几何直觉.
+    考虑$d = 3$和$\w_{j_1},\w_{j_2} \in \smost(3)^0$.
+    核被浅蓝色表面表示的锥所吸收.
+    定义\ref{def-smost-in-paper}意味着锥会随着$t$的增加而变得更尖锐. 
+    \ref{theorem-Stk-subset-st+1k}证明了如果$\w_{j_1},\w_{j_2} \in \smost(3)^0$, 那么$\w_{j_1}, \w_{j_2}$将被吸收.
+    \ref{theorem-initial-size-in-paper}意味着锥集以高概率非空.
     }
     \label{fig-geometric-intuition}
 \end{figure}
 
-It is worth mentioning that the above results hold for all feature $\v_k$ with $\beta_{k} \neq 0$, regardless of whether $\v_k$ is a normal feature or an auxiliary feature.
-Recall that we use auxiliary features to characterize patterns not directly related to the semantics of the normal data.
-As a minor implication, we prove that neural networks would also learn the auxiliary features.
-The following corollary discusses the tightness of the bounds for different features.
+值得提及的是, 上述结果对所有$\beta_{k} \neq 0$的特征$\v_k$都成立, 无论$\v_k$是正常特征还是辅助特征.
+回顾我们使用辅助特征来刻画与正常数据语义不直接相关的模式.
+作为一个小推论, 我们证明神经网络也会学习辅助特征.
+以下推论讨论不同特征界限的紧性.
 
-\begin{corollary}[Informal]\label{corollary-cone}
-Recall that \ref{def-smost-in-paper} implies a growth rate gap between the kernels growth along the ``cone feature's direction'' and other features direction.
-For those kernels absorbed in the cones of normal features, the growth rate gap is larger than those in auxiliary features.
+\begin{corollary}[非正式]\label{corollary-cone}
+回顾\ref{def-smost-in-paper}意味着核沿着``锥特征方向''增长与沿着其他特征方向增长之间存在增长率差距.
+对于被正常特征锥吸收的核, 增长率差距大于辅助特征中的核.
 \end{corollary}
 
-The formal version of this corollary is postponed to Appendix \ref{sec-proof} due to limited space.
+由于篇幅有限, 这个推论的正式版本推迟到附录\ref{sec-proof}.
 
-In summary, this section analyzes the training phase of RBADs.
-Notice that the question $\bm{Q}_1$ is answered in this section.
-It remains to discuss how the features are used in the reconstruction phase and why the anomalies are hard to reconstruct.
+总之, 本节分析了RBAD的训练阶段.
+注意问题$\bm{Q}_1$在本节中得到回答.
+仍需讨论特征如何在重构阶段使用以及为什么异常难以重构.
 
-\subsection{Reconstruction Phase}\label{sec-reconstruction}
-Since the learning rate $\eta_t$ decreases to $0$ as $t$ grows, the kernels would gradually converge. 
-Denote the converged kernels by $\w^{*}:= (\w^*_1, \w^*_2, \cdots, \w^*_P)$ and the corresponding network by $\phi^{*}$.
-\ref{sec-reconstruction} discusses how $\phi^{*}$ reconstruct the input images.
+\subsection{重构阶段}\label{sec-reconstruction}
+由于学习率$\eta_t$随着$t$的增长而减小到$0$, 核将逐渐收敛. 
+记收敛的核为$\w^{*}:= (\w^*_1, \w^*_2, \cdots, \w^*_P)$, 对应的网络为$\phi^{*}$.
+\ref{sec-reconstruction}讨论$\phi^{*}$如何重构输入图像.
 
-We start by introducing the data model for anomalies.
+我们首先介绍异常的数据模型.
 % discussing the non-semantic anomalies.
-Let $\z \sim D_{nor}$ be normal data (cf. Assumption \ref{assumption-normal-data}) and $\x_a \in \H$ be a patch.
+设$\z \sim D_{nor}$为正常数据 (参见假设\ref{assumption-normal-data}), $\x_a \in \H$为一个补丁.
 Given $i_0 \in [P]$,
 % we say that a $P$-patch data is if one of its patches is replaced by another patch-like vector that does not contains a feature.
 % More specifically, we assume that $\exists \x_a \in \H$ and $\| \x_a \| \in [1-\epsilon,1+\epsilon]$. 
-the \textit{anomaly} is defined as 
+异常点定义为 
 \begin{equation}\label{eq-def-anomalies}
     \z(i_0,\x_a) := (\x_1, \cdots, \x_{i_0-1},\x_a, \x_{i_0+1}, \cdots, \x_P),
 \end{equation}
-i.e., one of the patches in $\z$ is replaced by $\x_a$.
-We call $\z(i_0,\x_a)$ a \textit{semantic anomaly} if $\exists k \in [d]$ such that $\x_a$ contains $\v_k$ and a \textit{non-semantic anomaly} if otherwise.
-For non-semantic anomalies, we further assume that $\x_a$ is drawn from the uniform distribution supported on $\{\x : \|\x\| = 1\}$.
+即, $\z$中的一个补丁被$\x_a$替换.
+如果存在$k \in [d]$使得$\x_a$包含$\v_k$, 我们称$\z(i_0,\x_a)$为语义异常, 否则称为非语义异常.
+对于非语义异常, 我们进一步假设$\x_a$从支撑在$\{\x : \|\x\| = 1\}$上的均匀分布中抽取.
 % In other words, we assume that the non-semantic anomalies are average data with one of its patches being replaced by another patch-like vector that does not necessarily contain a feature.
-Note that our analysis can be trivially extended to the case where multiple patches are replaced.
+注意我们的分析可以平凡地扩展到多个补丁被替换的情况.
 
-In order to answer $\bm{Q}_2$, we go on to analyze the behavior of the kernels in the reconstruction phase.
-Taking $\z(i,\x_a)$ as the input of $\phi^*$, by definition, we have
+为了回答$\bm{Q}_2$, 我们继续分析重构阶段核的行为.
+将$\z(i,\x_a)$作为$\phi^*$的输入, 根据定义, 我们有
 \begin{equation}
     \phi_e^{(i)}(\z(i_0,\x_a); \w^{*}_j) = \sigma(\ip{\w_j, \x_i}) = \phi^{(i)}_e(\z; \w^{*}_j)
 \end{equation}
-for all $ i \in [P]$ such that $i \neq i_0$.
+对所有满足$i \neq i_0$的$ i \in [P]$成立.
 % We first discuss the non-semantic anomalies.
-Since $\V$ is an orthonormal basis of $\H$, we can decompose $\x_a$ as 
+由于$\V$是$\H$的标准正交基, 我们可以将$\x_a$分解为 
 \begin{equation}\label{eq-xa-decomposition}
     \x_a = \sum_{k \in [d]} \ip{\x_a,\v_k} \v_k.
 \end{equation}
-By taking \ref{eq-xa-decomposition} into \ref{eq-def-phi-e-entries}, the replaced patch is encoded as follows.
+通过将\ref{eq-xa-decomposition}代入\ref{eq-def-phi-e-entries}, 被替换的补丁被编码如下.
 \begin{equation}
     \phi_e^{(i_0)}(\z(i_0,\x_a); \w^{*}_j) 
     =  \sigma(\ipsmall{\w_j^*, \sum_{k \in [d]} \ip{\x_a,\v_k} \v_k}) 
     = \sigma( \sum_{k \in d} \ip{\x_a,\v_k} \ip{\w_j^*,\v_k} ).
 \end{equation}
-For all $ j \in [C]$, by definition, the max pooling operation only reserves $\max_{i \in [P]} \sigma(\langle \w_j,\x_i \rangle)$.
-We have proved in \ref{sec-training-phase} that the direction of the kernels would gradually get closer to the directions of the features.
+对于所有$ j \in [C]$, 根据定义, 最大池化操作只保留$\max_{i \in [P]} \sigma(\langle \w_j,\x_i \rangle)$.
+我们已在\ref{sec-training-phase}中证明核的方向会逐渐接近特征的方向.
 % However, \ref{theorem-main-in-paper} proves that the kernels would stay in the cones of the features. 
-For non-semantic anomalies, we can prove the following theorem.
+对于非语义异常, 我们可以证明以下定理.
 \begin{theorem}\label{theorem-small-convolution-in-paper}
-    For all $ \theta \in (0,1)$, $\forall j \in [C]$, and $\forall k \in [d]$, if $\ip{\w_j, \v_k} > (1 - \theta)\cdot \|\w_j\|$, then
+    对于所有$ \theta \in (0,1)$, 所有$j \in [C]$, 和所有$k \in [d]$, 如果$\ip{\w_j, \v_k} > (1 - \theta)\cdot \|\w_j\|$, 那么
     \begin{equation}
         \ip{{\w_j}, \x_a} < \|\w_j\| \cdot \max\{ 2\theta, \frac{1}{\theta \sqrt{d-1}} \}
     \end{equation}
-    hold with probability at least $1 - 2\theta \cdot \exp(-1/(2\theta^2))$.
+    以至少$1 - 2\theta \cdot \exp(-1/(2\theta^2))$的概率成立.
 \end{theorem}
 
-\ref{theorem-small-convolution-in-paper} implies that the convolution between non-semantic anomalies $\x_a$ and the kernels in the cones will take small values with high probability.
-Therefore, the signal in the replaced patch will be filtered by the max pooling operation, making the replaced patches in the anomalies hard to reconstruct with high probability.
-The above discussion answers the questions $\bm{Q}_2$ and $\bm{Q}_3$.
+\ref{theorem-small-convolution-in-paper}意味着非语义异常$\x_a$与锥中核之间的卷积将以高概率取小值.
+因此, 被替换补丁中的信号将被最大池化操作过滤, 使得异常中被替换的补丁以高概率难以重构.
+上述讨论回答了问题$\bm{Q}_2$和$\bm{Q}_3$.
 
-\begin{remark}[\textbf{\textit{Semantic Anomalies are hard to detect}}]
+\begin{remark}[语义异常难以检测]
 \label{remark-semantic-anomalies-are-hard-to-detect}
-As reported in the previous survey \cite{DBLP:journals/pieee/RuffKVMSKDM21}, RBADs are unsuitable for detecting semantic anomalies.
-As discussed in \cite{DBLP:conf/iclr/Allen-ZhuL23}, data with different semantic information could contain similar features.
-In our model, denote the feature contained in the replaced patch of a semantic anomaly by $\v_{k_0}$.
-Lemma \ref{lemma-smost-delta-ij-in-paper}, \ref{theorem-Stk-subset-st+1k}, and \ref{theorem-initial-size-in-paper} together imply that the autoencoder would also learn the semantic information of $\v_{k_0}$ if $\beta_{k_0} \neq 0$.
-As a result, the kernels in the cone of $\v_{k_0}$ would align larger value (depending on $\beta_{k_0}$) to $\langle \w_j,\x_a \rangle$ for semantic anomalies than non-semantic anomalies.
-The reconstruction error or the semantic anomalies would be smaller than the non-semantic anomalies, making the semantic anomalies harder to detect.   
+如先前综述\cite{DBLP:journals/pieee/RuffKVMSKDM21}所述, RBAD不适合检测语义异常.
+如\cite{DBLP:conf/iclr/Allen-ZhuL23}中讨论的, 具有不同语义信息的数据可能包含相似的特征.
+在我们的模型中, 用$\v_{k_0}$表示语义异常中被替换补丁包含的特征.
+引理\ref{lemma-smost-delta-ij-in-paper}, \ref{theorem-Stk-subset-st+1k}, 和\ref{theorem-initial-size-in-paper}一起意味着如果$\beta_{k_0} \neq 0$, 自编码器也会学习$\v_{k_0}$的语义信息.
+因此, $\v_{k_0}$的锥中的核会对语义异常的$\langle \w_j,\x_a \rangle$比对非语义异常对齐更大的值 (取决于$\beta_{k_0}$).
+语义异常的重构误差会小于非语义异常, 使得语义异常更难检测.   
 \end{remark}
 
-In summary, this section analyzes the reconstruction phase of the obtained autoencoder and explains why the non-semantic anomalies are hard to reconstruct.
-We also discuss why RBADs are unsuitable for detecting semantic anomalies.
-All the questions raised in \ref{sec-introduction} are answered.
+总之, 本节分析了所得自编码器的重构阶段, 并解释了为什么非语义异常难以重构.
+我们还讨论了为什么RBAD不适合检测语义异常.
+\ref{sec-introduction}中提出的所有问题都已得到回答.
 
-\section{Numerical Validation}\label{sec-numerical-validation}
-This section presents synthesized and real-world experiments that validate our theoretical findings.
-{\color{red}Due to limited space, the implementation details and auxiliary results are reported in \ref{sec-experiments-detail}.}
+\section{数值验证}\label{sec-numerical-validation}
+本节展示合成和真实世界实验, 以验证我们的理论发现.
+{由于篇幅有限, 实现细节和辅助结果在\ref{sec-rbad-experiments-detail}中报告.}
 
-\paragraph{Synthesized Experiments} 
-We conduct this experiment on a synthesis dataset that contains $4000$ training data and $1000$ test data for each of the normal data, semantic anomalies, and non-semantic anomalies.
-The training and test data are drawn from the distribution specified by Assumption \ref{assumption-normal-data}.
-We consider different noise levels from $\epsilon \in \{0.1, 0.01, 0.001\}$. 
-The number of patches $P$ is selected from $\{20 + 4u: u = 0, 1, \cdots, 10\}$ and we let $d = {\rm{int}}(c_3 P)$ for $c_3 \in \{1.2, 1.5, 2\}$.
-We explore other choices of $d$ and $C$ in Appendix \ref{sec-aux-results-syn}.
-The anomalies are generated according to \ref{eq-def-anomalies}. 
-We consider an over-parameterized scenario with $C = {\rm{int}}(1.2d)$.
-The network is specified in \ref{sec-problem-setup}. 
-We use the mean square error (MSE) for the loss function and SGD for optimization.
+\paragraph{合成实验} 
+我们在一个合成数据集上进行此实验, 该数据集包含正常数据, 语义异常和非语义异常各$4000$个训练数据和$1000$个测试数据.
+训练和测试数据从假设\ref{assumption-normal-data}指定的分布中抽取.
+我们考虑来自$\epsilon \in \{0.1, 0.01, 0.001\}$的不同噪声水平. 
+补丁数量$P$从$\{20 + 4u: u = 0, 1, \cdots, 10\}$中选择, 我们对$c_3 \in \{1.2, 1.5, 2\}$设$d = {\rm{int}}(c_3 P)$.
+我们在附录\ref{sec-aux-results-syn}中探索$d$和$C$的其他选择.
+异常根据\ref{eq-def-anomalies}生成. 
+我们考虑$C = {\rm{int}}(1.2d)$的过参数化场景.
+网络在\ref{sec-problem-setup}中指定. 
+我们使用均方误差 (MSE) 作为损失函数, 使用SGD进行优化.
 % Detailed results are reported in \ref{sec-aux-results-syn}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering
    \begin{subfigure}[b]{0.3\textwidth}
        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.2.png}
@@ -595,42 +576,42 @@ We use the mean square error (MSE) for the loss function and SGD for optimizatio
        \caption{$c_3 = 2$}
        \label{fig-c_3=2}
    \end{subfigure}    
-   \caption{\textbf{Results of the synthesized experiments}. 
-   In these figures, the $x$-axis is the number of patches $P$. 
-   The $y$-axis reports the reconstruction losses. 
-   We let $d = {\rm{int}}(c_3 P)$ for $c_3 \in \{1.2, 1.5, 2\}$ and $C = {\rm{int}}(1.2 d)$ in the study.
-   All of the experiments exhibit clear gaps between the reconstruction errors of the normal data and the non-semantic anomalies.
-   Besides, as discussed in \ref{remark-semantic-anomalies-are-hard-to-detect}, the gap between the reconstruction errors of the normal data and the semantic anomalies is not as significant as that between the normal data and the non-semantic anomalies.}
+   \caption{合成实验的结果. 
+   在这些图中, $x$轴是补丁数量$P$. 
+   $y$轴报告重构损失. 
+   在研究中, 我们对$c_3 \in \{1.2, 1.5, 2\}$设$d = {\rm{int}}(c_3 P)$, 并设$C = {\rm{int}}(1.2 d)$.
+   所有实验都表现出正常数据和非语义异常的重构误差之间的明显差距.
+   此外, 如\ref{remark-semantic-anomalies-are-hard-to-detect}中讨论的, 正常数据和语义异常之间的重构误差差距不如正常数据和非语义异常之间的差距显著.}
 \label{fig-synthesized-experiment-results}
 \end{figure}
 
-\paragraph{Visualization of the kernels}
+\paragraph{核的可视化}
    
-\ref{fig-features-learned-by-autoencoder} visualize the first-layer features learned from MNIST and CIFAR-10, which validates our proposed cone set intuition.
-It can be observed that the shapes and colors of the kernels do not significantly change during training because, as claimed in \ref{sec-main-results}, the kernels are absorbed by the cones of the features.
-Notice that some of the kernels remain noisy even after 50 epochs.
-We interpret these kernels as those $\w_j$ such that $j \notin \cup_{k\in [d]} \smost(k)$.
+\ref{fig-features-learned-by-autoencoder}可视化了从MNIST和CIFAR-10学习的第一层特征, 这验证了我们提出的锥集直觉.
+可以观察到核的形状和颜色在训练期间没有显著变化, 因为如\ref{sec-main-results}中所述, 核被特征的锥所吸收.
+注意, 即使在50个epoch之后, 一些核仍然保持噪声.
+我们将这些核解释为那些满足$j \notin \cup_{k\in [d]} \smost(k)$的$\w_j$.
 % The details of the experiments are reported in Appendix \ref{appendix-feature-visualization}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \begin{center}
    
    \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_0.pdf}
-      \caption{Mnist, Epoch 0}
+      \caption{MNIST, Epoch 0}
    \end{subfigure}
    \hfill
    \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_10.pdf}
-      \caption{Mnist, Epoch 10}
+      \caption{MNIST, Epoch 10}
    \end{subfigure}
    \hfill
    \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_50.pdf}
-      \caption{Mnist, Epoch 50}
+      \caption{MNIST, Epoch 50}
    \end{subfigure}
    
    \begin{subfigure}[b]{0.32\textwidth}
@@ -651,52 +632,26 @@ We interpret these kernels as those $\w_j$ such that $j \notin \cup_{k\in [d]} \
    \caption{CIFAR-10, Epoch 50}
    \end{subfigure}
    \end{center}
-   \caption{Visualization of the kernels in the first layer of the autoencoder. }
+   \caption{自编码器第一层核的可视化. }
    \label{fig-features-learned-by-autoencoder}
    \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Conclusion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Conclusion}\label{sec-conclusion}
-This paper studies the training dynamics of a 2-layer convolutional autoencoder and how it reconstructs different types of inputs. 
-Particularly, we answer $\bm{Q}_1$ - $\bm{Q}_3$ raised in \ref{sec-introduction} as follows.
-
-($\bm{Q}_1$) How does the model learn the features from training data in RBAD? 
-($\bm{A}_1$) \textit{The kernels absorbed by the cone sets of the features would approximate the features.}
-
-($\bm{Q}_2$) What is the role of the learned features in the reconstruction phase? 
-($\bm{A}_2$) \textit{The features process the signal from the input patches and use them for reconstruction.}
-    
-($\bm{Q}_3$) Why are the anomalies harder to reconstruct? 
-($\bm{A}_3$) \textit{The processed signal from the auxiliary features and the random noise is smaller than that from the normal features.}
-
-Our theoretical findings and intuitions are supported by synthesized and real-world experiments.
-
-\section{Complete Proofs}\label{sec-proof}
-In this section, we go through the proofs in our analysis.
-We use a separate numbering for the equations in this section so that the readers do not need to turn back to the main parts to reference the equations. 
+\section{完整证明}\label{sec-proof}
+在本节中, 我们通过我们分析中的证明.
+我们为本节中的方程使用单独的编号, 以便读者不需要返回到主要部分来引用方程. 
 Denote 
 \begin{equation}
 \Delta_{n,i} = \x_{n,i} - \phi_d^{(i)} (\phi_e(\z_n)),    
 \end{equation}
-i.e., the difference between the original patch $\x_{n,i}$ and the reconstructed patch $\phi_d^{(i)} (\phi_e(\z_n))$.
-Then, the empirical reconstruction error can be written as
+即, 原始补丁$\x_{n,i}$与重构补丁$\phi_d^{(i)} (\phi_e(\z_n))$之间的差异.
+那么, 经验重构误差可以写为
 \begin{equation}
     \risk_N(\w) 
     = \frac{1}{N} \sum_{n \in [N]} \ell(\z_n;\w) 
     = \frac{1}{N} \sum_{n \in [N]} \| \phi(\z_n;\w) - \z_n \|^2 
     = \frac{1}{N} \sum_{n \in [N]} \sum_{i \in [P]} \ip{\Delta_{n,i},\Delta_{n,i}}.
 \end{equation}
-As a warm-up, the following proposition computes the gradient of $\risk_N(\w)$.
-\begin{customprop}{\ref{prop-gradient}}
-For all $ j \in [C]$, the gradient of the empirical reconstruction error is
-\begin{equation}\label{eq-prop-gradient-gradient-in-proof}
-\nabla_{\w_j} \risk_N(\w) = - \frac{2}{N} \!  \sum_{n,i} \delta_n(i,j) \left[ \sigma\! \left(\ip{\w_j,\x_{n,i}} \right) \Delta_{n,i} 
-+  \ip{\Delta_{n,i}, \w_j} \sigma^{\prime}\!\left(\ip{\w_j,\x_{n,i}} \right) \x_{n,i} \right].
-\end{equation}
-\end{customprop}
+作为预热, 命题\ref{prop-gradient}计算$\risk_N(\w)$的梯度.
 \begin{proof}[Proof of Proposition \ref{prop-gradient}]
 By definition, we have
 \begin{equation} \label{eq-prop-gradient-nabla-R-N}
@@ -704,7 +659,7 @@ By definition, we have
     = \nabla_{\w_j} \left( \frac{1}{N} \sum_{n \in N} \ell(\z_n) \right) 
     = \frac{1}{N} \sum_{n \in [N]} \nabla_{\w_j} \ell(\z_n).
 \end{equation}
-Recall
+回顾
 \begin{equation}\label{eq-def-phi-d-in-proof}
 \phi(\z;\w) = \phi_d \left(\phi_e(\z;\w) \right)
 = \left( \phi_d^{(1)} \left(\phi_e(\z;\w) \right) , \cdots , \phi_d^{(P)}\left(\phi_e(\z;\w) \right) \right)
@@ -713,20 +668,20 @@ and
 \begin{equation}\label{eq-def-loss-in-proof}
     \ell(\z;\w) = \| \phi(\z;\w) - \z \|^2.
 \end{equation}
-According to \ref{eq-def-phi-d-in-proof,eq-def-loss-in-proof}, for all $ n \in [N]$, we have
+根据\ref{eq-def-phi-d-in-proof,eq-def-loss-in-proof}, 对于所有$ n \in [N]$, 我们有
 \begin{equation}
     \ell(\z_n) 
     = \| \phi(\z_n) - \z_n \|^2 
     = \sum_{i \in P}   \ip{ \phi_d^{(i)}(\phi_e(\z_n)) -\x_{n,i}, \phi_d^{(i)}(\phi_e(\z_n)) -\x_{n,i}} = \sum_{i \in [P]} \ip{\Delta_{n,i},\Delta_{n,i}},
 \end{equation}
-and the gradient of $\l(\z_n)$ can be written as
+$\l(\z_n)$的梯度可以写为
 \begin{equation} \label{eq-prop-gradient-gradient-of-l-zn}
     \nabla_{\w_j} \left( \sum_{i \in P} \ip{\Delta_{n,i},\Delta_{n,i}} \right) 
     = \sum_{i \in P} 2 \left\langle \nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i} \right\rangle
 \end{equation}
-Here, we abuse the notion of inner product $\ip{\nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i}}$ to simplify the calculation of the gradient of $\l$ without causing confusion.  
-Consider the right-hand side (RHS) of \ref{eq-prop-gradient-gradient-of-l-zn}.
-For all $ i \in [P]$, the term in the sum equal to
+这里, 我们滥用内积符号$\ip{\nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i}}$来简化$\l$的梯度计算, 而不会引起混淆.  
+考虑\ref{eq-prop-gradient-gradient-of-l-zn}的右边 (RHS).
+对于所有$ i \in [P]$, 求和中的项等于
 \begin{equation}\label{eq-prop-gradient-2nabla-delta}
 \begin{aligned}
     \left\langle \nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i} \right\rangle
@@ -734,14 +689,14 @@ For all $ i \in [P]$, the term in the sum equal to
     &= - \ip{\Delta_{n,i} , \nabla_{\w_j} \left( \sum_{{j^{\prime}} \in \S_{n}(i)} \sigma(\ip{\w_{j^{\prime}},\x_{n,i}}) \w_{j^{\prime}} \right) }.
 \end{aligned}
 \end{equation}    
-Here, $\delta_n(i,j)$ is the natural extension of $\delta(i,j)$, considering that $\x_i$ is replaced by $\x_{n,i}$ in the proof.
-$\S_n(i)$ is defined as
+这里, $\delta_n(i,j)$是$\delta(i,j)$的自然扩展, 考虑到在证明中$\x_i$被$\x_{n,i}$替换.
+$\S_n(i)$定义为
 \begin{equation}\label{eq-prop-gradient-def-Sni}
     \S_n(i) := \{ j \in [C] : \delta_n(i,{j{}}) = 1 \}.
 \end{equation}
-$\S_n(i)$ can be interpreted as the ``empirical cone set of the patch $\x_i$''.
-From \ref{eq-prop-gradient-2nabla-delta} we know that $\left\langle \nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i} \right\rangle$ takes $0$ when $j \notin \S_{n}(i)$.
-Otherwise, we have
+$\S_n(i)$可以解释为``补丁$\x_i$的经验锥集''.
+从\ref{eq-prop-gradient-2nabla-delta}我们知道, 当$j \notin \S_{n}(i)$时, $\left\langle \nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i} \right\rangle$取$0$.
+否则, 我们有
 \begin{equation}
 \begin{aligned}
    - \left\langle \nabla_{\w_j}\Delta_{n,i}, \Delta_{n,i} \right\rangle 
@@ -749,7 +704,7 @@ Otherwise, we have
     &= \sigma\left(\ip{\w_j,\x_{n,i}} \right)\Delta_{n,i} + \ip{\Delta_{n,i}, \w_j} \sigma^{\prime}\left(\ip{\w_j,\x_{n,i}}  \right) \x_{n,i},
 \end{aligned}
 \end{equation}
-in which for all $ u \in \R$, the derivative of $\sigma$ at $u$ is 
+其中对于所有$ u \in \R$, $\sigma$在$u$处的导数为 
 \begin{equation}\label{eq-prop-gradient-sigma-prime}
     \sigma^{\prime}(u) = \left\{
     \begin{array}{cl}
@@ -759,7 +714,7 @@ in which for all $ u \in \R$, the derivative of $\sigma$ at $u$ is
     \end{array}
     \right. 
 \end{equation}
-Finally, we can obtain \ref{eq-prop-gradient-gradient-in-proof} by combining Equations (\ref{eq-prop-gradient-nabla-R-N}) to (\ref{eq-prop-gradient-sigma-prime}), which completes the proof.
+最后, 我们可以通过组合方程(\ref{eq-prop-gradient-nabla-R-N})到(\ref{eq-prop-gradient-sigma-prime})得到\ref{eq-prop-gradient-gradient-in-proof}, 这完成了证明.
 \end{proof}
 
 % According to \ref{eq-prop-gradient-gradient}, for all $ j \in \S_{n,i}$, the gradient direction is composed of two major directions.
@@ -776,32 +731,15 @@ Finally, we can obtain \ref{eq-prop-gradient-gradient-in-proof} by combining Equ
 % $\u_1$ and $\u_2$ are linearly independent in general.
 % Otherwise, 
 
-After random initialization, the kernels iterate according to the gradient descent rule, i.e.,  
+在随机初始化之后, 核根据梯度下降规则迭代, 即  
 \begin{equation}
     \w^{t+1}_j = \w^t_j - \eta_t \nabla_{\w_j} \risk_N(\w^t).
 \end{equation} 
-Let $f_h = f_h(d)$ be the control function of the growth of the major part of the kernels (i.e., the height of the cone in our cone set intuition.
-At each iteration step, the size of the kernels can be bounded by the following lemma.
-
-\begin{customlemma}{\ref{lemma-size-of-wj-in-paper}}
-With probability at least $1 - p_0$, the random initialization of $\w_j^0$ satisfies
-\begin{equation}\label{eq-lemma-size-of-wj-random-initialization}
-    \|\w_j^0\| \leq \sigma_0 f_h.
-\end{equation}
-    For all $ t \geq 1$, the size of $\w_j^t$ is controlled by 
-    \begin{equation}\label{eq-lemma-size-of-wj-result-2}
-        \|\w_j^t\| \leq  t \sigma_0 f_h.
-    \end{equation}
-    with probability at least $1 - p_0$.
-    In both \ref{eq-lemma-size-of-wj-random-initialization,eq-lemma-size-of-wj-result-2}, we let $p_0$ take
-    \begin{equation}\label{eq-lemma-size-of-wj-p0}
-         p_0 = 2\exp \left(- \frac{(f_h - d)^2}{8d}\right).
-    \end{equation}
-    % In particular, $f_h > d$
-\end{customlemma}
+设$f_h = f_h(d)$为核主要部分增长的控制函数 (即我们锥集直觉中锥的高度).
+在每个迭代步, 核的大小可以被引理\ref{lemma-size-of-wj-in-paper}界定.
 
 \begin{proof}[Proof of Lemma \ref{lemma-size-of-wj-in-paper}]
-    By definition, we can write
+    根据定义, 我们可以写
     \begin{equation}
         \w_j^0 = \left(  \w_j^{0,(1)}, \w_j^{0,(2)}, \cdots, \w_j^{0,(d)} \right)^T \sim \N(0,\sigma_0 \I)
     \end{equation}
@@ -809,21 +747,21 @@ With probability at least $1 - p_0$, the random initialization of $\w_j^0$ satis
     \begin{equation}
         \frac{1}{\sigma_0^2}\|\w_j^0\|^2 = \sum_{i \in [d]} \left( \frac{\w_j^{0,(i)}}{\sigma_0} \right)^2 \sim \chi_d^2,
     \end{equation}
-    in which $\chi_d^2$ is the chi-squared distribution with $d$ degrees of freedom.
-    Lemma \ref{lemma-chi-square-concentration-inequality} implies that
+    其中$\chi_d^2$是具有$d$个自由度的卡方分布.
+    引理\ref{lemma-chi-square-concentration-inequality}意味着
     \begin{equation}\label{eq-lemma-size-of-wj-main-equation-1}
                 \P \left[ \left| \|\w_j^0\|^2 - \sigma_0^2d \right| \geq \lambda \sigma_0^2 d \right] \leq 2 e^{-\lambda^2 d/8}
     \end{equation}
-    for all $ \lambda \in (0,1)$.
-    We can obtain \ref{eq-lemma-size-of-wj-random-initialization} by letting
+    对所有$ \lambda \in (0,1)$成立.
+    我们可以通过令
     \begin{equation}
     \lambda = \frac{f_h^2 - d}{d}.    
     \end{equation}
 
-    We prove the second result by induction. 
-    \ref{eq-lemma-size-of-wj-main-equation-1} implies that $\|\w_j^{1}\| = \|\w_j^{0}\| \leq \sigma_0 f_h$ as required.
-    For all $ t > 1$, assume that $\w_j^{t-1}$ satisfies \ref{eq-lemma-size-of-wj-result-2}.
-    By definition, we have
+    我们通过归纳法证明第二个结果. 
+    \ref{eq-lemma-size-of-wj-main-equation-1}意味着$\|\w_j^{1}\| = \|\w_j^{0}\| \leq \sigma_0 f_h$, 符合要求.
+    对于所有$ t > 1$, 假设$\w_j^{t-1}$满足\ref{eq-lemma-size-of-wj-result-2}.
+    根据定义, 我们有
     \begin{equation}\label{eq-lemma-size-of-wj-induction}
     \begin{aligned}
         &\|\w_j^{t}\| \\
@@ -834,7 +772,7 @@ With probability at least $1 - p_0$, the random initialization of $\w_j^0$ satis
         \!+\! \ip{\Delta_{n,i}, \w_j} \sigma^{\prime}\left(\ip{\w_j,\x_{n,i}}  \right) \x_{n,i} \right] \right\|.
     \end{aligned}
     \end{equation}
-    Due to limited space, the subscript or superscript of $t-1$ is omitted without causing any confusion. For all $ n \in [N]$ and $\forall i \in [P]$, it is easy to obtain that
+    由于篇幅有限, 在不引起混淆的情况下省略了$t-1$的下标或上标. 对于所有$ n \in [N]$和所有$i \in [P]$, 容易得到
     \begin{equation}
     \begin{aligned}
     &\| \sigma\left(\ip{\w_j,\x_{n,i}}   \right) \Delta_{n,i} 
@@ -845,51 +783,47 @@ With probability at least $1 - p_0$, the random initialization of $\w_j^0$ satis
     2 (1+\epsilon)^2 \| \w_j \|.
     \end{aligned}
     \end{equation}
-    Since only one of the $i \in [P]$ is counted in the second summation in \ref{eq-lemma-size-of-wj-induction} for all $ n \in [N]$ due to the property of $\delta_n(i,j)$, we have
+    由于$\delta_n(i,j)$的性质, 在\ref{eq-lemma-size-of-wj-induction}的第二个求和中, 对于所有$ n \in [N]$, 只计算$i \in [P]$中的一个, 我们有
     \begin{equation*}
     % \label{eq-lemma-size-of-wj-induction-result}
 \left\| \frac{\eta}{N} \!\!\! \sum_{n \in [N]}\! \sum_{i \in [P]}\! 2 \delta_n(i,j)\! \left[ \sigma \! \left(\ip{\w_j,\x_{n,i}}   \right)\! \Delta_{n,i} 
        \! + \!\ip{\Delta_{n,i}, \w_j} \sigma^{\prime}\!\left(\ip{\w_j,\x_{n,i}}  \right) \x_{n,i} \right] \right\|
         \!\leq \! 4 (1+\epsilon)^2 \eta \| \w_j \|,
     \end{equation*}
-    which implies that
+    这意味着
     \begin{equation}\label{eq-lemma-size-of-wj-induction-final-result}
         \|\w_j^{t}\| \leq (1 + 5 \eta_{t-1})\|\w_j^{t-1}\|.
     \end{equation}
-    We can obtain \ref{eq-lemma-size-of-wj-result-2} by taking $\eta_t = 0.2t^{-1}$ into \ref{eq-lemma-size-of-wj-induction-final-result}, which finishes the proof of this lemma.
+    我们可以通过将$\eta_t = 0.2t^{-1}$代入\ref{eq-lemma-size-of-wj-induction-final-result}得到\ref{eq-lemma-size-of-wj-result-2}, 这完成了这个引理的证明.
 \end{proof}
 
-\begin{customlemma}{\ref{lemma-smost-delta-ij-in-paper}}
-    For all $ t \geq 1$, if $j \in \smost^t(k)$ and $\x_i$ (or $\x_{n,i}$) contains $\v_k$, then we 
- have $\delta(i,j) = 1$ (or $\delta_n(i,j) = 1$).
-\end{customlemma}
 \begin{proof}\label{proof-lemma-smost-delta-ij}
-    Recall that $\delta(i,j)$ is a binary-value function that takes $1$ when 
+    回顾$\delta(i,j)$是一个二元值函数, 当满足以下条件时取$1$ 
     \begin{equation}
             i = \argmax_{i^{\prime} \in [P]} \sigma(\ip{\w^t_j,\x_{i^{\prime}}})
     \end{equation}
 and $0$ otherwise.
-    Since $\sigma$ is non-decreasing, we have
+    由于$\sigma$是非递减的, 我们有
     \begin{equation}
         \argmax_{i \in [P]} \sigma(\ip{\w_j,\x_i}) = \argmax_{i \in [P]} \ip{\w_j,\x_i}.
     \end{equation}
-When $j \in \smost^t(k)$ and $\x_i$ contains $\v_k$, $\ip{ \w_j , \x_{i} }$ can be bounded by
+当$j \in \smost^t(k)$且$\x_i$包含$\v_k$时, $\ip{ \w_j , \x_{i} }$可以被以下界限限制
     \begin{equation}\label{eq-lemma-smost-delta-ij-upper}\begin{aligned}
         \ip{ \w_j^t , \x_{i} } 
         &= \ip{ \w_j^t , \v_{k} } + \ip{ \w_j^t , \x_{i} - \v_{k} } \\
         &\geq  t \sigma_0 c_1 f_h - \|\w_j^t\| \| \x_i - \v_k \| \\
         &\geq (c_1 - \sqrt{2\epsilon}) t \sigma_0 f_h.
     \end{aligned}\end{equation}
-On the other hand, consider $i^{\prime}$ and $k^{\prime}$ such that $\x_{i^{\prime}}$ contains $\v_{k^{\prime}}$.
-    By Assumption \ref{assumption-normal-data}, $k^{\prime} \neq k$ if given $i^{\prime} \neq i$.
-    Therefore, we have
+另一方面, 考虑满足$\x_{i^{\prime}}$包含$\v_{k^{\prime}}$的$i^{\prime}$和$k^{\prime}$.
+    根据假设\ref{assumption-normal-data}, 如果给定$i^{\prime} \neq i$, 则$k^{\prime} \neq k$.
+    因此, 我们有
     \begin{equation}\label{eq-lemma-smost-delta-ij-lower}\begin{aligned}
         \ip{ \w_j , \x_{i^{\prime}} } 
         &= \ip{ \w_j , \v_{k^{\prime} } } + \ip{ \w_j , \x_{i^{\prime} } - \v_{k^{\prime} } } \\
         &\leq t \sigma_0 f_r + \|\w_j\| \| \x_i - \v_k \| \\
         &\leq (f_r +  \sqrt{2\epsilon} f_h ) t \sigma_0 
     \end{aligned}\end{equation}
-    We prove the lemma by combining \ref{eq-lemma-smost-delta-ij-upper,eq-lemma-smost-delta-ij-lower}.
+    我们通过结合\ref{eq-lemma-smost-delta-ij-upper,eq-lemma-smost-delta-ij-lower}来证明引理.
 \end{proof}
 
 % \begin{remark}[Relationship between $\smost^t(k)$ and $\S_n^t(i)$]
@@ -911,34 +845,21 @@ and
     \left( \frac{1}{c_1f_h} \frac{ e^{-(c_1f_h)^2} }{\sqrt{2\pi}} \right)
     \left(1 - \frac{f_r}{f_r^2 + 1} \frac{ e^{-f_r^2} }{\sqrt{2\pi}} \right)^{C-1}.
 \end{equation}
-The following lemma proves that the size of $\smost$ at random initialization is bounded from both sides.
-Note that $\w^0 = \w^1$ since we set $\eta_0 = 0$.
-\begin{customlemma}{\ref{theorem-initial-size-in-paper}}
-Let $p_1$ and $p_2$ be parameters depending on $d$ and $t$.
-For all $ k \in [d]$, the size of $\smost^0(k)$ can be upper-bounded by
-\begin{equation}
-     | \smost^0(k) |  \leq C p_2 + \lambda,
-\end{equation}
-with probability at least $ 1 - \exp\left( - \frac{3\lambda^2}{6C p_2 + 2\lambda} \right)$ over random initialization.
-The lower-bound
-\begin{equation}
-    | \smost^0(k) | \geq C p_1 - \lambda
-\end{equation}
-hold with probability at least $1 - \exp \left( - \frac{\lambda^2}{2 C p_2} \right)$.
-\end{customlemma}
+引理\ref{theorem-initial-size-in-paper}证明了$\smost$在随机初始化时的大小在两侧都有界.
+注意, 由于我们设$\eta_0 = 0$, 所以$\w^0 = \w^1$.
 \begin{proof}[Proof of \ref{theorem-initial-size-in-paper}]
-According to \cite{Dumbgen10}, we have 
+根据\cite{Dumbgen10}, 我们有 
 \begin{equation}\label{eq-lemma-init-prob-smost-dumbgen10}
     \frac{1}{x + 1/x} \frac{ e^{-x^2} }{\sqrt{2\pi}}
      < \mathop{\P}_{g \sim \N(0,1)} \left[ g > x \right]
      < \frac{1}{x} \frac{ e^{-x^2} }{\sqrt{2\pi}}
 \end{equation}
-for arbitrary $x > 0$. 
+对于任意$x > 0$. 
 For all $ j \in [C]$, we have
 \begin{equation}\label{eq-lemma-inti-prob-constraint-1}
     \frac{\langle{\w_j^1, \v_k \rangle}}{\sigma_0} = \sum_{k \in [d]} \v_k^{(k)} \frac{\w_j^{1,(k)}}{\sigma_0}  \sim \N(0,1).
 \end{equation}
-Take $x = c_1 f_h $ in \ref{eq-lemma-init-prob-smost-dumbgen10}, we can obtain
+在\ref{eq-lemma-init-prob-smost-dumbgen10}中取$x = c_1 f_h $, 我们可以得到
 \begin{equation}\label{eq-lemma-inti-prob-4-pm-c0}
 \frac{c_1 f_h}{(c_1 f_h)^2 + 1} \frac{ e^{-(c_1 f_h)^2} }{\sqrt{2\pi}}
  < {\P}_{\w_j^{0}} \left[ \ip{\w_j^1, \v_k} > \sigma_0 c_1 f_h \right]
@@ -950,85 +871,24 @@ Similarly, we have
  < {\P}_{\w_j^{0}} \left[ \ip{\w_j^1, \v_k} > \sigma_0 f_r \right]
  < \frac{1}{f_r} \frac{ e^{-f_r^2} }{\sqrt{2\pi}}.
 \end{equation}
-by letting $x = f_r$.
-By definition, we have
+通过令$x = f_r$.
+根据定义, 我们有
 \begin{equation}\label{eq-lemma-inti-prob-by-def-smost}
     {\P}_{\w^{0}} \left[ j \in  \smost^0(k) \right] = 
     {\P}_{\w_j^{0}} \left[ \ip{\w_j^1, \v_k} > \sigma_0 c_1 f_h \right] \cdot 
     \left( 1 -  {\P}_{\w_j^{0}} \left[ \ip{\w_j^1, \v_k} > \sigma_0 f_r \right] \right)^{C-1}.
 \end{equation}
-Combining \ref{eq-lemma-inti-prob-4-pm-c0,eq-lemma-inti-prob-constraint-2,eq-lemma-inti-prob-by-def-smost}, we obtain that
+结合\ref{eq-lemma-inti-prob-4-pm-c0,eq-lemma-inti-prob-constraint-2,eq-lemma-inti-prob-by-def-smost}, 我们得到
 \begin{equation}
     p_1 \leq {\P}_{\w_j^{0}} \left[ j \in  \smost^0(k) \right] \leq p_2
 \end{equation}
-By \ref{corollary-cp-lambda} we immediately get \ref{eq-lemma-init-prob-smost-result-upper-bound,eq-lemma-init-prob-smost-result-lower-bound}.
+由\ref{corollary-cp-lambda}我们立即得到\ref{eq-lemma-init-prob-smost-result-upper-bound,eq-lemma-init-prob-smost-result-lower-bound}.
 \end{proof}
 
-% In the rest of this paper, we use the following slightly weaker result that can be viewed as a simple corollary of Lemma \ref{lemma-init-prob-smost}.
-% \begin{corollary}\label{corollary-init-prob-smost}
-    
-% \end{corollary}
-
-
-% In a similar sense, Definition \ref{def-sless,def-snot} introduces the collection of kernels that are \textit{less} or \textit{not} related to feature $i$.
-
-% \begin{definition}[Less related kernels]\label{def-sless}
-%     Let $\sless^t(k)$ be the collection of indices $j \in [C]$ such that
-% \begin{itemize}
-%     \item $ \ip{ \w_j^{t} , \v_{k} } \geq t \sigma_0 f_r $, and
-%     \item for all $ k^{\prime} \neq k $, $ \ip{ \w_{j}^{t} ,  \v_{k^{\prime}} } \leq t \sigma_0 f_r $. \myqed
-% \end{itemize}
-% \end{definition}
-
-% \begin{definition}[Not related kernels]\label{def-snot}
-%     Let $\snot^t$ be the collection of indices $j \in [C]$ such that
-%     \begin{equation}
-%          \ip{ \w_j^{t} , \v_{k} } < t \sigma_0 f_r 
-%     \end{equation}
-%     for all $ k \in [d]$. \myqed
-% \end{definition}
-
-% Lemma \ref{lemma-init-prob-sless,lemma-init-prob-snot} bound the initial size of $\sless$ and $\snot$, respectively.
-% \begin{lemma}[Size of $\sless$ at random initialization]\label{lemma-init-prob-sless}
-% For all $ k \in [P]$, with probability at least $1 - $ over random initialization, the size of $\sless^0(k)$ can be controlled by
-    
-% \end{lemma}
-
-% \begin{lemma}[Size of $\snot$ at random initialization]\label{lemma-init-prob-snot}
-% For all $ i \in [P]$, with probability at least $1 - $ over random initialization, the size of $\snot^0$ can be controlled by
-    
-% \end{lemma}
-
-% \begin{lemma}
-% With probability at least $1 - p_4$
-%     \begin{equation}
-%         |\S| < \frac{c_2 C}{d}
-%     \end{equation}
-% \end{lemma}
-% As discussed in \ref{sec-main-results}, the growth of kernels is determined after initialization. 
-
-% \begin{remark}[Simplifying the max pooling operation]\label{remark-simplify-delta}
-    
-% \end{remark}
-
-% \subsection{Main Results}
-% \begin{itemize}
-%     \item if $j \in \smost(k)$, (1) $\Delta \ip{\w_j,v_k} \geq \sigma_0 c_1 ((t+1)f_h(t+1,d) - t f_h(t,d))$ and (2) $\Delta \ip{\w_j,v_{k^{\prime}}} \leq \sigma_0 f_r$
-%     \item if $j \in \sless(k)$, (1) $\Delta \ip{\w_j,v_k} \geq \sigma_0 c_1 f_h$ and (2) $\Delta \ip{\w_j,v_{k^{\prime}}} \leq \sigma_0 f_r$
-% \end{itemize}
-
-\begin{customthm}{\ref{theorem-Stk-subset-st+1k}}
-    Assume that $|\smost^{0}(k)| \geq 1$ for all $k \in [d]$.
-    For all $ t \in [T]$ and $\forall k \in [d]$, we have $\smost^{t}(k) \subseteq \smost^{t+1}(k)$.
-\end{customthm}
-
 \begin{proof}[Proof of \ref{theorem-Stk-subset-st+1k}]
-% \begin{equation}
-%     \w^{t+1}_j - \w^{t}_j = \sum_{i \in d} \ip{\w^{t+1}_j - \w^{t}_j,\v_k} \v_k
-% \end{equation}
-We prove $\smost^{t}(k) \subseteq \smost^{t+1}(k)$ by induction. 
-For any $j \in [C]$, assume that $\w_j \in \smost^{t}(k)$ at iteration $t$. 
-The growth of $\w_{j}^{t}$ along $\v_k$ is given by
+我们通过归纳法证明$\smost^{t}(k) \subseteq \smost^{t+1}(k)$. 
+对于任意$j \in [C]$, 假设在第$t$次迭代时$\w_j \in \smost^{t}(k)$. 
+$\w_{j}^{t}$沿着$\v_k$的增长由以下给出
 \begin{equation}\label{eq-theorem-phase-I-main-wjt+1-wjt}
 \begin{aligned}
     \ip{\w^{t+1}_j - \w^{t}_j,\v_k} 
@@ -1038,9 +898,9 @@ The growth of $\w_{j}^{t}$ along $\v_k$ is given by
 \end{aligned}
 \end{equation}
 
-Given $n \in [N]$, suppose $\exists \x_{n,i_n}$ such that $\x_{n,i_n}$ contains $\v_k$.
-By definition, this condition holds for $\beta_k N$ many training samples.
-Then, Lemma \ref{lemma-smost-delta-ij-in-paper} implies that
+给定$n \in [N]$, 假设存在$\x_{n,i_n}$使得$\x_{n,i_n}$包含$\v_k$.
+根据定义, 这个条件对$\beta_k N$个训练样本成立.
+那么, 引理\ref{lemma-smost-delta-ij-in-paper}意味着
 \begin{equation}\label{eq-theorem-phase-I-main-xni-contains-vk}
 \begin{aligned}
     &\sum_{i \in [P]} \delta_n(i,j) \left[ \sigma\left(\ip{\w_j^{t},\x_{n,i}}   \right) \ip{\Delta_{n,i},\v_k} 
@@ -1051,16 +911,16 @@ Then, Lemma \ref{lemma-smost-delta-ij-in-paper} implies that
 \end{equation}
 
 
-Otherwise, given $n \in [N]$, we let $\x_{n,i_n} := 0$ when there is no $\x_{n,i}$ such that $\x_{n,i}$ contains $\v_k$ with slight abuse of notation.
-Using these notations, we can write
+否则, 给定$n \in [N]$, 当没有$\x_{n,i}$使得$\x_{n,i}$包含$\v_k$时, 我们设$\x_{n,i_n} := 0$, 稍微滥用符号.
+使用这些符号, 我们可以写
 \begin{equation}\label{eq-theorem-phase-I-main-smost-combine}
     \ip{\w^{t+1}_j - \w^{t}_j,\v_k}
     = 2 \eta_t \sum_{n \in [N]} \sigma\left(\ip{\w_j^{t},\x_{n,i_n}}   \right) \ip{\Delta_{n,i_n},\v_k} 
     {+} \ip{\Delta_{n,i_n}, \w_j^{t}} \sigma^{\prime}\left(\ip{\w_j^{t},\x_{n,i_n}}  \right) \ip{\x_{n,i_n},\v_k} 
 \end{equation}
 
-It remains to bound the terms in \ref{eq-theorem-phase-I-main-smost-combine}.
-We first look at $\ip{\Delta_{n,i_n},\v_k} $.
+仍需界定\ref{eq-theorem-phase-I-main-smost-combine}中的项.
+我们首先看$\ip{\Delta_{n,i_n},\v_k} $.
 \begin{equation}\label{eq-theorem-phase-I-main-sum-ip-delta-ni-vi}
 \begin{aligned}
     \ip{\Delta_{n,i_n},\v_k} 
@@ -1069,9 +929,9 @@ We first look at $\ip{\Delta_{n,i_n},\v_k} $.
     &= \ip{ \x_{n,i_n}, \v_k } -  \sum_{{j^{\prime}} \in \S_{n}(i_n)} \ip{  \relu{\ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}  } \w_{j^{\prime}}^{t}, \v_k }
 \end{aligned}
 \end{equation}
-Apparently, both sides of \ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi} would take zero if $\x_{n,i_n} = 0$.
-We only need to consider the case when $\x_{n,i_n} \neq 0$. 
-Since $\x_{n,i_n}$ contains $\v_k$, for all $ j^{\prime} \in \S_{n}(i_n) $, we have 
+显然, 如果$\x_{n,i_n} = 0$, \ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi}的两边都将为零.
+我们只需要考虑$\x_{n,i_n} \neq 0$的情况. 
+由于$\x_{n,i_n}$包含$\v_k$, 对于所有$ j^{\prime} \in \S_{n}(i_n) $, 我们有 
 \begin{equation}\label{eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi}
 \begin{aligned}
     \relu{\ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}  } &\leq \ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}   \\
@@ -1081,19 +941,19 @@ Since $\x_{n,i_n}$ contains $\v_k$, for all $ j^{\prime} \in \S_{n}(i_n) $, we h
     &\leq (1 + \sqrt{2\epsilon}) \wbound.
 \end{aligned}
 \end{equation}
-Lemma \ref{lemma-smost-delta-ij-in-paper} implies that \ref{eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi} also hold for $\relu{\ip{\w_j^{t},\x_{n,i_n}}  }$ since $j \in \smost^t(k)$. 
-Combining \ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi,eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi}, we have
+引理\ref{lemma-smost-delta-ij-in-paper}意味着, 由于$j \in \smost^t(k)$, \ref{eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi}对$\relu{\ip{\w_j^{t},\x_{n,i_n}}  }$也成立. 
+结合\ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi,eq-theorem-phase-I-main-sigma-wj-xni-leq-wjvi}, 我们有
 \begin{equation}
     \ip{\Delta_{n,i},\v_k} 
     \geq 1 - \epsilon 
     - (1 + \sqrt{2\epsilon})\sum_{{j^{\prime}} \in \S_{n}(i_n)} \|\w_{j^{\prime}}^{t}\|^2
     \geq 1 - \epsilon - (1 + \sqrt{2 \epsilon})(\wbound)^2|\S^t_n(i_n)|.
 \end{equation}
-Since we assume $\smost^{0}(k) \geq 1$ for all features, we have
+由于我们假设对所有特征有$\smost^{0}(k) \geq 1$, 我们有
 \begin{equation}
     |\S^t_n(i_n)| \leq (c_2 - 1) d.
 \end{equation}
-Next, we turn to $\ip{\Delta_{n,i},\w_j^{t}}$.
+接下来, 我们转向$\ip{\Delta_{n,i},\w_j^{t}}$.
 Similarly, we have
 \begin{equation}\label{eq-theorem-phase-I-main-sum-deltani-vi}
 \begin{aligned}
@@ -1112,7 +972,7 @@ Similarly, we have
 \end{aligned}
 \end{equation}
 
-Finally, we derive the lower bound of  $\ip{\w_j^{t},\x_{n,i_n}}  $ by
+最后, 我们通过以下方式推导$\ip{\w_j^{t},\x_{n,i_n}}  $的下界
 \begin{equation}\label{eq-theorem-phase-I-main-lower-bound-of-ip-wj-xnin}
 \begin{aligned}
 \ip{\w_j^{t},\x_{n,i_n}}  
@@ -1123,9 +983,9 @@ Finally, we derive the lower bound of  $\ip{\w_j^{t},\x_{n,i_n}}  $ by
 \end{aligned}
 \end{equation}
 
-which also implies that $\relu{\ip{\w_j^{t},\x_{n,i_n}}  } \geq (c_1 - \sqrt{2\epsilon}) \wbound $ and $\relup{\ip{\w_j^{t},\x_{n,i_n}}  } = 1$.
+这也意味着$\relu{\ip{\w_j^{t},\x_{n,i_n}}  } \geq (c_1 - \sqrt{2\epsilon}) \wbound $且$\relup{\ip{\w_j^{t},\x_{n,i_n}}  } = 1$.
 
-Combining all above, we have
+结合以上所有内容, 我们有
 \begin{equation}\begin{aligned}
     & \frac{1}{2\eta_t} \ip{\w^{t+1}_j - \w^{t}_j,\v_k} \\
     =& \sum_{n \in [N]} \sigma\left(\ip{\w_j^{t},\x_{n,i_n}}   \right) \ip{\Delta_{n,i_n},\v_k} 
@@ -1136,7 +996,7 @@ Combining all above, we have
     - \sqrt{2\epsilon} 
     - (1 + \sqrt{2\epsilon})(\wbound)^2 |\S_n^t(i_n)| \right),
 \end{aligned}\end{equation}
-which implies that 
+这意味着 
 \begin{equation}\label{eq-theorem-phase-I-main-smost-what-we-need-1}
 \begin{aligned}
         \ip{ \w_j^{t+1} ,\! \v_{k} } &\!\geq  c_1 \sigma_0 f_h \!\left( t \!+ \!2c_1^{-1}t\eta_t N\beta_k\left( 
@@ -1152,18 +1012,18 @@ As discussed in \ref{sec-parameters},
         2\tilde{c}_1\hat{\epsilon} - (1+\sqrt{2\epsilon})(\tilde{c}_1 + \hat{\epsilon})(\wbound)^2 \! \cdot \! (c_2 - 1)d
         \right) \leq 1
 \end{equation}
-is not a tight bound.
-Under mild conditions on the choice of the parameters, we can obtain
+不是一个紧界.
+在参数选择的温和条件下, 我们可以得到
 \begin{equation}
     \ip{\w_j^{t+1}, \v_k} \geq (t+1) c_1 \sigma_0 f_h
 \end{equation}
-as expected.
+如预期.
 
-Next, for all $k^{\prime} \neq k $, from Definition \ref{def-smost-in-paper} we know that
+接下来, 对于所有$k^{\prime} \neq k $, 从定义\ref{def-smost-in-paper}我们知道
 \begin{equation}
     \ip{ \w_{j}^{t} , \v_{k^{\prime}} } \leq \slessbound. 
 \end{equation}
-For all $ j \in [C]$, the growth of $\w_{j}^{t}$ along $\v_{k^{\prime}}$ is given by
+对于所有$ j \in [C]$, $\w_{j}^{t}$沿着$\v_{k^{\prime}}$的增长由以下给出
 \begin{equation}\label{eq-theorem-phase-I-main-wjt+1-wjt-kprime}
 \begin{aligned}
     &\ip{\w^{t+1}_j - \w^{t}_j,\v_{k^{\prime}}} \\
@@ -1171,8 +1031,8 @@ For all $ j \in [C]$, the growth of $\w_{j}^{t}$ along $\v_{k^{\prime}}$ is give
     \!{+}\! \ip{\Delta_{n,i}, \w_j^{t}} \!\sigma^{\prime}\!\left(\!\ip{\w_j^{t},\x_{n,i}} \! \right) \ip{\x_{n,i},\v_{k^{\prime}}} \right]
 \end{aligned}
 \end{equation}
-Note that the evaluation of $\delta_n(i,j)$ is independent of $k$ (or $k^{\prime}$).
-Therefore, similar to \ref{eq-theorem-phase-I-main-xni-contains-vk,eq-theorem-phase-I-main-smost-combine}, we have
+注意$\delta_n(i,j)$的评估独立于$k$ (或$k^{\prime}$).
+因此, 类似于\ref{eq-theorem-phase-I-main-xni-contains-vk,eq-theorem-phase-I-main-smost-combine}, 我们有
 \begin{equation}\label{eq-theorem-phase-I-main-xni-contains-vk-but-the-feature-is-vkprime}
 \begin{aligned}
     &\sum_{i \in [P]} \delta_n(i,j) \left[ \sigma\left(\ip{\w_j^{t},\x_{n,i}}   \right) \ip{\Delta_{n,i},\v_{k^{\prime}}} 
@@ -1187,8 +1047,8 @@ and
     = 2\eta_t \sum_{n \in [N]} \sigma\left(\ip{\w_j^{t},\x_{n,i_n}}   \right) \ip{\Delta_{n,i_n},\v_{k^{\prime}}} 
     {+} \ip{\Delta_{n,i_n}, \w_j^{t}} \sigma^{\prime}\left(\ip{\w_j^{t},\x_{n,i_n}}  \right) \ip{\x_{n,i_n},\v_{k^{\prime}}}.
 \end{equation}
-In \ref{eq-theorem-phase-I-main-xni-contains-vk-but-the-feature-is-vkprime,eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}, $\x_{n, i_n}$ refers to the patch that contain $\v_{k^{\prime}}$ if $\exists i \in [P]$ such that $\x_{n,i}$ contains $\v_{k^{\prime}}$ or $\x_{n, i_n}  = 0$ otherwise (cf. \ref{eq-theorem-phase-I-main-xni-contains-vk}).
-It remains  to upper-bound the terms in \ref{{eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}}
+在\ref{eq-theorem-phase-I-main-xni-contains-vk-but-the-feature-is-vkprime,eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}中, $\x_{n, i_n}$指的是如果存在$i \in [P]$使得$\x_{n,i}$包含$\v_{k^{\prime}}$则包含$\v_{k^{\prime}}$的补丁, 否则$\x_{n, i_n}  = 0$ (参见\ref{eq-theorem-phase-I-main-xni-contains-vk}).
+仍需对\ref{{eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}}中的项进行上界估计
 \begin{equation}\label{eq-theorem-phase-I-main-sum-ip-delta-ni-vi-but-the-feature-is-vkprime}
 \begin{aligned}
     \ip{\Delta_{n,i_n},\v_{k^{\prime}}} 
@@ -1197,18 +1057,18 @@ It remains  to upper-bound the terms in \ref{{eq-theorem-phase-I-main-smost-comb
     &= \ip{ \x_{n,i_n}, \v_{k^{\prime}} } -  \sum_{{j^{\prime}} \in \S_{n}(i_n)} \ip{  \relu{\ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}  } \w_{j^{\prime}}^{t}, \v_{k^{\prime}} },
 \end{aligned}
 \end{equation}
-in which
+其中
 \begin{equation}
     \ip{ \x_{n,i_n}, \v_{k^{\prime}} } = \ip{ \x_{n,i_n} - \v_k, \v_{k^{\prime}} } + \ip{ \v_k, \v_{k^{\prime}} } = \ip{ \x_{n,i_n} - \v_k, \v_{k^{\prime}} } \leq \sqrt{2\epsilon}.
 \end{equation}
-By definition, we have $\ip{\w_{j^{\prime}}^{t}, \v_{k^{\prime}}} \geq 0$ for all ${j^{\prime}} \in \S_{n}(i_n)$.
-Therefore, we can bound \ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi-but-the-feature-is-vkprime} simply by
+根据定义, 对于所有${j^{\prime}} \in \S_{n}(i_n)$, 我们有$\ip{\w_{j^{\prime}}^{t}, \v_{k^{\prime}}} \geq 0$.
+因此, 我们可以简单地通过以下方式界定\ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi-but-the-feature-is-vkprime}
 \begin{equation}\label{eq-theorem-phase-I-main-deltanin-vkprime}
     \ip{\Delta_{n,i_n},\v_{k^{\prime}}} 
     \leq \sqrt{2\epsilon}.
 \end{equation}
-We also need to find an upper bound for $\ip{\Delta_{n,i_n},\w_j^{t}}$.
-Similar to previous analyses, we have
+我们还需要找到$\ip{\Delta_{n,i_n},\w_j^{t}}$的上界.
+类似于先前的分析, 我们有
 \begin{equation}\label{eq-theorem-phase-I-main-sum-deltani-vi-upper-bound}
 \begin{aligned}
     \ip{\Delta_{n,i_n},\w_j^{t}} 
@@ -1220,7 +1080,7 @@ Similar to previous analyses, we have
     |\S_n^t(i_n)|.
 \end{aligned}
 \end{equation}
-Combine Equations (\ref{eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime}) to (\ref{eq-theorem-phase-I-main-sum-deltani-vi-upper-bound}), we finally get
+结合方程(\ref{eq-theorem-phase-I-main-smost-combine-but-the-feature-is-vkprime})到(\ref{eq-theorem-phase-I-main-sum-deltani-vi-upper-bound}), 我们最终得到
 \begin{equation}\label{eq-theorem-phase-I-main-smost-result-2}
     \begin{aligned}
         \frac{1}{2\eta_t} \ip{\w^{t+1}_j - \w^{t}_j,\v_{k^{\prime}}} 
@@ -1232,7 +1092,7 @@ Combine Equations (\ref{eq-theorem-phase-I-main-smost-combine-but-the-feature-is
     |\S_n^t(i_n)| \right),
     \end{aligned}
 \end{equation}
-which can be further simplified to
+可以进一步简化为
 \begin{equation}\label{eq-theorem-phase-I-main-smost-what-we-need-2}
 \begin{aligned}
     \ip{ \w_{j}^{t+1} ,  \v_{k^{\prime}} } 
@@ -1241,173 +1101,46 @@ which can be further simplified to
     \right).
 \end{aligned}
 \end{equation}
-As discussed in \ref{sec-parameters}, we can obtain
+如\ref{sec-parameters}中讨论的, 我们可以得到
 \begin{equation}
     \ip{ \w_{j}^{t+1} ,  \v_{k^{\prime}} } \leq (t+1)\sigma_0 f_r
 \end{equation}
-by setting parameters.
-\ref{eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2} together prove that $\w_j \in \smost^{t+1}(k)$.
-
-% Next, we prove $\sless^{t+1}(k) \subseteq \sless^{t}(k)$ also by induction. 
-% For any $j \in [C]$ and $t \in [T]$, it suffices to prove that $j \notin \sless^t(k)$ implies that $ j \notin \sless^{t+1}(k)$.
-% If $j \notin \sless^t(k)$, then $ \ip{ \w_j^{t} , \v_{k} } < c_2 \eta_t \sigma_0 \sqrt{ \log d } $.
-% The growth of $\ip{ \w_j^{t} , \v_{k} }$ is given by \ref{eq-theorem-phase-I-main-wjt+1-wjt}.
-% However, the result in Lemma \ref{lemma-smost-delta-ij} no longer holds.
-% With slight abuse of notation, let $i_n$ be the index such that $\delta_n(i_n,j) = 1$.
-% \begin{equation}
-%     \ip{\w^{t+1}_j - \w^{t}_j,\v_k} = 2 \eta_t \sum_{n \in [N]} \sigma\left(\ip{\w_j^{t},\x_{n,i_n}}   \right) \ip{\Delta_{n,i_n},\v_k} 
-%     {+} \ip{\Delta_{n,i_n}, \w_j^{t}} \sigma^{\prime}\left(\ip{\w_j^{t},\x_{n,i_n}}  \right) \ip{\x_{n,i_n},\v_k}.
-% \end{equation}
-% Let the feature contained by $\x_{n,i_n}$ be $\v_{k^{*}}$.
-% We can obtain that
-% \begin{equation}
-%     \relu{\ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}  } 
-%     \leq \ip{\w_{j^{\prime}}^{t}, \v_{k^{*}}} + \sqrt{2\epsilon} \|\w_{j^{\prime}}^t\|
-%     \leq (1 + \sqrt{2\epsilon})\| \w_{j^{\prime}}^{t} \|.
-% \end{equation}
-% Similar to \ref{eq-theorem-phase-I-main-sum-ip-delta-ni-vi-but-the-feature-is-vkprime}, we have
-% \begin{equation}
-% \begin{aligned}
-%     \ip{\Delta_{n,i_n},\v_{k}} 
-%     &= \ip{ \x_{n,i_n}, \v_{k} } -  \sum_{{j^{\prime}} \in \S_{n}(i_n)} \ip{  \relu{\ip{\w_{j^{\prime}}^{t},\x_{n,i_n}}  } \w_{j^{\prime}}^{t}, \v_{k}} \\
-%     &\leq 1 + \sum_{{j^{\prime}} \in \S_{n}(i_n)} (1 + \sqrt{2\epsilon})\| \w_{j^{\prime}}^{t} \|^2.
-% \end{aligned}
-% \end{equation}
-% According to \ref{eq-theorem-phase-I-main-sum-deltani-vi-upper-bound}, we have
-% \begin{equation}
-%     \ip{\Delta_{n,i_n},\w_j^{t}} 
-%     \leq \|\w_j^t\| + (1 + \sqrt{2\epsilon})\sum_{{j^{\prime}} \in \S_{n,i_n}} \|\w_{j^{\prime}}^t\|^2 \|\w_{j}^t\|.
-% \end{equation}
-% Combine all above, we have
-% \begin{equation}
-% \begin{aligned}
-% \frac{1}{2 \eta_t}\ip{\w^{t+1}_j - \w^{t}_j,\v_k} 
-% \leq&  \sum_{n \in [N]} 
-% \left( (1 + \sqrt{2\epsilon})\| \w_{j^{\prime}}^{t} \| \right) 
-% \left( 1 + \sum_{{j^{\prime}} \in \S_{n}(i_n)} (1 + \sqrt{2\epsilon})\| \w_{j^{\prime}}^{t} \|^2 \right)\\
-% &+ 
-% \sum_{n \in [N]} 
-% \left( \|\w_j^t\| + (1 + \sqrt{2\epsilon})\sum_{{j^{\prime}} \in \S_{n,i_n}} \|\w_{j^{\prime}}^t\|^2 \|\w_{j}^t\| \right),
-% \end{aligned}
-% \end{equation}
-% which implies that 
-% \begin{equation}
-%     \ip{ \w_j^{t+1} , \v_{k} } < c_2 \eta_{t+1} \sigma_0 \sqrt{ \log d },
-% \end{equation}
-% i.e., $j \in \sless^{t+1}(k)$.
-
-% The third result can be viewed as a simple corollary of the second result.
-% $j \in \snot^{t}$ implies that $j \notin \sless^{t}(k)$ for all $ k \in [d]$ at iteration $t$.
-% On the other hand, we have proved that $j \notin \sless^{t+1}(k)$ if $j \notin \sless^{t}(k)$.
-% Therefore, we obtain that
-% \begin{equation}
-%     \ip{ \w_{j}^{t+1} ,  \v_{k} } \leq c_2 \eta_{t+1} \sigma_0 \sqrt{ \log d }.
-% \end{equation}
-% for all $ k \in [d]$ at iteration $t+1$. 
+通过设置参数.
+\ref{eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2}一起证明了$\w_j \in \smost^{t+1}(k)$.
 \end{proof}
 
-\begin{remark}[Over-parameterized model is necessary]\label{remark-overpara-is-necessary}
-    The \qm{perfect reconstruction} given by \ref{eq-perfect-reconstruction} could easily converge to local minima.
-    According to the proof of \ref{theorem-Stk-subset-st+1k}, the member of each $\smost(K)$ is decided by random initialization.
-    It is possible that multiple kernels are included in one $\smost(k)$.
-    If $C=d$, then the kernels might not be able to learn all of the features.
-    Therefore, to ensure (at least with high probability) that every feature with $\beta_k \neq 0$ is extracted by at least one of the kernels, we let $C > d$ in this paper.
-    For simplicity, we let $C = c_2 d$ for some constant $c_2 > 0$.
+\begin{remark}[过参数化模型是必要的]\label{remark-overpara-is-necessary}
+    \ref{eq-perfect-reconstruction}给出的\qm{完美重构}容易收敛到局部最小值.
+    根据\ref{theorem-Stk-subset-st+1k}的证明, 每个$\smost(K)$的成员由随机初始化决定.
+    多个核可能包含在一个$\smost(k)$中.
+    如果$C=d$, 那么核可能无法学习所有特征.
+    因此, 为了确保 (至少以高概率) 每个$\beta_k \neq 0$的特征至少被一个核提取, 我们在本文中设$C > d$.
+    为简单起见, 我们对某个常数$c_2 > 0$设$C = c_2 d$.
 \end{remark}
 
-\begin{customcor}{\ref{corollary-cone}}
-Consider two features $v_{k_1}$ and $v_{k_2}$ with $\beta_{k_1} > \beta_{k_2}$. 
-For all $ \alpha \in \{1,2\}$, let $\w_{j_\alpha}$ be a kernel in the cone of $\v_{k_\alpha}$.
-% As demonstrated in Figure3, for $\alpha \in \{1,2\}$, the kernels in the cone of $v_{k_\alpha}$ would better extract $v_{k_\alpha}$ if the growth rate gap between $\langle w_j, v_{k_\alpha}\rangle$ and $\langle w_j, v_{{k_\alpha}^{\prime}}\rangle$ for all $ {k_\alpha}^{\prime} \neq {k_\alpha}$ is wider. 
-Then, the bounds (cf. \ref{eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2}) for $\langle w_{j_1}, v_{k_1}\rangle -\langle w_{j_1}, v_{{k}^{\prime}}\rangle$ (for all $ {k}^{\prime} \neq k_1$) is larger than those for $\langle w_{j_2}, v_{k_2}\rangle -\langle w_{j_2}, v_{{k}^{\prime}}\rangle$ (for all $ {k}^{\prime} \neq k_2$).
-\end{customcor}
+\begin{corollary} {\ref{corollary-cone}}
+考虑两个特征$v_{k_1}$和$v_{k_2}$, 其中$\beta_{k_1} > \beta_{k_2}$. 
+对于所有$ \alpha \in \{1,2\}$, 设$\w_{j_\alpha}$为$\v_{k_\alpha}$的锥中的核.
+那么, $\langle w_{j_1}, v_{k_1}\rangle -\langle w_{j_1}, v_{{k}^{\prime}}\rangle$ (对于所有$ {k}^{\prime} \neq k_1$) 的界限 (参见\ref{eq-theorem-phase-I-main-smost-what-we-need-1,eq-theorem-phase-I-main-smost-what-we-need-2}) 大于$\langle w_{j_2}, v_{k_2}\rangle -\langle w_{j_2}, v_{{k}^{\prime}}\rangle$ (对于所有$ {k}^{\prime} \neq k_2$) 的界限.
+\end{corollary}
 
-% The following theorem discusses the convergence of the reconstruction of a patch.
-% \begin{theorem}[Convergence analysis]\label{theorem-convergence}
-% The iteration given by \ref{eq-def-GD} converges to $\risk_N(\w) = 0$. 
-% \end{theorem}
-
-% \begin{proof}
-% % Denote
-% % \begin{equation}
-% %     \tilde{\Delta}^t_{n,i}(k) := \ip{\Delta_{n,i}^{t}, {\v}_{k}} {\v}_{k} 
-% % \end{equation}
-% With slight abuse of notation, let $\S_P(\v_k)$ be the collection of index pairs $(n,i_n) \in [N] \times [P]$ such that  $\x_{n,i_n}$ contains $\v_k$, and let $\S_C(\v_k)$ be the collection of $j \in [C]$ such that $\w_j$ is most related to $\v_k$.
-% We can prove that for all $ k \in [d]$, both $\S_P(\v_k)$ and $\S_C(\v_k)$ are fixed set that independent of $t$ for all $ t > T$.
-% Using new notations, the empirical risk can be written as
-% \begin{equation}\label{eq-theorem-convergence-reform-risk-N}
-%     \risk_N(\w^t) = \sum_{n \in N} \sum_{i \in P} \left( \Delta_{n,i}^t \right)^2 = \sum_{k \in [d]} \sum_{(n,i_n) \in \S_P(\v_k)} \left( \x_{n,i_n} - \sum_{j \in \S_C(\v_k)} \ip{\w_j, \x_{n,i_n}} \w_j  \right)^2.
-% \end{equation}
-% \ref{eq-theorem-convergence-reform-risk-N} implies that $\risk_N(\w^t)$ converges if and only if
-% \begin{equation}
-%     \sum_{(n,i_n) \in \S_P(\v_k)} \left( \x_{n,i_n} - \sum_{j \in \S_C(\v_k)} \ip{\w_j, \x_{n,i_n}} \w_j  \right)^2
-% \end{equation}
-% converges for all $ k \in [d]$.
-% For ease of notation, let 
-% \begin{equation}
-%     \{\u_1, \u_2, \cdots, \u_{N_k}\} := \{ \x_{n,i_n} : (n,i_n) \in \S_P(\v_k) \}
-% \end{equation}
-% and $\S_C(\v_k) = \{1,2, \cdots, C_k\}$ without loss of generality, in which $C_k = |\S_C(\v_k)|$. 
-% Denote
-% \begin{equation}
-%     f_k\left(( \w_1, \w_2, \cdots, \w_{C_k} )\right) := \frac{1}{N}  \sum_{i \in [N_k]} \left\| \u_i - \sum_{j \in [C_k]} \ip{\u_i,\w_j} \w_j \right\|^2
-% \end{equation}
-% and $\Delta_i = \u_i - \sum_{j \in [C_k]} \ip{\u_i,\w_j} \w_j$.
-% The gradient of $f_k$ is
-% \begin{equation}
-%     \nabla_{\w_j} f_k \left(( \w_1, \w_2, \cdots, \w_{C_k} )\right) = 
-%     - \frac{2}{N} \sum_{i \in [N_k]} \left( \ip{\w_j,\u_i}  \Delta_i
-%     + \ip{ \Delta_i, \w_j} \u_i \right)
-% \end{equation}
-% Observe that
-% \begin{equation}
-%     \nabla_{\w_j} \risk_N(\w) 
-%     = - \frac{2}{N} \sum_{(n,i_n) \in \S(\v_k)} \left( \ip{\w_j,\x_{n,i_n}} \Delta_{n,i_n} + \ip{\Delta_{n,i_n}, \w_j} \x_{n,i_n} \right) = \nabla_{\w_j} f_k \left(( \w_1, \w_2, \cdots, \w_{C_k} )\right)
-% \end{equation}
-% holds for all $ j \in [C_k]$.
-% Therefore, it suffices to prove the convergence of $f_k$.
-% As shown in Lemma \ref{lemma-convergence}, this result holds if the parameters are properly chosen.
-% \end{proof}
-% Denote $\tilde{\w} = ( \w_1, \w_2, \cdots, \w_{C_k} )$ and 
-% \begin{equation}
-%     \tilde{\w}^+ = ( \w_1 - \eta \nabla_{\w_1} f_k(\tilde{\w}), \w_2 - \eta \nabla_{\w_2} f_k(\tilde{\w}), \cdots, \w_{C_k} - \eta \nabla_{\w_{C_k}} f_k(\tilde{\w}) )
-% \end{equation}
-
-
-
-% \begin{equation}
-% \begin{aligned}
-%     \nabla_{\w_j} \risk_N(\w) 
-%     =& - \frac{2}{N} \sum_{(n,i_n) \in \S(\v_k)} \left( \ip{\w_j,\x_{n,i_n}} \Delta_{n,i_n} + \ip{\Delta_{n,i_n}, \w_j} \x_{n,i_n} \right) \\
-%     =& - \frac{2}{N} \sum_{(n,i_n) \in \S(\v_k)} \left( \ip{\w_j,\x_{n,i_n}} \tilde{\Delta}^t_{n,i} + 
-%     \ip{\w_j,\x_{n,i_n}}\left(\Delta_{n,i_n} - \tilde{\Delta}^t_{n,i} \right)
-%     + \ip{\Delta_{n,i_n}, \w_j} \x_{n,i_n} \right)
-% \end{aligned}
-% \end{equation}
-
-
-%     \begin{equation}
-%         \ip{\Delta_{n,i}^{t+1} - \Delta_{n,i}^{t}, \x_{n,i} } = 
-%         \sum_{{j} \in \S_{n}(i)} \ip{  \relu{\ip{\w_{j}^{t},\x_{n,i}}  } \w_{j}^{t}, \x_{n,i}} - \sum_{{j} \in \S_{n}(i)} \ip{  \relu{\ip{\w_{j^{\prime}}^{t+1},\x_{n,i}}  } \w_{j}^{t}, \x_{n,i}}
-%     \end{equation}
-
-\begin{customthm}{\ref{theorem-small-convolution-in-paper}}
-    For $\theta \in (0,1)$, $\forall j \in [C]$, and $\forall k \in [d]$, if $\ip{\w_j, \v_k} > (1 - \theta)\cdot \|\w_j\|$, then
+\begin{theorem} {\ref{theorem-small-convolution-in-paper}}
+    对于$\theta \in (0,1)$, 所有$j \in [C]$, 和所有$k \in [d]$, 如果$\ip{\w_j, \v_k} > (1 - \theta)\cdot \|\w_j\|$, 那么
     \begin{equation}
         \ip{{\w_j}, \x_a} < \|\w_j\| \cdot \max\{ 2\theta, \frac{1}{\theta \sqrt{d-1}} \}
     \end{equation}
-    hold with probability at least $2\theta \cdot \exp(-1/(2\theta^2))$
-\end{customthm}
+    以至少$2\theta \cdot \exp(-1/(2\theta^2))$的概率成立
+\end{theorem}
 
-\ref{theorem-small-convolution-in-paper} can be viewed as the direct corollary of the geometrical inequalities in high-dimensional spaces (e.g., Lemma \ref{lemma-high-dimensional-space}).
-The proof of \ref{theorem-small-convolution-in-paper} is omitted here.
+\ref{theorem-small-convolution-in-paper}可以视为高维空间中几何不等式的直接推论 (例如, 引理\ref{lemma-high-dimensional-space}).
+\ref{theorem-small-convolution-in-paper}的证明在此省略.
 
-\section{Technical Lemmas}
-The following two lemmas bound the upper and tail probability of i.i.d. random variables.
-\begin{lemma}[Upper tail]\label{lemma-concentration-inequality-upper-tail}
-Let $X_1, X_2, \cdots, X_L$ be i.i.d. random variables upper bounded by $M$. 
-Denote $X = \sum_{i \in C}$. 
-Then we have
+\section{技术引理}
+以下两个引理界定了独立同分布随机变量的上界和尾概率.
+\begin{lemma}[上尾]\label{lemma-concentration-inequality-upper-tail}
+设$X_1, X_2, \cdots, X_L$为独立同分布随机变量, 上界为$M$. 
+记$X = \sum_{i \in C}$. 
+那么我们有
 \begin{equation}
     \P\left[ X \geq \E\left[ X \right] + \lambda \right] 
     \leq 
@@ -1419,10 +1152,10 @@ Then we have
 for all $ \lambda >0$.
 \end{lemma}
 
-\begin{lemma}[Lower tail]\label{lemma-concentration-inequality-lower-tail}
-Let $X_1, X_2, \cdots, X_L$ be i.i.d. random variables such that $X_i \leq - M$ for all $ i \in [C]$. 
-Denote $X = \sum_{i \in C}$. 
-Then we have
+\begin{lemma}[下尾]\label{lemma-concentration-inequality-lower-tail}
+设$X_1, X_2, \cdots, X_L$为独立同分布随机变量, 使得对所有$ i \in [C]$有$X_i \leq - M$. 
+记$X = \sum_{i \in C}$. 
+那么我们有
 \begin{equation}
     \P\left[ X \leq \E\left[ X \right] - \lambda \right] 
     \leq 
@@ -1433,12 +1166,12 @@ Then we have
 \end{equation}
 for all $ \lambda >0$.
 \end{lemma}
-The proofs of Lemmas \ref{lemma-concentration-inequality-upper-tail} and \ref{lemma-concentration-inequality-lower-tail} can be found in various textbooks, which is omitted here.
-The following corollary is useful in \ref{sec-proof}.
+引理\ref{lemma-concentration-inequality-upper-tail}和\ref{lemma-concentration-inequality-lower-tail}的证明可以在各种教科书中找到, 在此省略.
+以下推论在\ref{sec-proof}中有用.
 \begin{corollary}\label{corollary-cp-lambda}
-Let $X_1, X_2, \cdots, X_C$ be i.i.d. Bernoulli variables such that $\P[X_i = 1] = p$ and $\P[X_i = 0] = 1-p$ for all $ i \in [C]$.
-Let $0 < p_1 < p_2 < 1$ be constants.
-If $p \in  (p_1, p_2)$, then we have
+设$X_1, X_2, \cdots, X_C$为独立同分布伯努利变量, 使得对所有$ i \in [C]$有$\P[X_i = 1] = p$和$\P[X_i = 0] = 1-p$.
+设$0 < p_1 < p_2 < 1$为常数.
+如果$p \in  (p_1, p_2)$, 那么我们有
 \begin{equation}
     \P \left[ \sum_{i \in [C]} X_i \leq C p_1 - \lambda \right] \leq \exp \left( - \frac{\lambda^2}{2 C p_2} \right)
 \end{equation}
@@ -1449,192 +1182,37 @@ and
 for all $ \lambda >0$.
 \end{corollary}
 
-\begin{lemma}[Concentration inequality for chi-squared random variables]\label{lemma-chi-square-concentration-inequality}
+\begin{lemma}[卡方随机变量的集中不等式]\label{lemma-chi-square-concentration-inequality}
     \begin{equation}
         \P \left[ \left| \chi_d^2 - d \right| \geq \lambda d \right] \leq 2 e^{-\lambda^2 d/8}
     \end{equation}
 \end{lemma}
-The proof of this lemma can be found in Example 2.11 of \cite{wainwright_2019}, which is omitted here.
+这个引理的证明可以在\cite{wainwright_2019}的例2.11中找到, 在此省略.
 
-% \begin{lemma}\label{lemma-independence-of-ip-wj-vk}
-%     Given $\sigma > 0$, let $[X_N]$ be drawn independently form $\N(0, \sigma^2)$.
-%     Let $[a_N]$ and $[b_N]$ be two sets of parameters that satisfy
-%     \begin{equation}
-%         \sum_{i \in [N]} a_i = \sum_{j \in [N]} b_j = 1.
-%     \end{equation}
-%     Then, the random variables $X_a := \sum_{i \in [N]} a_iX_i$ and $X_b := \sum_{j \in [N]} b_j X_j$ are also independent.
-% \end{lemma}
-% \begin{proof}[Proof of Lemma \ref{lemma-independence-of-ip-wj-vk}]
-%     We prove this lemma by definition.
-%     For all $ i,j \in [N]$, we have $\E[X_iX_j] = \E[X_i]\E[X_j]$ due to the independence of $[X_N]$.
-%     Therefore, we have
-%     \begin{equation}
-%     \begin{aligned}
-%         \E[X_aX_b] &= \E\left[ \left( \sum_{i = 1}^N a_iX_i \right) \left( \sum_{j = 1}^N b_jX_j \right) \right] \\
-%         &= \E\left[  \sum_{i,j} a_i b_j X_i X_j  \right] \\
-%         &= \sum_{i,j} a_i b_j \E[X_i] \E[X_j] \\
-%         &= \E[X_a] \E[X_b],
-%     \end{aligned}
-%     \end{equation}
-%     which completes the proof.
-% \end{proof}
-
-% \begin{lemma}\label{lemma-convergence}
-% Let $\w_1, \w_2, \cdots, \w_c$ and $\x$ be $d$-dimensional patch-like data that satisfy the assumptions of the kernels and the patches in \ref{sec-parameters}. 
-% Then, the following function
-%     \begin{equation}
-%         f\left( \w_1, \w_2, \cdots, \w_C \right) := \left\| 
-%         \x - \sum_{j \in [C]} \ip{\w_j,\x} \w_j
-%         \right\|^2
-%     \end{equation}
-%     with
-%     \begin{equation}
-%         \w_j^{t+1} = \w_j^{t} - \eta \nabla_{\w_j} f(\w_1, \w_2, \cdots, \w_C)
-%     \end{equation}
-%     converges to $0$.
-% \end{lemma}
-
-% \begin{proof}
-% Without loss of generality, we prove this lemma in the special case of $C=d=2$.
-% Given $C=d=2$, we have
-% \begin{equation}
-% \begin{aligned}
-%     f(\w_1,\w_2) 
-%     &= \| \x - \ip{\w_1,\x} \w_1 - \ip{\w_2,\x}\w_2 \|^2 \\
-%     &= \left(\x^{(1)} - \ip{\w_1,\x} \w_1^{(1)} - \ip{\w_2,\x}\w_2^{(1)}\right)^2 
-%      + \left(\x^{(2)} - \ip{\w_1,\x} \w_1^{(2)} - \ip{\w_2,\x}\w_2^{(2)}\right)^2 \\
-%     &= \left(\x^{(1)} - \w_1^{(i)}\x^{(i)} \w_1^{(1)} - \w_2^{(i)}\x^{(i)}\w_2^{(1)}\right)^2 +
-%     \left(\x^{(2)} - \w_1^{(i)}\x^{(i)} \w_1^{(2)} - \w_2^{(i)}\x^{(i)}\w_2^{(2)}\right)^2 ,
-% \end{aligned}
-% \end{equation}
-% in which $\w^{(i)} \x^{(i)} = \w^{(1)} \x^{(1)} + \w^{(2)} \x^{(2)}$ is the Einstein notation. 
-% Denote
-% \begin{equation}
-%     \Delta = \left(
-% \begin{array}{c}
-%     \x^{(1)} - \w_1^{(i)}\x^{(i)} \w_1^{(1)} - \w_2^{(i)}\x^{(i)}\w_2^{(1)}  \\
-%     \x^{(2)} - \w_1^{(i)}\x^{(i)} \w_1^{(2)} - \w_2^{(i)}\x^{(i)}\w_2^{(2)}
-% \end{array}
-%     \right).
-% \end{equation}
-% Then, the gradient of $f$ is given by
-% \begin{equation}
-%     \nabla_{\w_1} f(\w_1,\w_2) = \left(
-% \begin{array}{c}
-%     -4 \Delta^{(1)} \x^{(1)} \w_1^{(1)} - 2 \Delta^{(2)} \x^{(1)}\w_1^{(2)} \\
-%     -2 \Delta^{(1)} \x^{(2)}\w_1^{(1)}  - 4 \Delta^{(2)} \x^{(2)}\w_1^{(2)}
-% \end{array}
-%     \right)
-% \end{equation}
-% and
-% \begin{equation}
-%     \nabla_{\w_2} f(\w_1,\w_2) = \left(
-% \begin{array}{c}
-%     -4 \Delta^{(1)} \x^{(1)} \w_2^{(1)} - 2 \Delta^{(2)} \x^{(1)}\w_2^{(2)} \\
-%     -2 \Delta^{(1)} \x^{(2)}\w_2^{(1)}  - 4 \Delta^{(2)} \x^{(2)}\w_2^{(2)}
-% \end{array}
-%     \right).
-% \end{equation}
-% Consider $\u = (u_1,u_2,u_3,u_4) = (\w_1^{(1)}, \w_1^{(2)}, \w_2^{(1)}, \w_2^{(2)}) $ and $\v = (v_1, v_2, v_3 ,v_4) = (\x^{(1)},\x^{(2)},\x^{(1)},\x^{(2)})$.
-% Let
-% \begin{equation}
-%     g(u_1,u_2,u_3,u_4) = \left(v_1 - u_1v_1u_1 - u_2v_2u_1 - u_3v_3u_3 - u_4v_4u_3 \right)^2 +
-%     \left(v_2 - u_1v_1u_2 - u_2v_2u_2 - u_3v_3u_4 - u_4v_4u_4 \right)^2,
-% \end{equation}
-% and
-% \begin{equation}
-%     \Delta_1 = v_1 - u_1v_1u_1 - u_2v_2u_1 - u_3v_3u_3 - u_4v_4u_3, \ 
-%     \Delta_2 = v_2 - u_1v_1u_2 - u_2v_2u_2 - u_3v_3u_4 - u_4v_4u_4,
-% \end{equation}
-% together with
-% \begin{equation}
-%     \nabla_{\u} g(\u) = \left(
-% \begin{array}{c}
-%     -4 \Delta_1 v_1u_1 - 2 \Delta_2 v_1u_2 \\
-%     -2 \Delta_1 v_2u_1  - 4 \Delta_2 v_2u_2 \\
-%     -4 \Delta_1 v_3u_3 - 2 \Delta_2 v_3u_4 \\
-%     -2 \Delta_1 v_4u_3  - 4 \Delta_2 v_4u_4
-% \end{array}
-%     \right)
-% \end{equation}
-% It is easy to check that $f(\w_1,\w_2)$ and $g(u_1,u_2,u_3,u_4)$  is equivalent in this optimization problem.
-% We take a detour from $f(\w_1,\w_2)$ to its equivalent $g(u_1,u_2,u_3,u_4)$ because the entries of the Hessian matrix of $f$, i.e., 
-% \begin{equation}
-%     \left(\mathbf{H}_f\right)_{i,j} = {\nabla_{\w_i} \nabla_{\w_j} f(\w_1,\w_2)} 
-% \end{equation}
-% is already a matrix, making the subsequent analysis hard to proceed.
-% As for the Hessian of $g$, we have $-\frac{1}{2} \mathbf{H}_g$ equals
-% \begin{equation}\label{eq-assume-positive-definite}
-%     \left(
-% \begin{array}{cccc}
-%     2 \frac{\partial\Delta_1}{\partial u_1} v_1u_1 + 2 \Delta_1 v_1  +  \frac{\partial\Delta_2}{\partial u_1} v_1u_2 &
-%     2 \frac{\partial\Delta_1}{\partial u_2} v_1u_1 +  \frac{\partial\Delta_2}{\partial u_2} v_1u_2 +  \Delta_2 v_1 &
-%     2 \frac{\partial\Delta_1}{\partial u_3} v_1u_1 +  \frac{\partial\Delta_2}{\partial u_3} v_1u_2 &
-%     2 \frac{\partial\Delta_1}{\partial u_4} v_1u_1 +  \frac{\partial\Delta_2}{\partial u_4} v_1u_2\\
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     \frac{\partial\Delta_1}{\partial u_1} v_2u_1 + \Delta_1 v_2  + 2 \frac{\partial\Delta_2}{\partial u_1} v_2u_2 &
-%     \frac{\partial\Delta_1}{\partial u_2} v_2u_1  + 2 \frac{\partial\Delta_2}{\partial u_2} v_2u_2 + 2 \Delta_2 v_2 &
-%     \frac{\partial\Delta_1}{\partial u_3} v_2u_1  + 2 \frac{\partial\Delta_2}{\partial u_3} v_2u_2 &
-%     \frac{\partial\Delta_1}{\partial u_4} v_2u_1  + 2 \frac{\partial\Delta_2}{\partial u_4} v_2u_2 \\
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     2 \frac{\partial\Delta_1}{\partial u_1} v_3u_3 + \frac{\partial\Delta_2}{\partial u_1} v_3u_4 &
-%     2 \frac{\partial\Delta_1}{\partial u_2} v_3u_3 + \frac{\partial\Delta_2}{\partial u_2} v_3u_4 &
-%     2 \frac{\partial\Delta_1}{\partial u_3} v_3u_3 + 2 \Delta_1 v_3 + \frac{\partial\Delta_2}{\partial u_3} v_3u_4 &
-%     2 \frac{\partial\Delta_1}{\partial u_4} v_3u_3 + \frac{\partial\Delta_2}{\partial u_4} v_3u_4 +  \Delta_2 v_3 \\
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     \frac{\partial\Delta_1}{\partial u_1} v_4u_3  + 2 \frac{\partial\Delta_2}{\partial u_1} v_4u_4 &
-%     \frac{\partial\Delta_1}{\partial u_2} v_4u_3  + 2 \frac{\partial\Delta_2}{\partial u_2} v_4u_4 &
-%     \frac{\partial\Delta_1}{\partial u_3} v_4u_3 +  \Delta_1 v_4 + 2 \frac{\partial\Delta_2}{\partial u_3} v_4u_4 &
-%      \frac{\partial\Delta_1}{\partial u_4} v_4u_3  + 2 \frac{\partial\Delta_2}{\partial u_4} v_4u_4 + 2 \Delta_2 v_4
-% \end{array}
-%     \right)
-% \end{equation}
-% in which
-% \begin{equation}
-% \begin{aligned}
-%     &\frac{\partial\Delta_1}{\partial u_1} =  -2v_1u_1 - v_2u_2,\ 
-%     \frac{\partial\Delta_1}{\partial u_2} =  - v_2u_1,\ 
-%     \frac{\partial\Delta_1}{\partial u_3} =  -2v_3u_3 - v_4u_4,\ 
-%     \frac{\partial\Delta_1}{\partial u_4} =  - v_4u_3,\  \\
-%     &\frac{\partial\Delta_2}{\partial u_1} =  - v_1u_2,\ 
-%     \frac{\partial\Delta_2}{\partial u_2} =  - v_1u_1 - 2v_2u_2,\ 
-%     \frac{\partial\Delta_2}{\partial u_3} =  - v_4u_4,\ 
-%     \frac{\partial\Delta_2}{\partial u_4} =  - v_3u_3 - 2v_4u_4.
-% \end{aligned}
-% \end{equation}
-% It is hard to analytically prove that $\mathbf{H}_g$ is positive definite even if we let $d=C=2$.
-% Therefore, we turn the proof to an assumption in \ref{sec-parameters}.
-% Note that the convergence of $g$ and $f$ can be numerically verified, which is omitted here.
-% \end{proof}
-
-The following lemma characterizes the concentration of probability on $d$-dimensional sphere.
+以下引理刻画了$d$维球面上概率的集中性.
 \begin{lemma}\label{lemma-high-dimensional-space}
-Let $X := (X_1, X_2, \cdots, X_d)$ be a random variable drawn from the uniform distribution on $\{\x : \|\x\| = 1 \} \subset \R^d$.
-For all $ c > 0$, the probability
+设$X := (X_1, X_2, \cdots, X_d)$为从$\{\x : \|\x\| = 1 \} \subset \R^d$上的均匀分布中抽取的随机变量.
+对于所有$ c > 0$, 概率
 \begin{equation}
     \P\left[ X_1 > \frac{c}{\sqrt{d-1}} \right] \leq \frac{2}{c} e^{-\frac{c^2}{2}}.
 \end{equation}
 \end{lemma}
-The proof of this lemma can be found on the course website of Guruswami (2012).
 
-\section{Experiments Details}\label{sec-experiments-detail}
-This section provides more details on the experiments and some auxiliary results. 
+\section{实验细节}\label{sec-rbad-experiments-detail}
+本节提供实验的更多细节和一些辅助结果. 
 
-\subsection{Implementation Details}\label{sec-hardware-specification}
+\subsection{实现细节}\label{sec-hardware-specification}
 
-Both of the experiments are conducted on an Ubuntu 64-bit657 Linux workstation, having a 10-core Intel Xeon Silver CPU (2.20 GHz) and 4 Nvidia GeForce RTX658 2080 Ti GPUs with 11GB graphics memory. 
+两个实验都在Ubuntu 64位Linux工作站上进行, 该工作站具有10核Intel Xeon Silver CPU (2.20 GHz) 和4个Nvidia GeForce RTX 2080 Ti GPU, 每个GPU具有11GB显存. 
 
-\subsubsection{Synthesized Experiments}
-All networks are initialized with Gaussian initialization and being trained for 1000 epochs to ensure convergence.
-We use stochastic gradient descent (SGD) with momentum = 0.9 and weight decay = 0.001. 
-The model is defined in Section \ref{sec-problem-setup}.
-The following algorithm specify the generating process of the normal data in the synthesized experiments.
+\subsubsection{合成实验}
+所有网络都使用高斯初始化, 并训练1000个周期以确保收敛.
+我们使用随机梯度下降 (SGD), 动量为0.9, 权重衰减为0.001. 
+模型在\ref{sec-problem-setup}节中定义.
+以下算法指定了合成实验中正常数据的生成过程.
 
 \begin{algorithm}
-\caption{Generate normal data}
+\caption{生成正常数据}
 \begin{algorithmic}[1]
 \REQUIRE Sample size $N \in \mathbb{Z}^{+}$, features $\V = \V_{nor} \cup \V_{aux}$, total patches $P$, noise size $\epsilon$ 
 \FOR{$n \in [N]$}
@@ -1653,85 +1231,79 @@ The following algorithm specify the generating process of the normal data in the
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Visualization of the kernels}
+\subsubsection{核的可视化}
 \label{appendix-feature-visualization}
 
-All networks are initialized with Gaussian initialization and trained for 100 epochs to ensure convergence.
-We use stochastic gradient descent (SGD) with momentum = 0.9 and weight decay = 0.001. The batch size is 32, and the learning rate is 0.001. 
-To obtain images-like kernels, we visualize 24 kernels from the first layer.
+所有网络都使用高斯初始化, 并训练100个周期以确保收敛.
+我们使用随机梯度下降 (SGD), 动量为0.9, 权重衰减为0.001. 批次大小为32, 学习率为0.001. 
+为了获得类似图像的核, 我们可视化第一层的24个核.
 
-\paragraph{Dataset and network structure}
-To be consistent with the theoretical analysis, we use Autoencoders to reconstruct the images from MNIST and CIFAR-10.
-We visualize the kernels in the first layer of the autoencoder.
+\paragraph{数据集和网络结构}
+为了与理论分析保持一致, 我们使用自编码器重构来自MNIST和CIFAR-10的图像.
+我们可视化自编码器第一层的核.
 
-{\color{red}
-\subsection{Discussions}
-We discuss the significance of the experiments as follows.
+{
+\subsection{讨论}
+我们如下讨论实验的意义.
 
 \begin{itemize}
-    \item \textbf{Synthetic experiments (\ref{fig-synthesized-experiment-results})}: The synthetic experiments are designed to verify the theoretical modeling and analysis in \ref{sec-reconstruction}. In learning theory community, it is a common practice to conduct synthetic experiments under the same setting as the theoretical analysis, serving to demonstrate whether the theoretical modeling can effectively characterize the practical problems (i.e., RBAD in our paper). 
-    In the caption of \ref{fig-synthesized-experiment-results}, we briefly explain how the experimental results consist with our theory and the existing results.
-    More specifically, the synthetic experiments conducted under our theoretical setting exhibit clear reconstruction error gaps between normal data and the anomalies, which is a key rationale underlying RBAD.
-    \item \textbf{Cone set intuition (\ref{fig-features-learned-by-autoencoder})}: We use experiments on real-world datasets to illustrate the proposed cone set intuition. As a supplement to the existing explanations, the experiments in Figure 5 discusses the manifestations of the cone set intuition on networks trained with MNIST and CIFAR-10, which indirectly verifies the validity of our theory. 
+    \item 合成实验 (\ref{fig-synthesized-experiment-results}): 合成实验旨在验证\ref{sec-reconstruction}中的理论建模和分析. 在学习理论社区中, 在与理论分析相同的设置下进行合成实验是一种常见做法, 用于证明理论建模是否能有效刻画实际问题 (即本文中的RBAD). 
+    在\ref{fig-synthesized-experiment-results}的标题中, 我们简要解释了实验结果如何与我们的理论和现有结果一致.
+    更具体地说, 在我们的理论设置下进行的合成实验表现出正常数据和异常之间明显的重构误差差距, 这是RBAD的关键理论基础.
+    \item 锥集直觉 (\ref{fig-features-learned-by-autoencoder}): 我们使用真实世界数据集上的实验来说明提出的锥集直觉. 作为现有解释的补充, 图5中的实验讨论了锥集直觉在用MNIST和CIFAR-10训练的网络上的表现, 这间接验证了我们理论的有效性. 
     
-    Take the results on MNIST (Figures \ref{fig-features-learned-by-autoencoder}.(a)-\ref{fig-features-learned-by-autoencoder}.(c)) as an example.
-    The visualized kernels are randomly initialized at epoch 0. It can be observed by Figure 5.(a) that the kernels are completely noisy. By comparing Figures \ref{fig-features-learned-by-autoencoder}.(b) and \ref{fig-features-learned-by-autoencoder}.(c), the following two observations are closely related to our proposed theory.
+    以MNIST上的结果 (图\ref{fig-features-learned-by-autoencoder}.(a)-\ref{fig-features-learned-by-autoencoder}.(c)) 为例.
+    可视化的核在第0个周期随机初始化. 从图5.(a)可以观察到核完全是噪声. 通过比较图\ref{fig-features-learned-by-autoencoder}.(b)和\ref{fig-features-learned-by-autoencoder}.(c), 以下两个观察与我们提出的理论密切相关.
     \begin{enumerate}
-        \item Some kernels (e.g., (row-2,col-3) and (row-3, col-4)) have exhibit clear contours at the early stage of training (epoch 10) and do not undergo significant changes at convergence (epoch 50). 
-        \item Meanwhile, some other kernels (e.g., (row-1, col-1) and (row-3, col-2)) fail to exhibit distinct outlines even after convergence, which aligns with the case when the kernel is not absorbed by any of the cones.
+        \item 一些核 (例如, (row-2,col-3) 和 (row-3, col-4)) 在训练的早期阶段 (周期10) 已经表现出清晰的轮廓, 并且在收敛时 (周期50) 没有发生显著变化. 
+        \item 同时, 其他一些核 (例如, (row-1, col-1) 和 (row-3, col-2)) 即使在收敛后也未能表现出明显的轮廓, 这与核未被任何锥吸收的情况一致.
     \end{enumerate}
-    Both of the above points are consistent with the probability-based training dynamics proposed in our work. As a supplement to the existing explanations, these experiments discusses the manifestations of the cone set intuition on networks trained with MNIST and CIFAR-10, which indirectly verifies the validity of our theory.
+    以上两点都与我们工作中提出的基于概率的训练动力学一致. 作为现有解释的补充, 这些实验讨论了锥集直觉在用MNIST和CIFAR-10训练的网络上的表现, 这间接验证了我们理论的有效性.
 \end{itemize}
 }
 
-{\color{red}
-\subsection{Auxiliary Experiments}\label{sec-aux-results-syn}
+{
+\subsection{辅助实验}\label{sec-aux-results-syn}
 
-This section presents some auxiliary experiments on the synthesized data to further validate our theoretical analysis in \ref{sec-main-results}. 
+本节展示合成数据上的一些辅助实验, 以进一步验证我们在\ref{sec-main-results}中的理论分析. 
 }
 
-\subsubsection{Hyper-Parameters Study}
-We mainly discuss the effect of over-parameterization and the number of replaced patches. 
-In \ref{sec-network-structure}, we require the network to be over-parameterized. 
-In Figure \ref{fig-synthesized-experiment-results}, we let $C = {\rm{int}}(1.2d)$ and obtain desirable results.
-Here, we experiment on the under-parameterized setting with $C = {\rm{int}}(0.8P)$ in comparison.
-The results are presented in Figure \ref{fig-synthesized-experiment-results-under-parameterized}. 
-It can be observed that all the reconstruction errors increase significantly. Note that the scales of the $y$-axis are $0$ to $0.02$ in Figure \ref{fig-synthesized-experiment-results-under-parameterized} and $0$ to $0.014$ in Figure \ref{fig-synthesized-experiment-results}.
-The comparative experiment implies that slight over-parameterization could help the model better reconstruct all types of inputs.
+\subsubsection{超参数研究}
+我们主要讨论过参数化和被替换补丁数量的影响. 
+在\ref{sec-network-structure}中, 我们要求网络是过参数化的. 
+在图\ref{fig-synthesized-experiment-results}中, 我们设$C = {\rm{int}}(1.2d)$并获得了理想的结果.
+这里, 我们对比实验了欠参数化设置, 其中$C = {\rm{int}}(0.8P)$.
+结果呈现在图\ref{fig-synthesized-experiment-results-under-parameterized}中. 
+可以观察到所有重构误差都显著增加. 注意图\ref{fig-synthesized-experiment-results-under-parameterized}中$y$轴的比例为$0$到$0.02$, 而图\ref{fig-synthesized-experiment-results}中为$0$到$0.014$.
+对比实验表明, 轻微的过参数化可以帮助模型更好地重构所有类型的输入.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.1.png}
-        % \caption{$c_3 = 1.2$}
-        % \label{fig-c_3=1.2}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.2.png}
-        % \caption{$c_3 = 1.5$}
-        % \label{fig-c_3=1.5}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.3\textwidth}
         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.5.png}
-        % \caption{$c_3 = 2$}
-        % \label{fig-c_3=2}
     \end{subfigure}    
-    \caption{Testing the under-parameterized setting with $C = {\rm{int}}(0.8P)$.
-    {\color{red}
-    By comparing to \ref{fig-synthesized-experiment-results}, this set of experimental results implies that slight over-parameterization (i.e., $C = {\rm{int}}(1.2P)$)could help the model better reconstruct all types of inputs.
-    Here, we primarily compare the magnitudes of $P$ and $C$. 
-    Specifically, the scenario where the ratio $C/P>1$ is referred to as \textit{over-parameterized}, while the converse (i.e., $C/P<1$) is defined as \textit{under-parameterized}.}
+    \caption{测试欠参数化设置, 其中$C = {\rm{int}}(0.8P)$.
+    {
+    通过与\ref{fig-synthesized-experiment-results}比较, 这组实验结果表明, 轻微的过参数化 (即$C = {\rm{int}}(1.2P)$) 可以帮助模型更好地重构所有类型的输入.
+    这里, 我们主要比较$P$和$C$的大小. 
+    具体来说, 比率$C/P>1$的情况称为过参数化, 而相反的情况 (即$C/P<1$) 定义为欠参数化.}
     }
     \label{fig-synthesized-experiment-results-under-parameterized}
 \end{figure}
 
-In \ref{sec-reconstruction}, we study the case when only one patch is replaced by the anomaly patch and claim that our analysis can be naturally extended to the case when multiple patches are replaced.
-We consider the \textit{number of replaced patch} $\mathbf{NRP} = {\rm{int}}(c_4 P + 2)$ with $c_4 \in \{0, 0.1, 0.2\}$.
-As demonstrated in \ref{fig-synthesized-experiment-results-NRP}, the gaps between the reconstruction errors of the normal data and the anomalies become significantly wider when more patches are replaced, which is consistent with our analysis.
+在\S\ref{sec-reconstruction}中, 我们研究了只有一个补丁被异常补丁替换的情况, 并声称我们的分析可以自然地扩展到多个补丁被替换的情况.
+我们考虑被替换补丁的数量 $\mathbf{NRP} = {\rm{int}}(c_4 P + 2)$, 其中$c_4 \in \{0, 0.1, 0.2\}$.
+如\ref{fig-synthesized-experiment-results-NRP}所示, 当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.
 
 
-\begin{figure}[H]
+\begin{figure}[htbp]
    \centering
    \begin{subfigure}[b]{0.3\textwidth}
       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png}
@@ -1750,93 +1322,112 @@ As demonstrated in \ref{fig-synthesized-experiment-results-NRP}, the gaps betwee
       \caption{$c_4 = 0.4$}
       \label{fig-NRP=0.4}
    \end{subfigure}    
-   \caption{Testing different numbers of replaced patches. 
-   {\color{red}
-   The parameter $c_4$ is used to characterize the number of patches replaced in anomalies, where a larger $c_4$ indicates a greater number of replaced patches.
-   The gaps between the reconstruction errors of the normal data and the anomalies become significantly wider when more patches are replaced, which is consistent with our analysis.}}
+   \caption{测试不同数量的被替换补丁. 
+   {
+   参数$c_4$用于表征异常中被替换补丁的数量, 其中较大的$c_4$表示更多的被替换补丁.
+   当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.}}
    \label{fig-synthesized-experiment-results-NRP}
 \end{figure}
 
 \newpage
 
-{\color{red}
-\subsubsection{The Growth of the Norm of the Kernels}\label{sec-kernel-norm-growth-experiments}
+{
+\subsubsection{核范数的增长}\label{sec-kernel-norm-growth-experiments}
 
-This section reports the growth of the norm of the kernels during training. 
-According to \ref{lemma-size-of-wj-in-paper}, the growth rates of the norm of the kernels is upper bounded by \ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}.
-As a side product of the synthesized experiments in \ref{sec-experiments-detail}, we record the norm of the kernels during training.
-The results are presented in Figures \ref{fig-inner-product-kernels-features-1} - \ref{fig-inner-product-kernels-features-6}.
-In all the experiments, the norm of the kernels increases almost linearly, which is consistent with our analysis in \ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}. 
-Additionally, kernels with larger initial values grow faster. 
-It can be observed that as the number of kernels and patches increases (i.e., when the task becomes more complex), the differences between kernels also become more pronounced.
-The discussion of the results can be found in Remark \ref{remark-discussion-aux-experiments}
+本节报告训练期间核范数的增长. 
+根据\ref{lemma-size-of-wj-in-paper}, 核范数的增长率由公式\ref{eq-lemma-size-of-wj-random-initialization-in-paper}与公式\ref{eq-lemma-size-of-wj-result-2-in-paper}上界.
+作为\S\ref{sec-rbad-experiments-detail}中合成实验的副产品, 我们记录了训练期间核的范数.
+结果呈现在图\ref{fig-inner-product-kernels-features-1} - \ref{fig-inner-product-kernels-features-6}中.
+在所有实验中, 核的范数几乎线性增长, 这与我们在\ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}中的分析一致. 
+此外, 初始值较大的核增长更快. 
+可以观察到, 随着核和补丁数量的增加 (即当任务变得更复杂时), 核之间的差异也变得更为明显.
+结果的讨论可以在备注\ref{remark-discussion-aux-experiments}中找到
 
-\subsubsection{Inner Product between the Kernels and the Features}\label{sec-inner-product-experiments}
+\subsubsection{核与特征之间的内积}\label{sec-inner-product-experiments}
 
-A key observation underlying our proposed cone set intuition is that kernels tend to converge toward features in terms of direction, which can be measured by the (normalized) inner product between the kernels and the features.
-We report the inner products between the kernels and the features during training in c
-The discussion of the results can be found in Remark \ref{remark-discussion-aux-experiments}
+我们提出的锥集直觉的一个关键观察是, 核倾向于在方向上向特征收敛, 这可以通过核与特征之间的 (归一化) 内积来测量.
+我们报告训练期间核与特征之间的内积
+结果的讨论可以在备注\ref{remark-discussion-aux-experiments}中找到
 
 \newpage
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=20_d=24_C=24_NNF=10.png}
     \caption{
-    {\color{red}
-    Recorded \textbf{kernels' norm} (the \textit{below} sub-figure) and \textbf{inner products between the kernels and the features} (the \textit{above} sub-figure) during training.
-    The controling variables are $P=20, d=24$, and $C=24$.
-    In both sub-figures, the $x$-axis represents the kernel index $j$ ($j \in [C]$), and the $y$-axis denotes the training epoch.
-    For better visualization, we have scaled the norm of the kernels by a factor of 10 in the below sub-figure.
+    {
+    训练期间记录的核范数 ({下方}子图) 和核与特征之间的内积 ({上方}子图).
+    控制变量为$P=20, d=24$, 和$C=24$.
+    在两个子图中, $x$轴表示核索引$j$ ($j \in [C]$), $y$轴表示训练周期.
+    为了更好的可视化, 我们在下方子图中将核的范数缩放10倍.
     }}
     \label{fig-inner-product-kernels-features-1}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=60_d=72_C=72_NNF=30.png}
-    \caption{{\color{red}The control variables are $P=60, d=72,$ and $C=72$.}}
+    \caption{{控制变量为$P=60, d=72,$ 和$C=72$.}}
     \label{fig-inner-product-kernels-features-2}
 \end{figure}
 
-\begin{remark}[Discussions on the results in \ref{sec-inner-product-experiments,sec-kernel-norm-growth-experiments}]
+\begin{remark}[对\S\ref{sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论]
 \label{remark-discussion-aux-experiments}
-An intuitive observation is that the color of each column (representing one single kernel) becomes progressively warmer from top to bottom in both sub-figures, which implies that both the norm and the inner product increase with the training epoch.
-In particular, the growth of the inner product can serve as an evidence for our proposed cone set intuition, i.e., the kernels tend to converge toward features in terms of direction.
+一个直观的观察是, 在两个子图中, 每列 (代表一个核) 的颜色从顶部到底部逐渐变暖, 这意味着范数和内积都随着训练周期而增加.
+特别是, 内积的增长可以作为我们提出的锥集直觉的证据, 即核倾向于在方向上向特征收敛.
 
-The main difference between Figures \ref{fig-inner-product-kernels-features-1} - \ref{fig-inner-product-kernels-features-6} lies in the controling variables $P, d,$ and $C$, which depict different levels of task complexity.
-As the dimension increases, randomly initialized kernels become more difficult to be absorbed (reflected in the bound provided by \ref{theorem-initial-size-in-paper}).
-Figures \ref{fig-inner-product-kernels-features-3} - \ref{fig-inner-product-kernels-features-6} provide more experimental results.
-The similar captions are omitted for brevity.
+图\ref{fig-inner-product-kernels-features-1} - \ref{fig-inner-product-kernels-features-6}之间的主要区别在于控制变量$P, d,$ 和$C$, 它们描绘了不同水平的任务复杂度.
+随着维度的增加, 随机初始化的核变得更难被吸收 (反映在\ref{theorem-initial-size-in-paper}提供的界限中).
+图\ref{fig-inner-product-kernels-features-3} - \ref{fig-inner-product-kernels-features-6}提供了更多的实验结果.
+为简洁起见, 省略了类似的标题.
 
 \end{remark}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=28_d=33_C=33_NNF=14.png}
     \caption{
-        {\color{red}The control variables are $P=28, d=33,$ and $C=33$.}}
+        {控制变量为$P=28, d=33,$ 和$C=33$.}}
     \label{fig-inner-product-kernels-features-3}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=36_d=43_C=43_NNF=18.png}
-    \caption{{\color{red}The control variables are $P=36, d=43,$ and $C=43$.}}
+    \caption{{控制变量为$P=36, d=43,$ 和$C=43$.}}
     \label{fig-inner-product-kernels-features-4}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=44_d=52_C=52_NNF=22.png}
-    \caption{{\color{red}The control variables are $P=44, d=52,$ and $C=52$.}}
+    \caption{{控制变量为$P=44, d=52,$ 和$C=52$.}}
     \label{fig-inner-product-kernels-features-5}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/rbad/figs/P=52_d=62_C=62_NNF=26.png}
-    \caption{{\color{red}The control variables are $P=52, d=62,$ and $C=62$.}}
+    \caption{{控制变量为$P=52, d=62,$ 和$C=62$.}}
     \label{fig-inner-product-kernels-features-6}
 \end{figure}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{本章小结}\label{sec-rbad-conclusion}
+本文研究2层卷积自编码器的训练动力学及其如何重构不同类型的输入. 
+特别地, 我们如下回答\ref{sec-introduction}中提出的$\bm{Q}_1$ - $\bm{Q}_3$.
+
+($\bm{Q}_1$) 模型如何在RBAD中从训练数据学习特征? 
+($\bm{A}_1$) {被特征锥集吸收的核将近似特征.}
+
+($\bm{Q}_2$) 学习的特征在重构阶段的作用是什么? 
+($\bm{A}_2$) {特征处理来自输入补丁的信号, 并将它们用于重构.}
+    
+($\bm{Q}_3$) 为什么异常更难重构? 
+($\bm{A}_3$) {来自辅助特征和随机噪声的处理信号小于来自正常特征的处理信号.}
+
+我们的理论发现和直觉得到了合成和真实世界实验的支持.

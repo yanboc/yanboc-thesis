@@ -1,2 +1,6 @@
-/thesis-ref
+/literature
 /.venv
+/temp
+*.gz
+*.thm
+*.pdf

@@ -1,0 +1,330 @@
+\begin{thebibliography}{56}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[Cao et~al.(2022)Cao, Chen, Belkin, and Gu]{DBLP:conf/nips/0006CBG22}
+CAO Y, CHEN Z, BELKIN M, et~al.
+\newblock Benign overfitting in two-layer convolutional neural networks\allowbreak[C]//\allowbreak
+NeurIPS.
+\newblock 2022.
+
+\bibitem[Allen{-}Zhu et~al.(2021)Allen{-}Zhu and Li]{DBLP:conf/focs/Allen-ZhuL21}
+ALLEN{-}ZHU Z, LI Y.
+\newblock Feature purification: How adversarial training performs robust deep learning\allowbreak[C]//\allowbreak
+62nd {IEEE} Annual Symposium on Foundations of Computer Science.
+\newblock 2021: 977-988.
+
+\bibitem[Allen{-}Zhu et~al.(2023)Allen{-}Zhu and Li]{DBLP:conf/iclr/Allen-ZhuL23}
+ALLEN{-}ZHU Z, LI Y.
+\newblock Towards understanding ensemble, knowledge distillation and self-distillation in deep learning\allowbreak[C]//\allowbreak
+ICLR.
+\newblock 2023.
+
+\bibitem[Cao et~al.(2025)Cao, Chen, and Liu]{doi:10.1073/pnas.2421593122}
+CAO Y, CHEN Y, LIU W.
+\newblock Prevalence of simplex compression in adversarial deep neural networks\allowbreak[J].
+\newblock Proceedings of the National Academy of Sciences, 2025, 122\allowbreak (17): e2421593122.
+
+\bibitem[Wen et~al.(2021)Wen and Li]{DBLP:conf/icml/WenL21}
+WEN Z, LI Y.
+\newblock Toward understanding the feature learning process of self-supervised contrastive learning\allowbreak[C]//\allowbreak
+ICML.
+\newblock 2021.
+
+\bibitem[Huang et~al.(2023)Huang, Cao, Wang, Cao, and Suzuki]{DBLP:journals/corr/abs-2306-13926}
+HUANG W, CAO Y, WANG H, et~al.
+\newblock Graph neural networks provably benefit from structural information: {A} feature learning perspective\allowbreak[J].
+\newblock CoRR, 2023.
+
+\bibitem[Lu et~al.(2024)Lu, Wu, Yang, and Zou]{DBLP:conf/iclr/LuWYZ24}
+LU M, WU B, YANG X, et~al.
+\newblock Benign oscillation of stochastic gradient descent with large learning rate\allowbreak[C]//\allowbreak
+ICLR.
+\newblock 2024.
+
+\bibitem[Zou et~al.(2023)Zou, Cao, Li, and Gu]{DBLP:conf/icml/ZouCLG23}
+ZOU D, CAO Y, LI Y, et~al.
+\newblock The benefits of mixup for feature learning\allowbreak[C]//\allowbreak
+ICML.
+\newblock 2023.
+
+\bibitem[Chen et~al.(2023)Chen, Huang, Zhou, Bian, Han, and Cheng]{DBLP:journals/corr/abs-2304-11327}
+CHEN Y, HUANG W, ZHOU K, et~al.
+\newblock Towards understanding feature learning in out-of-distribution generalization\allowbreak[J].
+\newblock CoRR, 2023.
+
+\bibitem[Chen et~al.(2026)Chen and Liu]{DBLP:conf/iclr/ChenYB26}
+CHEN Y, LIU W.
+\newblock Two-layer convolutional autoencoders trained on normal data provably detect unseen anomalies\allowbreak[C]//\allowbreak
+ICLR.
+\newblock 2026.
+
+\bibitem[Chen et~al.(2024)Chen, Deng, Li, and Gu]{DBLP:conf/iclr/ChenDLG24}
+CHEN Z, DENG Y, LI Y, et~al.
+\newblock Understanding transferable representation learning and zero-shot transfer in {CLIP}\allowbreak[C]//\allowbreak
+ICLR.
+\newblock 2024.
+
+\bibitem[Bengio et~al.(2013)Bengio, Courville, and Vincent]{BCV2013Representation}
+BENGIO Y, COURVILLE A, VINCENT P.
+\newblock Representation learning: A review and new perspectives\allowbreak[J].
+\newblock IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013.
+
+\bibitem[Papyan et~al.(2020)Papyan, Han, and Donoho]{neural-collapse}
+PAPYAN V, HAN X, DONOHO D~L.
+\newblock Prevalence of neural collapse during the terminal phase of deep learning training\allowbreak[J].
+\newblock Proceedings of the National Academy of Sciences, 2020, 117: 24652-24663.
+
+\bibitem[Haas et~al.(2023)Haas, Yolland, and Rabus]{ood}
+HAAS J, YOLLAND W, RABUS B.
+\newblock Linking neural collapse and {L2} normalization with improved out-of-distribution detection in deep neural networks\allowbreak[J].
+\newblock Trans. Mach. Learn. Res., 2023, 2023.
+
+\bibitem[Liu et~al.(2023)Liu, Zhang, Hu, Cao, Yao, and Pan]{longtail}
+LIU X, ZHANG J, HU T, et~al.
+\newblock Inducing neural collapse in deep long-tailed learning\allowbreak[C]//\allowbreak
+International Conference on Artificial Intelligence and Statistics.
+\newblock 2023: 11534-11544.
+
+\bibitem[Su et~al.(2024)Su, Zhang, Tsilivis, and Kempe]{robnc}
+SU J, ZHANG Y~S, TSILIVIS N, et~al.
+\newblock On the robustness of neural collapse and the neural collapse of robustness\allowbreak[J].
+\newblock Trans. Mach. Learn. Res., 2024, 2024.
+
+\bibitem[Goodfellow et~al.(2015)Goodfellow, Shlens, and Szegedy]{DBLP:journals/corr/GoodfellowSS14}
+GOODFELLOW I~J, SHLENS J, SZEGEDY C.
+\newblock Explaining and harnessing adversarial examples\allowbreak[C]//\allowbreak
+3rd International Conference on Learning Representations.
+\newblock 2015.
+
+\bibitem[Vardi et~al.(2022)Vardi, Yehudai, and Shamir]{DBLP:conf/nips/VardiYS22}
+VARDI G, YEHUDAI G, SHAMIR O.
+\newblock Gradient methods provably converge to non-robust networks\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems 35: Annual Conference on Neural Information Processing Systems.
+\newblock 2022.
+
+\bibitem[Frei et~al.(2023)Frei, Vardi, Bartlett, and Srebro]{DBLP:conf/nips/FreiVBS23}
+FREI S, VARDI G, BARTLETT P~L, et~al.
+\newblock The double-edged sword of implicit bias: Generalization vs. robustness in relu networks\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems.
+\newblock 2023.
+
+\bibitem[Szegedy et~al.(2014)Szegedy, Zaremba, Sutskever, Bruna, Erhan, Goodfellow, and Fergus]{DBLP:journals/corr/SzegedyZSBEGF13}
+SZEGEDY C, ZAREMBA W, SUTSKEVER I, et~al.
+\newblock Intriguing properties of neural networks\allowbreak[C]//\allowbreak
+2nd International Conference on Learning Representations.
+\newblock 2014.
+
+\bibitem[Zhang et~al.(2019)Zhang, Yu, Jiao, Xing, El~Ghaoui, and Jordan]{trades}
+ZHANG H, YU Y, JIAO J, et~al.
+\newblock Theoretically principled trade-off between robustness and accuracy\allowbreak[C]//\allowbreak
+Proceedings of the 36th International Conference on Machine Learning.
+\newblock 2019: 7472-7482.
+
+\bibitem[Li et~al.(2023)Li and Liu]{wat}
+LI B, LIU W.
+\newblock Wat: improve the worst-class robustness in adversarial training\allowbreak[C]//\allowbreak
+Thirty-Seventh {AAAI} Conference on Artificial Intelligence.
+\newblock 2023: 14982-14990.
+
+\bibitem[Wang et~al.(2019)Wang, Zou, Yi, Bailey, Ma, and Gu]{mart}
+WANG Y, ZOU D, YI J, et~al.
+\newblock Improving adversarial robustness requires revisiting misclassified examples\allowbreak[C]//\allowbreak
+8th International Conference on Learning Representations.
+\newblock 2019.
+
+\bibitem[Zhang et~al.(2020)Zhang, Xu, Han, Niu, Cui, Sugiyama, and Kankanhalli]{fat}
+ZHANG J, XU X, HAN B, et~al.
+\newblock Attacks which do not kill training make adversarial learning stronger\allowbreak[C]//\allowbreak
+Proceedings of the 37th International Conference on Machine Learning.
+\newblock 2020: 11278-11287.
+
+\bibitem[Sriramanan et~al.(2021)Sriramanan, Addepalli, Baburaj, et~al.]{eat}
+SRIRAMANAN G, ADDEPALLI S, BABURAJ A, et~al.
+\newblock Towards efficient and effective adversarial training\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems 34: Annual Conference on Neural Information Processing Systems 2021.
+\newblock 2021: 11821-11833.
+
+\bibitem[Madry et~al.(2018)Madry, Makelov, Schmidt, Tsipras, and Vladu]{DBLP:conf/iclr/MadryMSTV18}
+MADRY A, MAKELOV A, SCHMIDT L, et~al.
+\newblock Towards deep learning models resistant to adversarial attacks\allowbreak[C]//\allowbreak
+6th International Conference on Learning Representations.
+\newblock 2018.
+
+\bibitem[Strohmer et~al.(2003)Strohmer and Heath]{arXiv:math/0301135}
+STROHMER T, HEATH R.
+\newblock Grassmannian frames with applications to coding and communication\allowbreak[J].
+\newblock CoRR, 2003.
+
+\bibitem[Fickus et~al.(2015)Fickus and Mixon]{arXiv:1504.00253}
+FICKUS M, MIXON D~G.
+\newblock Tables of the existence of equiangular tight frames\allowbreak[J].
+\newblock CoRR, 2015.
+
+\bibitem[Krizhevsky et~al.(2009)Krizhevsky and Hinton]{cifar10}
+KRIZHEVSKY A, HINTON G.
+\newblock Learning multiple layers of features from tiny images\allowbreak[J].
+\newblock Handbook of Systemic Autoimmune Diseases, 2009, 1.
+
+\bibitem[Deng et~al.(2009)Deng, Dong, Socher, Li, Li, and Fei-Fei]{deng2009imagenet}
+DENG J, DONG W, SOCHER R, et~al.
+\newblock Imagenet: A large-scale hierarchical image database\allowbreak[C]//\allowbreak
+2009 {IEEE} Computer Society Conference on Computer Vision and Pattern Recognition.
+\newblock 2009: 248-255.
+
+\bibitem[Simonyan et~al.(2015)Simonyan and Zisserman]{simonyan2014very}
+SIMONYAN K, ZISSERMAN A.
+\newblock Very deep convolutional networks for large-scale image recognition\allowbreak[C]//\allowbreak
+3rd International Conference on Learning Representations.
+\newblock 2015.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{he2016deep}
+HE K, ZHANG X, REN S, et~al.
+\newblock Deep residual learning for image recognition\allowbreak[C]//\allowbreak
+Proceedings of the IEEE conference on computer vision and pattern recognition.
+\newblock 2016: 770-778.
+
+\bibitem[Zagoruyko et~al.(2016)Zagoruyko and Komodakis]{wrn}
+ZAGORUYKO S, KOMODAKIS N.
+\newblock Very deep convolutional networks for large-scale image recognitio\allowbreak[C]//\allowbreak
+Proceedings of the British Machine Vision Conference.
+\newblock 2016.
+
+\bibitem[Wang et~al.(2023)Wang, Pang, Du, Lin, Liu, and Yan]{DBLP:conf/icml/WangPDL0Y23}
+WANG Z, PANG T, DU C, et~al.
+\newblock Better diffusion models further improve adversarial training\allowbreak[C]//\allowbreak
+International Conference on Machine Learning.
+\newblock 2023: 36246-36263.
+
+\bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Chanan, Killeen, Lin, Gimelshein, Antiga, et~al.]{pytorch}
+PASZKE A, GROSS S, MASSA F, et~al.
+\newblock Pytorch: An imperative style, high-performance deep learning library\allowbreak[C]//\allowbreak
+Advances in Neural Information Processing Systems 32: Annual Conference on Neural Information Processing Systems 2019.
+\newblock 2019: 8024-8035.
+
+\bibitem[Zhong et~al.(2023)Zhong, Cui, Yang, Wu, Qi, Zhang, and Jia]{DBLP:conf/cvpr/ZhongCY0QZJ23}
+ZHONG Z, CUI J, YANG Y, et~al.
+\newblock Understanding imbalanced semantic segmentation through neural collapse\allowbreak[C]//\allowbreak
+{IEEE/CVF} Conference on Computer Vision and Pattern Recognition,.
+\newblock 2023: 19550-19559.
+
+\bibitem[Li et~al.(2023)Li, Shang, He, Lin, and Wu]{DBLP:conf/iccv/0001SHLW23}
+LI Z, SHANG X, HE R, et~al.
+\newblock No fear of classifier biases: Neural collapse inspired federated learning with synthetic and fixed classifier\allowbreak[C]//\allowbreak
+{IEEE/CVF} International Conference on Computer Vision.
+\newblock 2023: 5296-5306.
+
+\bibitem[Zhang et~al.(2024)Zhang, Chen, Jin, Zhu, and Gu]{DBLP:conf/icassp/ZhangCJZG24}
+ZHANG J, CHEN Y, JIN C, et~al.
+\newblock {EPA:} neural collapse inspired robust out-of-distribution detector\allowbreak[C]//\allowbreak
+{IEEE} International Conference on Acoustics, Speech and Signal Processing.
+\newblock 2024: 6515-6519.
+
+\bibitem[Ammar et~al.(2024)Ammar, Belkhir, Popescu, Manzanera, and Franchi]{DBLP:conf/iclr/AmmarBPMF24}
+AMMAR M~B, BELKHIR N, POPESCU S, et~al.
+\newblock {NECO:} neural collapse based out-of-distribution detection\allowbreak[C]//\allowbreak
+The Twelfth International Conference on Learning Representations.
+\newblock 2024.
+
+\bibitem[Dang et~al.(2024)Dang, Huu, Nguyen, and Ho]{DBLP:conf/icml/0003HNH24}
+DANG H, HUU T~T, NGUYEN T~M, et~al.
+\newblock Neural collapse for cross-entropy class-imbalanced learning with unconstrained relu features model\allowbreak[C]//\allowbreak
+Forty-first International Conference on Machine Learning, {ICML}.
+\newblock 2024.
+
+\bibitem[Chalapathy et~al.(2019)Chalapathy and Chawla]{DBLP:journals/corr/abs-1901-03407}
+CHALAPATHY R, CHAWLA S.
+\newblock Deep learning for anomaly detection: {A} survey\allowbreak[J].
+\newblock CoRR, 2019, abs/1901.03407.
+
+\bibitem[Ruff et~al.(2021)Ruff, Kauffmann, Vandermeulen, Montavon, Samek, Kloft, Dietterich, and M{\"{u}}ller]{DBLP:journals/pieee/RuffKVMSKDM21}
+RUFF L, KAUFFMANN J~R, VANDERMEULEN R~A, et~al.
+\newblock A unifying review of deep and shallow anomaly detection\allowbreak[J].
+\newblock Proc. {IEEE}, 2021, 109\allowbreak (5): 756-795.
+
+\bibitem[Bhattacharyya et~al.(2011)Bhattacharyya, Jha, Tharakunnel, and Westland]{credit-card-fraud-2011}
+BHATTACHARYYA S, JHA S, THARAKUNNEL K, et~al.
+\newblock Data mining for credit card fraud: {A} comparative study\allowbreak[J].
+\newblock Decision Support Systems, 2011, 50\allowbreak (3): 602-613.
+
+\bibitem[Bergmann et~al.(2021)Bergmann, Batzner, Fauser, Sattlegger, and Steger]{DBLP:journals/ijcv/BergmannBFSS21}
+BERGMANN P, BATZNER K, FAUSER M, et~al.
+\newblock The mvtec anomaly detection dataset: {A} comprehensive real-world dataset for unsupervised anomaly detection\allowbreak[J].
+\newblock Int. J. Comput. Vis., 2021, 129\allowbreak (4): 1038-1059.
+
+\bibitem[Díaz-Cao et~al.(2023)Díaz-Cao, Liu, Kim, Clavijo, and Martínez-López]{ourbreaks-of-disease-2023}
+DíAZ-CAO J~M, LIU X, KIM J, et~al.
+\newblock Evaluation of the application of sequence data to the identification of outbreaks of disease using anomaly detection methods\allowbreak[J].
+\newblock Vet Res, 2023, 129\allowbreak (4): 1038-1059.
+
+\bibitem[Salehi et~al.(2021)Salehi, Sadjadi, Baselizadeh, Rohban, and Rabiee]{DBLP:conf/cvpr/SalehiSBRR21}
+SALEHI M, SADJADI N, BASELIZADEH S, et~al.
+\newblock Multiresolution knowledge distillation for anomaly detection\allowbreak[C]//\allowbreak
+CVPR.
+\newblock 2021: 14902-14912.
+
+\bibitem[Mousakhan et~al.(2023)Mousakhan, Brox, and Tayyub]{DBLP:journals/corr/abs-2305-15956}
+MOUSAKHAN A, BROX T, TAYYUB J.
+\newblock Anomaly detection with conditioned denoising diffusion models: abs/2305.15956\allowbreak[A].
+\newblock 2023.
+
+\bibitem[Livernoche et~al.(2023)Livernoche, Jain, Hezaveh, and Ravanbakhsh]{DBLP:journals/corr/abs-2305-18593}
+LIVERNOCHE V, JAIN V, HEZAVEH Y, et~al.
+\newblock On diffusion modeling for anomaly detection\allowbreak[J/OL].
+\newblock CoRR, 2023, abs/2305.18593.
+\newblock DOI: \doi{10.48550/ARXIV.2305.18593}.
+
+\bibitem[Lv et~al.(2024)Lv, Su, Wan, Xu, and Xu]{DBLP:conf/icml/LvSWXX24}
+LV W, SU Q, WAN H, et~al.
+\newblock Contamination-resilient anomaly detection via adversarial learning on partially-observed normal and anomalous data\allowbreak[C]//\allowbreak
+ICML.
+\newblock 2024.
+
+\bibitem[Li et~al.(2024)Li, Feng, Chen, Chen, Wang, Hu, Sun, Qu, and Zhou]{DBLP:conf/icml/LiF0CWHSQZ24}
+LI Y, FENG Y, CHEN B, et~al.
+\newblock Vague prototype-oriented diffusion model for multi-class anomaly detection\allowbreak[C]//\allowbreak
+ICML.
+\newblock 2024.
+
+\bibitem[Kou et~al.(2023)Kou, Chen, Chen, and Gu]{DBLP:journals/corr/abs-2303-04145}
+KOU Y, CHEN Z, CHEN Y, et~al.
+\newblock Benign overfitting for two-layer relu networks\allowbreak[J].
+\newblock CoRR, 2023, abs/2303.04145.
+
+\bibitem[Shalev{-}Shwartz et~al.(2014)Shalev{-}Shwartz and Ben{-}David]{DBLP:books/daglib/UML-0033642}
+SHALEV{-}SHWARTZ S, BEN{-}DAVID S.
+\newblock Understanding machine learning - from theory to algorithms\allowbreak[M].
+\newblock Cambridge University Press, 2014.
+
+\bibitem[D${\ddot{\rm{u}}}$mbgen(2010)]{Dumbgen10}
+D${\ddot{\rm{U}}}$MBGEN L.
+\newblock Bounding standard gaussian tail probabilities\allowbreak[J].
+\newblock CoRR, 2010, abs/1012.2063v3.
+
+\bibitem[Wainwright(2019)]{wainwright_2019}
+WAINWRIGHT M~J.
+\newblock High-dimensional statistics: A non-asymptotic viewpoint\allowbreak[M].
+\newblock Cambridge University Press, 2019.
+
+\bibitem[Cao et~al.(2024)Cao, Chen, and Liu]{github}
+CAO Y, CHEN Y, LIU W.
+\newblock Neural-adversary\allowbreak[EB/OL].
+\newblock 2024.
+\newblock \url{https://github.com/CYOUNG-19/Neural-Adversary}.
+
+\bibitem[Moosavi{-}Dezfooli et~al.(2016)Moosavi{-}Dezfooli, Fawzi, and Frossard]{DBLP:conf/cvpr/Moosavi-Dezfooli16}
+MOOSAVI{-}DEZFOOLI S, FAWZI A, FROSSARD P.
+\newblock Deepfool: {A} simple and accurate method to fool deep neural networks\allowbreak[C]//\allowbreak
+CVPR.
+\newblock 2016.
+
+\end{thebibliography}

@@ -107,38 +107,43 @@ $\x$的$2$-范数记为$\|\x\|$.
 注意到我们的结果可以很容易地扩展到$\V_{nor}$和$\V_{aux}$取$\V$的任意互补子集, 代价是繁琐的计算.
 
 \begin{figure}[htbp]
-   \begin{center}
-   \begin{subfigure}{0.3\columnwidth}
-   \centering
-   \includegraphics[width=\columnwidth]{figures/rbad/assets/original patch.png}
-   \caption{正常数据}
-   \label{fig-original-patch}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}{0.3\columnwidth}
-   \centering
-   \includegraphics[width=\textwidth]{figures/rbad/assets/sensory anomaly patch.png}
-   \caption{非语义异常}
-   \label{fig-sensory-patch}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}{0.3\columnwidth}
-   \centering
-   \includegraphics[width=\textwidth]{figures/rbad/assets/semantic anomaly patch.png}
-   \caption{语义异常}
-   \label{fig-semantic-patch}
-   \end{subfigure}
-   \end{center}
-   \caption{{
-   补丁, 特征和不同类型的异常.
-   作为一个说明性例子, 考虑只有\qm{1}是正常数据的手写数字.
-   补丁$\x$是图像的小部分, 例如, 用红色框标出的那些.
-   $\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, 和$\x_{c,1}$包含一个捕获\qm{1}语义信息的正常特征.
-   \ref{fig-sensory-patch}在文献中被称为非语义 (或感官) 异常, 因为$\x_{b,2}$包含非特征噪声.
-   $\x_{c,2}$包含一个不捕获\qm{1}语义信息的辅助特征, 使得\ref{fig-semantic-patch}成为语义异常.
-   }}
-   \label{fig-different-types-of-anomalies}
-   \end{figure}
+    \begin{center}
+    \begin{subfigure}{0.3\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/rbad/assets/original patch.png}
+    \caption{正常数据}
+    \label{fig-original-patch}
+    \end{subfigure}
+
+    \hfill
+    
+    \begin{subfigure}{0.3\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/rbad/assets/sensory anomaly patch.png}
+    \caption{非语义异常}
+    \label{fig-sensory-patch}
+    \end{subfigure}
+    
+    \hfill
+    
+    \begin{subfigure}{0.3\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/rbad/assets/semantic anomaly patch.png}
+    \caption{语义异常}
+    \label{fig-semantic-patch}
+    \end{subfigure}
+    \end{center}
+    
+    \caption{{
+    补丁, 特征和不同类型的异常.
+    作为一个说明性例子, 考虑只有\qm{1}是正常数据的手写数字.
+    补丁$\x$是图像的小部分, 例如, 用红色框标出的那些.
+    $\x_{a,1}$, $\x_{a,2}$, $\x_{b,1}$, 和$\x_{c,1}$包含一个捕获\qm{1}语义信息的正常特征.
+    \ref{fig-sensory-patch}在文献中被称为非语义 (或感官) 异常, 因为$\x_{b,2}$包含非特征噪声.
+    $\x_{c,2}$包含一个不捕获\qm{1}语义信息的辅助特征, 使得\ref{fig-semantic-patch}成为语义异常.
+    }}
+    \label{fig-different-types-of-anomalies}
+\end{figure}
 
 \subsection{数据分布}\label{sec-data-assumption}
 本文假设正常数据$\z$从隐式分布$D_{nor}$中独立抽取.
@@ -297,7 +302,7 @@ For all $ j \in [C]$, we have
 我们将在本文的后续部分解释它们.
 参数的总结可以在附录\ref{sec-list-of-terms-and-notations}中找到.
 为简单起见, 如果不会引起混淆, 我们将省略上标或下标$t$和$d$. 
-一组推荐的参数在附录\ref{sec-parameters}中给出. \myqed    
+一组推荐的参数在附录\ref{sec-parameters}中给出.     
 \end{remark}
 
 注意\ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}成立的概率下界 (即至少$1-p_0$) 是相同的, 因为在随机初始化之后, 核将以确定性方式增长; 
@@ -323,7 +328,7 @@ For all $ j \in [C]$, we have
     % \item $\| \w_j \| \leq (c_1 - c_2) (\sqrt{2\epsilon})^{-1} \eta_t \sigma_0 \sqrt{ \log d }$
 \end{itemize}
 如果存在$t_0 \in [T]$使得对所有$t \geq t_0$有$\w_j^t \in \smost^{t}(k)$, 我们说核$\w_j$被特征$\v_k$的锥集吸收, 即, 在迭代步$t_0$之后, 核$\w_j$总是在特征$\v_k$的锥集中.
-\myqed
+
 \end{definition}
 
 \begin{remark}[锥集直觉]
@@ -333,7 +338,7 @@ For all $ j \in [C]$, we have
 由于我们设$f_r = f_h \cdot o(t)$, 锥在训练过程中会变得更尖锐 (参见\ref{fig-geometric-intuition}).
 因此, 锥中的核会更对齐到特征$\v_k$.
 特别地, 被特征的锥集吸收的核最终会近似到该特征的方向.
-\myqed
+
 \end{remark}
 
 我们可以直接从定义\ref{def-smost-in-paper}得到以下引理.
@@ -829,7 +834,7 @@ and $0$ otherwise.
 % \begin{remark}[Relationship between $\smost^t(k)$ and $\S_n^t(i)$]
 %     This paper uses $\smost^t(k)$ and $\S_n^t(i)$ (defined in \ref{eq-prop-gradient-def-Sni}) to represent the collection index $j \in [C]$ such that $\w_j^t$ is \qm{highly related} to $\v_k$ and $\x_{n,i}$, respectively. 
 %     Lemma \ref{lemma-smost-delta-ij} reveals the relationship between these two similar notations.
-%     For all $ t \geq 1$, $\x_{n,i}$ contains $\v_k$ implies that $\smost^t(k) \subset \S_n^t(i)$, but the inverse is not true in general. \myqed 
+%     For all $ t \geq 1$, $\x_{n,i}$ contains $\v_k$ implies that $\smost^t(k) \subset \S_n^t(i)$, but the inverse is not true in general.  
 % \end{remark}
 
 
@@ -1298,7 +1303,7 @@ for all $ \lambda >0$.
     \label{fig-synthesized-experiment-results-under-parameterized}
 \end{figure}
 
-在\S\ref{sec-reconstruction}中, 我们研究了只有一个补丁被异常补丁替换的情况, 并声称我们的分析可以自然地扩展到多个补丁被替换的情况.
+在\ref{sec-reconstruction}中, 我们研究了只有一个补丁被异常补丁替换的情况, 并声称我们的分析可以自然地扩展到多个补丁被替换的情况.
 我们考虑被替换补丁的数量 $\mathbf{NRP} = {\rm{int}}(c_4 P + 2)$, 其中$c_4 \in \{0, 0.1, 0.2\}$.
 如\ref{fig-synthesized-experiment-results-NRP}所示, 当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.
 
@@ -1336,7 +1341,7 @@ for all $ \lambda >0$.
 
 本节报告训练期间核范数的增长. 
 根据\ref{lemma-size-of-wj-in-paper}, 核范数的增长率由公式\ref{eq-lemma-size-of-wj-random-initialization-in-paper}与公式\ref{eq-lemma-size-of-wj-result-2-in-paper}上界.
-作为\S\ref{sec-rbad-experiments-detail}中合成实验的副产品, 我们记录了训练期间核的范数.
+作为\ref{sec-rbad-experiments-detail}中合成实验的副产品, 我们记录了训练期间核的范数.
 结果呈现在图\ref{fig-inner-product-kernels-features-1} - \ref{fig-inner-product-kernels-features-6}中.
 在所有实验中, 核的范数几乎线性增长, 这与我们在\ref{eq-lemma-size-of-wj-random-initialization-in-paper,eq-lemma-size-of-wj-result-2-in-paper}中的分析一致. 
 此外, 初始值较大的核增长更快. 
@@ -1371,7 +1376,7 @@ for all $ \lambda >0$.
     \label{fig-inner-product-kernels-features-2}
 \end{figure}
 
-\begin{remark}[对\S\ref{sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论]
+\begin{remark}[对\ref{sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论]
 \label{remark-discussion-aux-experiments}
 一个直观的观察是, 在两个子图中, 每列 (代表一个核) 的颜色从顶部到底部逐渐变暖, 这意味着范数和内积都随着训练周期而增加.
 特别是, 内积的增长可以作为我们提出的锥集直觉的证据, 即核倾向于在方向上向特征收敛.

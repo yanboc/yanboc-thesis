@@ -1,7 +1,11 @@
 \documentclass{WHUPhd}
 % \documentclass[forprint]{WHUPhd}
 % \documentclass[forlib]{WHUPhd}
-\input{includefile/settings}
+
+\input{settings/compile_config}
+\input{settings/shortcuts}
+\input{settings/misc}
+
 \begin{document}
 
 \fenleihao{TP391} % 分类号:《中国图书资料分类法》的类号. 必填. 要根据自己的学科方向填写!!
@@ -23,31 +27,38 @@
 \date{二〇二五年十二月九日} %  要注意和英文日期一致!!
 \Edate{December 9, 2025} % 英文封面日期
 
-%-----------------------------------------------------------------------------
-\pdfbookmark[0]{封面}{title}
+\iffastcompile
+    \frontmatter
+    \begin{center}    
+       快速编译模式, 跳过封面、目录、摘要等部分.
+    \end{center}
+\else
+    %-----------------------------------------------------------------------------
+    \pdfbookmark[0]{封面}{title}
 
-\maketitle
+    \maketitle
+    %-----------------------------------------------------------------------------
+    \newpage
+    \input{includefile/frontmatter} % 加入英文封面, 论文创新点, 等等目录之前的部分.
+    \frontmatter
+    \pagenumbering{Roman} % 正文之前的页码用大写罗马字母编号.
 
-%-----------------------------------------------------------------------------
-\newpage
-\input{includefile/frontmatter} % 加入英文封面, 论文创新点, 等等目录之前的部分.
-\frontmatter
-\pagenumbering{Roman} % 正文之前的页码用大写罗马字母编号.
+    %---把目录加入到书签---%%%%%%%%%%%%%%
+    \pdfbookmark[0]{目录}{toc}
+    \pagestyle{oldplain}
+    \tableofcontents
+    \pagestyle{oldplain}\cleardoublepage
+    \newpage  \pagestyle{fancy} \fancyfancy
+    %------------------------------------------------------------------------------
+    \input{includefile/midmatter} % 加入中英文摘要.
+\fi
 
-%---把目录加入到书签---%%%%%%%%%%%%%%
-\pdfbookmark[0]{目录}{toc}%%%%%%%%%%%%
-\pagestyle{oldplain}
-\tableofcontents
-\pagestyle{oldplain}\cleardoublepage
-\newpage  \pagestyle{fancy} \fancyfancy
-%------------------------------------------------------------------------------
-\input{includefile/midmatter} % 加入中英文摘要.
+
 %------------------------------------------------------------------------------
 \mainmatter %% 以下是正文
 \baselineskip=20pt  % 正文行距为 20 磅
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Chapters
 \input{chapters/chap1}
 \input{chapters/chap2}
 \input{chapters/chap3}
@@ -55,26 +66,25 @@
 \input{chapters/chap5}
 \input{chapters/chap6}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Appendix
 \appendix
-
 \input{appendix/app3}
 \input{appendix/app4}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% References
 \cleardoublepage\phantomsection
 \addcontentsline{toc}{chapter}{参考文献}
-% \bibliographystyle{gbt7714}
 \bibliography{refs/ref}
-% \begin{thebibliography}{000}\zihao{5}
-% \input{includefile/reference.tex}
-% \end{thebibliography}
 
-\backmatter
-
-\input{includefile/backmatter} %%%致谢、作品列表 ．
-
-\cleardoublepage
+% backmatter
+\iffastcompile
+    \backmatter
+    \begin{center}    
+        快速编译模式, 跳过致谢、作品列表等部分.
+    \end{center}
+\else
+    \backmatter
+    \input{includefile/backmatter} %%%致谢、作品列表 ．
+    \cleardoublepage
+\fi
 \end{document}

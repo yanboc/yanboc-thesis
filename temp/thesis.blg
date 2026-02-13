@@ -15,47 +15,44 @@ Reallocated global_strs (elt_size=200001) to 20 items from 10.
 Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: refs/ref.bib
-Warning--I didn't find a database entry for "DBLP:conf/aistats/ErichsonLXUCM24"
-Warning--I didn't find a database entry for "DBLP:journals/corr/abs-1712-09665"
-You've used 56 entries,
+You've used 54 entries,
             5374 wiz_defined-function locations,
-            1342 strings with 19911 characters,
-and the built_in function-call counts, 505751 in all, are:
-= -- 9643
-> -- 59481
-< -- 74415
-+ -- 20683
-- -- 3832
-* -- 2591
-:= -- 69618
-add.period$ -- 170
-call.type$ -- 56
-change.case$ -- 467
-chr.to.int$ -- 18227
-cite$ -- 56
-duplicate$ -- 1451
-empty$ -- 3900
-format.name$ -- 1915
-if$ -- 131875
+            1330 strings with 19474 characters,
+and the built_in function-call counts, 488623 in all, are:
+= -- 9315
+> -- 57472
+< -- 71905
++ -- 19986
+- -- 3698
+* -- 2513
+:= -- 67270
+add.period$ -- 163
+call.type$ -- 54
+change.case$ -- 451
+chr.to.int$ -- 17614
+cite$ -- 54
+duplicate$ -- 1400
+empty$ -- 3755
+format.name$ -- 1851
+if$ -- 127378
 int.to.chr$ -- 1
-int.to.str$ -- 57
+int.to.str$ -- 55
 missing$ -- 0
-newline$ -- 330
-num.names$ -- 168
-pop$ -- 27123
+newline$ -- 318
+num.names$ -- 162
+pop$ -- 26205
 preamble$ -- 1
-purify$ -- 56
+purify$ -- 54
 quote$ -- 0
-skip$ -- 52634
+skip$ -- 50845
 stack$ -- 0
-substring$ -- 22876
-swap$ -- 56
-text.length$ -- 1347
+substring$ -- 22119
+swap$ -- 54
+text.length$ -- 1301
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 608
+type$ -- 586
 warning$ -- 0
-while$ -- 1389
+while$ -- 1343
 width$ -- 0
-write$ -- 725
-(There were 2 warnings)
+write$ -- 700

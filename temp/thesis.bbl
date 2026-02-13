@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{54}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -314,17 +314,5 @@ D${\ddot{\rm{U}}}$MBGEN L.
 WAINWRIGHT M~J.
 \newblock High-dimensional statistics: A non-asymptotic viewpoint\allowbreak[M].
 \newblock Cambridge University Press, 2019.
-
-\bibitem[Cao et~al.(2024)Cao, Chen, and Liu]{github}
-CAO Y, CHEN Y, LIU W.
-\newblock Neural-adversary\allowbreak[EB/OL].
-\newblock 2024.
-\newblock \url{https://github.com/CYOUNG-19/Neural-Adversary}.
-
-\bibitem[Moosavi{-}Dezfooli et~al.(2016)Moosavi{-}Dezfooli, Fawzi, and Frossard]{DBLP:conf/cvpr/Moosavi-Dezfooli16}
-MOOSAVI{-}DEZFOOLI S, FAWZI A, FROSSARD P.
-\newblock Deepfool: {A} simple and accurate method to fool deep neural networks\allowbreak[C]//\allowbreak
-CVPR.
-\newblock 2016.
 
 \end{thebibliography}

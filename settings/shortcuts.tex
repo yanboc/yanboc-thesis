@@ -1,0 +1,92 @@
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{mybox}[1]{
+  colback=darkgray-background!40,
+  coltitle=black,
+  colframe=darkgray-background,
+  colbacktitle=darkgray-background!60,
+  fonttitle=\heiti,
+  title={#1}
+}
+
+\newtcolorbox{mynotice}{
+  colback=darkgray-background!40,
+  colframe=darkgray-background,
+}
+
+\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\z}{\boldsymbol{z}}
+\newcommand{\xa}{\boldsymbol{x}^{adv}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\p}{\boldsymbol{p}}
+\newcommand{\q}{\boldsymbol{q}}
+\renewcommand{\v}{\boldsymbol{v}}
+\renewcommand{\u}{\boldsymbol{u}}
+\renewcommand{\o}{\boldsymbol{o}}
+\renewcommand{\b}{\boldsymbol{b}}
+\newcommand{\h}{\boldsymbol{h}}
+\renewcommand{\H}{\mathcal{H}}
+
+\newcommand{\dpr}{d^{\prime}}
+
+\newcommand{\A}{\boldsymbol{A}}
+\newcommand{\M}{\boldsymbol{M}}
+\newcommand{\X}{\boldsymbol{X}}
+\newcommand{\W}{\boldsymbol{W}}
+
+\newcommand{\bmu}{\boldsymbol{\mu}}
+
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calF}{\mathcal{F}}
+
+\newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\reg}{\text{reg}}
+\DeclareMathOperator{\relu}{\text{ReLU}}
+\DeclareMathOperator{\softmax}{\text{softmax}}
+\DeclareMathOperator{\argmax}{\text{argmax}}
+\DeclareMathOperator{\argmin}{\text{argmin}}
+
+% NC
+\newcommand{\iter}[1]{\{#1\}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\Radv}{R_{\rm{adv}}}
+\newcommand{\Rstd}{R_{\rm{std}}}
+\newcommand{\1}{\boldsymbol{1}}
+\newcommand{\0}{\boldsymbol{0}}
+\newcommand{\I}{\boldsymbol{I}}
+\renewcommand{\o}{\boldsymbol{o}}
+\DeclareMathOperator\srelu{sReLU}
+
+% RBAD
+\usepackage{bm}
+\usepackage{subcaption}
+\newcommand{\V}{\mbox{Vol}}
+\newcommand{\ip}[1]{\left\langle #1 \right\rangle}
+\newcommand{\ipsmall}[1]{\langle #1 \rangle}
+\newcommand{\qm}[1]{``#1''}
+\renewcommand{\P}{\boldsymbol{P}}
+\newcommand{\risk}{\mathcal{R}}
+\newcommand{\Z}{\mathcal{Z}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\smost}{\tilde{\S}}
+\newcommand{\sless}{\S_{less}}
+\newcommand{\snot}{\S_{not}}
+\newcommand{\smostbound}{t \sigma_0 c_1 f_h}
+\newcommand{\slessbound}{t \sigma_0 f_r}
+\newcommand{\wbound}{t \sigma_0 f_h}
+\newcommand{\cone}{\hat{\S}}
+\newcommand{\MM}{\mathbf{M}}
+\newcommand{\relup}[1]{ \sigma^{\prime} \left( #1 \right)} % ReLU
+\newcommand{\E}{\mathbb{E}}
+
+\renewcommand{\paragraph}[1]{\vspace{0.5em}\noindent{\heiti{#1}}\hspace{0.5em}}

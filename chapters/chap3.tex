@@ -1,4 +1,4 @@
-\chapter{通用任务的特征学习理论}\label{chap-PNAS}
+\chapter{对抗训练的特征学习理论分析}\label{chap-PNAS}
 
 本章将围绕神经网络的特征塌缩 (neural collapse) 现象展开, 并探索其背后的特征学习机制. 
 特征塌缩由Papyan等\cite{neural-collapse}首次发现并总结, 是一种普遍存在于神经网络输出层的几何特征. 
@@ -8,7 +8,7 @@
 特征塌缩现象已被证实是跨数据集和网络架构的普遍现象. 
 许多先前的研究将这一几何结构特征应用于离分布检测\cite{ood}, 长尾学习\cite{longtail}和对抗训练\cite{robnc}等任务. 
 本文重点探讨对抗训练 (adversarial training) 下网络的特征学习机制及其在特征塌缩现象中的. 
-此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法\cite{DBLP:journals/corr/GoodfellowSS14}, 具体定义可参阅\S\ref{sec-at-preliminaries}.
+此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法\cite{DBLP:journals/corr/GoodfellowSS14}, 具体定义可参阅\ref{sec-at-preliminaries}.
 已有研究\cite{robnc}发现, 特征塌缩现象同样存在于对抗训练中.
 然而, 通过AT训练的神经网络与传统训练模型存在显著差异\cite{DBLP:conf/nips/VardiYS22,DBLP:conf/nips/FreiVBS23}.
 由此引出两个核心问题：
@@ -26,20 +26,6 @@
 在此基础上, 我们从理论层面阐释了对抗训练引发该现象的作用机制.
 我们, 随着扰动半径的增大, 压缩程度会显著增强.
 特别值得注意的是, 我们的理论预测与第3.3节展示的实验结果高度吻合, 这为我们的实证发现提供了有力佐证. 
-\newpage
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.95\textwidth]{figures/nc_main/simplex_compression.png}
-  \caption{线型图 (上) 展示了关于单纯形压缩现象的主要实证结果. 
-  我们绘制了三种对抗训练方法 (包括\texttt{PGD-AT}, \texttt{TRADES}和\texttt{MART}) 在不同扰动半径$\epsilon \in \{0, 2/255, 4/255, 6/255, 8/255\}$下的单纯形范数$P_c$ (参见等式\ref{eq-def-P-eps}) 观测值.
-  此处$\epsilon = 0$表示干净训练. 单纯形范数是使用训练数据计算的. 
-  底部：三分类任务中单纯形压缩现象的可视化. 我们观察到几何尺寸 (即单纯形 ETF 结构在对抗训练下的单纯形范数$P_c$) 的减小；且随着扰动半径的增加, 单纯形范数减小 (此处A, B和C分别代表扰动半径的增加) . 
-  我们称这种塌缩ETF压缩的现象为单纯形压缩现象. }
-  \label{fig-simplex-compression}
-\end{figure}
-
-\newpage
 
 \section{对抗训练与特征塌缩现象的基础概念}\label{sec-nc-preliminaries}
 
@@ -82,9 +68,9 @@
 
 \subsection{特征塌缩}\label{sec-neural-collapse-setup}
 
-在\S\ref{sec-feature-and-feature-learning} 中, 我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器 (feature extractor) 和一个线性分类器 (linear classifier) 组合而成. 
+在\ref{sec-feature-and-feature-learning} 中, 我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器 (feature extractor) 和一个线性分类器 (linear classifier) 组合而成. 
 在本文中, 我们用$\boldsymbol{h}: \R^d \to \R^{\dpr}$来表示特征提取器. 
-对于任意输入$\x \in \R^d$, $\h(\x)$在文献中通常被称为最后一层特征 (last layer feature) , 也即\S\ref{sec-feature-and-feature-learning} 中所提到的高级特征. 
+对于任意输入$\x \in \R^d$, $\h(\x)$在文献中通常被称为最后一层特征 (last layer feature) , 也即\ref{sec-feature-and-feature-learning} 中所提到的高级特征. 
 这里, $d^{\prime}$表示最后一层特征的维度. 
 特征塌缩现象主要涵盖了以下四个特征：
 
@@ -123,7 +109,7 @@
             \begin{equation}
             \arg \max _{k^{\prime}}\left\langle\boldsymbol{w}_{k^{\prime}}, \boldsymbol{h}\right\rangle+b_{k^{\prime}} \rightarrow \underset{k^{\prime}}{\arg \min }\left\|\boldsymbol{h}-\boldsymbol{\bar{h}}_{k^{\prime}}\right\|_{2}.
             \end{equation}
-        其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 为重新缩放地类均值 (renormalized class mean). \myqed
+        其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 为重新缩放地类均值 (renormalized class mean). 
     \end{itemize}
 \end{definition}
 
@@ -146,7 +132,7 @@
       \left( \boldsymbol{I}_{K} -\frac{1}{K} \mathbf{1}_{K}  \mathbf{1}_{K}^{\top}  \right) \in \R^{K \times K},
   \end{equation}
   $\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }$ 是一个半正交矩阵 (partial orthogonal matrix) , 即$\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}$, 且$c_1 \in \R$是一个非零常数. 
-  \myqed
+  
   \end{definition}
   值得指出的是, 在NC研究中, 单纯形ETF的定义与数学文献中的定义略有不同 \cite{arXiv:math/0301135,arXiv:1504.00253}. 
   为了消除歧义, 本文中所有关于单纯形ETF的讨论都基于定义\ref{def-simplex-ETF}. 
@@ -238,44 +224,18 @@ $L_\infty$范数关注扰动向量的最大分量, $L_2$范数测量干净样本
 % The results are displayed in \ref{fig:pgd_effect}. 
 % We can see that simplex compression exits for different perturbation norms and PGD iterations.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{figures/nc_main/pgd.png}
-  \caption{
-    本图展示了单纯形范数$\boldsymbol{P}_{\epsilon}$的观测值随扰动半径的变化趋势.
-    我们在\texttt{CIFAR-10}数据集上使用\texttt{PGD-AT}训练\texttt{ResNet-18}. 
-    我们选择$T_{a}=\{ 10,20,30\}$ (参考定义\ref{eq-def-GD-AT}) 和范数$p=\{L_\infty , L_2\}$. 
-    结果来自对抗样本.
-    可以发现, 随着扰动半径变大, 各个实验组的单纯形范数展现出显著的下降趋势.
-    }
-  \label{fig:pgd_effect}
-\end{figure}
-
 此外, 我们通过展示干净样本的$\boldsymbol{P}_{\epsilon}$结果, 进一步扩展了我们的分析. 
 如图\ref{fig-sample-effect}所示, 我们观察到干净样本的$\boldsymbol{P}_{\epsilon}$值相对于对抗样本较大, 但它们与单纯形压缩现象保持一致. 
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{figures/nc_main/sample.png}
-  \caption{
-    我们展示了$\boldsymbol{P}_{\epsilon}$ (纵轴) 随扰动半径 (横轴) 的变化情况. 
-    我们在\texttt{CIFAR-10}数据集上使用\texttt{PGD-AT}训练\texttt{ResNet-18}. 
-    我们选择$T_{a}=10$和范数$p=\{L_\infty , L_2\}$. 
-    结果来自对抗样本和干净样本. 
-    此处\texttt{Adv-samples} (浅蓝色) 表示对抗样本, \texttt{Clean-samples} (深蓝色) 表示干净样本.
-    }
-  \label{fig-sample-effect}
-\end{figure}
 
 \section{关于单纯形压缩现象的理论解释}\label{sec-theoretical-explanation}
 
 在本节中, 我们通过分析干净训练和对抗训练过程, 理论解释单纯形压缩现象. 
-我们指定数据模型, 网络结构和训练范式在\S\ref{sec-nc-preliminaries}中. 
-假设总结在\S\ref{subsec-nc-assumptions}中. 
-我们将在\S\ref{subsec-theoretical-main-results}中展示主要结果, 并将证明推迟到支持信息文件中. 
+我们指定数据模型, 网络结构和训练范式在\ref{sec-nc-preliminaries}中. 
+假设总结在\ref{subsec-nc-assumptions}中. 
+我们将在\ref{subsec-theoretical-main-results}中展示主要结果, 并将证明推迟到支持信息文件中. 
 
 \subsection{符号}\label{subsec-notations}
-我们在\S\ref{sec-feature-learning-theory-basics}中引入了一些符号. 
+我们在\ref{sec-feature-learning-theory-basics}中引入了一些符号. 
 在本节中, 我们重述一些关键符号以保持完整性. 
 给定$K \in \mathbb{Z}^+$, 我们的分析专注于具有$K$个类的平衡分类任务. 
 后续段落详细描述了数据模型, 网络结构和训练范式. 
@@ -304,7 +264,7 @@ $L_\infty$范数关注扰动向量的最大分量, $L_2$范数测量干净样本
     UFM将最后一层特征$\h$视为独立的可优化变量. 
     然而, 我们的研究需要控制对$\x$应用小扰动后$\h$的变化 (即引入对抗样本) . 
     因此, 将$\h$视为独立变量可能不适合分析对抗训练下的特征塌缩现象. 
-    \myqed
+    
 \end{remark}
 
 在本文中, 我们采用以下方式表征$f$：
@@ -323,7 +283,7 @@ $L_\infty$范数关注扰动向量的最大分量, $L_2$范数测量干净样本
 \end{aligned}
 \end{equation}
 对于任意$\x \in \R^d$. 
-\myqed
+
 \end{definition}
 
 我们提供以下解释来介绍\ref{def-f}中引入的新术语. 
@@ -350,7 +310,7 @@ $\relu(\cdot)$定义为
 \begin{remark}
   特征$\h(\x)$位于NC分析的中心部分, 可以被视为最后一层和倒数第二层的输入和输出. 
   因此,  ``最后一层特征'' 和 ``倒数第二层特征'' 在NC的上下文中通常指的是同一个概念. 
-  \myqed
+  
 \end{remark}
 
 \paragraph{训练范式}
@@ -428,7 +388,7 @@ $\relu(\cdot)$定义为
 
 
 {\vspace{0.5em}\noindent{\heiti{TBT}}\hspace{0.5em}}
-如\S\ref{sec-nc-preliminaries}所述, 标准和对抗NC都发生在TPT期间.
+如\ref{sec-nc-preliminaries}所述, 标准和对抗NC都发生在TPT期间.
 这里, TPT指的是训练风险收敛到接近零之后的训练轮次.
 根据定义, 我们有
 \begin{equation}\label{eq-exp-loss-function}
@@ -450,7 +410,7 @@ $\relu(\cdot)$定义为
 \end{equation}
 在公式\ref{eq-def-assumption-TPT-k}和\ref{eq-def-assumption-TPT-k1-k2}中, 参数$\sigma \in (0, 1)$用于刻画训练的精度.
 值得注意的是, 如果$\sigma=0$, 训练风险变为零.
-\myqed 
+ 
 \end{assumption}
 
 以下推论可以直接由\ref{assumption-tpt}推出.
@@ -481,7 +441,7 @@ $\relu(\cdot)$定义为
 \begin{equation}
     \W = c_1 \boldsymbol{U} \boldsymbol{M} = \sqrt{\frac{K-1}{K}} \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \boldsymbol{M},
 \end{equation}
-其中$\left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \in \R^{\dpr \times K}$是一个二元半正交矩阵, 使得对于任意$k \in [K]$, 只有$\boldsymbol{e}_k$的第$k$个元素取$1$, 而其他元素取$0$. \myqed
+其中$\left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \in \R^{\dpr \times K}$是一个二元半正交矩阵, 使得对于任意$k \in [K]$, 只有$\boldsymbol{e}_k$的第$k$个元素取$1$, 而其他元素取$0$. 
 \end{assumption}
 
 注意到取$c_1 = \sqrt{\frac{K-1}{K}}$和$\boldsymbol{U} = \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right)$不失一般性, 因为单纯形ETF在正交变换下是不变的. 

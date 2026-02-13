@@ -83,7 +83,7 @@
     \par
     \vspace*{15mm} %插入空白
     {\songti \zihao{2} \ziju{1} %武汉大学 
-    \includegraphics[width=0.4\textwidth]{wudaname.png}
+    \includegraphics[width=0.4\textwidth]{figures/template/wudaname.png}
     \\[3mm]  博士学位论文}\\
     \vspace{2cm}
     {\kaishu \zihao{1}  \@title \par}%

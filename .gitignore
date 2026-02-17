@@ -1,6 +1,21 @@
-/literature
+# python
 /.venv
-/temp
+/__pycache__
+
+# 参考文献
+/literature
+
+# 临时文件等
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.thm
+*.synctex.gz
 *.gz
 *.thm
 *.pdf
+
+# 字体文件
+.otf

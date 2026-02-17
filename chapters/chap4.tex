@@ -1,16 +1,13 @@
-\chapter{图像任务的特征学习理论}\label{chap-RBAD}
+\chapter{针对异常点检测的特征学习理论分析}\label{chap4}
 
-\section{引言}\label{sec-introduction}
+数据中的\textit{异常}（anomaly）是显著地偏离正常数据点的罕见、可疑或错误的数据点 \cite{DBLP:journals/corr/abs-1901-03407,DBLP:journals/pieee/RuffKVMSKDM21}。
+常见的异常包括信用卡欺诈 \cite{credit-card-fraud-2011}，工业制造中的产品缺陷 \cite{DBLP:journals/ijcv/BergmannBFSS21}，以及疫情爆发 \cite{ourbreaks-of-disease-2023}等。
+异常检测（anomaly detection, AD）是一项意义重大、极具挑战的任务，因为异常数据在训练阶段较为稀缺，模型难以提取异常点的特征。
+为解决此问题，参考文献 \cite{DBLP:conf/cvpr/SalehiSBRR21,DBLP:journals/corr/abs-2305-15956} 提出了一种只需要正常数据进行训练的异常检测方法，该方法被称为基于重构的异常检测 (reconstruction-based anomaly detection, RBAD) \cite{DBLP:journals/corr/abs-2305-18593,DBLP:conf/icml/LvSWXX24,DBLP:conf/icml/LiF0CWHSQZ24}。
+具体来说，参考文献 \cite{DBLP:conf/cvpr/SalehiSBRR21,DBLP:journals/corr/abs-2305-15956} 观察到在正常数据上训练的生成模型往往难以准确地重构异常数据。
+通过设置合适的重构误差阈值，RBAD能够区分正常数据与异常数据，以达成异常检测的目的。
 
-异常是罕见或可疑的观测, 它们显著偏离预定义的正常数据 \cite{DBLP:journals/corr/abs-1901-03407,DBLP:journals/pieee/RuffKVMSKDM21}.
-异常的例子包括信用卡欺诈 \cite{credit-card-fraud-2011}, 制造产品中的缺陷 \cite{DBLP:journals/ijcv/BergmannBFSS21}, 以及疾病爆发 \cite{ourbreaks-of-disease-2023}.
-异常检测是一项具有挑战性的任务, 因为在训练阶段很难获得负样本 (即异常).
-尽管如此, 研究人员已经开发了各种只需要正常训练数据的异常检测方法.
-例如, 实证研究 \cite{DBLP:conf/cvpr/SalehiSBRR21,DBLP:journals/corr/abs-2305-15956} 观察到一个有趣的现象, 即在正常数据上训练的生成模型在重构异常时往往比重构正常数据产生更大的重构误差.
-因此, 可以通过为重构误差设置阈值来检测异常.
-这种异常检测方法在文献中被称为基于重构的异常检测 (RBAD) \cite{DBLP:journals/corr/abs-2305-18593,DBLP:conf/icml/LvSWXX24,DBLP:conf/icml/LiF0CWHSQZ24}.
-
-尽管RBAD在实证上取得了成功, 但对RBAD的理论理解仍然有限.
+尽管RBAD在实证上取得了成功，但对RBAD的理论理解仍然有限。
 由于篇幅有限, 对相关工作的详细讨论推迟到附录\ref{sec-related-work}.
 本文的主要目标是建立一个用于分析RBAD的理论框架, 并为RBAD找到一个合理的解释.
 更具体地说, 我们提出以下三个研究问题.
@@ -544,7 +541,7 @@ Given $i_0 \in [P]$,
 
 总之, 本节分析了所得自编码器的重构阶段, 并解释了为什么非语义异常难以重构.
 我们还讨论了为什么RBAD不适合检测语义异常.
-\ref{sec-introduction}中提出的所有问题都已得到回答.
+中提出的所有问题都已得到回答.
 
 \section{数值验证}\label{sec-numerical-validation}
 本节展示合成和真实世界实验, 以验证我们的理论发现.
@@ -562,33 +559,33 @@ Given $i_0 \in [P]$,
 我们使用均方误差 (MSE) 作为损失函数, 使用SGD进行优化.
 % Detailed results are reported in \ref{sec-aux-results-syn}.
 
-\begin{figure}[htbp]
-   \centering
-   \begin{subfigure}[b]{0.3\textwidth}
-       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.2.png}
-       \caption{$c_3 = 1.2$}
-       \label{fig-c_3=1.2}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.3\textwidth}
-       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.5.png}
-       \caption{$c_3 = 1.5$}
-       \label{fig-c_3=1.5}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.3\textwidth}
-       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png}
-       \caption{$c_3 = 2$}
-       \label{fig-c_3=2}
-   \end{subfigure}    
-   \caption{合成实验的结果. 
-   在这些图中, $x$轴是补丁数量$P$. 
-   $y$轴报告重构损失. 
-   在研究中, 我们对$c_3 \in \{1.2, 1.5, 2\}$设$d = {\rm{int}}(c_3 P)$, 并设$C = {\rm{int}}(1.2 d)$.
-   所有实验都表现出正常数据和非语义异常的重构误差之间的明显差距.
-   此外, 如\ref{remark-semantic-anomalies-are-hard-to-detect}中讨论的, 正常数据和语义异常之间的重构误差差距不如正常数据和非语义异常之间的差距显著.}
-\label{fig-synthesized-experiment-results}
-\end{figure}
+% \begin{figure}[htbp]
+%    \centering
+%    \begin{subfigure}[b]{0.3\textwidth}
+%        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.2.png}
+%        \caption{$c_3 = 1.2$}
+%        \label{fig-c_3=1.2}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.3\textwidth}
+%        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=1.5.png}
+%        \caption{$c_3 = 1.5$}
+%        \label{fig-c_3=1.5}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.3\textwidth}
+%        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png}
+%        \caption{$c_3 = 2$}
+%        \label{fig-c_3=2}
+%    \end{subfigure}    
+%    \caption{合成实验的结果. 
+%    在这些图中, $x$轴是补丁数量$P$. 
+%    $y$轴报告重构损失. 
+%    在研究中, 我们对$c_3 \in \{1.2, 1.5, 2\}$设$d = {\rm{int}}(c_3 P)$, 并设$C = {\rm{int}}(1.2 d)$.
+%    所有实验都表现出正常数据和非语义异常的重构误差之间的明显差距.
+%    此外, 如\ref{remark-semantic-anomalies-are-hard-to-detect}中讨论的, 正常数据和语义异常之间的重构误差差距不如正常数据和非语义异常之间的差距显著.}
+% \label{fig-synthesized-experiment-results}
+% \end{figure}
 
 \paragraph{核的可视化}
    
@@ -598,48 +595,48 @@ Given $i_0 \in [P]$,
 我们将这些核解释为那些满足$j \notin \cup_{k\in [d]} \smost(k)$的$\w_j$.
 % The details of the experiments are reported in Appendix \ref{appendix-feature-visualization}.
 
-\begin{figure}[htbp]
-   \begin{center}
+% \begin{figure}[htbp]
+%    \begin{center}
    
-   \begin{subfigure}[b]{0.32\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_0.pdf}
-      \caption{MNIST, Epoch 0}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.32\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_10.pdf}
-      \caption{MNIST, Epoch 10}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.32\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_50.pdf}
-      \caption{MNIST, Epoch 50}
-   \end{subfigure}
+%    \begin{subfigure}[b]{0.32\textwidth}
+%       \centering
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_0.pdf}
+%       \caption{MNIST, Epoch 0}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.32\textwidth}
+%       \centering
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_10.pdf}
+%       \caption{MNIST, Epoch 10}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.32\textwidth}
+%       \centering
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/mnist_vae_50.pdf}
+%       \caption{MNIST, Epoch 50}
+%    \end{subfigure}
    
-   \begin{subfigure}[b]{0.32\textwidth}
-   \centering
-   \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_0.pdf}
-   \caption{CIFAR-10, Epoch 0}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.32\textwidth}
-   \centering
-   \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_10.pdf}
-   \caption{CIFAR-10, Epoch 10}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.32\textwidth}
-   \centering
-   \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_40.pdf}
-   \caption{CIFAR-10, Epoch 50}
-   \end{subfigure}
-   \end{center}
-   \caption{自编码器第一层核的可视化. }
-   \label{fig-features-learned-by-autoencoder}
-   \end{figure}
+%    \begin{subfigure}[b]{0.32\textwidth}
+%    \centering
+%    \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_0.pdf}
+%    \caption{CIFAR-10, Epoch 0}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.32\textwidth}
+%    \centering
+%    \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_10.pdf}
+%    \caption{CIFAR-10, Epoch 10}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.32\textwidth}
+%    \centering
+%    \includegraphics[width=\textwidth]{figures/rbad/assets/visualization/imagenet_scnn_40.pdf}
+%    \caption{CIFAR-10, Epoch 50}
+%    \end{subfigure}
+%    \end{center}
+%    \caption{自编码器第一层核的可视化. }
+%    \label{fig-features-learned-by-autoencoder}
+%    \end{figure}
 
 \section{完整证明}\label{sec-proof}
 在本节中, 我们通过我们分析中的证明.
@@ -1281,58 +1278,59 @@ for all $ \lambda >0$.
 结果呈现在图\ref{fig-synthesized-experiment-results-under-parameterized}中. 
 可以观察到所有重构误差都显著增加. 注意图\ref{fig-synthesized-experiment-results-under-parameterized}中$y$轴的比例为$0$到$0.02$, 而图\ref{fig-synthesized-experiment-results}中为$0$到$0.014$.
 对比实验表明, 轻微的过参数化可以帮助模型更好地重构所有类型的输入.
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.1.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.2.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.5.png}
-    \end{subfigure}    
-    \caption{测试欠参数化设置, 其中$C = {\rm{int}}(0.8P)$.
-    {
-    通过与\ref{fig-synthesized-experiment-results}比较, 这组实验结果表明, 轻微的过参数化 (即$C = {\rm{int}}(1.2P)$) 可以帮助模型更好地重构所有类型的输入.
-    这里, 我们主要比较$P$和$C$的大小. 
-    具体来说, 比率$C/P>1$的情况称为过参数化, 而相反的情况 (即$C/P<1$) 定义为欠参数化.}
-    }
-    \label{fig-synthesized-experiment-results-under-parameterized}
-\end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[b]{0.3\textwidth}
+%         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.1.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.3\textwidth}
+%         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.2.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.3\textwidth}
+%         \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=0.8, d-ratio=1.5.png}
+%     \end{subfigure}    
+%     \caption{测试欠参数化设置, 其中$C = {\rm{int}}(0.8P)$.
+%     {
+%     通过与\ref{fig-synthesized-experiment-results}比较, 这组实验结果表明, 轻微的过参数化 (即$C = {\rm{int}}(1.2P)$) 可以帮助模型更好地重构所有类型的输入.
+%     这里, 我们主要比较$P$和$C$的大小. 
+%     具体来说, 比率$C/P>1$的情况称为过参数化, 而相反的情况 (即$C/P<1$) 定义为欠参数化.}
+%     }
+%     \label{fig-synthesized-experiment-results-under-parameterized}
+% \end{figure}
 
 在\ref{sec-reconstruction}中, 我们研究了只有一个补丁被异常补丁替换的情况, 并声称我们的分析可以自然地扩展到多个补丁被替换的情况.
 我们考虑被替换补丁的数量 $\mathbf{NRP} = {\rm{int}}(c_4 P + 2)$, 其中$c_4 \in \{0, 0.1, 0.2\}$.
 如\ref{fig-synthesized-experiment-results-NRP}所示, 当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.
 
 
-\begin{figure}[htbp]
-   \centering
-   \begin{subfigure}[b]{0.3\textwidth}
-      \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png}
-      \caption{$c_4 = 0$}
-      \label{fig-NRP=0}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.3\textwidth}
-      \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png}
-      \caption{$c_4 = 0.2$}
-      \label{fig-NRP=0.2}
-   \end{subfigure}
-   \hfill
-   \begin{subfigure}[b]{0.3\textwidth}
-      \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.4, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png}
-      \caption{$c_4 = 0.4$}
-      \label{fig-NRP=0.4}
-   \end{subfigure}    
-   \caption{测试不同数量的被替换补丁. 
-   {
-   参数$c_4$用于表征异常中被替换补丁的数量, 其中较大的$c_4$表示更多的被替换补丁.
-   当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.}}
-   \label{fig-synthesized-experiment-results-NRP}
-\end{figure}
+% \begin{figure}[htbp]
+%    \centering
+%    \begin{subfigure}[b]{0.3\textwidth}
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png}
+%       \caption{$c_4 = 0$}
+%       \label{fig-NRP=0}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.3\textwidth}
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.2, NRP-ratio=0.2, C-ratio=1.2, d-ratio=2.png}
+%       \caption{$c_4 = 0.2$}
+%       \label{fig-NRP=0.2}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.3\textwidth}
+%       \includegraphics[width=\textwidth]{figures/rbad/assets/Synthesized Experiments/latest-eps=0.01, NNF-ratio=0.4, NRP-ratio=0, C-ratio=1.2, d-ratio=2.png}
+%       \caption{$c_4 = 0.4$}
+%       \label{fig-NRP=0.4}
+%    \end{subfigure}    
+%    \caption{测试不同数量的被替换补丁. 
+%    {
+%    参数$c_4$用于表征异常中被替换补丁的数量, 其中较大的$c_4$表示更多的被替换补丁.
+%    当更多补丁被替换时, 正常数据和异常的重构误差之间的差距变得显著更大, 这与我们的分析一致.}}
+%    \label{fig-synthesized-experiment-results-NRP}
+% \end{figure}
 
 \newpage
 
@@ -1354,27 +1352,25 @@ for all $ \lambda >0$.
 我们报告训练期间核与特征之间的内积
 结果的讨论可以在备注\ref{remark-discussion-aux-experiments}中找到
 
-\newpage
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=20_d=24_C=24_NNF=10.png}
+%     \caption{
+%     {
+%     训练期间记录的核范数 ({下方}子图) 和核与特征之间的内积 ({上方}子图).
+%     控制变量为$P=20, d=24$, 和$C=24$.
+%     在两个子图中, $x$轴表示核索引$j$ ($j \in [C]$), $y$轴表示训练周期.
+%     为了更好的可视化, 我们在下方子图中将核的范数缩放10倍.
+%     }}
+%     \label{fig-inner-product-kernels-features-1}
+% \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=20_d=24_C=24_NNF=10.png}
-    \caption{
-    {
-    训练期间记录的核范数 ({下方}子图) 和核与特征之间的内积 ({上方}子图).
-    控制变量为$P=20, d=24$, 和$C=24$.
-    在两个子图中, $x$轴表示核索引$j$ ($j \in [C]$), $y$轴表示训练周期.
-    为了更好的可视化, 我们在下方子图中将核的范数缩放10倍.
-    }}
-    \label{fig-inner-product-kernels-features-1}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=60_d=72_C=72_NNF=30.png}
-    \caption{{控制变量为$P=60, d=72,$ 和$C=72$.}}
-    \label{fig-inner-product-kernels-features-2}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=60_d=72_C=72_NNF=30.png}
+%     \caption{{控制变量为$P=60, d=72,$ 和$C=72$.}}
+%     \label{fig-inner-product-kernels-features-2}
+% \end{figure}
 
 \begin{remark}[对\ref{sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论]
 \label{remark-discussion-aux-experiments}
@@ -1385,38 +1381,38 @@ for all $ \lambda >0$.
 随着维度的增加, 随机初始化的核变得更难被吸收 (反映在\ref{theorem-initial-size-in-paper}提供的界限中).
 图\ref{fig-inner-product-kernels-features-3} - \ref{fig-inner-product-kernels-features-6}提供了更多的实验结果.
 为简洁起见, 省略了类似的标题.
-
 \end{remark}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=28_d=33_C=33_NNF=14.png}
-    \caption{
-        {控制变量为$P=28, d=33,$ 和$C=33$.}}
-    \label{fig-inner-product-kernels-features-3}
-\end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=36_d=43_C=43_NNF=18.png}
-    \caption{{控制变量为$P=36, d=43,$ 和$C=43$.}}
-    \label{fig-inner-product-kernels-features-4}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=28_d=33_C=33_NNF=14.png}
+%     \caption{
+%         {控制变量为$P=28, d=33,$ 和$C=33$.}}
+%     \label{fig-inner-product-kernels-features-3}
+% \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=44_d=52_C=52_NNF=22.png}
-    \caption{{控制变量为$P=44, d=52,$ 和$C=52$.}}
-    \label{fig-inner-product-kernels-features-5}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=36_d=43_C=43_NNF=18.png}
+%     \caption{{控制变量为$P=36, d=43,$ 和$C=43$.}}
+%     \label{fig-inner-product-kernels-features-4}
+% \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/rbad/figs/P=52_d=62_C=62_NNF=26.png}
-    \caption{{控制变量为$P=52, d=62,$ 和$C=62$.}}
-    \label{fig-inner-product-kernels-features-6}
-\end{figure}
-}
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=44_d=52_C=52_NNF=22.png}
+%     \caption{{控制变量为$P=44, d=52,$ 和$C=52$.}}
+%     \label{fig-inner-product-kernels-features-5}
+% \end{figure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth]{figures/rbad/figs/P=52_d=62_C=62_NNF=26.png}
+%     \caption{{控制变量为$P=52, d=62,$ 和$C=62$.}}
+%     \label{fig-inner-product-kernels-features-6}
+% \end{figure}
+% }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusion

@@ -1,0 +1,19 @@
+# latexindent.yaml 自定义规则
+defaultIndent: "  " # 缩进2个空格（替代tab）
+indentRules:
+  environments:
+    equation: # 公式环境缩进2空格
+      indent: 2
+    itemize: # 列表环境缩进2空格
+      indent: 2
+# 不格式化的环境（避免中文乱码）
+excludeEnvironments:
+  - verbatim
+  - figure
+  - table
+# 命令对齐（比如\section/\subsection标题左对齐）
+commands:
+  - name: section
+    alignment: left
+  - name: subsection
+    alignment: left

@@ -1,1314 +1,1332 @@
-\chapter{对抗训练的特征学习理论分析}\label{chap-PNAS}
+\chapter{针对对抗训练的特征学习理论分析}\label{chap3}
 
-本章将围绕神经网络的特征塌缩 (neural collapse) 现象展开, 并探索其背后的特征学习机制. 
-特征塌缩由Papyan等\cite{neural-collapse}首次发现并总结, 是一种普遍存在于神经网络输出层的几何特征. 
-具体而言, Papyan等\cite{neural-collapse}研究了分类任务中训练的最终阶段 (Terminal Phase of Training, TPT) , 发现输出层特征在该阶段会坍缩为一个等角紧框架 (Equiangular Tight Frame, ETF) 结构. 
+随着深度学习模型在各领域的广泛应用，模型的安全性问题也日益受到学界和工业界的高度关注。
+% TODO：插入对抗攻击的示意图
+本章以图像分类任务为背景，系统分析神经网络分类器的鲁棒性问题。
+研究表明，对输入图像的细微、人眼难以分辨的扰动可能导致神经网络分类器做出错误分类，这严重限制了模型在安全攸关场景下的应用，影响了模型的鲁棒性与安全性\cite{DBLP:journals/corr/SzegedyZSBEGF13,trades,wat}。
+这种被扰动的输入在参考文献中被称为\textit{对抗样本} (adversarial example)。
+模型对于对抗样本的鲁棒性也被研究者称为\textit{对抗鲁棒性} (adversarial robustness)。
+为增强模型的对抗鲁棒性，研究者提出了多种防御机制\cite{DBLP:journals/corr/GoodfellowSS14,trades,wat}。
+其中，\textit{对抗训练} (Adversarial Training) 是最有效的防御机制之一\cite{trades,wat,mart,fat,eat,robnc}。
 
+对抗训练是一种在训练过程中引入对抗样本以提高模型的对抗鲁棒性的防御机制。
+本章将从特征学习理论的视角探究对抗训练与标准训练的差异，并揭示对抗训练增强模型对抗鲁棒性的机制。
+具体而言，本章将从神经网络的\textit{特征塌缩} (neural collapse) 现象切入，考察对抗训练与标准训练对特征塌缩现象的不同影响。
+特征塌缩由Papyan等\cite{neural-collapse}首次发现并总结，是一种普遍存在于神经网络输出层的几何结构：在分类任务中的\textit{训练终止阶段}（Terminal Phase of Training, TPT），网络输出层的特征会坍缩为一个\textit{等角紧框架单纯形}（Simplex Equiangular Tight Frame, ETF）结构。
+这种结构对分类效率具有显著的提升作用，且具有较强的可解释性：当特征塌缩时，网络分类器会趋近于选择与训练类均值最近（在标准欧氏距离下）的类别。
+许多已有研究将这一几何结构特征应用于分布外样本检测\cite{ood}，长尾学习\cite{longtail}等任务。
 
-特征塌缩现象已被证实是跨数据集和网络架构的普遍现象. 
-许多先前的研究将这一几何结构特征应用于离分布检测\cite{ood}, 长尾学习\cite{longtail}和对抗训练\cite{robnc}等任务. 
-本文重点探讨对抗训练 (adversarial training) 下网络的特征学习机制及其在特征塌缩现象中的. 
-此处AT指通过特定训练范式增强神经网络对抗鲁棒性的方法\cite{DBLP:journals/corr/GoodfellowSS14}, 具体定义可参阅\ref{sec-at-preliminaries}.
-已有研究\cite{robnc}发现, 特征塌缩现象同样存在于对抗训练中.
-然而, 通过AT训练的神经网络与传统训练模型存在显著差异\cite{DBLP:conf/nips/VardiYS22,DBLP:conf/nips/FreiVBS23}.
-由此引出两个核心问题：
-\begin{mynotice}
-    \begin{center}
-        标准训练与对抗训练的特征学习机制有何本质区别?
-    \end{center}
-\end{mynotice}
-本文的核心目标在于系统阐释标准训练与对抗训练中特征塌缩现象的差异.
-具体而言, 我们通过实证研究揭示对抗训练对神经压缩几何结构的影响, 并发现了单纯形压缩现象.
-我们在对抗训练的最终阶段, 压缩后的单纯形 ETF 的几何尺寸较标准神经压缩显著缩小, 且随着对抗样本扰动半径的增大, 压缩程度呈现递增趋势.
-图\ref{fig-simplex-compression}直观展示了这一研究发现.
+本章借助特征学习理论的分析框架，探讨了对抗训练对特征塌缩现象的影响。
+由于对抗训练与标准训练在学习任务的定义（参看\cref{chap2-sec-learning-task}）上存在显著差异，因此其特征学习机制也存在本质区别，这种差异最终会体现在特征塌缩现象上。
+由此，我们提出下述三个值得探究的核心问题，并试图从特征学习理论的视角给出解答：
+\begin{enumerate}
+    \item \textit{能否统一地刻画对抗训练与标准训练地特征塌缩现象？}
+    \item \textit{能否定量刻画对抗训练与标准训练的特征塌缩差异？}
+    \item \textit{这种差异如何影响模型的对抗鲁棒性？}
+\end{enumerate}
+% 此处对抗训练指通过特定训练范式增强神经网络对抗鲁棒性的方法\cite{DBLP:journals/corr/GoodfellowSS14}。
+% 已有研究\cite{robnc}发现，特征塌缩现象同样存在于对抗训练中。
+% 然而，通过AT训练的神经网络与传统训练模型存在显著差异\cite{DBLP:conf/nips/VardiYS22,DBLP:conf/nips/FreiVBS23}。
 
-我们首先通过实证研究证明, 单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性.
-在此基础上, 我们从理论层面阐释了对抗训练引发该现象的作用机制.
-我们, 随着扰动半径的增大, 压缩程度会显著增强.
-特别值得注意的是, 我们的理论预测与第3.3节展示的实验结果高度吻合, 这为我们的实证发现提供了有力佐证. 
+综上所述，本章将从特征学习理论的视角对对抗训练中的特征塌缩现象进行分析与解释，并揭示对抗训练增强模型对抗鲁棒性的机制。
+具体来说，我们首先根据定义 \ref{def:learning task} 中给出的分析框架明确了对抗训练与标准训练在数学定义上的区别与联系。
+随后，我们分析了特征塌缩现象在对抗训练与标准训练中的具体表现，并揭示了单纯形压缩现象。
+我们通过模拟实验与真实数据集实验证明了单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性。
+我们讨论了单纯形压缩现象对神经网络对抗鲁棒性的影响，从理论上验证了对抗训练的有效性。
 
-\section{对抗训练与特征塌缩现象的基础概念}\label{sec-nc-preliminaries}
+% 本文的核心目标在于系统阐释标准训练与对抗训练中特征塌缩现象的差异。
+% 具体而言，我们通过实证研究揭示对抗训练对神经压缩几何结构的影响，并发现了单纯形压缩现象。
+% 我们在对抗训练的最终阶段，压缩后的单纯形 ETF 的几何尺寸较标准神经压缩显著缩小，且随着对抗样本扰动半径的增大，压缩程度呈现递增趋势。
+% 图\ref{fig-simplex-compression}直观展示了这一研究发现。
 
-\subsection{对抗训练}\label{sec-at-preliminaries}
+% 我们首先通过实证研究证明，单纯形压缩现象在各类模型和数据集中普遍存在且具有普适性。
+% 在此基础上，我们从理论层面阐释了对抗训练引发该现象的作用机制。
+% 我们，随着扰动半径的增大，压缩程度会显著增强。
+% 特别值得注意的是，我们的理论预测与第3.3节展示的实验结果高度吻合，这为我们的实证发现提供了有力佐证。
 
-先前的研究\cite{DBLP:journals/corr/SzegedyZSBEGF13,trades,wat}表明，对手对输入的细微扰动可能导致神经网络产生错误分类的输出标签，这严重影响了模型的鲁棒性。 
-这种被扰动的输入在文献中被称为对抗样本。
+\section{分析框架}
+\label{chap3-sec-nc-preliminaries}
 
-许多防御\cite{DBLP:journals/corr/GoodfellowSS14,trades, wat}策略已被开发出来以增强模型对对抗样本的鲁棒性。 
-其中，AT作为最有效的防御机制\cite{trades,wat,mart,fat,eat,robnc}出现，它利用精心构造的对抗样本来在训练过程中提高模型的鲁棒性。
-具体而言，Madry等\cite{DBLP:conf/iclr/MadryMSTV18}提出了一种开创性的对抗训练方法, 称为投影梯度下降 (\texttt{PGD}) 防御，该方法可以高效地生成对抗训练样本并将其纳入训练阶段。
-在PGD之后，涌现出许多改进的对抗训练方法，其中值得注意的例子包括：
-\texttt{TRADES} \cite{trades}，它优化了一个平衡鲁棒性与干净准确率的损失函数；以及
-\texttt{MART} \cite{mart}，它提出以不同方式处理错误分类和正确分类的样本。
-上述方法 (\texttt{PGD-AT}、\texttt{TRADES}和\texttt{MART}) 是研究神经网络对抗鲁棒性的常用基准。
-在本文中，我们基于这三种方法探索标准神经网络压缩与对抗神经网络压缩之间的差异。
+在\cref{chap2}中，我们引入了特征学习理论的抽象分析框架。
+然而，只有将该框架与具体任务相结合并进行细化，才能推导出真正具有解释力和指导价值的结论。
+本章聚焦于图像分类任务中的特征塌缩现象与对抗训练方法。
+相较于一般图像分类任务，二者主要在损失函数和参数迭代规则等方面存在特殊性。
+在本小节中，我们根据\cref{def:learning task} 中给出的框架，从数据集、模型类、模型评价与优化算法四个方面明确了本章所考虑的学习任务的数学定义。
+此外，我们还根据特征塌缩和对抗训练的具体特性，为后续理论分析设置了合理的理论假设。
 
-下面我们引入对抗训练的数学定义.
-我们首先引入对抗样本 (adversarial example) 的概念.
-在图像分类问题中, 对抗样本$\xa$是一类经过恶意构造的样本, 其在视觉上与干净样本$\x$高度相似, 但会迫使分类器对$\xa$和$\x$做出不同的预测. 
-更具体地说, 给定分类器$f$, 对于任意$\x \in \R^d$, 我们称$\xa$为$f$在$\x$处的$\epsilon$-对抗样本, 如果$\xa$满足$f(\x) \neq f(\xa)$且$\|\xa - \x\|_p \leq \epsilon$. 
-在此定义中, 常数$\epsilon$量化了$\x$与$\xa$之间允许的最大扰动, 以确保两者的视觉相似性, 在文献中通常被称为 扰动半径 (perturbation radius). 
+\subsection{数据集与模型类}
+\label{chap3-sec:dataset and model}
 
-如上文所述, 对抗训练的核心思想是利用构造出的对抗样本来训练分类器. 
-更具体地说, 给定损失函数$\ell$, 对抗训练首先通过最大化$\ell$来生成对抗样本, 即
-\begin{equation}\label{eq:advsample}
-\xa_{k,n} := \mathop{\argmax}_{\x \in B_\epsilon(\x_{k,n})} \ell\left(f\left( \x \right), y_{k}\right),
+我们首先从数据集与模型类这两个方面细化本章所关注的学习任务。
+在这两个方面，对抗训练与标准训练间并没有显著差异，因此使用相同的设定。
+
+\paragraph{数据集} 给定\(K \in \mathbb{Z}^+\)，本章聚焦于具有\(K\)个类的\textit{平衡}（balanced）分类任务，即每个类的样本数量相等。
+对应的数据集记为\(S\)，其形式为
+\begin{equation}\label{chap3-eq-def-dataset}
+    S :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},
 \end{equation}
-其中$B_\epsilon(\x_{k,n}) := \{ \x : \|\x - \x_{k,n}  \|_p  \leq \epsilon \}$是围绕$\x_{k,n}$的关于$p$-范数的$\epsilon$-球.
-基于公式\ref{eq:advsample}中的定义, 对抗训练随后最小化以下经验对抗训练风险:
-\begin{equation}
-\begin{aligned}
-\label{eq-def-adversarial-risk}
-    \Radv(f,\mathcal{D})
-   :&= \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in \mathcal{D}} \ell\left(f\left( \xa_{k,n} \right), y_{k}\right) \\
-    &= \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in \mathcal{D}} \max_{\x \in B_\epsilon(\x_{k,n})} \ell\left(f\left( \x \right), y_{k}\right).
-\end{aligned}
-\end{equation}
-得到的分类器记为$f^* = \argmin_f \Radv(f, \mathcal{D})$.
+其中\(\x_{k,n} \in \R^d\)和\(y_k \in [K]\)分别表示第\(k\)类中的第\(n\)个训练样本及其标签。
+训练数据集的总样本数为\(NK\)。
+我们用\(\x\)和\(y\)表示不明确指定具体类别的样本与标签。
+为强化样本与标签之间的对应关系，我们还使用\(y(\x)\)来表示\(\x\)的标签。
+为与对抗样本相区分，我们又称\(\x\)为\textit{干净样本}（clean samples），\(y(\x)\)为真实标签。
 
-\subsection{特征塌缩}\label{sec-neural-collapse-setup}
+\paragraph{模型类} 在分类任务中，模型类\(\calF\)一般为一族神经网络分类器，其功能是将样本映射到每个类的预测概率。
+以前的研究倾向于使用独立特征模型（Unconstrained Feature Model, UFM）来刻画\(f\)。
+独立特征模型将最后一层特征\(\h\)视为独立的可优化变量（即与\(\x\)无关的变量）。
+然而，我们的研究需要控制对\(\x\)应用小扰动后\(\h\)的变化（即引入对抗样本）。
+因此，将\(\h\)视为独立变量可能不适合分析对抗训练下的特征塌缩现象。
 
-在\ref{sec-feature-and-feature-learning} 中, 我们引入了特征提取器的概念：一个神经网络分类器通常由一个特征提取器 (feature extractor) 和一个线性分类器 (linear classifier) 组合而成. 
-在本文中, 我们用$\boldsymbol{h}: \R^d \to \R^{\dpr}$来表示特征提取器. 
-对于任意输入$\x \in \R^d$, $\h(\x)$在文献中通常被称为最后一层特征 (last layer feature) , 也即\ref{sec-feature-and-feature-learning} 中所提到的高级特征. 
-这里, $d^{\prime}$表示最后一层特征的维度. 
-特征塌缩现象主要涵盖了以下四个特征：
-
-\begin{definition}[特征塌缩]\label{def-neural-collapse}
-    给定特征提取器$\boldsymbol{h}: \R^d \to \R^{\dpr}$, 我们称$\h$发生了特征塌缩现象, 如果$\h$满足以下四个性质 (记为\textbf{(NC1)} - \textbf{(NC4)}):
+作为替代，本文采用与\cref{eq:def feedforward network}一致的表示方法来刻画模型类。
+回忆在\cref{sec-feature-and-feature-learning}中，我们引入了神经网络的抽象定义，即
+\[f = \xi_L(g_L) \circ \xi_{L-1}(g_{L-1}) \circ \cdots \circ \xi_2(g_2) \circ \xi_1(g_1) \in \calF,\]
+参看\cref{sec-feature-and-feature-learning}中\cref{eq:def feedforward network}的定义。
+在分类问题中，一个基于神经网络的分类器通常由一个\textit{特征提取器}（feature extractor）和一个\textit{线性分类器}（linear classifier）组合而成，分别对应上式中的前\(L-1\)层的\(\xi_{L-1}(g_{L-1}) \circ \cdots \circ \xi_2(g_2) \circ \xi_1(g_1)\)与最后一层的\(\xi_L(g_L)\)。
+作为特征塌缩现象所观察的主要结构，本章单独简记特征提取器为\(\boldsymbol{h}: \R^d \to \R^{\dpr}\)，其中\(d^{\prime} \in \mathbb{Z}^{+}\)是最后一层特征的维度。
+% TODO：高级特征、网络特征，谈了吗？
+对于任意输入\(\x \in \R^d\)，\(\h(\x)\)在文献中通常被称为\textit{最后一层特征}\footnote{由于\(\h(\x)\)既是网络最后一层的输入，又是倒数第二层的输出，因此除本文所用“最后一层特征”外，一些文献又称之为\textit{倒数第二层特征}（penultimate layer feature）。这两种表述指代相同的概念，都是合理且常用的说法。}（last layer feature），也即\cref{sec-feature-and-feature-learning}中所提到的高级特征、网络特征。
+为简化分析，我们考虑\(L=2\)的浅层网络，并为\(f\)给出如下定义。
+\begin{definition}\label{chap3-def-f}
+    记本章所考虑的模型类为\(\calF\)。
+    对于任意\(f \in \calF\)，令\(f: \R^d \to \R^K\)为一个2层神经网络分类器，满足下述两点性质：
     \begin{itemize}
-        \item \textbf{(NC1)} {\heiti 方差塌缩}: 
-            通过计算单个类别$k$中所有特征的平均值, 我们可以得到第$k$类的类均值向量 ($k$-th class mean vector) 
-            \begin{equation}\label{eq-def-class-mean-vector}
-            \boldsymbol{\bar{h}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h(\x_{k,n}).
-            \end{equation}
-            方差塌缩指的是在TPT阶段, 最后一层特征的类内方差趋于$0$, 即：
-            \begin{equation}
-            \left\|  \boldsymbol{\bar{h} } _{k} - \h(\x_{k,n}) \right\|_{2}  \to 0 , \quad \forall  k \in [K], n \in [N].
-            \end{equation}
+        \item 给定\(\x \in \R^d\)，\(f\)的第一层\(\xi_1(g_1)\)是一个特征提取器\(\h\)，记为\[\h(\x) = {\relu}( \w^{\top} \x + \bbeta) \in \R^{d^{\prime}},\]
+              它将输入样本\(\x\)映射到特征\(\h(\x)\)。
+        \item \(f\)的第二层\(\xi_2(g_2)\)是一个线性分类器，记为\(\softmax(\W^{\top} \h(\x) + \b) \in \R^K\)，它将特征映射到预测概率。
+    \end{itemize}
+    对于任意\(\x \in \R^d\)，所得的分类器记为
+    \begin{equation}
+        \begin{aligned}
+            f(\x)
+             & = \softmax(\W^{\top} \h(\x) + \b)                                                     \\
+             & = \softmax(\W^{\top} \left( {\relu}( \w^{\top} \x + \boldsymbol{\beta}) \right) + \b)
+        \end{aligned}
+    \end{equation}
+    其中\(\relu\)的定义由\cref{eq:def relu}给出。
+    模型的参数\(\btheta := \{ \W, \w, \b, \boldsymbol{\beta} \}\)为特征提取器与线性分类器的参数的总和。
+\end{definition}
 
-        \item \textbf{(NC2)} {\heiti 收敛到广义单纯形等角紧框架}: 在TPT阶段, 最后一层特征的类均值向量收敛到定义\ref{def-simplex-ETF}给出的广义单纯形ETF. 
-        为了便于实证验证, Papyan等\cite{neural-collapse}进一步引入了以下数值特征来刻画\textbf{(NC2)}
-            \begin{equation}\label{eq-def-equiv-converge-to-simplex-ETF}
-                \begin{aligned}
-                &\left | \left \| \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G} \right \|_{2} - \left \| \boldsymbol{\bar{h} } _{k^{\prime} } - \boldsymbol{\bar{h} } _{G} \right \|_{2} \right | \to 0, \quad \forall k \neq k^{\prime},\\
-                &\cos \left ( \boldsymbol{\bar{h} } _{k}- \boldsymbol{\bar{h} } _{G}, \boldsymbol{\bar{h} } _{k^{\prime}} - \boldsymbol{\bar{h} } _{G}\right )\to-\frac{1}{K-1}  , \quad \forall k\ne k^{\prime},
-                \end{aligned}
-            \end{equation}
-        其中$\boldsymbol{\bar{h}}_{G} := \frac{1}{K} \sum_{k=1}^{K}\boldsymbol{\bar{h} }_{k}$被成为中心化类均值向量 (centralized class mean vector). 
-        公式\ref{eq-def-equiv-converge-to-simplex-ETF}表明中心化类均值向量将收敛到一个单纯形ETF.
- 
-        \item \textbf{(NC3)} {\heiti 收敛到自对偶性}在TPT阶段, 类均值向量和线性分类器收敛到彼此的重新缩放版本, 即：
-        \begin{equation}
-        \left\|\frac{\boldsymbol{W}^{\top}}{\|\boldsymbol{W}\|_{F}}-\frac{\dot{\boldsymbol{M}}}{\|\dot{\boldsymbol{M}}\|_{F}}\right\|_{F} \rightarrow 0 ,
-        \end{equation}
-        其中 $\dot{\boldsymbol{M}} = \left(\boldsymbol{\bar{h}}_{1}-\boldsymbol{\bar{h}}_{G}, \boldsymbol{\bar{h}}_{2}-\boldsymbol{\bar{h}}_{G}, \cdots, \boldsymbol{\bar{h}}_{K}-\boldsymbol{\bar{h}}_{G} \right) \in \mathbb{R}^{d^{\prime} \times k}$ 被成为中心化类均值矩阵 (centralized class mean matrix).
+在\cref{chap3-def-f}中，\(\bbeta \in \R^{\dpr}\)和\(\b \in \R^k\)是偏置（bias）向量；
+\(\w \in \R^{d \times \dpr}\)和\(\W \in \R^{\dpr \times K}\)是矩阵。
+对于任意\(\u \in \R^K\)，\(\softmax(\cdot)\)用于将网络为数据在每一类别的“赋分”归一化为输出概率，定义为
+\begin{equation}\label{chap3-eq-def-softmax}
+    \softmax(\u)^{(i)} = \frac{\exp(\u^{(i)})}{\sum_{j \in [K]}(\exp(\u^{(j)}))}
+\end{equation}
 
-        \item \textbf{(NC4)} {\heiti 退化到$k$-近邻算法}:
-        在TPT阶段, 分类器会趋近于选择与训练类均值最近 (在标准欧氏距离下) 的类别, 即：
-            \begin{equation}
-            \arg \max _{k^{\prime}}\left\langle\boldsymbol{w}_{k^{\prime}}, \boldsymbol{h}\right\rangle+b_{k^{\prime}} \rightarrow \underset{k^{\prime}}{\arg \min }\left\|\boldsymbol{h}-\boldsymbol{\bar{h}}_{k^{\prime}}\right\|_{2}.
-            \end{equation}
-        其中 $\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}$ 为重新缩放地类均值 (renormalized class mean). 
+\subsection{对抗训练}\label{chap3-sec-at-preliminaries}
+
+对抗训练是一种在训练过程中引入对抗样本以提高模型对抗鲁棒性的防御机制。
+在实际应用中，如何高效、可控地生成对抗训练样本是一个提升训练效率与质量的关键问题。
+在这一方面，Madry等\cite{DBLP:conf/iclr/MadryMSTV18}开创性地提出了\textit{投影梯度下降} （Projected Gradient Descent, PGD），该方法可以通过超参数调整对抗训练样本的生成速度与质量。
+本文记基于PGD的对抗训练方法为\texttt{PGD-AT}。
+在此之后涌现出更多对抗训练策略，
+其中值得注意的例子包括：
+\begin{itemize}
+    \item \texttt{TRADES}\cite{trades}：该方法通过优化一个平衡鲁棒性与干净准确率的损失函数来提高模型的对抗鲁棒性；
+    \item \texttt{MART}\cite{mart}：该方法提出以不同方式处理错误分类和正确分类的样本来提高模型的对抗鲁棒性。
+\end{itemize}
+上述方法（\texttt{PGD-AT}、\texttt{TRADES}和\texttt{MART}）是研究神经网络对抗鲁棒性的常用基准。
+在本章中，我们主要基于这三种方法探索对抗训练与标准训练之间的差异，参见\cref{chap3-sec-Empirical Exploration-Neural Collapse}中关于实证研究的详细讨论。
+
+下面我们引入对抗训练的数学定义。
+给定损失函数\(\ell = \ell((\x,y), f)\)，对抗训练首先通过最大化\(\ell\)来生成对抗样本，即
+\begin{equation}\label{chap3-eq:advsample}
+    \xa_{k,n} := \mathop{\argmax}_{\x \in B_\epsilon(\x_{k,n})} \ell((\x,y), f),
+\end{equation}
+% TODO 引入p范数
+其中\(B_\epsilon(\x_{k,n}) := \{ \x : \|\x - \x_{k,n}  \|_p  \leq \epsilon \}\)是围绕\(\x_{k,n}\)的关于\(p\)-范数的以\(\epsilon\)为半径的球。
+限制条件\(\|\x - \x_{k,n}  \|_p \leq \epsilon\)保证了对抗样本与对应的干净样本在\(p\)-范数意义下足够接近，以达到隐蔽性的目的。
+因此，阈值\(\epsilon\)可被用于对抗样本与干净样本的接近程度，因此又被称为{\kaishu 扰动半径}（perturbation radius）。
+一般来说，扰动半径越大，则可能产生的对抗样本就越多，但同时对抗样本的隐蔽性也越低。
+基于公式\ref{chap3-eq:advsample}中的定义，对抗训练随后最小化以下\textit{经验对抗风险}（empirical adversarial risk）：
+\begin{equation}
+    \begin{aligned}
+        \label{chap3-eq-def-adversarial-risk}
+        \Radv(f,S)
+        : & = \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in S} \ell\left(\left( \xa_{k,n}, y_{k}\right), f \right) \\
+          & = \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in S} \max_{\x \in B_\epsilon(\x_{k,n})} \ell((\x,y), f).
+    \end{aligned}
+\end{equation}
+所得分类器记为\(f^* = \argmin_f \Radv(f, S)\)。
+
+\subsection{特征塌缩}\label{chap3-sec-neural-collapse-setup}
+
+给定数据集\(S\)，特征塌缩刻画了网络最后一层特征\(\h(\x)\)在\(S\)上的平均几何性质。
+借助\cref{chap3-sec:dataset and model}中的符号，我们可以如下数学定义。
+\begin{definition}[特征塌缩]\label{def: NC}
+    给定特征提取器\(\boldsymbol{h}: \R^d \to \R^{\dpr}\)，我们称\(\h\)显示出{\kaishu 特征塌缩}现象，若\(\h\)在训练终止阶段（参看\cref{chap3-definition-tpt}中的说明）满足以下四个性质：
+    \begin{itemize}
+        \item \textbf{（NC1）方差塌缩：}
+              通过计算单个类别\(k\)中所有特征的平均值，我们可以得到第\(k\)类的{\kaishu 类均值向量} (\(k\)-th class mean vector)：
+              \begin{equation}\label{chap3-eq-def-class-mean-vector}
+                  \boldsymbol{\bar{h}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h(\x_{k,n}).
+              \end{equation}
+              方差塌缩指的是在训练终止阶段，最后一层特征的类内方差随迭代步\(t\)趋于\(0\)，即：
+              \begin{equation}
+                  \left\|  \boldsymbol{\bar{h} } _{k} - \h(\x_{k,n}) \right\|_{2}  \to 0, \quad \forall  k \in [K], n \in [N].
+              \end{equation}
+
+        \item \textbf{（NC2）收敛到单纯形等角紧框架：}在训练终止阶段，最后一层特征的类均值向量收敛到\cref{chap3-def-simplex-ETF}给出的（广义）单纯形ETF。
+              为了便于实验验证，Papyan等\cite{neural-collapse}进一步引入了以下数值特征来刻画NC2：
+              \begin{equation}\label{chap3-eq-def-equiv-converge-to-simplex-ETF}
+                  \begin{aligned}
+                       & \left | \left \| \boldsymbol{\bar{h} } _{k} - \boldsymbol{\bar{h} } _{G} \right \|_{2} - \left \| \boldsymbol{\bar{h} } _{k^{\prime} } - \boldsymbol{\bar{h} } _{G} \right \|_{2} \right | \to 0, \quad \forall k \neq k^{\prime}, \\
+                       & \cos \left ( \boldsymbol{\bar{h} } _{k}- \boldsymbol{\bar{h} } _{G}, \boldsymbol{\bar{h} } _{k^{\prime}} - \boldsymbol{\bar{h} } _{G}\right )\to-\frac{1}{K-1}  , \quad \forall k\ne k^{\prime}.
+                  \end{aligned}
+              \end{equation}
+              其中，\(\boldsymbol{\bar{h}}_{G} := \frac{1}{K} \sum_{k=1}^{K}\boldsymbol{\bar{h} }_{k}\)是所有类均值向量的平均值，而\(\boldsymbol{\bar{h}}_{k} - \boldsymbol{\bar{h}}_{G}\)被称为第\(k\)类的{\kaishu 中心化类均值向量} (centralized class mean vector)。
+              \cref{chap3-eq-def-equiv-converge-to-simplex-ETF}表明中心化类均值向量将收敛到一个单纯形ETF。
+
+        \item \textbf{（NC3）收敛到自对偶性：}在训练终止阶段，归一化的类均值向量和线性分类器之差趋于零，即：
+              \begin{equation}
+                  \left\|\frac{\boldsymbol{W}^{\top}}{\|\boldsymbol{W}\|_{F}}-\frac{\dot{\boldsymbol{M}}}{\|\dot{\boldsymbol{M}}\|_{F}}\right\|_{F} \rightarrow 0,
+              \end{equation}
+              其中 \(\dot{\boldsymbol{M}} = \left(\boldsymbol{\bar{h}}_{1}-\boldsymbol{\bar{h}}_{G}, \boldsymbol{\bar{h}}_{2}-\boldsymbol{\bar{h}}_{G}, \cdots, \boldsymbol{\bar{h}}_{K}-\boldsymbol{\bar{h}}_{G} \right) \in \mathbb{R}^{d^{\prime} \times k}\) 被称为{\kaishu 中心化类均值矩阵} (centralized class mean matrix)。
+
+        \item \textbf{（NC4）退化到\(k\)-近邻算法：}
+              在训练终止阶段，分类器会趋近于选择与训练类均值最近（在标准欧氏距离下）的类别，即：
+              \begin{equation}
+                  \argmax_{k^{\prime}}
+                  \left\langle
+                  \boldsymbol{w}_{k^{\prime}}, \boldsymbol{h}
+                  \right\rangle
+                  + b_{k^{\prime}}
+                  \rightarrow \argmin_{k^{\prime}}
+                  \left\|
+                  \boldsymbol{h} - \bar{\boldsymbol{h}}_{k^{\prime}}
+                  \right\|_{2}.
+              \end{equation}
+              其中 \(\tilde{\boldsymbol{\mu}}_{c}=\left(\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right) /\left\|\boldsymbol{\mu}_{c}-\boldsymbol{\mu}_{G}\right\|_{2}\) 为{\kaishu 归一化类均值} (renormalized class mean)。
     \end{itemize}
 \end{definition}
 
-特征压缩现象刻画了神经网络特征提取器的几何特征. 
-许多研究已经证明, 多种不同场景下, 不同网络在不同数据集上都观测到了定义\ref{def-neural-collapse}中所描述的四个特性, 说明NC是神经网络的TPT阶段会出现的一个普遍现象. 
-在这四个特征中, \textbf{(NC2)}是最相关的, 因为它揭示了标准和对抗特征塌缩之间最显著的区别, 即广义单纯形ETF定义的单纯形压缩现象. 
-因此, 本文的剩余部分将主要关注\textbf{(NC2)}. 
+特征压缩现象刻画了神经网络特征提取器的几何特征。
+已有研究\cite{longtail,robnc,ood}在多种不同场景下，使用不同网络在不同数据集上都观测到了\cref{def: NC}中所描述的四个特性，说明特征塌缩是神经网络的训练终止阶段会出现的一个普遍现象。
+在\cref{def: NC}中，由\(\boldsymbol{\bar{h}}_{k} - \boldsymbol{\bar{h}}_{G}\)给出的中心化类均值向量是一个关键的量，可被用于量化特征塌缩现象的显著程度。
+我们定义为\(\boldsymbol{P}_{\epsilon}\)为单纯形的范数。
+\begin{equation}\label{chap3-eq-def: simplex norm}
+    \boldsymbol{P}_{\epsilon} = \frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h}}_{k} - \boldsymbol{\bar{h}}_{G}  \right \|_{2}.
+\end{equation}
+在本章的剩余部分，我们将主要关注NC2与中心化类均值向量。
+
+中心化类均值向量的模长具有明确的几何意义，即NC2中单纯形ETF的大小。
+值得指出的是，在特征塌缩的相关研究中，单纯形ETF的定义与数学文献中的定义略有不同\cite{arXiv:math/0301135,arXiv:1504.00253}。
+为了消除歧义，本文中所有关于单纯形ETF的讨论都基于下述定义。
 
 \begin{definition}[广义单纯形等角紧框架\cite{neural-collapse}]
-  \label{def-simplex-ETF}
-  给定正整数 $d^{\prime} > K$与矩阵
-  \begin{equation}
-      \W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}
-  \end{equation}
-  如果$\W = c_1 \boldsymbol{U} \boldsymbol{M} $成立, 则我们称$\W$为一个广义单纯形等角紧框架. 
-  其中
-  \begin{equation}\label{eq-def-simplex-ETF-M}
-      \boldsymbol{M} 
-      = \sqrt{\frac{K}{K-1}} 
-      \left( \boldsymbol{I}_{K} -\frac{1}{K} \mathbf{1}_{K}  \mathbf{1}_{K}^{\top}  \right) \in \R^{K \times K},
-  \end{equation}
-  $\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }$ 是一个半正交矩阵 (partial orthogonal matrix) , 即$\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}$, 且$c_1 \in \R$是一个非零常数. 
-  
-  \end{definition}
-  值得指出的是, 在NC研究中, 单纯形ETF的定义与数学文献中的定义略有不同 \cite{arXiv:math/0301135,arXiv:1504.00253}. 
-  为了消除歧义, 本文中所有关于单纯形ETF的讨论都基于定义\ref{def-simplex-ETF}. 
-
-\section{实证研究}\label{sec-nc-experiment}
-本章将通过实证研究, 系统地探索标准和对抗特征塌缩之间的差异. 
-我们首先研究对抗特征塌缩现象, 然后探索对抗特征塌缩与标准特征塌缩之间的差异, 揭示单纯形压缩现象. 
-我们还提供了一系列消融实验, 以消除扰动范数和PGD迭代步数的影响. 
-
-\subsection{实验设置}\label{sec-nc-experiment-setup}
-
-\paragraph{数据集}我们使用以下三个视觉数据集进行实验. 
-\texttt{CIFAR-10} \cite{cifar10} 包含 60,000 张 32x32 像素的彩色图像, 分为 10 类, 每类 6,000 张. 
-\texttt{CIFAR-100} 包含 60,000 张 32x32 像素的彩色图像, 分为 100 类, 每类 600 张. 
-\texttt{Tiny ImageNet} \cite{deng2009imagenet} 包含 200 类, 每类 500 张 64x64 像素的彩色图像. 
-
-\paragraph{模型} 我们使用\texttt{VGG} \cite{simonyan2014very}, \texttt{ResNet-18} \cite{he2016deep}, 和Wide ResNet (\texttt{WRN}) \cite{wrn} 进行实验. 
-具体的选择网络深度和宽度取决于数据集. 
-我们参考支持信息文件获取更多细节. 
- 
-\paragraph{对抗训练方法} 我们使用三种基于PGD的对抗训练方法, 包括标准\texttt{PGD-AT} \cite{DBLP:conf/iclr/MadryMSTV18}, \texttt{TRADES} \cite{trades}, 和\texttt{MART} \cite{mart}. 
-许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准. 许多之前的工作 \cite{robnc, wat, eat} 使用这些方法作为基准. 
-我们设置PGD的最大迭代步数为 $T_{a}=\left \{ 10,20,30 \right \} $, 扰动半径为 $\epsilon=\left \{2/255, 4/255,  6/255, 8/255\right \} $ 用于 $L_{\infty}$ 范数, 和 $\epsilon=\left \{0.125, 0.250, 0.375, 0.500\right \} $ 用于 $L_2$ 范数. 
-我们的 $T_a$ 和 $\epsilon$ 的选择与许多之前的工作 \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} 和社区的标准化对抗鲁棒性基准\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}} 一致. 
-
-\paragraph{实现细节}我们在Ubuntu 64位Linux工作站上使用PyTorch \cite{pytorch} 实现实验, 该工作站配备10核Intel Xeon Silver CPU (2.20 GHz) 和8个Nvidia GeForce RTX 4090 GPU. 所有网络都训练200个epoch以达到训练的TPT阶段, 此时特征塌缩现象发生. 我们使用动量=0.9和权重衰减=0.001的随机梯度下降 (SGD) . 批量大小为128, 学习率为0.001. 我们保持其他参数与参考文献 \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18} 一致. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Empirical Exploration-Neural Collapse %  %%%%%%%%%%%%%%%%%%
-
-\subsection{对抗训练中的特征塌缩现象}\label{sec-Empirical Exploration-Neural Collapse}
-在节中, 我们训练\texttt{ResNet-18}在\texttt{CIFAR-10}数据集上使用\texttt{PGD-AT}, \texttt{MART}和\texttt{TRADES}. 
-对于每个epoch, 我们使用对抗样本计算NC1-NC4的数值特征. 
-如图\ref{fig:Neural Collapse}所示, 我们的实验证实了在设置中发生了NC现象 (NC1-NC4) , 从而为我们提供了分析的基础. 
-这个观察与之前研究 \cite{robnc,neural-collapse} 的发现一致. 
-剩余的结果可以在支持信息文件中找到 (参见图S2 - S10) . 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/nc_main/nc-1.png}
-    \caption{
-      结果为$NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$. 
-      我们在\texttt{CIFAR-10}数据集上使用\texttt{PGD-AT}, \texttt{MART}和\texttt{TRADES}训练\texttt{ResNet-18}. 
-      扰动半径设置为$\epsilon=8/255$用于$L_\infty $($L_{\infty} $)和$\epsilon=0.125$用于$L_2$. 
-      我们设置$T_{a}=10$.
-      结果来自对抗样本.
-      }
-    \label{fig:Neural Collapse}
-\end{figure}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration-Simplex Collapse Phenomenon  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{单纯形压缩现象}\label{sec-simplex-compression-phenomenon}
-本节中, 我们考察对抗训练对最后一层特征表示的影响. 
-我们定义类间特征距离的平均值为每个类均值向量与全局均值向量之间的差异, 数学表达为：
-\begin{equation}\label{eq-def-P-eps}
-\boldsymbol{P}_{\epsilon} = \frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h}}_{k} - \boldsymbol{\bar{h}}_{G}  \right \|_{2}.
-\end{equation}
-我们设置相同的扰动半径$\epsilon$和PGD迭代步数进行实验. 
-结果如图\ref{fig-simplex-compression}所示 ($L_2$范数的实验结果见附录图S1) . 
-我们可以看到, 随着扰动半径的增加, $\boldsymbol{P}_{\epsilon}$减小. 
-这个观察表明单纯形ETF结构的几何尺寸随着扰动半径的增加而减小. 
-我们称这种塌缩ETF压缩的现象为单纯形压缩现象. 
-单纯形压缩现象的解释是, 对抗训练得到的类均值向量比干净训练得到的类均值向量更相似. 
-单纯形压缩现象可以被视为模型鲁棒性的一种特征. 
-
-\subsection{消融实验}\label{sec-Ablation Experiment}
-% \subsection{Ablation Experiment}\label{sec-Ablation Experiment}
-
-在 AT 中, 超参数的选择对模型的鲁棒性和适应性至关重要. 
-具体来说, 选择量化对抗样本和自然样本之间差异的范数是关键. 
-$L_\infty$范数关注扰动向量的最大分量, $L_2$范数测量干净样本和对抗样本之间的欧氏距离. 
-两者都是常用的范数来刻画对抗扰动. 
-此外, 生成对抗样本的迭代过程, 如等式\eqref{eq:advsample}所示, 需要多次迭代才能收敛. 
-
-% In the context of AT, the selection of hyper-parameters plays a pivotal role in defining the robustness and adaptability of learning models. 
-% Specifically, the choice of norms to quantify the deviation between adversarial and natural examples is critical. 
-% The $L_\infty$ norm focuses on the maximum component of the perturbation vector, and the $L_2$ norm measures the Euclidean distance between clean examples and adversarial examples.
-% Both are commonly used norms for characterizing adversarial perturbations.
-% Furthermore, the iterative process of generating adversarial examples, as delineated in Equation \eqref{eq:advsample}, necessitates multiple iterations for convergence. 
-
-为了研究超参数对单纯形压缩现象的影响, 我们设计了消融实验. 
-我们设置PGD迭代步数为$T_{a}=\left \{10, 20 ,30\right \} $, 扰动半径为$\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$用于$L_\infty$范数, 和$\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$用于$L_2$范数. 
-结果如图 \ref{fig:pgd_effect} 所示. 
-我们可以看到, 单纯形压缩现象在不同的PGD迭代步数和扰动半径下都存在. 
-
-
-% To investigate the potential confounding effects of these hyper-parameters in previous experiments, we design additional experiments with varying hyperparameter selections. 
-% For the $L_\infty$ norm, perturbation radius are set to $\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}$, while for the $L_2$ norm, they are adjusted to $\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}$. 
-% These selections are consistent with those used in previous experiments. And we set PGD iterations $T_{a}=\left \{10, 20 ,30\right \} $ to repeat our experiments.
-% The results are displayed in \ref{fig:pgd_effect}. 
-% We can see that simplex compression exits for different perturbation norms and PGD iterations.
-
-此外, 我们通过展示干净样本的$\boldsymbol{P}_{\epsilon}$结果, 进一步扩展了我们的分析. 
-如图\ref{fig-sample-effect}所示, 我们观察到干净样本的$\boldsymbol{P}_{\epsilon}$值相对于对抗样本较大, 但它们与单纯形压缩现象保持一致. 
-
-\section{关于单纯形压缩现象的理论解释}\label{sec-theoretical-explanation}
-
-在本节中, 我们通过分析干净训练和对抗训练过程, 理论解释单纯形压缩现象. 
-我们指定数据模型, 网络结构和训练范式在\ref{sec-nc-preliminaries}中. 
-假设总结在\ref{subsec-nc-assumptions}中. 
-我们将在\ref{subsec-theoretical-main-results}中展示主要结果, 并将证明推迟到支持信息文件中. 
-
-\subsection{符号}\label{subsec-notations}
-我们在\ref{sec-feature-learning-theory-basics}中引入了一些符号. 
-在本节中, 我们重述一些关键符号以保持完整性. 
-给定$K \in \mathbb{Z}^+$, 我们的分析专注于具有$K$个类的平衡分类任务. 
-后续段落详细描述了数据模型, 网络结构和训练范式. 
-
-\paragraph{数据模型}
-在我们的论文中, 样本被收集在配备欧几里得范数$\|\cdot\|$的欧几里得空间$\R^d$上. 
-我们记$[K]:= \{ 1,2, \cdots, K \}$为方便. 
-对于任意$\x_1, \x_2 \in \R^{d}$, $\x_1$和$\x_2$的内积 (点积) 记为$\x_1^{\top}\x_2$. 
-给定$N \in \mathbb{Z}^+$, 平衡训练数据集$\mathcal{D}$有$N$个样本, 每个类一个, 记为
-\begin{equation}\label{eq-def-dataset}
-    \mathcal{D} :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},    
-\end{equation}
-其中$\x_{k,n} \in \R^d$和$y_k \in [K]$分别是训练样本和其标签. 
-我们还使用$y(\x)$来表示$\x$的标签, 当它不明确时. 
-向量 (列) 的元素记为
-\begin{equation}
-    \x = (\x^{(1)}, \x^{(2)}, \cdots, \x^{(d)})^{\top}.    
-\end{equation}
-
-\paragraph{网络结构}
-在分类任务中, 一个基于神经网络的分类器$f$被用来将样本映射到每个类的预测概率. 
-以前的研究倾向于使用UFM来表征$f$. 
-下面的注释指出了原始UFM的一个局限性. 
-
-\begin{remark}[UFM的局限性]\label{remark-ufm}
-    UFM将最后一层特征$\h$视为独立的可优化变量. 
-    然而, 我们的研究需要控制对$\x$应用小扰动后$\h$的变化 (即引入对抗样本) . 
-    因此, 将$\h$视为独立变量可能不适合分析对抗训练下的特征塌缩现象. 
-    
-\end{remark}
-
-在本文中, 我们采用以下方式表征$f$：
-\begin{definition}[$f$的表征]\label{def-f}
-令$f: \R^d \to \R^K$为一个2层神经网络分类器, 定义为：
-\begin{itemize}
-    \item 给定$\x \in \R^d$, $f$的第一层是一个特征提取器$\h$, 记为$\h(\x) = {\relu}( \w^{\top} \x + \bbeta) \in \R^{d^{\prime}}$, 它将输入样本$\x$映射到特征$\h(\x)$. 
-    \item $f$的第二层是一个线性分类器, 记为$\softmax(\W^{\top} \h(\x) + \b) \in \R^K$, 它将特征映射到预测概率. 
-\end{itemize}
-得到的分类器记为
-\begin{equation}
-\begin{aligned}
-    f(\x)
-    &= \softmax(\W^{\top} \h(\x) + \b) \\
-    &= \softmax(\W^{\top} \left( {\relu}( \w^{\top} \x + \boldsymbol{\beta}) \right) + \b)
-\end{aligned}
-\end{equation}
-对于任意$\x \in \R^d$. 
-
+    \label{chap3-def-simplex-ETF}
+    给定正整数 \(d^{\prime} > K\)与矩阵
+    \begin{equation}
+        \W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}
+    \end{equation}
+    如果\(\W = c_1 \boldsymbol{U} \boldsymbol{M} \)成立，则我们称\(\W\)为一个广义单纯形等角紧框架。
+    其中
+    \begin{equation}\label{chap3-eq-def-simplex-ETF-M}
+        \boldsymbol{M}
+        = \sqrt{\frac{K}{K-1}}
+        \left( \boldsymbol{I}_{K} -\frac{1}{K} \boldsymbol{1}_{K}  \boldsymbol{1}_{K}^{\top}  \right) \in \R^{K \times K},
+    \end{equation}
+    \(\boldsymbol{U}\in \mathbb{R} ^{d^{\prime}\times K }\) 是一个{\kaishu 半正交矩阵}（partial orthogonal matrix），即\(\boldsymbol{U^{\top } }\boldsymbol{U} =\boldsymbol{I}\)，且\(c_1 \in \R\)是一个非零常数。
 \end{definition}
 
-我们提供以下解释来介绍\ref{def-f}中引入的新术语. 
-$d^{\prime} \in \mathbb{Z}^{+}$是最后一层的维度. 
-$\bbeta \in \R^{\dpr}$和$\b \in \R^k$是向量；
-$\w \in \R^{d \times \dpr}$和$\W \in \R^{\dpr \times K}$是矩阵. 
-$\softmax(\cdot)$用于归一化输出概率, 定义为
-\begin{equation}\label{eq-def-softmax}
-  \softmax(\u)^{(i)} = \frac{\exp(\u^{(i)})}{\sum_{j \in [K]}(\exp(\u^{(j)}))}
-\end{equation}
-对于任意$\u \in \R^K$. 
-$\relu(\cdot)$定义为
-\begin{equation}
-  \relu(u) = \left\{
-  \begin{aligned}
-      0,& \ {\rm{if}}\ u \in [0, \theta] \\
-      u,& \ {\rm{if}}\ u \notin [0,\theta]
-  \end{aligned}
-  \right.
-\end{equation}
-对于任意$u \in \R$和给定参数$\theta > 0$. 
-下面这条注释讨论了以前工作中用于描述特征$\h(\x)$的各种术语. 
+基于特征塌缩的特性，我们为后续理论分析引入下述三个假设。
 
-\begin{remark}
-  特征$\h(\x)$位于NC分析的中心部分, 可以被视为最后一层和倒数第二层的输入和输出. 
-  因此,  ``最后一层特征'' 和 ``倒数第二层特征'' 在NC的上下文中通常指的是同一个概念. 
-  
-\end{remark}
-
-\paragraph{训练范式}
-我们首先介绍干净训练的范式. 
-干净训练的损失函数定义为
-\begin{equation}
-  \ell(f(\x), y(\x)) = - \log \left( f(\x)^{(y(\x))} \right).
-\end{equation}
-然后, 干净训练的风险定义为
-\begin{equation}
-  R(f,\mathcal{D}) := \frac{1}{NK} \sum_{(\x, y(\x)) \in \mathcal{D}} \ell(f(\x), y(\x)).
-\end{equation}
-给定正步长$\eta$, 特征提取器$\h$根据以下梯度下降规则更新：
-\begin{equation}
-  \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} R(f, \mathcal{D}).
-\end{equation}
-在第$t$次迭代时. 
-
-我们接着介绍对抗训练的范式. 
-我们采取投影梯度下降的策略来生成对抗样本. 
-回忆\ref{eq-def-adversarial-risk}中定义的对抗风险为
-\begin{equation}
-\label{eq-def-adversarial-risk-restate}
-    \Radv(f,\mathcal{D})
-    = \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in \mathcal{D}} \ell\left(f\left( \xa_{k,n} \right), y_{k}\right),
-\end{equation}
-其中对抗样本是通过有限步投影梯度下降生成的. 
-更具体地说, 给定干净样本$\x$和最大PGD步数$T_a$, 对抗样本$\xa$的生成规则为
-
-\begin{equation}\label{eq-def-gradient-based-attack-itertion}
-\begin{aligned}
-    \x^{0} &= \x, \\
-    \x^{\tau+1} &= \x^{\tau} + \epsilon \nabla_{\x^{\tau}} \ell(f(\x^{\tau}), y(\x^{\tau})),
-\end{aligned}
-\end{equation}
-对于任意 $0 \leq \tau < T_a$.
-对抗训练涉及对每个$\x_{k,n} \in \mathcal{D}$生成对抗样本, 可以表示为
-\begin{equation}\label{eq-def-gradient-based-attack}
-    \xa_{k,n} = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \nabla_{\x^{\tau}_{k,n}} \ell(f(\x^{\tau}_{k,n}), y_k).  
-\end{equation}
-其中$\epsilon$是扰动半径, 用于重缩放对抗攻击.
-值得注意的是, 当$\epsilon=0$时, 对抗训练退化为干净训练. 
-
-对抗训练的迭代规则为
-\begin{equation}\label{eq-def-GD-AT}
-    \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} \Radv(f, \mathcal{D}).
-\end{equation}
-注意, 我们还没有指定公式\ref{eq-def-GD-AT}和\ref{eq-def-GD}中迭代的初始化设定.
-
-\subsection{理论分析假设}\label{subsec-nc-assumptions}
-本节介绍了一系列必要假设, 用于分析NC在AT下的行为, 包括归一化, TPT和NC3假设.
-
-\paragraph{归一化} 由于NC的几何性质在实证观察中需要适当的重缩放与中心化, 我们也采用如下归一化假设：
+\paragraph{归一化} 根据\cref{def: NC}，网络展示出特征塌缩现象需要适当的归一化与中心化。本章采用如下归一化假设：
 
 \begin{itemize}
-    \item 训练数据是对称的, 即我们假设
-    \begin{equation}
-        \left\{
-    \begin{aligned}
-        (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \geq \theta,& \ {\rm{if}}\ l = k \\
-        (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \leq 0,& \ {\rm{if}}\ l \neq k
-    \end{aligned}
-    \right.
-    \end{equation}
-    我们推迟$T_0$的定义到\ref{assumption-tpt}.
-    \item 同一类内的相似性和不同类之间的差异被归一化. 
-    具体来说, 给定$\rho > 0$, 对于所有$n_1, n_2 \in [N]$和$k_1 \neq k_2 \in [K]$, 我们假设
-    \begin{enumerate}
-        \item $(\x_{k,n_1})^{\top} \x_{k,n_2} \in [1-\rho,1+\rho]$, for all $n_1, n_2 \in [N]$,
-        \item $(\x_{k_1,n_1})^{\top} \x_{k_2,n_2} \in [-\rho, \rho]$, for all $k_1 \neq k_2 \in [K]$. 
-    \end{enumerate}
-    注意到$\rho$和$K$是独立的.
-    \item $f$的偏置项被设定为$0$, 此即我们假设在中心化后有$\bbeta = \0$, 且在选择一个合适的变换后有$\b = \0$.
+    \item 训练数据是对称的，即我们假设
+          \begin{equation}
+              \left\{
+              \begin{aligned}
+                  (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \geq \theta, & \ {\text{当}}\ l = k \ {\text{时}},    \\
+                  (\w_{l}^{\iter{T_0}})^{\top} \x_{k,n} \leq 0,      & \ {\text{当}}\ l \neq k \ {\text{时}}.
+              \end{aligned}
+              \right.
+          \end{equation}
+          其中，\(T_0\)指代训练终止阶段的开始时刻，参见\cref{chap3-definition-tpt}中的说明。
+    \item 同一类内的相似性和不同类之间的差异被归一化。
+          具体来说，给定\(\xi > 0\)，对于所有\(n_1, n_2 \in [N]\)和\(k_1 \neq k_2 \in [K]\)，我们假设
+          \begin{enumerate}
+              \item \((\x_{k,n_1})^{\top} \x_{k,n_2} \in [1-\xi,1+\xi]\), \ {\text{对任意}}\  \(n_1, n_2 \in [N]\),
+              \item \((\x_{k_1,n_1})^{\top} \x_{k_2,n_2} \in [-\xi, \xi]\), \ {\text{对任意}}\  \(k_1 \neq k_2 \in [K]\).
+          \end{enumerate}
+          注意，\(\xi\)和\(K\)是相互独立的变量。
+    \item 我们忽略\(f\)的偏置项；此即我们假设在中心化后有\(\bbeta = \0\)，且在选择一个合适的变换后有\(\b = \0\)。
 \end{itemize}
 
+\paragraph{训练终止阶段}
+如\cref{chap3-sec-nc-preliminaries}所述，特征塌缩现象发生在训练终止阶段，即训练风险到达一个接近零的阈值之后的训练轮次。
+根据定义，我们有
+\begin{equation}\label{chap3-eq-exp-loss-function}
+    \exp(\ell((\x_{k,n},y_k), f)) = \frac{\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h(\x_{k,n}) \right)}{\exp \left( \W^{\top}_k \h(\x_{k,n}) \right)}.
+\end{equation}
+为保证叙述的流畅性，损失函数的定义将在\cref{chap3-evaluation and algorithm}中给出，这里先直接使用。
+利用\cref{chap3-eq-exp-loss-function}，我们可以如下刻画训练终止阶段。
 
-{\vspace{0.5em}\noindent{\heiti{TBT}}\hspace{0.5em}}
-如\ref{sec-nc-preliminaries}所述, 标准和对抗NC都发生在TPT期间.
-这里, TPT指的是训练风险收敛到接近零之后的训练轮次.
-根据定义, 我们有
-\begin{equation}\label{eq-exp-loss-function}
-    \exp(\ell(f(\x_{k,n}),y_k)) = \frac{\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h(\x_{k,n}) \right)}{\exp \left( \W^{\top}_k \h(\x_{k,n}) \right)}.
-\end{equation}
-利用公式ref{eq-exp-loss-function}, 我们可以如下刻画TPT.
-\begin{assumption}[TPT]\label{assumption-tpt}
-在本文的剩余部分, 训练终止阶段 (Terminal Phase of Training, TPT) 被刻画如下.
-对于所有$k \in [K]$, $l \neq k$, 和$n \in [N]$, 我们用$T_0$表示TPT的起始步.
-我们假设$T_0$具备如下性质:
-\begin{equation}\label{eq-def-assumption-TPT-k}
-    \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = 1 - \sigma
-\end{equation}
-以及
-\begin{equation}\label{eq-def-assumption-TPT-k1-k2}
-    \frac{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = \frac{\sigma}{K-1}.
-\end{equation}
-在公式\ref{eq-def-assumption-TPT-k}和\ref{eq-def-assumption-TPT-k1-k2}中, 参数$\sigma \in (0, 1)$用于刻画训练的精度.
-值得注意的是, 如果$\sigma=0$, 训练风险变为零.
- 
-\end{assumption}
+\begin{definition}[训练终止阶段]\label{chap3-definition-tpt}
+    在本文的剩余部分，{\kaishu 训练终止阶段} (Terminal Phase of Training, TPT) 被刻画如下。
+    对于所有\(k \in [K]\)、\(l \neq k\)和\(n \in [N]\)，我们用\(T_0\)表示TPT的起始步。
+    其中，\(T_0\)满足如下性质：
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k}
+        \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = 1 - \sigma
+    \end{equation}
+    以及
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k1-k2}
+        \frac{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{T_0\}}(\x_{k,n}) \right)} = \frac{\sigma}{K-1}.
+    \end{equation}
+    在\cref{chap3-eq-def-definition-tpt-k,chap3-eq-def-definition-tpt-k1-k2}中，参数\(\sigma \in (0, 1)\)用于刻画训练的精度，即判断经验风险是否趋近于零的阈值。
+    值得注意的是，如果\(\sigma=0\)，训练风险变为零。
+\end{definition}
 
-以下推论可以直接由\ref{assumption-tpt}推出.
-\begin{corollary}\label{corollary-TPT}
-    设$C_1 > C_2 > 0$为参数. 
-    如果我们对所有$k \in [K]$, $l \neq k$, $n \in [N]$和$i \in \{1, 2\}$令$\W_k \h^{\iter{t_i}}(\x_{k,n}) = C_i$和$\W_{l} \h^{\iter{t_i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}$, 那么 
-    \begin{equation*}
+以下推论可以直接由\cref{chap3-definition-tpt}推出。
+
+\begin{corollary}\label{chap3-corollary-TPT}
+    设\(C_1 > C_2 > 0\)为参数。
+    任取\(k \in [K]\)，\(l \neq k\)，\(n \in [N]\)和\(i \in \{1, 2\}\)令\(\W_k \h^{\iter{t_i}}(\x_{k,n}) = C_i\)和\(\W_{l} \h^{\iter{t_i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}\)，那么
+    \begin{equation}
         \frac{\exp \left( \W^{\top}_k \h^{\{t_1\}}(\x_{k,n}) \right)}
-        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t_1\}}(\x_{k,n}) \right)} 
-        > 
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t_1\}}(\x_{k,n}) \right)}
+        >
         \frac{\exp \left( \W^{\top}_k \h^{\{t_2\}}(\x_{k,n}) \right)}
         {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t_2\}}(\x_{k,n}) \right)}.
-    \end{equation*}
+    \end{equation}
 \end{corollary}
 
-值得注意的是, 对所有$k \in [K]$, $n \in [N]$, 和$l \neq k$有$\W_k \h(\x_{k,n}) = C$和$\W_{l} \h(\x_{k,n}) = -C (K-1)^{-1}$意味着$\h$收敛到单纯形ETF (归一化后).
-在这个意义上, \ref{corollary-TPT}表明特征更好地收敛到单纯形ETF并不意味着更小的训练误差.
+注意，对所有\(k \in [K]\)，\(n \in [N]\)，和\(l \neq k\)，若存在常数\(C\)使得\(\W_k \h(\x_{k,n}) = C\)与\(\W_{l} \h(\x_{k,n}) = -C (K-1)^{-1}\)成立，则说明\(\h\)已收敛到单纯形ETF（在合适的归一化后），而与\(C\)的大小无关。
+结合\cref{chap3-corollary-TPT}可知，特征是否收敛到单纯形ETF与训练误差之间没有直接关联。
 
-为了便于更准确地比较标准和对抗NC, 我们假设干净训练和AT的迭代都从\( T_0 \)开始, 即我们在公式\ref{eq-def-GD-AT}和\ref{eq-def-GD}中要求\( t \geq T_0 \).
+为了便于更准确地比较对抗训练与标准训练下的特征塌缩现象，我们假设标准训练和AT的迭代都从\( T_0 \)开始，即我们在\cref{chap3-eq-def:GD,chap3-eq-def-GD-AT}中要求\( t \geq T_0 \)。
 
-
-\paragraph{NC3} 
-由于我们分析的主要焦点集中在NC2和$\h$上, 为简单起见, 我们假设NC3中关于$\W$的结果在TPT开始时成立.
-更具体地说, 我们基于\ref{def-simplex-ETF}采用以下假设.
-\begin{assumption}[NC3]\label{assumption-NC3}
-我们假设线性分类器$\W$在TPT开始时已收敛到单纯形ETF.
-具体地, 设$\boldsymbol{M}$表示\ref{eq-def-simplex-ETF-M}中定义的矩阵, 我们假设
-\begin{equation}
-    \W = c_1 \boldsymbol{U} \boldsymbol{M} = \sqrt{\frac{K-1}{K}} \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \boldsymbol{M},
-\end{equation}
-其中$\left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \in \R^{\dpr \times K}$是一个二元半正交矩阵, 使得对于任意$k \in [K]$, 只有$\boldsymbol{e}_k$的第$k$个元素取$1$, 而其他元素取$0$. 
+\paragraph{自对偶性}
+由于我们分析的主要焦点集中在NC2与\(\h\)的性质上，为简单起见，我们假设NC3中关于\(\W\)的结果在训练终止阶段开始时已经成立。
+更具体地说，我们基于\cref{chap3-def-simplex-ETF}采用以下假设。
+\begin{assumption}[自对偶性]\label{chap3-assumption-NC3}
+    我们假设线性分类器\(\W\)在训练终止阶段开始时已收敛到单纯形ETF。
+    具体地，设\(\boldsymbol{M}\)表示\cref{chap3-eq-def-simplex-ETF-M}中定义的矩阵，我们假设
+    \begin{equation}
+        \W = c_1 \boldsymbol{U} \boldsymbol{M} = \sqrt{\frac{K-1}{K}} \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \boldsymbol{M},
+    \end{equation}
+    其中\(\left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right) \in \R^{\dpr \times K}\)是一个二元半正交矩阵，使得对于任意\(k \in [K]\)，只有\(\boldsymbol{e}_k\)的第\(k\)个元素取\(1\)，而其他元素取\(0\)。
 \end{assumption}
 
-注意到取$c_1 = \sqrt{\frac{K-1}{K}}$和$\boldsymbol{U} = \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right)$不失一般性, 因为单纯形ETF在正交变换下是不变的. 
+对比\cref{chap3-eq-def-simplex-ETF-M}，取\(c_1 = \sqrt{{(K-1)}/{K}}\)和\(\boldsymbol{U} = \left( \boldsymbol{e}_1, \boldsymbol{e}_2, \cdots, \boldsymbol{e}_K  \right)\)并不影响假设的一般性，因为单纯形ETF在正交变换下是不变的。
 
+\subsection{模型评价与优化算法}\label{chap3-evaluation and algorithm}
 
-\subsection{主要结论}\label{subsec-theoretical-main-results}
-对于任意$k \in [K]$和$t \geq T_0$, 设
+在介绍了数据集、模型类并引入了对抗训练与特征塌缩的对应设定后，我们最后讨论学习任务中的模型评价与优化算法部分。
+
+\paragraph{模型评价}
+本章考虑如下损失函数：
+\begin{equation}
+    \ell((\x,y), f) = - \log \left( f(\x)^{(y(\x))} \right).
+\end{equation}
+与\cref{eq:def empirical risk}类似，标准训练的经验风险定义为
+\begin{equation}\label{chap3-eq-def-clean-risk}
+    R(f,S) := \frac{1}{NK} \sum_{(\x, y(\x)) \in S} \ell((\x,y), f).
+\end{equation}
+给定迭代步长\(\eta\)，在第\(t\)次迭代时，特征提取器\(\h\)根据以下梯度下降规则更新：
+\begin{equation}\label{chap3-eq-def:GD}
+    \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} R(f, S).
+\end{equation}
+
+对抗训练方面，我们采取投影梯度下降的策略来生成对抗样本。
+回忆\cref{chap3-eq-def-adversarial-risk}中定义的对抗风险为
+\begin{equation*}
+    \Radv(f,S)
+    = \frac{1}{NK} \sum_{(\x_{k,n},y_k) \in S}
+    \ell\left( \left(\xa_{k,n}, y_{k}\right), f \right),
+\end{equation*}
+其中对抗样本是通过有限步投影梯度下降生成的。
+更具体地说，给定干净样本\(\x\)和最大PGD步数\(T_a\)，对抗样本\(\xa\)的生成规则为
+\begin{equation}
+    \label{chap3-eq-def-gradient-based-attack-itertion}
+    \begin{aligned}
+        \x^{0}      & = \x,                                                                                                \\
+        \x^{\tau+1} & = \x^{\tau} + \epsilon \nabla_{\x^{\tau}} \ell\left(\left(\x^{\tau}, y(\x^{\tau})\right), f \right),
+    \end{aligned}
+\end{equation}
+对于任意 \(0 \leq \tau < T_a\)。
+对抗训练涉及对每个\(\x_{k,n} \in S\)生成对抗样本，可以表示为
+\begin{equation}\label{chap3-eq-def-gradient-based-attack}
+    \xa_{k,n} = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \nabla_{\x^{\tau}_{k,n}} \ell((\x^{\tau}_{k,n}, y_k), f).
+\end{equation}
+其中\(\epsilon\)是扰动半径（参看\cref{chap3-eq:advsample}的相关说明）。值得注意的是，当\(\epsilon=0\)时，对抗训练退化为标准训练。
+与\cref{chap3-eq-def:GD}类似地，我们将对抗训练的迭代规则写为
+\begin{equation}\label{chap3-eq-def-GD-AT}
+    \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} \Radv(f, S).
+\end{equation}
+我们将在\cref{chap3-definition-tpt}中明确\cref{chap3-eq-def-GD-AT,chap3-eq-def:GD}中迭代的初始化设定。
+
+\section{对抗训练中的特征塌缩现象}
+
+回忆我们在本章开头部分提出了三个研究问题，即
+\begin{enumerate}
+    \item \textit{能否统一地刻画对抗训练与标准训练地特征塌缩现象？}
+    \item \textit{能否定量刻画对抗训练与标准训练的特征塌缩差异？}
+    \item \textit{这种差异如何影响模型的对抗鲁棒性？}
+\end{enumerate}
+
+我们首先给出对抗训练与标准训练中类均值向量的渐近表达式。
+对于任意\(k \in [K]\)和\(t \geq T_0\)，设
 \begin{equation}
     \boldsymbol{\bar{h}}^{\iter{t}}_{k} := \frac{1}{N} \sum_{n\in [N]} \h^{\iter{t}}(\x_{k,n})
 \end{equation}
-为第$t$次迭代时的第$k$类均值向量 (参见\ref{eq-def-class-mean-vector}).
-我们首先在假设\ref{subsec-nc-assumptions}中的假设下验证NC2.
+为第\(t\)次迭代时的第\(k\)类均值向量（参见\cref{chap3-eq-def-class-mean-vector}\!）。
+我们可以证明如下定理。
 
-\begin{theorem}[NC2]\label{theorem-NC2}
-给定扰动半径$\epsilon$, 存在常数$\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R$使得在干净训练当中, 类均值向量满足
-\begin{equation}
-    \bar{\h}^{(k)}_k \to \boldsymbol{P}_{0} (K-1){K}^{-1}, \bar{\h}^{(l)}_k \to -\boldsymbol{P}_{0} K^{-1},
-\end{equation}
-且在对抗训练当中, 满足
-\begin{equation}
-    \bar{\h}^{(k)}_k \to \boldsymbol{P}_{\epsilon} (K-1){K}^{-1}, \bar{\h}^{(l)}_k \to -\boldsymbol{P}_{\epsilon} K^{-1}
-\end{equation}
-对所有$k \in [K]$和$l \neq K$成立, 当$t \to \infty$和$\rho \to 0$时.
+\begin{theorem}[NC2]\label{chap3-theorem-NC2}
+    给定扰动半径\(\epsilon\)，存在常数\(\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R\)使得在标准训练当中，类均值向量满足
+    \begin{equation}\label{chap3-thm-NC2-clean}
+        \bar{\h}^{(k)}_k \to \boldsymbol{P}_{0} (K-1){K}^{-1},\ \bar{\h}^{(l)}_k \to -\boldsymbol{P}_{0} K^{-1} \
+        (t \to \infty, \xi \to 0),
+    \end{equation}
+    且在对抗训练当中，满足
+    \begin{equation}\label{chap3-thm-NC2-AT}
+        \bar{\h}^{(k)}_k \to \boldsymbol{P}_{\epsilon} (K-1){K}^{-1}, \bar{\h}^{(l)}_k \to -\boldsymbol{P}_{\epsilon} K^{-1}\
+        (t \to \infty, \xi \to 0).
+    \end{equation}
+    上述两式对所有\(k \in [K]\)和\(l \neq K\)成立。
 \end{theorem}
 
-定理\ref{theorem-NC2}表明类均值向量在干净训练和AT中都收敛到单纯形ETF, 这验证了我们关于NC2的实证结果.
-$\boldsymbol{P}_{0}$和$\boldsymbol{P}_{\epsilon}$的几何解释是\ref{eq-def-P-eps}中的单纯形范数 (相差一个缩放因子).
-此外, 我们可以基于\ref{theorem-NC2}证明以下结果.
-\begin{theorem}[单纯形压缩]\label{theorem-simplex-compression}
-设$\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R$为\ref{theorem-NC2}中指定的常数.
-我们可以证明当$\epsilon=0$时, 有
-\begin{equation}
-    \boldsymbol{P}_{0} = \boldsymbol{P}_{\epsilon},
-\end{equation}
-且对任意$\epsilon_1 > \epsilon_2 \geq 0$, 有
-\begin{equation}
-    \boldsymbol{P}_{\epsilon_1} < \boldsymbol{P}_{\epsilon_2}.
-\end{equation}
+\cref{chap3-theorem-NC2}表明类均值向量在标准训练和对抗训练中都收敛到单纯形ETF，用统一的框架刻画了NC2现象，回答了我们提出的第一个研究问题。
+对比\cref{chap3-thm-NC2-clean,chap3-thm-NC2-AT}，不难发现对抗训练与标准训练的主要差异是参数\(\boldsymbol{P}_{0}\)和\(\boldsymbol{P}_{\epsilon}\)。
+二者的几何意义是\cref{chap3-eq-def-P-eps}中的单纯形范数（相差一个缩放因子）。
+基于\cref{chap3-theorem-NC2}，我们可以进一步证明以下结果。
+\begin{theorem}[单纯形压缩]\label{chap3-theorem-simplex-compression}
+    设\(\boldsymbol{P}_{0},\boldsymbol{P}_{\epsilon} \in \R\)为\cref{chap3-theorem-NC2}中指定的常数。
+    我们可以证明当\(\epsilon=0\)时，有
+    \begin{equation}
+        \boldsymbol{P}_{0} = \boldsymbol{P}_{\epsilon},
+    \end{equation}
+    且对任意\(\epsilon_1 > \epsilon_2 \geq 0\)，有
+    \begin{equation}
+        \boldsymbol{P}_{\epsilon_1} < \boldsymbol{P}_{\epsilon_2}.
+    \end{equation}
 \end{theorem}
-定理\ref{theorem-simplex-compression}证明了扰动半径 ($\epsilon$) 与单纯形范数 ($\boldsymbol{P}_{0}, \boldsymbol{P}_{\epsilon}$) 之间的负相关关系, 这进一步验证了单纯形压缩现象.
+\cref{chap3-theorem-simplex-compression}证明了扰动半径 \(\epsilon\) 与单纯形范数 \(\boldsymbol{P}_{0}, \boldsymbol{P}_{\epsilon}\) 之间的负相关关系，即当扰动半径变大时，单纯形的范数会变小。我们称此现象为{\kaishu 单纯形压缩}（simplex compression）。
+在本章的剩余小节中，我们首先在\cref{chap3-sec-nc-experiment}通过实验验证这一现象，并在\cref{chap3-subsec-main-proof}提供了特征学习机理分析，从理论上解释了单纯形压缩现象。
 
-我们分析的核心直觉参见图\ref{fig-intuition}.
-给定$k \in [K]$, 我们证明$\boldsymbol{h}(\x_{k,n})$沿着由$\W_k$决定的主方向比其他方向表现出更快的增长率. 
-随着训练迭代的进行, $\boldsymbol{h}(\x)$会逐渐更紧密地与单纯形ETF结构对齐. 
-更重要的是, 我们证明了训练数据中对抗样本的存在会削弱来自$\x$的信号, 从而降低$\boldsymbol{h}(\x)$的增长率, 从而引发单纯形压缩现象.
+\section{实证研究}\label{chap3-sec-nc-experiment}
+本章将通过实证研究，系统地探索标准和对抗特征塌缩之间的差异。
+我们首先研究对抗特征塌缩现象，然后探索对抗特征塌缩与标准特征塌缩之间的差异，揭示单纯形压缩现象。
+我们还提供了一系列消融实验，以消除扰动范数和PGD迭代步数的影响。
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/nc_main/intuition.png}
-  \caption{我们理论分析核心直觉的图示. 为了便于可视化, 我们考虑一个$2$维空间中的$3$类分类任务. }
-  \label{fig-intuition}
-\end{figure}
+\subsection{实验设置}\label{chap3-sec-nc-experiment-setup}
 
-\subsection{主要结论证明}\label{subsec-main-proof}
+\paragraph{数据集}我们使用以下三个视觉数据集进行实验。
+{CIFAR-10} \cite{cifar10} 包含 60,000 张 32x32 像素的彩色图像，分为 10 类，每类 6,000 张。
+{CIFAR-100} 包含 60,000 张 32x32 像素的彩色图像，分为 100 类，每类 600 张。
+{Tiny ImageNet} \cite{deng2009imagenet} 包含 200 类，每类 500 张 64x64 像素的彩色图像。
 
-我们分析的主要目标可以总结如下.
+\paragraph{模型} 我们使用{VGG} \cite{simonyan2014very}，{ResNet-18} \cite{he2016deep}，和Wide ResNet ({WRN}) \cite{wrn} 进行实验。
+具体的选择网络深度和宽度取决于数据集。
+我们参考支持信息文件获取更多细节。
+
+\paragraph{对抗训练方法} 我们使用三种基于PGD的对抗训练方法，包括标准{PGD-AT} \cite{DBLP:conf/iclr/MadryMSTV18}，{TRADES} \cite{trades}，和{MART} \cite{mart}。
+许多之前的工作 \cite{robnc,wat,eat} 使用这些方法作为基准。许多之前的工作 \cite{robnc,wat,eat} 使用这些方法作为基准。
+我们设置PGD的最大迭代步数为 \(T_{a}=\left \{ 10,20,30 \right \} \)，扰动半径为 \(\epsilon=\left \{2/255,4/255,6/255,8/255\right \} \) 用于 \(L_{\infty}\) 范数，和 \(\epsilon=\left \{0.125,0.250,0.375,0.500\right \} \) 用于 \(L_2\) 范数。
+我们的 \(T_a\) 和 \(\epsilon\) 的选择与许多之前的工作 \cite{fat,mart,trades,eat,DBLP:conf/icml/WangPDL0Y23} 和社区的标准化对抗鲁棒性基准\footnote{\href{https://robustbench.github.io/}{https://robustbench.github.io/}}一致。
+
+\paragraph{实现细节}
+我们在Ubuntu 64位Linux工作站上使用PyTorch \cite{pytorch} 实现实验，该工作站配备10核Intel Xeon Silver CPU (2.20 GHz) 和8个Nvidia GeForce RTX 4090 GPU。所有网络都训练200个epoch以达到训练的训练终止阶段，此时特征塌缩现象发生。我们使用动量=0.9和权重衰减=0.001的随机梯度下降（Stochastic Gradient Descent，SGD）。 批量大小为128，学习率为0.001。我们保持其他参数与参考文献 \cite{fat,trades,mart,DBLP:conf/iclr/MadryMSTV18} 一致。
+
+\subsection{对抗训练中的特征塌缩现象}\label{chap3-sec-Empirical Exploration-Neural Collapse}
+在节中，我们训练{ResNet-18}在{CIFAR-10}数据集上使用{PGD-AT}，{MART}和{TRADES}。
+对于每个epoch，我们使用对抗样本计算NC1-NC4的数值特征。
+% 如图\ref{fig:Neural Collapse}所示，我们的实验证实了在设置中发生了NC现象 (NC1-NC4) ，从而为我们提供了分析的基础。
+% 这个观察与之前研究 \cite{robnc,neural-collapse} 的发现一致。
+% 剩余的结果可以在支持信息文件中找到 (参见图S2 - S10) 。
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figures/nc_main/nc-1.png}
+%     \caption{
+%       结果为$NC1,NC2\_Norm,NC2\_Cos,NC3,NC4$。
+%       我们在{CIFAR-10}数据集上使用{PGD-AT}，{MART}和{TRADES}训练{ResNet-18}。
+%       扰动半径设置为$\epsilon=8/255$用于$L_\infty $($L_{\infty} $)和$\epsilon=0.125$用于$L_2$。
+%       我们设置$T_{a}=10$。
+%       结果来自对抗样本。
+%       }
+%     \label{chap3-fig:Neural Collapse}
+% \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%   Empirical Exploration-Simplex Collapse Phenomenon  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{单纯形压缩现象}\label{chap3-sec-simplex-compression-phenomenon}
+本节中，我们考察对抗训练对最后一层特征表示的影响。
+我们定义类间特征距离的平均值为每个类均值向量与全局均值向量之间的差异，数学表达为：
+\begin{equation}\label{chap3-eq-def-P-eps}
+    \boldsymbol{P}_{\epsilon} = \frac{1}{K} \sum_{k=1}^{K} \left \|  \boldsymbol{\bar{h}}_{k} - \boldsymbol{\bar{h}}_{G}  \right \|_{2}.
+\end{equation}
+我们设置相同的扰动半径\(\epsilon\)和PGD迭代步数进行实验.
+% 结果如图\ref{fig-simplex-compression}所示 (\(L_2\)范数的实验结果见附录图S1) .
+我们可以看到，随着扰动半径的增加，\(\boldsymbol{P}_{\epsilon}\)减小。
+这个观察表明单纯形ETF结构的几何尺寸随着扰动半径的增加而减小。
+我们称这种塌缩ETF压缩的现象为单纯形压缩现象。
+单纯形压缩现象的解释是，对抗训练得到的类均值向量比标准训练得到的类均值向量更相似。
+单纯形压缩现象可以被视为模型鲁棒性的一种特征。
+
+\subsection{消融实验}\label{chap3-sec-Ablation Experiment}
+
+在 AT 中，超参数的选择对模型的鲁棒性和适应性至关重要。
+具体来说，选择量化对抗样本和自然样本之间差异的范数是关键。
+\(L_\infty\)范数关注扰动向量的最大分量，\(L_2\)范数测量干净样本和对抗样本之间的欧氏距离。
+两者都是常用的范数来刻画对抗扰动。
+此外，生成对抗样本的迭代过程，如等式\eqref{eq:advsample}所示，需要多次迭代才能收敛。
+
+为了研究超参数对单纯形压缩现象的影响，我们设计了消融实验。
+我们设置PGD迭代步数为\(T_{a}=\left \{10, 20 ,30\right \} \)，扰动半径为\(\epsilon=\left\{0,2/255,4/255,6/255,8/255\right\}\)用于\(L_\infty\)范数，和\(\epsilon=\left\{0,0.125,0.250,0.375,0.500\right\}\)用于\(L_2\)范数。
+% 结果如图 \ref{fig:pgd_effect} 所示。
+我们可以看到，单纯形压缩现象在不同的PGD迭代步数和扰动半径下都存在。
+
+此外，我们通过展示干净样本的\(\boldsymbol{P}_{\epsilon}\)结果，进一步扩展了我们的分析。
+% 如图\ref{fig-sample-effect}所示，我们观察到干净样本的\(\boldsymbol{P}_{\epsilon}\)值相对于对抗样本较大，但它们与单纯形压缩现象保持一致。
+
+\section{特征学习机理分析}\label{chap3-subsec-main-proof}
+
+% 我们分析的核心直觉参见图\cref{chap3-fig-intuition}。
+给定\(k \in [K]\)，我们证明\(\boldsymbol{h}(\x_{k,n})\)沿着由\(\W_k\)决定的主方向比其他方向表现出更快的增长率。
+随着训练迭代的进行，\(\boldsymbol{h}(\x)\)会逐渐更紧密地与单纯形ETF结构对齐。
+更重要的是，我们证明了训练数据中对抗样本的存在会削弱来自\(\x\)的信号，从而降低\(\boldsymbol{h}(\x)\)的增长率，从而引发单纯形压缩现象。
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{figures/nc_main/intuition.png}
+%   \caption{我们理论分析核心直觉的图示。为了便于可视化，我们考虑一个$2$维空间中的$3$类分类任务。}
+%   \label{chap3-fig-intuition}
+% \end{figure}
+
+我们分析的主要目标可以总结如下。
 \begin{mynotice}
     \textit{
-    我们的目标是证明存在$C, C^{adv} \in \R$使得
-    \begin{itemize}
-        \item 在干净训练下, 对所有$k \in [K]$和$l \neq k$有$\w_k \x_{k,n} \to C (K-1){K}^{-1}$和$\w_{l} \x_{k,n} \to -C (K)^{-1}$ (\ref{lemma-TPT-clean}), 且
-        \item 在AT下, 对所有$k \in [K]$和$l \neq k$有$\w_k \x_{k,n} \to C^{adv} (K-1){K}^{-1}$和$\w_{l} \x_{k,n} \to -C^{adv} (K)^{-1}$ (\ref{lemma-TPT-AT}).
-    \end{itemize}
-    更重要的是, 我们证明$C > C^{adv}$, 这说明了单纯形压缩现象.
-    我们还证明了扰动半径$\epsilon$与压缩率之间的正相关关系.
+        我们的目标是证明存在\(C, C^{adv} \in \R\)使得
+        \begin{itemize}
+            \item 在标准训练下，对所有\(k \in [K]\)和\(l \neq k\)有\(\w_k \x_{k,n} \to C (K-1){K}^{-1}\)和\(\w_{l} \x_{k,n} \to -C (K)^{-1}\) (\cref{chap3-lemma-TPT-clean}\!)，且
+            \item 在对抗训练下，对所有\(k \in [K]\)和\(l \neq k\)有\(\w_k \x_{k,n} \to C^{adv} (K-1){K}^{-1}\)和\(\w_{l} \x_{k,n} \to -C^{adv} (K)^{-1}\) (\cref{chap3-lemma-TPT-AT}\!)。
+        \end{itemize}
+        更重要的是，我们证明\(C > C^{adv}\)，这证明了单纯形压缩现象。
+        我们还证明了扰动半径\(\epsilon\)与压缩率之间的正相关关系。
     }
 \end{mynotice}
 
-证明概要可以总结如下. 
+证明概要可以总结如下。
 \begin{mynotice}
     \begin{itemize}
-        \item \textit{定理\ref{theorem-NC2}和\ref{theorem-simplex-compression}可以由引理\ref{lemma-TPT-AT}与\ref{lemma-TPT-clean}一同推出.}
-        \item \textit{引理\ref{lemma-principal-entry-of-h}可以直接由假设\ref{assumption-tpt}和\ref{assumption-NC3}推导得出.}
-        \item \textit{引理\ref{lemma-TPT-AT}和\ref{lemma-TPT-clean}的证明主要使用了数学归纳法.}
+        \item \textit{\cref{chap3-theorem-NC2}和\cref{chap3-theorem-simplex-compression}可以由\cref{chap3-lemma-TPT-AT}与\cref{chap3-lemma-TPT-clean}一同推出。}
+        \item \textit{\cref{chap3-lemma-principal-entry-of-h}可以直接由\cref{chap3-definition-tpt}和\cref{chap3-assumption-NC3}推导得出。}
+        \item \textit{\cref{chap3-lemma-TPT-AT}和\cref{chap3-lemma-TPT-clean}的证明主要使用了数学归纳法。}
     \end{itemize}
 \end{mynotice}
 
-首先, 我们先回顾并介绍一些技术细节.
-回顾我们在公式\ref{eq-def-dataset}中定义的平衡训练数据集$\mathcal{D}$，其中每个类别有$N$个样本，记为
-\begin{equation}
-    \mathcal{D} :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},    
+首先，我们先回顾并展开叙述一些技术细节。
+% 回顾我们在\cref{chap3-eq-def-dataset}中定义的平衡训练数据集\(S\)，其中每个类别有\(N\)个样本，记为
+% \begin{equation}
+%     S :=  \{  (\x_{k, n} ,y_{k}) :  k \in [K], n \in [N] \},
+% \end{equation}
+% 其中\(\x_{k,n} \in \R^d\)和\(y_k \in [K]\)分别是训练样本及其标签。
+% 我们也用\((\x, y(\x)) \in S\)表示训练数据集中的非特定标记样本。
+% 一个基于两层神经网络的分类器\(f: \R^d \to \R^{K}\)由下式给出
+% \begin{equation}\label{chap3-eq-def-UFM}
+%     f(\x) = f(\x; \W, \h, \b) = \softmax(\W^{\top} \h(\x) + \b) \in \R^K,
+% \end{equation}
+% 其中softmax函数的定义由\cref{chap3-eq-def-softmax}给出。
+% 矩阵\(\W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}\)和向量\(\b=(b_1, b_2, \cdots, b_K)^{\top} \in \R^K\)分别是最后一层的权重和偏置项，其中\(\dpr\)是该层的宽度。
+% \(\h: \R^d \to \R^{\dpr}\)是将样本映射到最后一层特征的\textit{特征提取器}。
+结合我们在\cref{chap3-sec-at-preliminaries,chap3-sec-neural-collapse-setup}中的设定，标准训练和对抗训练的范式可以重述如下。
+\(f\)的标准训练遵循标准的\textit{经验风险最小化}范式（参见\cref{eq:def ERM,chap3-eq-def-clean-risk,chap3-eq-def-adversarial-risk}），其\textit{交叉熵损失}定义为
+\begin{equation}\label{chap3-eq-def-loss-function}
+    \begin{aligned}
+        \ell(f(\x_{k,n}), y_k)
+         & = - \log \left( \softmax\left(\W^{\top} \h(\x_{k,n}) + \b\right)^{(k)} \right)                                                \\
+         & = - \left( \W_k^{\top} \h(\x_{k,n}) + b_k \right) + \log \sum_{j \in [K]}  \exp\left( \W_j^{\top} \h(\x_{j,n}) + b_j \right).
+    \end{aligned}
 \end{equation}
-其中$\x_{k,n} \in \R^d$和$y_k \in [K]$分别是训练样本及其标签。
-我们也用$(\x, y(\x)) \in \mathcal{D}$表示训练数据集中的非特定标记样本。
-一个基于两层神经网络的分类器$f: \R^d \to \R^{K}$由下式给出
-\begin{equation}\label{eq-def-UFM}
-    f(\x) = f(\x; \W, \h, \b) = \softmax(\W^{\top} \h(\x) + \b) \in \R^K,
-\end{equation}
-其中softmax函数的定义由公式\ref{eq-def-softmax}给出.
-矩阵$\W = (\W_1, \W_2, \cdots, \W_K) \in \R^{\dpr \times K}$和向量$\b=(b_1, b_2, \cdots, b_K)^{\top} \in \R^K$分别是最后一层的权重和偏置项，其中$\dpr$是该层的宽度。
-$\h: \R^d \to \R^{\dpr}$是将样本映射到最后一层特征的\textit{特征提取器}。
-
-干净训练和对抗训练的范式重述如下。
-$f$的干净训练遵循标准的\textit{经验风险最小化}范式，其\textit{交叉熵损失}定义为
-\begin{equation}\label{eq-def-loss-function}
-\begin{aligned}
-    \ell(f(\x_{k,n}), y_k)
-    &= - \log \left( \softmax\left(\W^{\top} \h(\x_{k,n}) + \b\right)^{(k)} \right) \\
-    &= - \left( \W_k^{\top} \h(\x_{k,n}) + b_k \right) + \log \sum_{j \in [K]}  \exp\left( \W_j^{\top} \h(\x_{j,n}) + b_j \right).
-\end{aligned}
-\end{equation}
-为简化记号，我们将$f$的线性层输出（即$\softmax$函数的输入）简化为
-\begin{equation}\label{eq-def-o}
-    \o(\x_{k,n}) := \W^{\top} \h(\x_{k,n}) + \b   \nonumber 
+为简化记号，我们将\(f\)的线性层输出（即\(\softmax\)函数的输入）简化为
+\begin{equation}\label{chap3-eq-def-o}
+    \o(\x_{k,n}) := \W^{\top} \h(\x_{k,n}) + \b   \nonumber
     = \left(\W_1^{\top} \h(\x_{k,n}) + b_1, \cdots, \W_K^{\top} \h(\x_{k,n}) +  b_K\right)^{\top}.
 \end{equation}
-在证明的其余部分，我们也将用$\o_{k,n} \equiv \o(\x_{k,n})$表示。
-使用公式\ref{eq-def-o}中的记号, \textit{经验风险}可以写为
-\begin{equation}\label{eq-def-clean-risk-with-specified-loss-function}
-  R(\W, \h, \b) := \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \ell(f(\x_{k,n}), y_k)
-   = \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \left(\log \sum_{j \in [K]} \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n} \right).
+在证明的其余部分，我们也将用\(\o_{k,n} \equiv \o(\x_{k,n})\)表示。
+使用\cref{chap3-eq-def-o}中的记号，\textit{经验风险}可以写为
+\begin{equation}\label{chap3-eq-def-clean-risk-with-specified-loss-function}
+    \begin{aligned}
+        R(\W, \h, \b) := & \frac{1}{NK} \sum_{n,k} \ell(f(\x_{k,n}), y_k)                                                                  \\
+        =                & \frac{1}{NK} \sum_{n,k} \left(\log \sum_{j \in [K]} \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n} \right).
+    \end{aligned}
 \end{equation}
-在本文的主要部分，我们记\( R = R(f, \mathcal{D}) \)，这本质上等价于\( R = R(\boldsymbol{W}, \boldsymbol{h}, \boldsymbol{b}) \)。 
-在整个证明中，这两种记号可以互换使用。
-为了获得优化的特征提取器，我们求解以下优化问题
-\begin{equation}\label{eq-def-optimization-problem}
+在后续分析中，我们记\( R = R(f, S) = R(\boldsymbol{W}, \boldsymbol{h}, \boldsymbol{b}) \)。
+这两种记号彼此等价，在证明中视表述方便互换使用。
+为了获取最优特征提取器，我们求解以下优化问题。
+\begin{equation}\label{chap3-eq-def-optimization-problem}
     \h^{\ast} = \mathop{\argmin}_{\h} R(\W, \h, \b).
 \end{equation}
-对于所有$t \geq 0$，$\h$的梯度下降迭代规则由下式给出
-\begin{equation}\label{eq-def-GD-h}
+对于所有\(t \geq 0\)，\(\h\)的梯度下降迭代规则由下式给出
+\begin{equation}\label{chap3-eq-def-GD-h}
     \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} R(\W, \h, \b).
 \end{equation}
-在公式\ref{eq-def-GD-h}中，$\nabla_{\h} R(\W, \h, \b)$表示经验风险关于$\h$的梯度，由以下引理给出。
+在\cref{chap3-eq-def-GD-h}中，\(\nabla_{\h} R(\W, \h, \b)\)表示经验风险关于\(\h\)的梯度。
+由于此梯度在标准训练和对抗训练中都扮演着重要角色，我们将其单独提炼为一个命题。
+\begin{proposition}\label{chap3-prop-nabla-h-R-Whb}
+    经验风险关于\(\h\)的梯度可以写为
+    \begin{equation}\label{chap3-eq-nabla-h-final-in-lemma}
+        \nabla_{\h} R(\W, \h, \b) = \frac{1}{NK} \sum_{n,k} \left( \sum_{k^{\prime} \in [K]}
+        \left( \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
+    \end{equation}
+\end{proposition}
+\begin{myproof}[\cref{chap3-prop-nabla-h-R-Whb}]
+    根据定义，我们有
+    \begin{equation}\label{chap3-eq-def-nabla-h}
+        \nabla_{\h} R(\W, \h, \b)
+        =
+        \frac{1}{NK} \sum_{k \in [K],n \in [N]}
+        \nabla_{\h} \left(  \log \sum_{j \in [K]}
+        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}
+        \right).
+    \end{equation}
+    这里，对于任意\(k \in K\)和\(n \in N\)，我们有
+    \begin{equation}\label{chap3-eq-def-nabla-h-1}
+        \nabla_{\h} \left( \log \sum_{j \in [K]}
+        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}
+        \right)
+        = J_{\o_{k,n}} (\h)
+        \nabla_{\o_{k,n}} \left( \log \sum_{j \in [K]}
+        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}
+        \right)
+    \end{equation}
+    在\cref{chap3-eq-def-nabla-h-1}中，\(J_{\o_{k,n}} (\h)\)表示（转置的）雅可比矩阵。
+    根据定义，我们可以得到
+    \begin{equation}\label{chap3-def-eq-jacobian-h-W}
+        J_{\o_{k,n}} (\h)
+        := \left( \nabla_{\h} \o_{k,n}^{(1)}, \nabla_{\h} \o_{k,n}^{(2)}, \cdots, \nabla_{\h} \o_{k,n}^{(K)}  \right) = \W.
+    \end{equation}
+    除了\(J_{\o_{k,n}} (\h)\)之外，\cref{chap3-eq-def-nabla-h-1}右侧的另一项可以简化如下。
+    对于所有\(k^{\prime} \in [K]\)，我们有
+    \begin{equation}\label{chap3-eq-def-nabla-o-jprime-x-kn}
+        \nabla_{{\o}^{(k^{\prime})}_{k,n}}
+        \left(\log \sum_{j \in [K]}
+        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}
+        \right)
+        = \frac{\exp \left(
+            \o^{(k^{\prime})}_{k,n}
+            \right)}
+        {\sum_{j \in [K]} \exp(\o^{(j)}_{k,n})} - \delta_{k^{\prime}k}.
+    \end{equation}
+    这里，\(\delta_{k^{\prime}k}\)是一个二元函数，当\(k^{\prime} = k\)时取值为\(1\)，否则为\(0\)。
+    结合\cref{chap3-eq-def-nabla-h-1,chap3-def-eq-jacobian-h-W,chap3-eq-def-nabla-o-jprime-x-kn}，我们有
+    \begin{equation*}
+        \nabla_{\h} \left( \log \sum_{j \in [K]}
+        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}
+        \right)
+        = \sum_{k^{\prime} \in [K]} \left( \frac{\exp \left(\o^{(k^{\prime})(\x_{k,n})}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}},
+    \end{equation*}
+    最终我们可以将\(\nabla_{\h} R(\W, \h, \b)\)简化为
+    \begin{equation}\label{chap3-eq-nabla-h-final}
+        \nabla_{\h} R(\W, \h, \b) = \frac{1}{NK} \sum_{n,k} \left( \sum_{k^{\prime} \in [K]}
+        \left( \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
+    \end{equation}
+    这完成了证明。
+    值得注意的是，\cref{chap3-eq-def-nabla-h-1}中\(J_{\o_{k,n}} (\h) = \W\)的矩阵乘法在\cref{chap3-eq-nabla-h-final}中被重新表述为对列向量\(\W_{k^{\prime}}\)的求和。
+\end{myproof}
 
-\begin{lemma}\label{lemma-nabla-h-R-Whb}
-经验风险关于$\h$的梯度可以写为
-\begin{equation}\label{eq-nabla-h-final-in-lemma}
-  \nabla_{\h} R(\W, \h, \b) = \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \left( \sum_{k^{\prime} \in [K]}
-  \left( \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
-\end{equation}
-\end{lemma}
-
-\begin{proof}[引理\ref{lemma-nabla-h-R-Whb}]
-根据定义，我们有
-\begin{equation}\label{eq-def-nabla-h}
-    \nabla_{\h} R(\W, \h, \b) 
-    = 
-    \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]}
-    \nabla_{\h} \left(  \log \sum_{j \in [K]} 
-        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n} 
-    \right).
-\end{equation}
-这里，对于任意$k \in K$和$n \in N$，我们有
-\begin{equation}\label{eq-def-nabla-h-1}
-    \nabla_{\h} \left( \log \sum_{j \in [K]}
-    \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}  
-    \right) 
-  = J_{\o_{k,n}} (\h)        
-    \nabla_{\o_{k,n}} \left( \log \sum_{j \in [K]}
-        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}  
-    \right)
-\end{equation}
-在公式\ref{eq-def-nabla-h-1}中，$J_{\o_{k,n}} (\h)$表示（转置的）雅可比矩阵。
-根据定义，我们可以得到
-\begin{equation}\label{def-eq-jacobian-h-W}
-    J_{\o_{k,n}} (\h)
-    := \left( \nabla_{\h} \o_{k,n}^{(1)}, \nabla_{\h} \o_{k,n}^{(2)}, \cdots, \nabla_{\h} \o_{k,n}^{(K)}  \right) = \W.
-\end{equation}
-除了$J_{\o_{k,n}} (\h)$之外，公式\ref{eq-def-nabla-h-1}右侧的另一项可以简化如下。 
-对于所有$k^{\prime} \in [K]$，我们有
-\begin{equation}\label{eq-def-nabla-o-jprime-x-kn}
-    \nabla_{{\o}^{(k^{\prime})}_{k,n}} 
-    \left(\log \sum_{j \in [K]}
-        \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n} 
-    \right)
-    = \frac{\exp \left(
-        \o^{(k^{\prime})}_{k,n}
-    \right)}
-    {\sum_{j \in [K]} \exp(\o^{(j)}_{k,n})} - \delta_{k^{\prime}k}.
-\end{equation}
-这里，$\delta_{k^{\prime}k}$是一个二元函数，当$k^{\prime} = k$时取值为$1$，否则为$0$。
-结合公式\ref{eq-def-nabla-h-1},公式\ref{def-eq-jacobian-h-W}和公式\ref{eq-def-nabla-o-jprime-x-kn}，我们有
-\begin{equation}
-    \nabla_{\h} \left( \log \sum_{j \in [K]}
-    \exp\left({\o^{(j)}_{k,n}}\right) - \o^{(k)}_{k,n}  
-    \right)
-    = \sum_{k^{\prime} \in [K]} \left( \frac{\exp \left(\o^{(k^{\prime})(\x_{k,n})}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}},
-\end{equation}
-最终我们可以将$\nabla_{\h} R(\W, \h, \b)$简化为
-\begin{equation}\label{eq-nabla-h-final}
-  \nabla_{\h} R(\W, \h, \b) = \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \left( \sum_{k^{\prime} \in [K]}
-  \left( \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
-\end{equation}
-这完成了证明。
-值得注意的是，公式\ref{eq-def-nabla-h-1}中$J_{\o_{k,n}} (\h) = \W$的矩阵乘法在公式\ref{eq-nabla-h-final}中被重新表述为对列向量$\W_{k^{\prime}}$的求和。
-\end{proof}
-
-对抗训练需要关于$\x$的梯度信息来构造用于训练的对抗样本。
-更具体地说，对于任意$\x \in \R^d$，损失函数的梯度为
-\begin{equation}\label{eq-nabla-x-l}
-    \nabla_{\x} \ell(f(\x), y(\x)) 
+对抗训练需要关于\(\x\)的梯度信息来构造用于训练的对抗样本。
+更具体地说，对于任意\(\x \in \R^d\)，损失函数的梯度为
+\begin{equation}\label{chap3-eq-nabla-x-l}
+    \nabla_{\x} \ell((\x,y), f)
     = \sum_{l \in [K]} \ell^{\prime}_l (f(\x), y(\x)) \nabla_{\x} \o^{(l)}
-    = \sum_{l \in [K]} \ell^{\prime}_l (\x, y(\x)) \left(\nabla_{\x} \h(\x)\right)^{\top} \W_l . 
+    = \sum_{l \in [K]} \ell^{\prime}_l (\x, y(\x)) \left(\nabla_{\x} \h(\x)\right)^{\top} \W_l .
 \end{equation}
-这里，稍微滥用记号，我们记
-\begin{equation}\label{eq-def-ell-prime}
-    \ell^{\prime}_l (\x_{k,n}, y_k) 
-   := \frac{\partial}{\partial \o^{(l)}_{k,n}} \ell(f(\x_{k,n}), y_k) 
-   = \frac{\exp\left( \o_{k,n}^{(l)} \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)}_{k,n} \right) } - \delta_{lk}.
+这里，我们简记损失函数关于输出的偏导数为
+\begin{equation}\label{chap3-eq-def-ell-prime}
+    \ell^{\prime}_l (\x_{k,n}, y_k)
+    := \frac{\partial}{\partial \o^{(l)}_{k,n}} \ell(f(\x_{k,n}), y_k)
+    = \frac{\exp\left( \o_{k,n}^{(l)} \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)}_{k,n} \right) } - \delta_{lk}.
 \end{equation}
+% \cref{chap3-eq-nabla-x-l}中项\(\nabla_{\x} \h(\x)\)的分析需要关于\(\h\)的函数性质的额外假设。
+% 我们将在后续章节中重新讨论这一关键方面。
 
-公式\ref{eq-nabla-x-l}中项$\nabla_{\x} \h(\x)$的分析需要关于$\h$的函数性质的额外假设。
-我们将在后续章节中重新讨论这一关键方面。
-基于梯度的对抗攻击（例如，类似PGD的攻击）以最多$T_a$步通过迭代以下规则生成对抗样本
-\begin{equation}
-\begin{aligned}
-    \x^{0} &= \x, \\
-    \x^{\tau+1} &= \x^{\tau} + \epsilon \nabla_{\x^{\tau}} \ell(f(\x^{\tau}), y(\x^{\tau})), \quad 0 \leq \tau \leq T_a.
-\end{aligned}
-\end{equation}
-对抗训练涉及为每个$\x_{k,n} \in \mathcal{D}$生成对抗样本，这可以表征为
-\begin{equation}
-    \xa_{k,n} = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \nabla_{\x^{\tau}_{k,n}} \ell(f(\x^{\tau}_{k,n}), y_k).  
-\end{equation}
+% 基于梯度的对抗攻击（例如，类似PGD的攻击）以最多\(T_a\)步通过迭代以下规则生成对抗样本
+% \begin{equation}
+%     \begin{aligned}
+%         \x^{0} & = \x, \\
+%         \x^{\tau+1} & = \x^{\tau} + \epsilon \nabla_{\x^{\tau}} \ell\left(\left(\x^{\tau}, y(\x^{\tau})\right), f \right), \quad 0 \leq \tau \leq T_a.
+%     \end{aligned}
+% \end{equation}
+% 对抗训练涉及为每个\(\x_{k,n} \in S\)生成对抗样本，这可以表征为
+% \begin{equation}
+%     \xa_{k,n} = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \nabla_{\x^{\tau}_{k,n}} \ell((\x^{\tau}_{k,n}, y_k), f).
+% \end{equation}
 
-结合上述方程，我们可以将\textit{对抗风险}指定为
-\begin{equation}
-\label{eq-adversarial-risk-specific}
-\Radv(\W, \h, \b)
-=  \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \ell\left(f\left( \xa_{k,n} \right), y_{k}\right).
-\end{equation}
-与干净训练相比，对抗训练过程稍微复杂一些。
-如\cite{fat}所建议的，在对抗训练开始阶段引入过于强大的对抗样本可能会阻止神经网络学习干净特征。
+% 结合上述方程，我们可以将\textit{对抗风险}指定为
+% \begin{equation}
+%     \label{chap3-eq-adversarial-risk-specific}
+%     \Radv(\W, \h, \b)
+%     =  \frac{1}{NK} \sum_{n,k} \ell\left(\left( \xa_{k,n}, y_{k}\right), f \right).
+% \end{equation}
+
+在继续推导之前，我们稍微花一些篇幅来阐释我们在\cref{chap3-sec-at-preliminaries}对对抗训练的建模。
+与标准训练相比，对抗训练过程稍微复杂一些。
+参考文献\cite{fat}提出，在对抗训练开始阶段引入过于强大的对抗样本可能会阻止神经网络学习干净特征。
 因此，我们考虑以下两阶段建模用于对抗训练。
-更具体地说，对于任意$j \in [\dpr]$，我们让对抗训练的迭代规则在前$T_0$次迭代中与干净训练相同（参见公式\ref{eq-def-GD-h}）。对于所有$t \geq T_0$，我们通过以下方式指定对抗训练的迭代规则
+更具体地说，对于任意\(j \in [\dpr]\)，我们让对抗训练的迭代规则在前\(T_0\)次迭代中与标准训练相同（参见\cref{chap3-eq-def-GD-h}）。对于所有\(t \geq T_0\)，我们通过以下方式指定对抗训练的迭代规则
 \begin{equation}
-\h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} \Radv(\W, \h, \b) 
+    \h^{\iter{t+1}} = \h^{\iter{t}} - \eta \nabla_{\h^{\iter{t}}} \Radv(\W, \h, \b)
 \end{equation}
-换句话说，我们只在终端阶段（TPT）考虑对抗训练。 
+换句话说，我们只在终端阶段（TPT）考虑对抗训练。
 由于我们理论分析的主要目标是解释单纯形压缩现象的原因，我们认为终端阶段之前的迭代步骤并不重要，因为神经网络压缩（NC）只发生在终端阶段。
-以下推论直接来自公式\ref{lemma-nabla-h-R-Whb}，它计算对抗风险的梯度。
+以下推论直接来自\cref{chap3-prop-nabla-h-R-Whb}，它计算对抗风险的梯度。
 
-\begin{corollary}\label{corollary-nabla-h-Radv-Whb}
-对抗风险关于$\h$的梯度为
-\begin{equation}\label{eq-nabla-h-Radv-final-in-corollary}
-  \nabla_{\h} \Radv(\W, \h, \b) = \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} \left( \sum_{k^{\prime} \in [K]}
-  \left( \frac{\exp \left(\o^{(k^{\prime})}(\x^{adv}_{k,n})\right)}{\sum_{j \in [K]} \exp(\o^{(j)}(\x^{adv}_{k,n}))} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
-\end{equation}
+\begin{corollary}\label{chap3-corollary-nabla-h-Radv-Whb}
+    对抗风险关于\(\h\)的梯度为
+    \begin{equation}\label{chap3-eq-nabla-h-Radv-final-in-corollary}
+        \nabla_{\h} \Radv(\W, \h, \b) =
+        \frac{1}{NK} \sum_{n,k} \left( \sum_{k^{\prime} \in [K]}
+        \left( \frac{\exp \left(\o^{(k^{\prime})}(\x^{adv}_{k,n})\right)}{\sum_{j \in [K]} \exp(\o^{(j)}(\x^{adv}_{k,n}))} - \delta_{k^{\prime}k} \right) \W_{k^{\prime}} \right) .
+    \end{equation}
 \end{corollary}
-\begin{proof}[推论\ref{corollary-nabla-h-Radv-Whb}]
-    该推论直接由公式\ref{lemma-nabla-h-R-Whb}得出。
-\end{proof}
+\begin{myproof}[\cref{chap3-corollary-nabla-h-Radv-Whb}]
+    该推论直接由\cref{chap3-prop-nabla-h-R-Whb}得出。
+\end{myproof}
 
-设$\relu(\cdot)$为
-\begin{equation}\label{eq-def-relu}
-    \relu(u) = \left\{
+% 设\(\relu(\cdot)\)为
+% \begin{equation}\label{chap3-eq-def-relu}
+%     \relu(u) = \left\{
+%     \begin{aligned}
+%         0, & \ {\rm{if}}\ u \in [0, \theta]   \\
+%         u, & \ {\rm{if}}\ u \notin [0,\theta]
+%     \end{aligned}
+%     \right.
+% \end{equation}
+% 对于任意\(u \in \R\)和某个给定的\(\theta > 0\)。
+% 稍微滥用记号，我们将\(\relu\)激活函数按元素扩展到向量和矩阵，并考虑以下特征提取器
+
+% \begin{equation}\label{chap3-eq-def-feature-extractor}
+%     \h(\x) = \relu( \w^{\top} \x + \bbeta),
+% \end{equation}
+% 其中\(\w = (\w_1, \w_2, \cdots, \w_{\dpr}) \in \R^{K \times \dpr}\)是\(\h\)的权重，\(\bbeta = (\beta_1, \beta_2, \cdots, \beta_{d^{\prime}})\)是偏置项。
+
+对于任意\(\x \in \R^d\)和\(i,l \in [\dpr]\)，\(\h(\x)\)的项及其导数\footnote{严格来说，\(\relu\)在\(u = \pm \theta\)处不可导。在这项工作中，我们考虑\(\srelu\)的几乎处处导数，而不失严格性。}由下式给出
+\begin{equation}\label{chap3-eq-def-h-nabla-w-x}
     \begin{aligned}
-        0,& \ {\rm{if}}\ u \in [0, \theta] \\
-        u,& \ {\rm{if}}\ u \notin [0,\theta]
+        \h^{(i)}(\x)               & = \relu( \w^{\top}_{i} \x + \bbeta_i), \quad \\
+        \nabla_{\w_l} \h^{(i)}(\x) & =
+        \1(\w^{\top}_{i} \x + \bbeta_i)
+        \delta_{il}  \x,                                                          \\
+        \nabla_{\x} \h^{(i)}(\x)   & =
+        \1(\w^{\top}_{i} \x + \bbeta_i)
+        \w_{i},
     \end{aligned}
-    \right.
-\end{equation}
-对于任意$u \in \R$和某个给定的$\theta > 0$。
-稍微滥用记号，我们将$\relu$激活函数按元素扩展到向量和矩阵，并考虑以下特征提取器
-
-\begin{equation}\label{eq-def-feature-extractor}
-    \h(\x) = \relu( \w^{\top} \x + \bbeta),
-\end{equation}
-其中$\w = (\w_1, \w_2, \cdots, \w_{\dpr}) \in \R^{K \times \dpr}$是$\h$的权重，$\bbeta = (\beta_1, \beta_2, \cdots, \beta_{d^{\prime}})$是偏置项。
-对于任意$\x \in \R^d$和$i,l \in [\dpr]$，$\h(\x)$的项及其导数\footnote{严格来说，$\relu$在$u = \pm \theta$处不可导。在这项工作中，我们考虑$\srelu$的几乎处处导数，而不失严格性。}由下式给出
-\begin{equation}\label{eq-def-h-nabla-w-x}
-\begin{aligned}
-    \h^{(i)}(\x) &= \relu( \w^{\top}_{i} \x + \bbeta_i), \quad  \\
-    \nabla_{\w_l} \h^{(i)}(\x) &= 
-    \1(\w^{\top}_{i} \x + \bbeta_i) 
-    \delta_{il}  \x,\\
-    \nabla_{\x} \h^{(i)}(\x) &= 
-    \1(\w^{\top}_{i} \x + \bbeta_i) 
-    \w_{i},
-\end{aligned}
 \end{equation}
 分别。
-这里，对于任意$u \in \R$，如果$u \in [0, \theta]$，$\1(u)$取值为$1$，否则为$0$。
+这里，对于任意\(u \in \R\)，如果\(u \in [0, \theta]\)，\(\1(u)\)取值为\(1\)，否则为\(0\)。
 值得注意的是，以下雅可比矩阵只有一个非零列。
-\begin{equation}\label{eq-Jacobian-h-wl}
-    J_{\h(\x)}(\w_l) = 
-    \left( \nabla_{\w_l} \h^{(1)}(\x), \nabla_{\w_l} \h^{(2)}(\x), \cdots, \nabla_{\w_l} \h^{(\dpr)}(\x) \right) =
-    \left( \0, \cdots, \0, \1(\w^{\top}_{l} \x + \bbeta_l) \x, \0,  \cdots, \0 \right).
+\begin{equation}\label{chap3-eq-Jacobian-h-wl}
+    \begin{aligned}
+        J_{\h(\x)}(\w_l)
+         & =
+        \left( \nabla_{\w_l} \h^{(1)}(\x), \nabla_{\w_l} \h^{(2)}(\x), \cdots, \nabla_{\w_l} \h^{(\dpr)}(\x) \right) \\
+         & =
+        \left( \0, \cdots, \0, \1(\w^{\top}_{l} \x + \bbeta_l) \x, \0,  \cdots, \0 \right).
+    \end{aligned}
 \end{equation}
-结合公式\ref{eq-Jacobian-h-wl}和公式\ref{lemma-nabla-h-R-Whb}, 我们有
-\begin{equation}\label{eq-nabla-h-R-Whb-Jacobian-h-wl}
-\begin{aligned}
-    \nabla_{\w_l} R(\W, \h, \b) =& 
-    \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]}
-    J_{\h(\x_{k,n})}(\w_l)
-     \left(
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}
-    \right) \W_{k^{\prime}}^{(l)} \right) \\
-    =& \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} 
-    J_{\h(\x_{k,n})}(\w_l)
-     \left(
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}  
-    \right)  \W_{k^{\prime}}^{(l)}  \right) \\
-    =& \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} 
-    \1(\w^{\top}_{l} \x_{k,n}  +  \beta_l)
-    \left(
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} 
-    \right)   \W_{k^{\prime}}^{(l)} 
-    \right)   \x_{k,n}.
-\end{aligned}
+结合\cref{chap3-eq-Jacobian-h-wl,chap3-prop-nabla-h-R-Whb}，我们有
+\begin{equation}\label{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl}
+    \begin{aligned}
+          & \nabla_{\w_l} R(\W, \h, \b)         \\
+        = &
+        \frac{1}{NK} \sum_{n,k}
+        J_{\h(\x_{k,n})}(\w_l)
+        \left(
+        \sum_{k^{\prime} \in [K]}
+        \left(
+            \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}
+        \right) \W_{k^{\prime}}^{(l)} \right)   \\
+        = & \frac{1}{NK} \sum_{n,k}
+        J_{\h(\x_{k,n})}(\w_l)
+        \left(
+        \sum_{k^{\prime} \in [K]}
+        \left(
+            \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}
+        \right)  \W_{k^{\prime}}^{(l)}  \right) \\
+        = & \frac{1}{NK} \sum_{n,k}
+        \1(\w^{\top}_{l} \x_{k,n}  +  \beta_l)
+        \left(
+        \sum_{k^{\prime} \in [K]}
+        \left(
+            \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}
+            \right)   \W_{k^{\prime}}^{(l)}
+        \right)   \x_{k,n}.
+    \end{aligned}
 \end{equation}
-% 其中求和中的$j, k^{\prime} \in [K]$。
-公式\ref{eq-nabla-h-R-Whb-Jacobian-h-wl}在我们的证明中被多次使用。
+\cref{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl}在我们的证明中被多次使用。
 不难验证
-\begin{equation}\label{eq-nabla-h-R-Whb-Jacobian-h-wl-adv}
-    \nabla_{\w_l} R^{adv}(\W, \h, \b) 
-    = \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} 
-    \1(\w^{\top}_{l} \x^{adv}_{k,n}  +  \beta_l)
-    \left(
-    \sum_{ k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}(\x^{adv}_{k,n})\right)}{\sum_{j \in [K]} \exp(\o^{(j)} \x^{adv}_{k,n})} - \delta_{k^{\prime}k} 
-    \right)   \W_{k^{\prime}}^{(l)} 
-    \right)   \x^{adv}_{k,n}
+\begin{equation}\label{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl-adv}
+    \begin{aligned}
+          & \nabla_{\w_l} R^{adv}(\W, \h, \b) \\
+        = & \frac{1}{NK} \sum_{n,k}
+        \1(\w^{\top}_{l} \x^{adv}_{k,n}  +  \beta_l)
+        \left(
+        \sum_{ k^{\prime} \in [K]}
+        \left(
+            \frac{\exp \left(\o^{(k^{\prime})}(\x^{adv}_{k,n})\right)}{\sum_{j \in [K]} \exp(\o^{(j)} \x^{adv}_{k,n})} - \delta_{k^{\prime}k}
+            \right)   \W_{k^{\prime}}^{(l)}
+        \right)   \x^{adv}_{k,n}
+    \end{aligned}
 \end{equation}
 对于对抗风险。
-$\w$的相应更新规则为
-\begin{equation}\label{eq-def-GD-w}
+\(\w\)的相应更新规则为
+\begin{equation}\label{chap3-eq-def-GD-w}
     \w^{\iter{t+1}} = \w^{\iter{t}} - \eta \nabla_{\w^{\iter{t}}} R(\W, \h, \b), \quad \forall t > T_0
 \end{equation}
-在干净训练中，以及
-\begin{equation}\label{eq-def-GD-w-AT}
+在标准训练中，以及
+\begin{equation}\label{chap3-eq-def-GD-w-AT}
     \w^{\iter{t+1}} = \w^{\iter{t}} - \eta \nabla_{\w^{\iter{t}}} R^{adv}(\W, \h, \b), \quad \forall t > T_0
 \end{equation}
-在对抗训练中。 
-对抗样本的表达式可以写为 
-\begin{equation}\label{eq-def-gradient-based-attack-simplified}
-\begin{aligned}
-    \xa_{k,n} 
-    &=  \x_{k, n} + 
-        \sum_{t \in [T_a] } 
-            \epsilon 
-                \nabla_{\x^{\tau}_{k,n}}
-                \ell(f(\x^{\tau}_{k,n}), y_k) \\
-    &=  \x_{k, n} + 
-        \sum_{t \in [T_a] } 
-            \epsilon 
-                \left(
-                    \sum_{l \in [K]} \ell^{\prime}_l (\x_{k,n}, y_k) \cdot \left(\nabla_{\x^{\tau}_{k, n}} \h(\x^{\tau}_{k, n})\right)^{\top} \W_l
-                \right)\\
-    &= \x_{k, n} + \sum_{t \in [T_a] } \epsilon \left(
-    \sum_{l \in [K]} \left(
-    \frac{\exp\left( \o^{(l)} \left( \x_{k,n}^{t} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)}\left( \x_{k,n}^{t} \right) \right) } - \delta_{lk}\right) 
-    \cdot
+在对抗训练中。
+对抗样本的表达式可以写为
+\begin{equation*}
+    \begin{aligned}
+        \xa_{k,n}
+         & =  \x_{k, n} +
+        \sum_{t \in [T_a] }
+        \epsilon
+        \nabla_{\x^{\tau}_{k,n}}
+        \ell((\x^{\tau}_{k,n}, y_k), f)                      \\
+         & =  \x_{k, n} +
+        \sum_{t \in [T_a] }
+        \epsilon
         \left(
-        \1(\w^{\top} 
-        \x^{\tau}_{k,n} + \bbeta_i) 
-        (\w) \right)^{\top} \W_l \right).
-\end{aligned}  
-\end{equation}
-注意公式\ref{eq-def-gradient-based-attack-simplified}中的下标$\tau$指的是对抗攻击的梯度步数。
+        \sum_{l \in [K]} \ell^{\prime}_l (\x_{k,n}, y_k) \cdot \left(\nabla_{\x^{\tau}_{k, n}} \h(\x^{\tau}_{k, n})\right)^{\top} \W_l
+        \right)                                              \\
+         & = \x_{k, n} + \sum_{t \in [T_a] } \epsilon \left(
+        \sum_{l \in [K]} \left(
+            \frac{\exp\left( \o^{(l)} \left( \x_{k,n}^{t} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)}\left( \x_{k,n}^{t} \right) \right) } - \delta_{lk}\right)
+        \cdot
+        \left(
+            \1(\w^{\top}
+            \x^{\tau}_{k,n} + \bbeta_i)
+            (\w) \right)^{\top} \W_l \right).
+    \end{aligned}
+\end{equation*}
+注意，上式中的下标\(\tau\)指的是对抗攻击的梯度步数。
 
-作为预热, 以下推论可以直接从\ref{assumption-tpt}推导得出. 因此省略证明.
+作为预热，以下推论可以直接从\cref{chap3-definition-tpt}推导得出。因此省略证明。
 \begin{corollary}
-    设$C_1 > C_2 > 0$为正参数. 如果我们对所有$k \in [K]$, $l \neq k$, 和$i \in \{1, 2\}$令$\W_k \h^{\iter{i}}(\x_{k,n}) = C_i$和$\W_{l} \h^{\iter{i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}$, 那么 
+    设\(C_1 > C_2 > 0\)为正参数。如果我们对所有\(k \in [K]\)，\(l \neq k\)，和\(i \in \{1, 2\}\)令\(\W_k \h^{\iter{i}}(\x_{k,n}) = C_i\)和\(\W_{l} \h^{\iter{i}}(\x_{k,n}) = -C_{i} (K-1)^{-1}\)，那么
     \begin{equation}
         \frac{\exp \left( \W^{\top}_k \h^{\{1\}}(\x_{k,n}) \right)}
-        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{1\}}(\x_{k,n}) \right)} 
-        > 
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{1\}}(\x_{k,n}) \right)}
+        >
         \frac{\exp \left( \W^{\top}_k \h^{\{2\}}(\x_{k,n}) \right)}
         {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{2\}}(\x_{k,n}) \right)}.
     \end{equation}
 \end{corollary}
 
-这个推论表明特征更好地收敛到单纯形ETF (归一化后) 并不意味着更小的训练误差.
-训练风险的最小化 (由$\sigma$刻画) 与单纯形ETF的形成 (由$\h$的元素刻画) 之间存在差距.
-以下引理通过提供$\sigma$与$\h$的元素之间的定量关系来缩小这一差距.
+这个推论表明特征更好地收敛到单纯形ETF (归一化后) 并不意味着更小的训练误差。
+训练风险的最小化 (由\(\sigma\)刻画) 与单纯形ETF的形成 (由\(\h\)的元素刻画) 之间存在差距。
+以下引理通过提供\(\sigma\)与\(\h\)的元素之间的定量关系来缩小这一差距。
 
-\begin{lemma}\label{lemma-principal-entry-of-h}
-对于所有$k \in [K]$和$n \in [N]$, 根据\ref{assumption-tpt}, 我们可以得到  
-\begin{equation}
-\begin{aligned}
-\h^{(k)}(\x_{k,n}) - \h^{(l)}(\x_{k,n}) =&
-\relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) - 
-\relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right) 
-\\
-=& \log(K-1) + \log(\sigma^{-1} - 1)
-\end{aligned}
-\end{equation}
-对所有$l \neq k$在第$T_0$次迭代时成立.
+\begin{lemma}\label{chap3-lemma-principal-entry-of-h}
+    对于所有\(k \in [K]\)和\(n \in [N]\)，根据\cref{chap3-definition-tpt}，我们可以得到
+    \begin{equation}
+        \begin{aligned}
+            \h^{(k)}(\x_{k,n}) - \h^{(l)}(\x_{k,n})
+            = &
+            \relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) -
+            \relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right)
+            \\
+            = & \log(K-1) + \log(\sigma^{-1} - 1)
+        \end{aligned}
+    \end{equation}
+    对所有\(l \neq k\)在第\(T_0\)次迭代时成立。
 \end{lemma}
 
-\begin{proof}[引理\ref{lemma-principal-entry-of-h}]
-对于所有$k \in [K]$和任意$l \neq k$, \ref{assumption-tpt}意味着
-\begin{equation}
-    \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)} 
-    = \exp \left( 
-        \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) - 
-        \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) 
-        \right) = \frac{(1-\sigma)(K-1)}{\sigma},
-\end{equation}
-其中
-\begin{equation}
-\begin{aligned}
-    \W^{\top}_{k} \h^{\{t\}}(\x_{k,n}) - \W^{\top}_{l} \h^{\{t\}}(\x_{k,n}) =& 
-    \frac{K-1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right) 
-    \\
-    &-
-    \left(
-    \frac{K-1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) \right)\\
-    =& \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \relu\left(\w_{l}^{\top} \x_{k,n}\right).
-\end{aligned}
-\end{equation}
-结合以上两个方程, 我们有
-\begin{equation}
-\relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) - 
-\relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right)
-> \log(K-1) + \log(\sigma^{-1} - 1)
-\end{equation}
-对所有$l \neq k$成立, 这完成了证明. 
-\end{proof}
-
-借助\ref{lemma-principal-entry-of-h}, 我们可以得到以下两个关于TPT期间特征增长动力学的引理.
-
-\begin{lemma}[干净训练的TPT阶段]\label{lemma-TPT-clean}
-对于所有$k \in [K]$, $n \in [N]$, 和$t \geq T_0$, 我们有
-\begin{equation}\label{eq-def-assumption-TPT-k-general-t-in-lemma}
-    \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}
-\end{equation}
-and
-\begin{equation}\label{eq-def-assumption-TPT-k1-k2-general-t-in-lemma}
-    \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} 
-    = \frac{\sigma^{\iter{t}}}{K-1},
-\end{equation}
-其中$\sigma^{\iter{T_0}} = \sigma$且
-\begin{equation}\label{eq-def-sigma-t-clean}
-   \sigma^{\iter{t+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \sigma (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
-\end{equation}
-更重要的是, 第$T$次迭代时的特征$\h$满足
-\begin{equation}
-    \frac{\h^{(k),\iter{T}} (\x_{k,n}) }{\h^{(l),\iter{T}} (\x_{k,n})} \to -(K-1)
-\end{equation}
-对任意$k \in [K]$和$l \neq k$成立, 当$T \to \infty$和$\rho \to 0$时.
-\end{lemma}
-
-\begin{proof}[Proof of \ref{lemma-TPT-clean}]
-我们通过归纳法证明这个引理, 首先考虑$t = T_0$的情况.
-由公式\ref{eq-nabla-h-R-Whb-Jacobian-h-wl}, 我们有
-\begin{equation}\label{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}
-\begin{aligned}
-    \nabla_{\w_l} R(\W, \h)
-    =& \frac{1}{NK} \sum_{k \in [K]} \sum_{n \in [N]} 
-    \1(\w^{\top}_{l} \x_{k,n})
-    \left(
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k} 
-    \right)   \W_{k^{\prime}}^{(l)} 
-    \right)   \x_{k,n}
-\end{aligned}
-\end{equation}
-当在\ref{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}中$k \neq l$时, 我们有
-\begin{equation}
-\begin{aligned}
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k} 
-    \right)   \W_{k^{\prime}}^{(l)}
-    &=
-    \frac{K-1}{K}
-    \left( 
-        \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} 
-    \right)
-    -
-    \frac{1}{K}  \sum_{k^{\prime} \neq l}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
-    \right)
-    + \frac{1}{K} \\
-    &= \frac{K-1}{K} \cdot \frac{\sigma}{K-1}
-    -
-    \frac{1}{K} \cdot (K-2) \cdot \frac{\sigma}{K-1}
-    - \frac{1}{K} \cdot (1-\sigma)
-    + \frac{1}{K} \\
-    % &= \frac{1-\sigma}{K(K-1)}. 
-    &= \frac{\sigma}{K-1}
-\end{aligned}
-\end{equation}
-否则, 当在\ref{eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}中$k = l$时, 我们有
-\begin{equation}
-\begin{aligned}
-    \sum_{k^{\prime} \in [K]}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k} 
-    \right)   \W_{k^{\prime}}^{(l)}
-    &=
-    \frac{K-1}{K}
-    \left( 
-        \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - 1
-    \right)
-    -
-    \frac{1}{K}  \sum_{k^{\prime} \neq l}
-    \left( 
-        \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
-    \right) \\
-    &=
-    - \frac{K-1}{K}
-    \cdot
-    \sigma
-    -
-    \frac{1}{K} \cdot (K-1) \cdot
-    \frac{\sigma}{K-1} \\
-    &=
-    - \sigma
-    .   
-\end{aligned}
-\end{equation}
-
-结合以上三个方程, 我们可以将$\nabla_{\w_l} R(\W, \h)$简化为
-
-\begin{equation}
-    \nabla_{\w_l} R(\W, \h)
-    = 
-    \frac{1}{NK} \sum_{n \in [N]} \left(
-    \sum_{k \neq l} \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right) 
-    - \sigma \cdot \x_{l,n}
-    \right).
-\end{equation}
-在$t = T_0$时$\h$和$\w$的更新可以写为
-\begin{equation}\label{eq-def-update-h-T0}
-    \h^{\iter{t+1},(l)}(\x_{x_{k^{\prime}, n}}) 
-    = 
-    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k^{\prime},n}
-    =
-    \left(\w^{\iter{t}}_l \right)^{\top} \x_{k^{\prime},n} -
-    \frac{\eta}{NK} \sum_{n \in [N]} \left(
-    \sum_{k \neq l} \left(\frac{\sigma}{K-1} \cdot \left(\x_{k,n}\right)^{\top} \x_{k^{\prime},n} \right) 
-    - \sigma \cdot 
-    \left(\x_{l,n}\right)^{\top} \x_{k^{\prime},n}
-    \right).
-\end{equation}
-我们如下讨论\ref{eq-def-update-h-T0}中$l$和$k^{\prime}$之间的关系.
-\begin{itemize}
-    \item 当$k^{\prime} = l$时, 我们有
-    \begin{equation}\label{eq-def-update-h-T0-bound-k=l-geq}
-    \begin{aligned}
-    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
-    &=
-    \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right) 
-    - 
-    \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( 
-        \sum_{n^{\prime} \in [N]} 
-        \sum_{k^{\prime} \neq l}
-        \x_{k^{\prime},n^{\prime}} \right)\\
-    &\geq
-    \frac{\eta\sigma}{K} (1 - \rho)^2 - \frac{\eta\sigma(K-1)}{K}\rho(1+\rho)\\
-    &=
-    \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho).
-    \end{aligned}
+\begin{myproof}[\cref{chap3-lemma-principal-entry-of-h}]
+    对于所有\(k \in [K]\)和任意\(l \neq k\)，\cref{chap3-definition-tpt}意味着
+    \begin{equation}
+        \begin{aligned}
+            \frac{\exp \left( \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) \right)}{\exp \left( \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n}) \right)}
+            = & \exp \left(
+            \W^{\top}_k \h^{\{T_0\}}(\x_{k,n}) -
+            \W^{\top}_{l} \h^{\{T_0\}}(\x_{k,n})
+            \right)                             \\
+            = & \frac{(1-\sigma)(K-1)}{\sigma},
+        \end{aligned}
     \end{equation}
-    类似地, 我们可以得到
-    \begin{equation}\label{eq-def-update-h-T0-bound-k=l-leq}
-    \begin{aligned}
-    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} 
-    -
-    \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
-    &\leq  
-    \frac{\eta\sigma}{K} (1 + \rho)^2 + \frac{\eta\sigma(K-1)}{K}\rho(1+\rho)\\
-    &=
-    \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho).
-    \end{aligned}
-    \end{equation}
-    \item 否则, 当$k^{\prime} \neq l$时, 我们有
-    \begin{equation}\label{eq-def-update-h-T0-bound-k-neq-l-leq}
-    \begin{aligned}
-        \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
-        &=
-        -
-        \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right) 
-        -
-        \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left( 
-            \sum_{n^{\prime} \in [N]}
-            \sum_{k \neq l,k^{\prime}}
-            \x_{k,n^{\prime}} \right)
-        +
-        \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{k^{\prime},n^{\prime}} \right)
-        \\
-        &\leq
-        -
-        \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
-        +
-        \frac{\eta\sigma(K-2)}{K(K-1)} \rho(1+\rho)
-        +
-        \frac{\eta\sigma}{K} \rho (1+\rho)\\
-        &= 
-        -
-        \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
-        + O(\rho).
-    \end{aligned}
+    其中
+    \begin{equation*}
+        \begin{aligned}
+            \W^{\top}_{k} \h^{\{t\}}(\x_{k,n}) - \W^{\top}_{l} \h^{\{t\}}(\x_{k,n}) = &
+            \frac{K-1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right)
+            \\ & -
+            \left(
+            \frac{K-1}{K} \relu\left(\w_{l}^{\top} \x_{k,n}\right) - \frac{1}{K} \relu\left(\w_{k}^{\top} \x_{k,n}\right) \right)
+            \\ = & \relu\left(\w_{k}^{\top} \x_{k,n}\right) - \relu\left(\w_{l}^{\top} \x_{k,n}\right).
+        \end{aligned}
+    \end{equation*}
+    结合以上两个方程，我们有
+    \begin{equation*}
+        \relu\left(\left(\w^{\iter{T_0}}_{k}\right)^{\top} \x_{k,n}\right) -
+        \relu\left(\left(\w^{\iter{T_0}}_{l}\right)^{\top} \x_{k,n}\right)
+        > \log(K-1) + \log(\sigma^{-1} - 1)
+    \end{equation*}
+    对所有\(l \neq k\)成立，这完成了证明。
+\end{myproof}
+
+借助\cref{chap3-lemma-principal-entry-of-h}，我们可以得到以下两个关于TPT期间特征增长动力学的引理。
+
+\begin{lemma}[标准训练的训练终止阶段]\label{chap3-lemma-TPT-clean}
+    对于所有\(k \in [K]\)，\(n \in [N]\)，和\(t \geq T_0\)，我们有
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k-general-t-in-lemma}
+        \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}
     \end{equation}
     and
-    \begin{equation}\label{eq-def-update-h-T0-bound-k-neq-l-geq}
-    \begin{aligned}
-        \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n}
-        -
-        \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
-        &\geq
-        -
-        \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
-        -
-        \frac{\eta\sigma(K-2)}{K(K-1)} \rho(1+\rho)
-        -
-        \frac{\eta\sigma}{K} \rho (1+\rho)\\
-        &=
-        -
-        \frac{\eta\sigma}{K(K-1)} (1+\rho)^2 + O(\rho).
-    \end{aligned}
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k1-k2-general-t-in-lemma}
+        \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)}
+        = \frac{\sigma^{\iter{t}}}{K-1},
     \end{equation}
-\end{itemize}
-现在, 考虑第$t+1$次迭代时线性层的输出.
-对于任意$k, l \in [K]$, 我们有
-\begin{equation}\label{eq-output-T+1}
-\begin{aligned}
-    \W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) 
-    &= 
-    \frac{K-1}{K} \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k,n} 
-    - 
-    \frac{1}{K} \sum_{k^{\prime} \neq l} \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n}\\
-    &= \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
-    +
-    \frac{K-1}{K} \left(
-    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n} 
-    \right)
-    -
-    \frac{1}{K} \sum_{k^{\prime} \neq l}
-    \left(
-    \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n}
-    -
-    \left(\w^{\iter{t}}_{k^{\prime}} \right)^{\top} \x_{k,n}
-    \right).
-\end{aligned}
-\end{equation}
-以下界限从公式\ref{eq-def-update-h-T0-bound-k=l-geq}, \ref{eq-def-update-h-T0-bound-k=l-leq}, \ref{eq-def-update-h-T0-bound-k-neq-l-geq}, 和\ref{eq-def-update-h-T0-bound-k-neq-l-leq}推导得出.
-当$k=l$时, \ref{eq-output-T+1}的增长可以被以下界限限制
-\begin{equation}
-\left\{
-\begin{aligned}
-\W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n}) 
-&\leq
-\frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho) \right) 
-+ 
-\frac{1}{K} \cdot (K-1) \cdot \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
-+ O(\rho) \right) \\
-\W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n}) 
-&\geq
-\frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho) \right) 
-+ 
-\frac{1}{K} \cdot (K-1) \cdot \left( \frac{\eta\sigma}{K(K-1)} (1 - \rho)^2
-+ O(\rho) \right),
-\end{aligned}
-\right.
-\end{equation}
-对于$l \neq k$, 类似的界限如下.
-\begin{equation}
-\left\{
-\begin{aligned}
-\W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
-&\leq
-- \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1-\rho)^2
-+ O(\rho) \right) 
-+ 
-\frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2 + O(\rho) \right) 
--
-\frac{1}{K} \left( \frac{\eta\sigma}{K} (1 - \rho)^2 + O(\rho) \right)
-\\
-\W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n}) 
-&\geq
-- \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1+\rho)^2
-+ O(\rho) \right) 
-+ 
-\frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1-\rho)^2 + O(\rho) \right) 
--
-\frac{1}{K} \left( \frac{\eta\sigma}{K} (1 + \rho)^2 + O(\rho) \right)
-\end{aligned}
-\right.
-\end{equation}
-我们检查$\h$的主元素, 并以与\ref{lemma-principal-entry-of-h}类似的风格建立界限.
-For any $k \in [K]$ and $l\neq k$, we have
-\begin{equation}
-\begin{aligned}
-&\relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) - 
-\relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right)
-\\
-\geq& \log(K-1) + \log(\sigma^{-1} - 1) + 
-\frac{\eta\sigma(K+2)}{K^2} (1 - \rho)^2
-- 
-\frac{\eta\sigma(K-2)}{K^2(K-1)} (1+\rho)^2 
-+ O(\rho) \\
-=& \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 - \rho)^2 + O(\rho).
-\end{aligned}
-\end{equation}
-and
-\begin{equation}
-\relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) - 
-\relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right)
-\leq \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 + \rho)^2 + O(\rho).
-\end{equation}
-Denote
-\begin{equation}
-    C_1 = \frac{\eta (K^2-2)}{K^2(K-1)}.
-\end{equation}
-The updated training risk can be characterized by $\sigma^{\iter{T_0+1}}$ that satisfies
-\begin{equation}
-    \log\left(\left(\sigma^{\iter{T_0+1}}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) + C_1 \sigma (1 \pm \rho)^2 + O(\rho), 
-\end{equation}
-which can be simplified to
-\begin{equation}
-   \sigma^{\iter{T_0+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(C_1 \sigma (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
-\end{equation}
-回到这个引理的主要目标. 
-我们已经证明了当$t=T_0$时公式\ref{eq-def-assumption-TPT-k-general-t-in-lemma}和公式\ref{eq-def-assumption-TPT-k1-k2-general-t-in-lemma}成立.
-现在, 对于任意$t > T_0$, 注意到公式\ref{eq-def-update-h-T0-bound-k=l-geq}, \ref{eq-def-update-h-T0-bound-k=l-leq}, \ref{eq-def-update-h-T0-bound-k-neq-l-geq}和公式\ref{eq-def-update-h-T0-bound-k-neq-l-leq}对公式\ref{eq-def-sigma-t-clean}中定义的$\sigma^{\iter{t}}$仍成立.
-我们通过归纳法立即得到对所有$t \geq T_0$, 公式\ref{eq-def-assumption-TPT-k-general-t-in-lemma}和公式\ref{eq-def-assumption-TPT-k1-k2-general-t-in-lemma}成立.
-第$T$次迭代时的特征可以通过取以下和来计算
-\begin{equation}\label{eq-def-update-h-k=l}
-\begin{aligned}
-\left(\w^{\iter{T}}_l \right)^{\top} \x_{l,n} 
-=
-\left(\w^{\iter{T_0}}_l \right)^{\top} \x_{l,n} 
-+
-\sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2 + O(\rho)
-\to \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2.
-\end{aligned}
-\end{equation}
-对于$l=k$, 且 
-\begin{equation}\label{eq-def-update-h-k-neq-l}
-    \left(\w^{\iter{T}}_l \right)^{\top} \x_{k,n}
-    =
-    \left(\w^{\iter{T_0}}_l \right)^{\top} \x_{k,n}
-    -
-    \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K(K-1)} (1+\tilde{\rho})^2 + O(\rho) 
-    \to -\frac{1}{K-1} \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\rho})^2.
-\end{equation}
-对于$k \neq l$, 当$T \to \infty$和$\rho \to 0$时.
-我们通过结合公式\ref{eq-def-update-h-k=l}和\ref{eq-def-update-h-k-neq-l}完成证明.
-\end{proof}
-
-\begin{lemma}[对抗训练的TPT阶段]\label{lemma-TPT-AT}
-对于所有$k \in [K]$, $n \in [N]$, 和$t \geq T_0$, 我们有
-\begin{equation}\label{eq-def-assumption-TPT-k-general-t-AT-in-lemma}
-    \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}_{adv}
-\end{equation}
-and
-\begin{equation}\label{eq-def-assumption-TPT-k1-k2-general-t-AT-in-lemma}
-    \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
-    {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} 
-    = \frac{\sigma^{\iter{t}}_{adv}}{K-1},
-\end{equation}
-in which $\sigma^{\iter{T_0}}_{adv}$ can be obtained by iterating with $\sigma^{0} = \sigma$ and
-\begin{equation}\label{eq-def-sigma-adv-at-T0}
-    \sigma^{\tau+1} = \left(\left(\left(\sigma^{\tau}\right)^{-1} - 1\right) 
-    \exp\left(
-        -\frac{\epsilon \left(\sigma^{\tau}\right) K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l
-        \right) 
-    + O(\rho)\right) + 1\right)^{-1} > \sigma^{\tau}.
-\end{equation}
-to the maximum PGD step $\tau=T_a$, and
-\begin{equation}
-   \sigma^{\iter{t+1}}_{adv} = \left(\left(\left(\sigma^{t}\right)^{-1}_{adv} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \left(\sigma^{t}\right)_{adv} (1 + \tilde{\rho})^2 + O(\rho)\right) + 1\right)^{-1}.
-\end{equation}
-更重要的是, 第$T$次迭代时的特征$\h$满足
-\begin{equation}
-    \frac{\h^{(k),\iter{T}} (\x^{adv}_{k,n}) }{\h^{(l),\iter{T}} (\x^{adv}_{k,n})} \to -(K-1)
-\end{equation}
-for any $k \in [K]$ and $l \neq k$ as $T \to \infty$.
+    其中\(\sigma^{\iter{T_0}} = \sigma\)且
+    \begin{equation}\label{chap3-eq-def-sigma-t-clean}
+        \sigma^{\iter{t+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \sigma (1 + \tilde{\xi})^2 + O(\xi)\right) + 1\right)^{-1}.
+    \end{equation}
+    更重要的是，第\(T\)次迭代时的特征\(\h\)满足
+    \begin{equation}
+        \frac{\h^{(k),\iter{T}} (\x_{k,n}) }{\h^{(l),\iter{T}} (\x_{k,n})} \to -(K-1)
+    \end{equation}
+    对任意\(k \in [K]\)和\(l \neq k\)成立，当\(T \to \infty\)和\(\xi \to 0\)时。
 \end{lemma}
 
-\begin{proof}[Proof of \ref{lemma-TPT-AT}]
-引理\ref{lemma-TPT-clean}与引理\ref{lemma-TPT-AT}之间的主要区别在于对抗样本的特性.
-只需在第$t = T_0$次迭代时证明公式\ref{eq-def-sigma-adv-at-T0}即可.
-证明的其余部分与引理\ref{lemma-TPT-clean}类似.
-结合假设\ref{assumption-tpt}和公式\ref{eq-def-gradient-based-attack-itertion}, 公式\ref{eq-nabla-x-l}, 我们可以得到
-\begin{equation}\label{eq-PGD-attack-iteration-1}
-\begin{aligned}
-    \x_{k,n}^{1} &= \x_{k,n} + \left(
-    \sum_{l \in [K]} \epsilon \left(
-    \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right) 
-    \left(\nabla_{\x} \h(\x_{k,n})\right)^{\top} \W_l \right) \\
-    &= \x_{k,n} + \left(
-    \sum_{l \in [K]} \epsilon \left(
-    \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right) 
-    \left(
-        \frac{K-1}{K} \cdot \1\left((\w_l)^{\top}\x_{k,n}\right) \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \1\left((\w_{k^{\prime}})^{\top}\x_{k,n}\right) \w_{k^{\prime}}
-    \right)
-    \right)
-\end{aligned}
-\end{equation}
-通过讨论\ref{eq-PGD-attack-iteration-1}中的第二项, 我们有
+\begin{myproof}[\cref{chap3-lemma-TPT-clean}]
+    我们通过归纳法证明这个引理，首先考虑\(t = T_0\)的情况。
+    由\cref{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl}，我们有
+    \begin{equation}\label{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}
+        \begin{aligned}
+              & \nabla_{\w_l} R(\W, \h) \\
+            = & \frac{1}{NK} \sum_{n,k}
+            \1(\w^{\top}_{l} \x_{k,n})
+            \left(
+            \sum_{k^{\prime} \in [K]}
+            \left(
+                \frac{\exp \left(\o^{(k^{\prime})}(\x_{k,n})\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}(\x_{k,n})\right)} - \delta_{k^{\prime}k}
+                \right)   \W_{k^{\prime}}^{(l)}
+            \right)   \x_{k,n}
+        \end{aligned}
+    \end{equation}
+    当在\cref{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}中\(k \neq l\)时，我们有
+    \begin{equation*}
+        \begin{aligned}
+            \sum_{k^{\prime} \in [K]}
+            \left(
+            \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k}
+            \right)   \W_{k^{\prime}}^{(l)}
+            = &
+            \frac{K-1}{K}
+            \left(
+            \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+            \right)                                          \\
+              & -
+            \frac{1}{K}  \sum_{k^{\prime} \neq l}
+            \left(
+            \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+            \right)
+            + \frac{1}{K}                                    \\
+            = & \frac{K-1}{K} \cdot \frac{\sigma}{K-1}
+            -
+            \frac{1}{K} \cdot (K-2) \cdot \frac{\sigma}{K-1} \\
+              & - \frac{1}{K} \cdot (1-\sigma)
+            + \frac{1}{K}                                    \\
+            % &= \frac{1-\sigma}{K(K-1)}. 
+            = & \frac{\sigma}{K-1}
+        \end{aligned}
+    \end{equation*}
+    否则，当在\cref{chap3-eq-nabla-h-R-Whb-Jacobian-h-wl-TPT}中\(k = l\)时，我们有
+    \begin{equation*}
+        \begin{aligned}
+            \sum_{k^{\prime} \in [K]}
+            \left(
+            \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - \delta_{k^{\prime}k}
+            \right)   \W_{k^{\prime}}^{(l)}
+            = &
+            \frac{K-1}{K}
+            \left(
+            \frac{\exp \left(\o^{(l)}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)} - 1
+            \right)            \\
+              & -
+            \frac{1}{K}  \sum_{k^{\prime} \neq l}
+            \left(
+            \frac{\exp \left(\o^{(k^{\prime})}_{k,n}\right)}{\sum_{j \in [K]} \exp\left(\o^{(j)}_{k,n}\right)}
+            \right)            \\
+            = &
+            - \frac{K-1}{K}
+            \cdot
+            \sigma
+            -
+            \frac{1}{K} \cdot (K-1) \cdot
+            \frac{\sigma}{K-1} \\
+            = &
+            - \sigma
+            .
+        \end{aligned}
+    \end{equation*}
 
-\begin{equation}
-\x_{k,n}^{1} = \x_{k,n} -
-\epsilon\sigma \left( 
-    \left(
-        \frac{K-1}{K} \cdot \w_k - \frac{1}{K}\sum_{k^{\prime} \neq k} \w_{k^{\prime}}
-    \right)
--
-\sum_{l \neq k} \frac{1}{K-1} \cdot 
-    \left(
-        \frac{K-1}{K} \cdot \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \w_{k^{\prime}}
-    \right)
-\right).
-\end{equation}
-通过按$\w_l$整理项 (并利用$l \neq k$的对称性), 我们有
-\begin{equation}
-\x_{k,n}^{1} = \x_{k,n} -
-\epsilon\sigma 
-\left( 
-    \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
-\right).
-\end{equation}
-再次, 我们在对$\x$进行一步对抗攻击后检查$\h$的主元素.
-For any $k \in [K]$ and $l\neq k$, we have
-\begin{equation}
-\begin{aligned}
-&\relu\left(\left(\w_{k}\right)^{\top} \x^{1}_{k,n}\right) - 
-\relu\left(\left(\w_{l}\right)^{\top} \x^{1}_{k,n}\right)
-\\
-\geq& \log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left( 
-    \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
-\right)
-\\
-=&\log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left( 
-    \frac{K}{K-1} \w_k + O(\rho)
-\right) \\
-=& \log(K-1) + \log(\sigma^{-1} - 1) - 
-   \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\rho).
-\end{aligned}
-\end{equation}
-可以观察到, 在梯度步之后训练风险增加, 这是由于对抗样本的性质.
-The updated training risk can be characterized by $\sigma^{\iter{T_0+1}}$ that satisfies
-\begin{equation}
-\log\left(\left(\tilde{\sigma}^{1}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) - 
-   \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\rho), 
-\end{equation}
-which can be simplified to
-\begin{equation}
-    \sigma^{1} = \left(\left(\sigma^{-1} - 1\right) 
-    \exp\left(
+    结合以上三个方程，我们可以将\(\nabla_{\w_l} R(\W, \h)\)简化为
+
+    \begin{equation}
+        \nabla_{\w_l} R(\W, \h)
+        =
+        \frac{1}{NK} \sum_{n \in [N]} \left(
+        \sum_{k \neq l} \left(\frac{\sigma}{K-1} \cdot \x_{k,n}\right)
+        - \sigma \cdot \x_{l,n}
+        \right).
+    \end{equation}
+    在\(t = T_0\)时\(\h\)和\(\w\)的更新可以写为
+    \begin{equation}\label{chap3-eq-def-update-h-T0}
+        \begin{aligned}
+            \h^{\iter{t+1},(l)}(\x_{x_{k^{\prime}, n}})
+            = &
+            \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k^{\prime},n} \\
+            = &
+            \left(\w^{\iter{t}}_l \right)^{\top} \x_{k^{\prime},n}   \\
+              & -
+            \frac{\eta}{NK} \sum_{n \in [N]} \left(
+            \sum_{k \neq l} \left(\frac{\sigma \cdot \left(\x_{k,n}\right)^{\top} \x_{k^{\prime},n} }{K-1}  \right)
+            - \sigma \cdot
+            \left(\x_{l,n}\right)^{\top} \x_{k^{\prime},n}
+            \right).
+        \end{aligned}
+    \end{equation}
+    下面我们对\cref{chap3-eq-def-update-h-T0}中\(l\)和\(k^{\prime}\)之间的关系进行讨论。
+    \begin{itemize}
+        \item 当\(k^{\prime} = l\)时，我们有
+              \begin{equation}\label{chap3-eq-def-update-h-T0-bound-k=l-geq}
+                  \begin{aligned}
+                           & \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n} \\
+                      =    &
+                      \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right)
+                      -
+                      \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left(
+                      \sum_{n^{\prime} \in [N]}
+                      \sum_{k^{\prime} \neq l}
+                      \x_{k^{\prime},n^{\prime}} \right)                                                                     \\
+                      \geq &
+                      \frac{\eta\sigma}{K} (1 - \xi)^2 - \frac{\eta\sigma(K-1)}{K}\xi(1+\xi)                                 \\
+                      =    &
+                      \frac{\eta\sigma}{K} (1 - \xi)^2 + O(\xi).
+                  \end{aligned}
+              \end{equation}
+              类似地，我们可以得到
+              \begin{equation}\label{chap3-eq-def-update-h-T0-bound-k=l-leq}
+                  \begin{aligned}
+                      \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n}
+                      -
+                      \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+                       & \leq
+                      \frac{\eta\sigma}{K} (1 + \xi)^2 + \frac{\eta\sigma(K-1)}{K}\xi(1+\xi) \\
+                       & =
+                      \frac{\eta\sigma}{K} (1 + \xi)^2 + O(\xi).
+                  \end{aligned}
+              \end{equation}
+        \item 否则，当\(k^{\prime} \neq l\)时，我们有
+              \begin{equation}\label{chap3-eq-def-update-h-T0-bound-k-neq-l-leq}
+                  \begin{aligned}
+                           & \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n} \\
+                      =    &
+                      -
+                      \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{l,n^{\prime}} \right)  \\
+                           & -
+                      \frac{\eta\sigma}{NK(K-1)} \x_{l,n}^{\top} \left(
+                      \sum_{n^{\prime} \in [N]}
+                      \sum_{k \neq l,k^{\prime}}
+                      \x_{k,n^{\prime}} \right)
+                      +
+                      \frac{\eta\sigma}{NK} \x_{l,n}^{\top} \left( \sum_{n^{\prime} \in [N]} \x_{k^{\prime},n^{\prime}} \right)
+                      \\
+                      \leq &
+                      -
+                      \frac{\eta\sigma}{K(K-1)} (1-\xi)^2
+                      +
+                      \frac{\eta\sigma(K-2)}{K(K-1)} \xi(1+\xi)
+                      +
+                      \frac{\eta\sigma}{K} \xi (1+\xi)                                                                       \\
+                      =    &
+                      -
+                      \frac{\eta\sigma}{K(K-1)} (1-\xi)^2
+                      + O(\xi).
+                  \end{aligned}
+              \end{equation}
+              以及
+              \begin{equation}\label{chap3-eq-def-update-h-T0-bound-k-neq-l-geq}
+                  \begin{aligned}
+                    \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n}
+                      -
+                      \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+                      \geq &
+                      -
+                      \frac{\eta\sigma}{K(K-1)} (1+\xi)^2                    \\
+                           & -
+                      \frac{\eta\sigma(K-2)}{K(K-1)} \xi(1+\xi)
+                      -
+                      \frac{\eta\sigma}{K} \xi (1+\xi)                       \\
+                      =    & - \frac{\eta\sigma}{K(K-1)} (1+\xi)^2 + O(\xi).
+                  \end{aligned}
+              \end{equation}
+    \end{itemize}
+    现在，考虑第\(t+1\)次迭代时线性层的输出。
+    对于任意\(k, l \in [K]\)，我们有
+    \begin{equation}\label{chap3-eq-output-T+1}
+        \begin{aligned}
+            \W^{\top}_l \h^{\{t + 1\}}(\x_{k,n})
+            = &
+            \frac{K-1}{K} \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{k,n}
+            -
+            \frac{1}{K} \sum_{k^{\prime} \neq l} \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n} \\
+            = & \W^{\top}_l \h^{\{t\}}(\x_{k,n})
+            +
+            \frac{K-1}{K} \left(
+            \left(\w^{\iter{t+1}}_l \right)^{\top} \x_{l,n} - \left(\w^{\iter{t}}_l \right)^{\top} \x_{l,n}
+            \right) \\
+            & -
+            \frac{1}{K} \sum_{k^{\prime} \neq l}
+            \left(
+            \left(\w^{\iter{t+1}}_{k^{\prime}} \right)^{\top} \x_{k,n}
+            -
+            \left(\w^{\iter{t}}_{k^{\prime}} \right)^{\top} \x_{k,n}
+            \right).
+        \end{aligned}
+    \end{equation}
+    以下界限从\cref{chap3-eq-def-update-h-T0-bound-k=l-geq,chap3-eq-def-update-h-T0-bound-k=l-leq,chap3-eq-def-update-h-T0-bound-k-neq-l-geq,chap3-eq-def-update-h-T0-bound-k-neq-l-leq}推导得出。
+    当\(k=l\)时，\cref{chap3-eq-output-T+1}的增长可以被以下界限限制
+    \begin{equation*}
+        \left\{
+        \begin{aligned}
+            \W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n})
+            \leq &
+            \frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 + \xi)^2 + O(\xi) \right) \\
+            & +
+            \frac{K-1}{K} \cdot \left( \frac{\eta\sigma}{K(K-1)} (1+\xi)^2
+            + O(\xi) \right) \\
+            \W^{\top}_k \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_k \h^{\{t\}}(\x_{k,n})
+            \geq &
+            \frac{K-1}{K} \left( \frac{\eta\sigma}{K} (1 - \xi)^2 + O(\xi) \right) \\
+            & +
+            \frac{K-1}{K} \cdot \left( \frac{\eta\sigma}{K(K-1)} (1 - \xi)^2
+            + O(\xi) \right),
+        \end{aligned}
+        \right.
+    \end{equation*}
+    对于\(l \neq k\)，类似的界限如下。
+    \begin{equation*}
+        \left\{
+        \begin{aligned}
+            \W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n})
+            \leq &
+            - \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1-\xi)^2
+            + O(\xi) \right) \\
+            & +
+            \frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1+\xi)^2 + O(\xi) \right) \\
+            & -
+            \frac{1}{K} \left( \frac{\eta\sigma}{K} (1 - \xi)^2 + O(\xi) \right)
+            \\
+            \W^{\top}_l \h^{\{t + 1\}}(\x_{k,n}) - \W^{\top}_l \h^{\{t\}}(\x_{k,n})
+            \geq &
+            - \frac{K-1}{K}  \left( \frac{\eta\sigma}{K(K-1)} (1+\xi)^2
+            + O(\xi) \right) \\
+            & +
+            \frac{K-2}{K} \left( \frac{\eta\sigma}{K(K-1)} (1-\xi)^2 + O(\xi) \right) \\
+            & -
+            \frac{1}{K} \left( \frac{\eta\sigma}{K} (1 + \xi)^2 + O(\xi) \right).
+        \end{aligned}
+        \right.
+    \end{equation*}
+    我们检查\(\h\)的主元素，并以与\cref{chap3-lemma-principal-entry-of-h}类似的风格建立不等式。
+    对于任意\(k \in [K]\)和\(l\neq k\)，我们可以得到
+    \begin{equation*}
+        \begin{aligned}
+                 & \relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) -
+            \relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right)
+            \\
+            \geq & \log(K-1) + \log(\sigma^{-1} - 1) +
+            \frac{\eta\sigma(K+2)}{K^2} (1 - \xi)^2
+            -
+            \frac{\eta\sigma(K-2)}{K^2(K-1)} (1+\xi)^2
+            + O(\xi)                                                                                            \\
+            =    & \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 - \xi)^2 + O(\xi).
+        \end{aligned}
+    \end{equation*}
+    以及
+    \begin{equation*}
+    \begin{aligned}
+        & \relu\left(\left(\w^{\iter{T_0+1}}_{k}\right)^{\top} \x_{k,n}\right) -
+        \relu\left(\left(\w^{\iter{T_0+1}}_{l}\right)^{\top} \x_{k,n}\right) \\
+        \leq 
+        & \log(K-1) + \log(\sigma^{-1} - 1) + \frac{\eta \sigma(K^2-2)}{K^2(K-1)}(1 + \xi)^2 + O(\xi).
+    \end{aligned}
+    \end{equation*}
+    记
+    \begin{equation}
+        C_1 = \frac{\eta (K^2-2)}{K^2(K-1)},
+    \end{equation}
+    更新后的训练风险可以被\(\sigma^{\iter{T_0+1}}\)刻画，满足
+    \begin{equation}
+        \log\left(\left(\sigma^{\iter{T_0+1}}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) + C_1 \sigma (1 \pm \xi)^2 + O(\xi).
+    \end{equation}
+    上式两边同时取指数，可以简化为
+    \begin{equation}
+        \sigma^{\iter{T_0+1}} = \left(\left(\sigma^{-1} - 1\right) \exp\left(C_1 \sigma (1 + \tilde{\xi})^2 + O(\xi)\right) + 1\right)^{-1}.
+    \end{equation}
+    回到这个引理的主要目标，我们已经证明了当\(t=T_0\)时\cref{chap3-eq-def-definition-tpt-k-general-t-in-lemma,chap3-eq-def-definition-tpt-k1-k2-general-t-in-lemma}成立。
+    现在，对于任意\(t > T_0\)，注意到\cref{chap3-eq-def-update-h-T0-bound-k=l-geq,chap3-eq-def-update-h-T0-bound-k=l-leq,chap3-eq-def-update-h-T0-bound-k-neq-l-geq,chap3-eq-def-update-h-T0-bound-k-neq-l-leq,chap3-eq-def-sigma-t-clean}中定义的\(\sigma^{\iter{t}}\)仍成立。
+    我们通过归纳法立即得到对所有\(t \geq T_0\)，\cref{chap3-eq-def-definition-tpt-k-general-t-in-lemma}和\cref{chap3-eq-def-definition-tpt-k1-k2-general-t-in-lemma}成立。
+    第\(T\)次迭代时的特征可以通过取以下和来计算。对于\(l=k\)，我们有
+    \begin{equation}\label{chap3-eq-def-update-h-k=l}
+        \begin{aligned}
+            \left(\w^{\iter{T}}_l \right)^{\top} \x_{l,n}
+            & =
+            \left(\w^{\iter{T_0}}_l \right)^{\top} \x_{l,n}
+            +
+            \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\xi})^2 + O(\xi) \\
+            & \to \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\xi})^2.
+        \end{aligned}
+    \end{equation}
+    对于\(l \neq k\)，我们有
+    \begin{equation}\label{chap3-eq-def-update-h-k-neq-l}
+        \begin{aligned} 
+        \left(\w^{\iter{T}}_l \right)^{\top} \x_{k,n}
+        & =
+        \left(\w^{\iter{T_0}}_l \right)^{\top} \x_{k,n}
+        -
+        \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K(K-1)} (1+\tilde{\xi})^2 + O(\xi) \\
+        & \to -\frac{1}{K-1} \sum_{T_0 \leq t \leq T} \frac{\eta\sigma^{\iter{t}}}{K} (1 + \tilde{\xi})^2.
+        \end{aligned}
+    \end{equation}
+    上式当\(T \to \infty\)和\(\xi \to 0\)时成立。
+    我们通过结合\cref{chap3-eq-def-update-h-k=l,chap3-eq-def-update-h-k-neq-l}完成证明。
+\end{myproof}
+
+\begin{lemma}[对抗训练的训练终止阶段]\label{chap3-lemma-TPT-AT}
+    对于所有\(k \in [K]\)，\(n \in [N]\)，和\(t \geq T_0\)，我们有
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k-general-t-AT-in-lemma}
+        \frac{\exp \left( \W^{\top}_k \h^{\{t\}}(\x_{k,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)} = 1 - \sigma^{\iter{t}}_{adv}
+    \end{equation}
+    以及
+    \begin{equation}\label{chap3-eq-def-definition-tpt-k1-k2-general-t-AT-in-lemma}
+        \frac{\exp \left( \W^{\top}_{k_1} \h^{\{t\}}(\x_{k_2,n}) \right)}
+        {\sum_{k^{\prime}} \exp \left( \W^{\top}_{k^{\prime}} \h^{\{t\}}(\x_{k_2,n}) \right)}
+        = \frac{\sigma^{\iter{t}}_{adv}}{K-1},
+    \end{equation}
+    其中\(\sigma^{\iter{T_0}}_{adv}\)可以通过迭代\(\sigma^{0} = \sigma\)得到，即
+    \begin{equation}\label{chap3-eq-def-sigma-adv-at-T0}
+        \sigma^{\tau+1} = \left(\left(\left(\sigma^{\tau}\right)^{-1} - 1\right)
+        \exp\left(
+        -\frac{\epsilon \left(\sigma^{\tau}\right) K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l
+        \right)
+        + O(\xi)\right) + 1\right)^{-1} > \sigma^{\tau}.
+    \end{equation}
+    直到PGD的最大迭代步 \(\tau=T_a\)，以及
+    \begin{equation}
+        \sigma^{\iter{t+1}}_{adv} = \left(\left(\left(\sigma^{t}\right)^{-1}_{adv} - 1\right) \exp\left(\frac{\eta (K^2-2)}{K^2(K-1)} \cdot \left(\sigma^{t}\right)_{adv} (1 + \tilde{\xi})^2 + O(\xi)\right) + 1\right)^{-1}.
+    \end{equation}
+    更重要的是，第\(T\)次迭代时的特征\(\h\)满足
+    \begin{equation}
+        \frac{\h^{(k),\iter{T}} (\x^{adv}_{k,n}) }{\h^{(l),\iter{T}} (\x^{adv}_{k,n})} \to -(K-1)
+    \end{equation}
+    对任意\(k \in [K]\)和\(l \neq k\)，当\(T \to \infty\)时成立。
+\end{lemma}
+
+\begin{myproof}[\cref{chap3-lemma-TPT-AT}]
+    \cref{chap3-lemma-TPT-clean}与\cref{chap3-lemma-TPT-AT}之间的主要区别在于对抗样本的特性。
+    只需在第\(t = T_0\)次迭代时证明\cref{chap3-eq-def-sigma-adv-at-T0}即可。
+    证明的其余部分与\cref{chap3-lemma-TPT-clean}类似。
+    结合\cref{chap3-definition-tpt}和\cref{chap3-eq-def-gradient-based-attack-itertion,chap3-eq-nabla-x-l}，我们可以得到
+    \begin{equation}\label{chap3-eq-PGD-attack-iteration-1}
+        \begin{aligned}
+            \x_{k,n}^{1} & = \x_{k,n} + \left(
+            \sum_{l \in [K]} \epsilon \left(
+                \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right)
+            \left(\nabla_{\x} \h(\x_{k,n})\right)^{\top} \W_l \right) \\
+                         & = \x_{k,n} + \left(
+            \sum_{l \in [K]} \epsilon \left(
+            \frac{\exp\left( \o^{(l)} \left( \x_{k,n} \right) \right) }{\sum_{j \in [K]} \exp \left( \o^{(j)} \left( \x_{k,n} \right) \right) } - \delta_{lk}\right)
+            \left(
+            \frac{K-1}{K} \cdot \1\left((\w_l)^{\top}\x_{k,n}\right) \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \1\left((\w_{k^{\prime}})^{\top}\x_{k,n}\right) \w_{k^{\prime}}
+            \right)
+            \right)
+        \end{aligned}
+    \end{equation}
+    通过讨论\cref{chap3-eq-PGD-attack-iteration-1}中的第二项，我们有
+
+    \begin{equation}
+        \x_{k,n}^{1} = \x_{k,n} -
+        \epsilon\sigma \left(
+        \left(
+            \frac{K-1}{K} \cdot \w_k - \frac{1}{K}\sum_{k^{\prime} \neq k} \w_{k^{\prime}}
+            \right)
+        -
+        \sum_{l \neq k} \frac{1}{K-1} \cdot
+        \left(
+            \frac{K-1}{K} \cdot \w_l - \frac{1}{K}\sum_{k^{\prime} \neq l} \w_{k^{\prime}}
+            \right)
+        \right).
+    \end{equation}
+    通过按\(\w_l\)整理项 (并利用\(l \neq k\)的对称性)，我们有
+    \begin{equation}
+        \x_{k,n}^{1} = \x_{k,n} -
+        \epsilon\sigma
+        \left(
+        \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
+        \right).
+    \end{equation}
+    我们再次对\(\x\)进行一步对抗攻击，并在攻击后检查\(\h\)的主元素。
+    对于任意\(k \in [K]\)和\(l\neq k\)，我们有
+    \begin{equation}
+        \begin{aligned}
+                 & \relu\left(\left(\w_{k}\right)^{\top} \x^{1}_{k,n}\right) -
+            \relu\left(\left(\w_{l}\right)^{\top} \x^{1}_{k,n}\right)
+            \\
+            \geq & \log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left(
+            \w_k - \frac{1}{K-1}\sum_{l \neq k}\w_l
+            \right)
+            \\
+            =    & \log(K-1) + \log(\sigma^{-1} - 1) - \epsilon \sigma (\w_k - \w_l)^{\top} \left(
+            \frac{K}{K-1} \w_k + O(\xi)
+            \right)                                                                                \\
+            =    & \log(K-1) + \log(\sigma^{-1} - 1) -
+            \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\xi).
+        \end{aligned}
+    \end{equation}
+    可以观察到，在梯度步之后训练风险增加，这是由于对抗样本的性质。
+    The updated training risk can be characterized by \(\sigma^{\iter{T_0+1}}\) that satisfies
+    \begin{equation}
+        \log\left(\left(\tilde{\sigma}^{1}\right)^{-1} - 1\right) = \log\left(\sigma^{-1} - 1\right) -
+        \frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l\right) +O(\xi),
+    \end{equation}
+    which can be simplified to
+    \begin{equation}
+        \sigma^{1} = \left(\left(\sigma^{-1} - 1\right)
+        \exp\left(
         -\frac{\epsilon \sigma K}{K-1} \left(\|\w_{k}\|^2 - \w_k^{\top} \w_l
-        \right) 
-    + O(\rho)\right) + 1\right)^{-1}.
-\end{equation}
-我们通过归纳法证明这个引理.
-\end{proof}
+        \right)
+        + O(\xi)\right) + 1\right)^{-1}.
+    \end{equation}
+    我们通过归纳法证明这个引理。
+\end{myproof}
 
-\section{本章小结}\label{sec-nc-conclusion}
-许多先前的工作利用NC来提升神经网络的性能. 
-例如, \cite{DBLP:conf/cvpr/ZhongCY0QZJ23}提出了一种在NC2约束下进行语义分割的方法, 而\cite{DBLP:conf/iccv/0001SHLW23}探索了受NC启发的联邦学习. 此外, NC已被应用于不同领域的各种任务, 例如离分布检测 \cite{DBLP:conf/icassp/ZhangCJZG24,DBLP:conf/iclr/AmmarBPMF24}, 类别不平衡学习 \cite{DBLP:conf/icml/0003HNH24}.
-考虑到通过大量实验和理论分析已证明单纯形压缩现象的有效性, 利用这些见解来增强对抗防御的性能可能会在未来进一步提高神经网络的鲁棒性.
 
-我们的实验结果和理论分析表明单纯形范数$\boldsymbol{P}_{\epsilon}$与扰动半径$\epsilon$之间存在显著的负相关关系, 这是我们新发现的单纯形压缩现象的核心.
-然而, 这种关系的精确数学形式超出了本文的范围, 有待未来研究.
+\section{本章小结}\label{chap3-sec-nc-conclusion}
+许多先前的工作利用NC来提升神经网络的性能。
+例如，\cite{DBLP:conf/cvpr/ZhongCY0QZJ23}提出了一种在NC2约束下进行语义分割的方法，而\cite{DBLP:conf/iccv/0001SHLW23}探索了受NC启发的联邦学习。此外，NC已被应用于不同领域的各种任务，例如离分布检测 \cite{DBLP:conf/icassp/ZhangCJZG24,DBLP:conf/iclr/AmmarBPMF24}，类别不平衡学习 \cite{DBLP:conf/icml/0003HNH24}。
+考虑到通过大量实验和理论分析已证明单纯形压缩现象的有效性，利用这些见解来增强对抗防御的性能可能会在未来进一步提高神经网络的鲁棒性。
 
-总之, 本文专注于探索和解释标准NC与对抗NC之间的差异.
-我们观察到仅在AT下发生的单纯形压缩现象.
-更具体地说, 我们发现单纯形范数随着扰动半径的增大而压缩.
-基于大量实验, 我们验证了我们的发现在各种数据集, 模型和AT算法中的普适性. 
-我们还为单纯形压缩现象提供了理论解释.
-在\ref{subsec-nc-assumptions}中的假设下, 我们首先通过在\ref{theorem-NC2}中指定干净训练和AT下的单纯形范数 (即$\boldsymbol{P}_{0}$和$\boldsymbol{P}_{\epsilon}$) 来证明干净训练和AT下关于NC2的结果.
-此外, 我们在\ref{theorem-simplex-compression}中证明了扰动半径与单纯形范数之间的负相关关系.
-我们的理论结果与实证发现一致, 这进一步验证了我们新发现的单纯形压缩现象.
+我们的实验结果和理论分析表明单纯形范数\(\boldsymbol{P}_{\epsilon}\)与扰动半径\(\epsilon\)之间存在显著的负相关关系，这是我们新发现的单纯形压缩现象的核心。
+然而，这种关系的精确数学形式超出了本文的范围，有待未来研究。
+
+总之，本文专注于探索和解释标准NC与对抗NC之间的差异。
+我们观察到仅在AT下发生的单纯形压缩现象。
+更具体地说，我们发现单纯形范数随着扰动半径的增大而压缩。
+基于大量实验，我们验证了我们的发现在各种数据集，模型和AT算法中的普适性。
+我们还为单纯形压缩现象提供了理论解释。
+% 在\ref{subsec-nc-assumptions}中的假设下，我们首先通过在\ref{theorem-NC2}中指定标准训练和AT下的单纯形范数 (即\(\boldsymbol{P}_{0}\)和\(\boldsymbol{P}_{\epsilon}\)) 来证明标准训练和AT下关于NC2的结果。
+% 此外，我们在\ref{theorem-simplex-compression}中证明了扰动半径与单纯形范数之间的负相关关系。
+我们的理论结果与实证发现一致，这进一步验证了我们新发现的单纯形压缩现象。

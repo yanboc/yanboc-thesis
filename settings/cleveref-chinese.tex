@@ -1,45 +1,58 @@
+% !TEX root = ../thesis.tex
+
 \usepackage{cleveref}
-\refname{equation}{式}{式}
-\refname{figure}{图}{图}
-\refname{table}{表}{表}
-\refname{page}{页}{页}
-\refname{chapter}{章}{章}
-\refname{section}{节}{节}
-\refname{appendix}{附录}{附录}
-\refname{theorem}{定理}{定理}
-\refname{lemma}{引理}{引理}
-\refname{corollary}{推论}{推论}
-\refname{proposition}{命题}{命题}
-\refname{definition}{定义}{定义}
-\refname{example}{例}{例}
-\refname{algorithm}{算法}{算法}
-\refname{listing}{列表}{列表}
-\refname{line}{行}{行}
 
-\refformat{chapter}{#2第#1章#3}
-\refformat{section}{#2第#1节#3}
-\refformat{subsection}{#2第#1节#3}
-\refformat{subsubsection}{#2第#1节#3}
+\crefname{equation}{式}{式}
+\crefname{figure}{图}{图}
+\crefname{table}{表}{表}
+\crefname{appendix}{附录}{附录}
+\crefname{theorem}{定理}{定理}
+\crefname{lemma}{引理}{引理}
+\crefname{corollary}{推论}{推论}
+\crefname{proposition}{性质}{性质}
+\crefname{definition}{定义}{定义}
+\crefname{example}{例}{例}
+\crefname{algorithm}{算法}{算法}
+\crefname{assumption}{假设}{假设}
+\crefname{remark}{注}{注}
+\crefname{chapter}{章}{章}
+\crefname{section}{节}{节}
+\crefname{subsection}{节}{节}
+\crefname{subsubsection}{节}{节}
 
-\refrangeformat{chapter}{#3第#1章#4至#5第#2章#6}
-\refrangeformat{section}{#3第#1节#4至#5第#2节#6}
-\refrangeformat{subsection}{#3第#1节#4至#5第#2节#6}
-\refrangeformat{subsubsection}{#3第#1节#4至#5第#2节#6}
+\crefformat{equation}{#2式 (#1) #3}
+\crefformat{figure}{#2图 (#1) #3}
+\crefformat{table}{#2表 (#1) #3}
+\crefformat{appendix}{#2附录 #1 #3}
+\crefformat{theorem}{#2定理 #1 #3}
+\crefformat{lemma}{#2引理 #1 #3}
+\crefformat{corollary}{#2推论 #1 #3}
+\crefformat{proposition}{#2性质 #1 #3}
+\crefformat{definition}{#2定义 #1 #3}
+\crefformat{example}{#2例 #1 #3}
+\crefformat{algorithm}{#2算法 #1 #3}
+\crefformat{assumption}{#2假设 #1 #3}
+\crefformat{remark}{#2注 #1 #3}
 
-\refmultiformat{chapter}{#2第#1章#3}{和#2第#1章#3}{，#2第#1章#3}{和#2第#1章#3}
-\refmultiformat{section}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
-\refmultiformat{subsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
-\refmultiformat{subsubsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
+\crefformat{chapter}{#2第#1章#3}
+\crefformat{section}{#2第#1节#3}
+\crefformat{subsection}{#2第#1节#3}
+\crefformat{subsubsection}{#2第#1节#3}
 
-\refrangemultiformat{chapter}{#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}{，#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}
-\refrangemultiformat{section}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
-\refrangemultiformat{subsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
-\refrangemultiformat{subsubsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
+\crefmultiformat{chapter}{#2第#1章#3}{和#2第#1章#3}{，#2第#1章#3}{和#2第#1章#3}
+\crefmultiformat{section}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
+\crefmultiformat{subsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
+\crefmultiformat{subsubsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
 
-\newcommand{\refpairconjunction}{~和~}
-\newcommand{\refmiddleconjunction}{, }
-\newcommand{\reflastconjunction}{~和~}
-\newcommand{\refpairgroupconjunction}{~和~}
-\newcommand{\refmiddlegroupconjunction}{, }
-\newcommand{\reflastgroupconjunction}{~和~}
-\newcommand{\refrangeconjunction}{~至~}
+\crefrangemultiformat{chapter}{#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}{，#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}
+\crefrangemultiformat{section}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
+\crefrangemultiformat{subsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
+\crefrangemultiformat{subsubsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
+
+\newcommand{\crefpairconjunction}{~和~}
+\newcommand{\crefmiddleconjunction}{, }
+\newcommand{\creflastconjunction}{~和~}
+\newcommand{\crefpairgroupconjunction}{~和~}
+\newcommand{\crefmiddlegroupconjunction}{, }
+\newcommand{\creflastgroupconjunction}{~和~}
+\newcommand{\crefrangeconjunction}{~至~}

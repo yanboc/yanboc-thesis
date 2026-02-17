@@ -1,9 +1,21 @@
-\usepackage{float}
+% 自动整理
+% 帮我整理这段代码，具体要求如下：
+% 1. 把引入包的部分放在最前面，包名按字母顺序排列。
+% 2. 把所有\newcommand{}与\renewcommand{}，按字母顺序排列。
+
+% ========================================
+% 包引入（按字母顺序）
+% ========================================
 \usepackage{algorithm}
 \usepackage{algorithmic}
-
+\usepackage{bm}
+\usepackage{float}
+\usepackage{subcaption}
 \usepackage[most]{tcolorbox}
 
+% ========================================
+% tcolorbox 定义
+% ========================================
 \newtcolorbox{mybox}[1]{
   colback=darkgray-background!40,
   coltitle=black,
@@ -18,75 +30,76 @@
   colframe=darkgray-background,
 }
 
-\newcommand{\x}{\boldsymbol{x}}
-\newcommand{\z}{\boldsymbol{z}}
-\newcommand{\xa}{\boldsymbol{x}^{adv}}
-\newcommand{\w}{\mathbf{w}}
-\newcommand{\p}{\boldsymbol{p}}
-\newcommand{\q}{\boldsymbol{q}}
-\renewcommand{\v}{\boldsymbol{v}}
-\renewcommand{\u}{\boldsymbol{u}}
-\renewcommand{\o}{\boldsymbol{o}}
+% ========================================
+% 命令定义（按字母顺序）
+% ========================================
+\newcommand{\0}{\boldsymbol{0}}
+\newcommand{\1}{\boldsymbol{1}}
+\newcommand{\A}{\boldsymbol{A}}
 \renewcommand{\b}{\boldsymbol{b}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bTheta}{\boldsymbol{\Theta}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\cone}{\hat{\S}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\dpr}{d^{\prime}}
 \newcommand{\h}{\boldsymbol{h}}
 \renewcommand{\H}{\mathcal{H}}
-
-\newcommand{\dpr}{d^{\prime}}
-
-\newcommand{\A}{\boldsymbol{A}}
-\newcommand{\M}{\boldsymbol{M}}
-\newcommand{\X}{\boldsymbol{X}}
-\newcommand{\W}{\boldsymbol{W}}
-
-\newcommand{\bmu}{\boldsymbol{\mu}}
-
-\newcommand{\calX}{\mathcal{X}}
-\newcommand{\calR}{\mathcal{R}}
-\newcommand{\calH}{\mathcal{H}}
-\newcommand{\calD}{\mathcal{D}}
-\newcommand{\D}{\mathcal{D}}
-\newcommand{\calN}{\mathcal{N}}
-\newcommand{\calF}{\mathcal{F}}
-
-\newcommand{\R}{\mathbb{R}}
-
-\DeclareMathOperator{\reg}{\text{reg}}
-\DeclareMathOperator{\relu}{\text{ReLU}}
-\DeclareMathOperator{\softmax}{\text{softmax}}
-\DeclareMathOperator{\argmax}{\text{argmax}}
-\DeclareMathOperator{\argmin}{\text{argmin}}
-
-% NC
-\newcommand{\iter}[1]{\{#1\}}
-\newcommand{\bbeta}{\boldsymbol{\beta}}
-\newcommand{\Radv}{R_{\rm{adv}}}
-\newcommand{\Rstd}{R_{\rm{std}}}
-\newcommand{\1}{\boldsymbol{1}}
-\newcommand{\0}{\boldsymbol{0}}
 \newcommand{\I}{\boldsymbol{I}}
-\renewcommand{\o}{\boldsymbol{o}}
-\DeclareMathOperator\srelu{sReLU}
-
-% RBAD
-\usepackage{bm}
-\usepackage{subcaption}
-\newcommand{\V}{\mbox{Vol}}
 \newcommand{\ip}[1]{\left\langle #1 \right\rangle}
 \newcommand{\ipsmall}[1]{\langle #1 \rangle}
-\newcommand{\qm}[1]{``#1''}
-\renewcommand{\P}{\boldsymbol{P}}
-\newcommand{\risk}{\mathcal{R}}
-\newcommand{\Z}{\mathcal{Z}}
-\newcommand{\N}{\mathcal{N}}
-\newcommand{\smost}{\tilde{\S}}
-\newcommand{\sless}{\S_{less}}
-\newcommand{\snot}{\S_{not}}
-\newcommand{\smostbound}{t \sigma_0 c_1 f_h}
-\newcommand{\slessbound}{t \sigma_0 f_r}
-\newcommand{\wbound}{t \sigma_0 f_h}
-\newcommand{\cone}{\hat{\S}}
+\newcommand{\iter}[1]{\{#1\}}
+\newcommand{\M}{\boldsymbol{M}}
 \newcommand{\MM}{\mathbf{M}}
+\newcommand{\N}{\mathcal{N}}
+\renewcommand{\o}{\boldsymbol{o}}
+\newcommand{\p}{\boldsymbol{p}}
+\renewcommand{\P}{\boldsymbol{P}}
+\newcommand{\q}{\boldsymbol{q}}
+\newcommand{\qm}[1]{``#1''}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Radv}{R_{\rm{adv}}}
+\newcommand{\Rstd}{R_{\rm{std}}}
 \newcommand{\relup}[1]{ \sigma^{\prime} \left( #1 \right)} % ReLU
-\newcommand{\E}{\mathbb{E}}
+\newcommand{\risk}{\mathcal{R}}
+\newcommand{\sless}{\S_{less}}
+\newcommand{\slessbound}{t \sigma_0 f_r}
+\newcommand{\smost}{\tilde{\S}}
+\newcommand{\smostbound}{t \sigma_0 c_1 f_h}
+\newcommand{\snot}{\S_{not}}
+\renewcommand{\u}{\boldsymbol{u}}
+\renewcommand{\v}{\boldsymbol{v}}
+\newcommand{\V}{\mbox{Vol}}
+\newcommand{\w}{\mathbf{w}}
+\newcommand{\wbound}{t \sigma_0 f_h}
+\newcommand{\W}{\boldsymbol{W}}
+\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\xa}{\boldsymbol{x}^{adv}}
+\newcommand{\X}{\boldsymbol{X}}
+\newcommand{\Xin}{\mathcal{X}_{in}}
+\newcommand{\Xout}{\mathcal{X}_{out}}
+\newcommand{\z}{\boldsymbol{z}}
+\newcommand{\Z}{\mathcal{Z}}
 
-\renewcommand{\paragraph}[1]{\vspace{0.5em}\noindent{\heiti{#1}}\hspace{0.5em}}
+% ========================================
+% 数学运算符定义（按字母顺序）
+% ========================================
+\DeclareMathOperator*{\argmax}{\rm{argmax}}
+\DeclareMathOperator*{\argmin}{\rm{argmin}}
+\DeclareMathOperator{\attn}{\rm{Attn}}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\prob}{\mathbb{P}}
+\DeclareMathOperator{\reg}{\rm{reg}}
+\DeclareMathOperator{\relu}{\rm{ReLU}}
+\DeclareMathOperator\srelu{sReLU}
+\DeclareMathOperator{\softmax}{\rm{softmax}}
+\DeclareMathOperator{\unif}{\rm{Unif}}

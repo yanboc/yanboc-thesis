@@ -1,5 +1,7 @@
 '''
 维护文献清单
+
+使用方法：python prepare_ref.py
 '''
 
 import os
@@ -8,7 +10,8 @@ from semanticscholar import SemanticScholar
 from semanticscholar.Paper import Paper
 from pathlib import Path
 
-SOURCE_BIB_FILE = Path("E:/hutou/projects/yanboc-thesis/refs/ref.bib")
+ROOT_DIR = Path(__file__).parent.parent
+SOURCE_BIB_FILE = ROOT_DIR / "refs" / "ref.bib"
 
 def deduplicate_ref(bib_file: Path):
     with open(bib_file, mode='r', encoding='utf-8', newline='') as f:

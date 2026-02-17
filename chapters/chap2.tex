@@ -1,67 +1,419 @@
-\chapter{特征学习理论的分析框架}\label{sec-preliminaries}
+% !TeX root = ../thesis.tex
+\chapter{特征学习理论的分析框架}\label{chap2}
 
-FLT作为深度学习领域新兴的基础理论分支，既承袭了传统统计学习理论的系统性理论框架，又深受深度学习应用中实际问题的驱动。
-本章将从基础定义出发，系统阐述特征学习理论的核心概念与关注焦点。
-我们首先基于机器学习理论的视角，解构一般学习任务并剖析其 “四要素”，随后顺势引出“特征”与“特征学习”这两个核心概念，并辅以必要的概率统计工具。
-最后，我们将归纳总结特征学习理论的分析框架。
+特征学习理论作为机器学习领域新兴的基础理论分支，既承袭了传统学习理论的系统化分析框架，又与机器学习的实际工程应用高度贴合，为传统理论引入了更精细的分析机制。
+它可以被用于分析、解释深度神经网络的一些区别于传统机器学习模型的特有属性，且能够为多模态、多任务、跨场景的机器学习任务提供统一的分析框架。
+本章将从一般\textit{学习任务}（learning task）的数学定义出发，系统阐述特征学习理论的核心概念与关注焦点，同时引入后续分析中所用到的一些共性概念与定义。
+我们首先分开来看学习任务的各个组成部分，随后介绍特征学习理论对数据特征的建模，并给出了一些必要的概率统计、矩阵分析结论。
+最后，我们将归纳、总结适用于不同场景的特征学习理论的统一分析框架。
 
-\section{特征学习理论的基本概念}\label{sec-feature-learning-theory-basics}
+\section{学习任务的数学定义}\label{chap2-sec-learning-task}
 
-在本文中，我们分别用小写与大写粗体字母来表示（列）向量和矩阵。
-给定$d \in \mathbb{N}^{+}$和$\v \in \R^d$，记$\v$的第$i$个元素（$1 \leq i \leq d$）为$\v^{(i)}$，即$\v = (\v^{(1)}, \v^{(2)}, \cdots, \v^{(d)})^{\top}$。
-类似地，我们用$\M^{(i)}$来表示矩阵$\M$的第$i$列，并记$\M = (\M^{(1)}, \M^{(2)}, \cdots, \M^{(d)})$。
-给定$N \in \mathbb{N}^{+}$，我们记指标集$\{1, 2, \cdots, N\}$为$[N]$。
-对任意$n \in [N]$，为简单起见，我们令$[N \backslash n] := \{ 1, \cdots, n-1, n+1, \cdots, N \}$。
+在本文中，我们用粗体字母来表示多维变量，如向量（以\(\x\)为例）或矩阵（以\(\boldsymbol{W}\)为例）。
+由于数学证明与计算机程序中对向量与矩阵表示方式的惯例稍有不同，为避免歧义，我们约定本文中所涉及的向量均采用列向量表示。
+给定正整数\(N \in \mathbb{N}^{+}\)，我们记指标集\(\{1, 2, \cdots, N\}\)为\([N]\)。
+带小括号的上标被用来表示多维变量的元素，例如向量在第\(i\)个位置的值\(\x^{(i)}\)或矩阵的的第\(i\)列\(\boldsymbol{W}^{(i)}\)。
+我们用\(\|\cdot\|_2\)来表示向量或矩阵的\(2\)-范数；\(\|\cdot\|_F\)则代表矩阵的Frobenius范数，简称\(F\)-范数。
+具有均值\(\mu\)与方差\(\sigma^2\)正态分布被记为\(\mathcal{N}(\mu, \sigma^2)\)；
+集合\(S\)上的均匀分布写为\(\unif(S)\)。
+对任意随机变量\(\x\)，\(\E_{\x}[\cdot]\)与\(\prob_{\x}[\cdot]\)分别表示中括号中关于\(\x\)的表达式、统计量或随机事件的数学期望与概率。
+更多常见分布与函数的符号约定请参看附录\ref{app:notations}。
 
-给定模型族$\calF$，机器学习的核心任务是训练一个模型$f \in \calF$，使其能够对输入数据$\z$做出精准的预测。
-其中，根据不同的学习任务，$\z$可以取不同的形式，例如图像、文本、基因序列等，而模型的功能则可以是分类、回归、生成或聚类等。
-对于任意输入值$\z$，我们可以通过定义一个损失函数（loss function）$\ell(f, \z)$来量化模型预测值$f(\z)$的准确程度。
-给定数据集$\calD$，模型$f$在$\calD$上的经验风险（empirical risk）定义为：
-\begin{equation}
-  \hat{R}(f; \calD) = \frac{1}{|\calD|} \sum_{\z \in \calD} \ell(f, \z).
+\subsection{数据与模型}
+我们首先分开来看学习任务的各个组成部分。
+给定\textit{模型类}（model class）\(\calF\)，本文所关注的核心任务是从\(\calF\)中找到一个模型\(f \in \calF\)，使其能够对服从某特定分布\(\D\)的数据\(\x \sim \D\)的某些特定性质做出精准的预测。
+从模型类\(\calF\)中找出符合要求的模型\(f\)的这一过程被称为训练（training），而训练之后用于评价所得模型效果的过程则被称为测试（test）。
+其中，根据具体学习任务的差异，\(\x\)的输入输出格式，或称模态（modality），往往也存在区别。
+常见的数据模态包括图像、语音、视频、文本、基因序列、交易记录等。
+尽管如此，在现代机器学习框架（如PyTorch \cite{DBLP:conf/nips/PaszkeGMLBCKLGA19}、TensorFlow \cite{DBLP:conf/osdi/AbadiBCCDDDGIIK16}）中，不同模态的数据一般会被统一地预处理为张量（tensor，与多维数组类似）的形式。
+不失一般性，本文用向量或由向量所构成的多元组来抽象地刻画不同模态的输入数据。
+具体来说，我们假设\(\x \in \R^{d \times P}\), 即数据\(\x\)为来自\(d\)维欧式空间\(\R^d\)的向量所构成的\(P\)元组。
+在\(P=1\)时，向量的多元组自然地退化为单个向量。
+这里，我们简称\(d\)为数据维度。
+关于数据部分的具体构造细节我们将在本章第 \ref{sec-feature-and-feature-learning} 节展开。
+
+在不同的任务中，模型\(f\)的具体功能则可以是分类、回归、重构、生成、降维或聚类等。
+本文分别记模型的输入、输出空间为\(\Xin\)和\(\Xout\)，从而不同功能的模型可以被统一地用\(f: \Xin \to \Xout\)来表示。
+在本文的讨论中，模型类\(\calF\)被限定为非循环、无图结构的\textit{前馈神经网络}（feedforward neural network）。
+具体来说，给定正整数\(L \in \mathbb{N}^{+}\)，记\(L\)层前馈神经网络为
+\begin{equation}\label{eq:def feedforward network}
+  f = \rho_L(g_L) \circ \rho_{L-1}(g_{L-1}) \circ \cdots \circ \rho_2(g_2) \circ \rho_1(g_1),
 \end{equation}
-经验风险是模型$f$在训练数据集$\calD$上的平均损失，可用于评估模型$f$在训练数据集$\calD$上的性能，并作为优化目标来训练模型。
-具体来说，我们希望找到一个模型$f^{*}$，使得经验风险最小化，也即：
-\begin{equation}
-  f^{*} = \arg \min_{f \in \mathcal{F}} \hat{R}(f; \calD).
+其中，对任意\(i \in [L]\), \(g_i\)被用于表示第\(i\)层内具体的计算操作（如线性变换、卷积变换等），而\(\rho_i\)一般被称为激活函数（activation function），其目的是为内层计算\(g_i\)引入非线性性，进而增加模型类的表示能力（expressive power）。
+模型类的表示能力是传统统计学习理论的重要研究问题，我们会在随后的定理 \ref{thm:example concentration inequality} 及其相关注释中稍作讨论。
+本文采用\textit{线性整流单元}（Rectified Linear Unit, ReLU）作为激活函数。
+对任意\(z \in \R\)，令
+\begin{equation}\label{eq:def relu}
+  \relu(z) := \max(0, z).
 \end{equation}
-在实际场景中，我们需要借助优化算法来求解上述优化问题。
-常见的优化算法包括梯度下降（Gradient Descent，GD）、随机梯度下降（Stochastic Gradient Descent，SGD）、Adam等。
-在相关文献中，数据集、模型族、损失函数与优化算法共同定义了一个具体的学习任务，构成了该任务的四大核心要素。
+公式(\ref{eq:def relu})中的定义可自然推广至多维输入变量的情形，此处不再展开。
+\(\relu\)的计算代价极低，输出具有稀疏性，且解决了传统sigmoid和tanh激活函数的梯度消失问题，因此成为机器学习中最常用的非线性激活函数之一。
 
-具体来说，我们希望模型$f$能够满足以下条件：
-\begin{equation}
-  f(\x) = y
+为方便存储与计算，神经网络会被参数化（parameterize）为一个高维向量\(\btheta \in \bTheta \subset \R^{m}\)，其中\(\bTheta\)为参数\(\btheta\)的取值范围，一般被称为参数空间。
+正整数\(m \in \mathbb{N}^{+}\)是参数空间的维度，简称为参数维度。
+特别地，如果\(m \gg d\)，即模型的参数维度显著地大于数据维度，则称网络是过参数化（over-parameterized）的；本文便主要考虑这种情况。
+显然，模型类\(\calF\)与参数空间\(\bTheta\)之间（也即模型\(f\)与其对应的参数\(\btheta\)）存在一一对应的关系。
+因此，在不引发歧义的前提下，本文将混用模型\(f\)与其对应的参数\(\btheta\)这两个本不完全等价的概念，以追求语言上的简洁性。
+
+\subsection{模型评价与优化算法}
+
+\textit{模型评价}（evaluation）是学习任务中的重要环节。
+对于任意输入\(\x \in \Xin\)，我们可以通过定义一个\textit{损失函数}（loss function）\(\ell(\x; \btheta)\)来定量地评价模型预测值\(f(\x)\)的准确程度。
+损失函数的定义没有统一标准，但一个较为通用的原则是：当\(f\)对输入\(\x\)的预测完全准确时取\(\ell(\x; \btheta)=0\)；当模型的预测越不准确时，损失函数的取值也越大。
+对于同样的输入\(\x\)，根据任务不同，对\(f(\x)\)准确性的判断标准也不一定相同。
+例如在分类任务中，每个输入会对应一个\textit{标签}（label），记作\(y \in \mathcal{Y}\)，其中\(\mathcal{Y}\)被成为标签空间，一般取\([K]\)（对于\(K\)-分类问题，\(K\)为正整数）或\(\{-1, 1\}\)（对于二分类问题）。
+此时对\(f(\x)\)的评判标准为分类准确性及其置信度。
+而在重构问题中，预测值\(f(\x)\)与输入\(\x\)本身的相似性则成为评价\(f\)的标准。
+
+在损失函数的基础上，我们可以通过真实风险与经验风险来刻画模型在一种数据分布或一个数据集上的平均损失。
+具体地，给定数据分布\(\calD\)，模型\(f\)在\(\calD\)上的\textit{真实风险}（true risk）定义为
+\begin{equation}\label{eq:def true risk}
+  R(\btheta; \calD) = \E_{\x \sim \calD} \left[ \ell(\x; \btheta) \right],
 \end{equation}
-其中$y$是$\x$的标签。
-在统计学习理论中，我们通常将模型$f$表示为函数空间$\mathcal{F}$中的一个元素，即$f \in \mathcal{F}$。
-我们称$\mathcal{F}$为假设类（hypothesis class）。
-我们称$\mathcal{F}$为假设类（hypothesis class）。
+其中\(\E_{\x \sim \calD}[\cdot]\)表示中括号内关于\(\x\)的函数在分布\(\calD\)下的数学期望，因此真实风险可用于评价模型在真实数据分布上的性能。
+在实际应用中，虽然数据的真实分布\(\calD\)一般不可获知，但可以通过\(\calD\)上抽取的独立同分布的（independent and identically distributed，简写为i.i.d.）样本来拟合。
+具体来说，对于任意给定分布\(\calD\)与正整数\(n \in \mathbb{N}^+\)，我们记\(\hat{\calD}_n\)为\(\calD\)的\(n\)个独立同分布抽样，记为\(\hat{\calD}_n \overset{i.i.d.}{\sim} \calD^n\)。
+若样本量并非讨论要点或暂时未知，我们也会省略\(n\)而直接用\(\hat{\calD}\)来表示\(\calD\)的独立同分布抽样。
+\(\hat{\calD}\)具有诸多优良性质；我们将在第本章 \ref{sec-feature-learning-theory-analysis-framework} 节详细阐述。
+然而，实际应用中的数据分布并不总是满足独立同分布假设。
+例如在异常点检测任务中，正常数据的分布就与异常点的分布不同；在推荐系统中，用户的行为也会随时间发生便宜，致使用户数据分布。
+因此，区别于\(\hat{\calD}\)，我们记一般的数据集为\(S\)，并定义模型\(f\)在\(S\)上的\textit{经验风险}（empirical risk）为：
+\begin{equation}\label{eq:def empirical risk}
+  \hat{R}(\btheta; S) = \frac{1}{|S|} \sum_{\x \in S} \ell(f, \x).
+\end{equation}
+经验风险即模型\(f\)在数据集\(S\)上的平均损失，可用于评估模型\(f\)在该数据集上的性能。
+在模型的训练阶段所使用的数据集被称为\textit{训练数据集}（training dataset），我们使用\(S_{tr}\)来表示。
+同理，用于测试模型性能的\textit{测试数据集}（test dataset）用\(S_{te}\)指代。
+在一个学习任务中，经验风险能在多大程度上近似真实风险又被刻画为模型的泛化性能。我们将在本节后半部分讨论这一问题。
+这里，我们暂时只关注经验风险。
 
-学习任务（learning task）一般由数据集、假设类（hypothesis class）、优化算法与评价指标决定。
-这四个东西一般也被成为机器学习的四大核心要素。
-具体来说，给定数据集$\calD$与假设类$\calH$，我们需要设计一个风险函数$\calR: \calH \times \calD \to \R$来评价模型在学习任务上的性能，
-并基于该风险函数设计优化算法$\mathcal{A}$，最终通过评价指标$\mathcal{E}$来评估模型的性能。
-数据层面，FLT一般采取信号-噪音模型（Signal-to-Noise Model，SNM）来刻画数据分布。
-以图像为例，。
-因此，
+上述讨论表明，“从\(\calF\)中找到一个可对数据\(\x \sim \D\)的某些特性做出精准预测的模型”的这一任务可以被定量地转化为训练数据集上的\textit{经验风险最小化}（Empirical Risk Minimization, ERM）问题，即找到\(\btheta^{*}\)使得
+\begin{equation}\label{eq:def ERM}
+  \btheta^{*} = \argmin_{\btheta \in \bTheta } \hat{R}(\btheta; S_{tr}).
+\end{equation}
+公式(\ref{eq:def ERM})除了在极少数场景（如用最小二乘法解线性回归）中有解析解外，在剩余的大部分情况下都需要借助优化算法来求近似解。
+常见的优化算法包括梯度下降（Gradient Descent，GD）、随机梯度下降（Stochastic Gradient Descent，SGD）、RMSProp和Adam等，以及这些方法的各类变体。
+在本文中，我们用\textit{初始化}（initialization）与\textit{迭代规则}（iteration rule）与终止条件来定义一个优化算法。
+在实际应用中，算法的终止条件由样本量（sample size）、批次大小（batch size）与训练轮次（epoch）等因素共同决定。
+在本文中，我们简化地记\(T \in \mathbb{N}^+\)为算法的\textit{最大迭代步数}，并约定算法在执行\(T\)次迭代后终止。
+为区别于多维变量的元素，我们用带大括号的上标来表示迭代中的参数。
+具体地，对于任意\(t \in [T]\)，我们使用\textit{梯度下降法}（Gradient Descent, GD）作为优化算法，其迭代规则定义如下：
+\begin{equation}\label{eq:def GD}
+  \btheta^{\iter{t}} = \btheta^{\iter{t-1}} - \eta(t) \nabla_{\btheta^{\iter{t-1}}} \hat{R}(\btheta^{\iter{t-1}}, S_{tr}).
+\end{equation}
+% TODO: 添加参考文献
+关于其他优化算法的讨论参看参考文献，这里不做展开。
+\(\btheta^{\iter{0}}\)是参数的初始化，主要分为均匀初始化与高斯初始化两大类，具体方法包括Xavier初始化\cite{DBLP:journals/jmlr/GlorotB10}与Kaiming初始化\cite{DBLP:conf/iccv/HeZRS15}等。
+本文采用Kaiming初始化；更多细节将在本章的第\ref{subsec:prelim initialization}小节中讨论。
+
+\subsubsection{关于模型泛化性的讨论}
+在本节的剩余部分，我们将花费一些必要的篇幅来讨论特征学习理论与模型泛化性（generalization）之间的关系。
+泛化性是统计学习理论中的研究重点之一。
+当\(S = \hat{\calD}\)时，传统统计学习理论可以借助集中不等式给出一些非渐近的结论。
+例如下述定理便给出了使用经验风险准确估计真实风险的一个充分条件。
+\begin{theorem}
+  \label{thm:example concentration inequality}
+  对于任意给定正实数\(C \in \mathbb{R}^+\)，若\(\calF\)为上界为\(C\)的一致有界（uniformly bounded）函数类（即\(\max |f(\x)| \leq C\)对任意\(\x \in \Xin\)与\(f \in \calF\)都成立），则对任意\(\delta>0\)，下式
+  \begin{equation}\label{eq:generalization bound}
+    \sup_{\btheta \in \bTheta} \left| \hat{R}(\btheta; \hat{\calD}_n) - R(\btheta; \calD) \right|
+    \leq
+    2 \mathcal{R}_{n}(\calF) + \delta
+  \end{equation}
+  以至少\(1 - \exp(-\frac{n\delta^2}{2C^2})\)的概率成立。其中，\(\mathcal{R}_{n}(\calF)\)的定义由公式(\ref{eq:rademacher complexity})给出。
+\end{theorem}
+在公式(\ref{eq:generalization bound})中，不等式右侧的\(\mathcal{R}_{n}(\calF)\)项是模型类\(\calF\)的\textit{拉德马赫复杂度}（Rademacher complexity），其定义为
+\begin{equation}\label{eq:rademacher complexity}
+  \mathcal{R}_{n}(\calF) := \E_{\x, \epsilon} \left[ \sup_{f \in \calF} \left| \frac{1}{n} \sum_{i \in [N]} \epsilon_i f(\x_i) \right|  \right] , \ \epsilon_i \sim \unif(\{ -1, 1 \}).
+\end{equation}
+\begin{proof}[\cref{thm:example concentration inequality}]
+  参看附录\ref{app:proofs}。
+\end{proof}
+借助拉德马赫复杂度（或其他模型类表示能力的度量，如VC维（Vapnik–Chervonenkis dimension）、\(\delta\)-覆盖数（\(\delta\)-covering number）等）的概念，一系列类似公式(\ref{eq:generalization bound})的结论被用于限制经验风险与真实风险之间的最大误差，从统计的角度保证了模型类在理想情况下的泛化性。
+之所以强调“在理想情况下”，是因为类似定理 \ref{thm:example concentration inequality} 的结论高度依赖数据的独立同分布假设，且是算法无关（algorithm-irrelevant）的。
+此类定理保证了模型类中\textit{存在}一个泛化性能足够好的模型，却无法通过某一确定的迭代算法真正\textit{得到}一个具体的模型并分析其除了泛化性之外的特性与能力，如良性过拟合、对抗鲁棒性与上下文学习能力等。
+
+\subsection{学习任务的数学定义}
+
+综上所述，本文所考虑的学习任务可概括为数据集、模型类、优化算法与模型评价四大核心要素。
+为避免重复，本章介绍了后续分析中所用到的一些共性概念与定义，具体可以总结如下。
+\begin{definition}[学习任务]\label{def:learning task}
+  本文通过以下四个核心要素来明确一个具体的学习任务。
+  \begin{enumerate}
+    \item \textbf{数据集}：包括训练数据集\(S_{tr}\)（参见定义 \ref{sec-feature-and-feature-learning}）与测试数据集\(S_{te}\)。
+          测试集的数据格式由具体任务目标指定。
+          % $S_{tr} \subset \R^{d \times P}$为训练数据集。
+          特别地，本文不要求\(S_{tr}\)与\(S_{te}\)满足独立同分布假设。
+    \item \textbf{模型类}：
+          \(\calF\)为所考虑的备选函数类，其中包含形如公式(\ref{eq:def feedforward network})的以\(\relu\)（公式(\ref{eq:def relu})）作为激活函数的前馈神经网络。
+          \(\calF\)与一个\(m\)维参数空间\(\bTheta\)之间存在一一对应的关系，即模型\(f\in \calF\)与其参数表示\(\btheta \in \bTheta\)。
+    \item \textbf{模型评价}：损失函数\(\ell(\x; \btheta)\)被用于评价模型\(f\)对数据点\(\x\)的预测值\(f(\x)\)的准确程度。
+          公式(\ref{eq:def empirical risk})给出的\(\hat{R}(\btheta, S_{tr})\)被可以评估模型\(f\)在训练数据集上的表现，并以此近似该模型在真实分布上的性能。
+    \item \textbf{优化算法}：本文使用由Kaiming初始化\(\btheta_0\)（参看公式(\ref{eq:def kaiming initialization})）与梯度下降迭代规则（参看公式(\ref{eq:def GD})）决定的优化算法来求ERM问题（公式(\ref{eq:def ERM})）的近似解。
+          算法的最大迭代步数由超参数\(T\)控制。
+  \end{enumerate}
+  我们记算法终止迭代时所得的模型为\(\hat{f}\)，对应的参数为\(\hat{\btheta}\)。
+\end{definition}
+
+\begin{remark}[定义 \ref{def:learning task} 的局限性]
+  首先，定义 \ref{def:learning task} 仅概括了后续分析的共性部分，其余特性概念仍需在具体的任务场景中声明。
+  其次，定义 \ref{def:learning task} 仅仅适用于本文所讨论的情况。
+  一些特定场景的学习任务，如在线学习（online learning）、强化学习（reinforcement learning）等，并不能被定义 \ref{def:learning task} 所描述。
+  非前向神经网络（如循环神经网络（Recurrent Neural Network, RNN）、长短期记忆（Long Short-Term Memory, LSTM））与图神经网络（Graph Neural Network, GNN）虽然也可以作为特征学习理论的分析对象且已有一些代表性成果，但由于其结构与前向网络有较大区别，难以统一地刻画，因此也不在本文的讨论范围内。
+\end{remark}
+
+\section{数据特征}\label{sec-feature-and-feature-learning}
+
+在上一章中，我们曾对数据特征和网络特征有过一个粗略的界定。
+简要地说，数据特征即数据本身的低维结构，记录了数据中蕴含的核心语义信息；而网络特征则是模型通过训练拟合得到的近似的数据特征，被用于实现面向任务的功能。
+随机初始化的模型如何在训练过程中从数据中提取特征是本文的研究重点之一。
+本章的剩下两节分别围绕FLT对数据特征与网络特征的刻画展开。
+我们首先聚焦于数据特征。
+概括地说，FLT将数据刻画为\textit{信号}（signal）与\textit{噪音}（noise）的组合，其中信号一般被刻画为输入空间中的一组正交基；
+根据数据模态不同，噪音与信号的组合方式也存在多种形式。
+我们首先通过三个示例来引入信号-噪音模型的概念。
+
+\begin{example}[信号-噪音模型]
+  在此我们讨论三个来自不同任务场景中的信号-噪音模型的实例。
+  \begin{enumerate}
+    \item \textbf{稀疏编码模型}\cite{DBLP:journals/corr/abs-2108-06622}（sparse coding model）：该模型将观测数据分解为低维稀疏信号与噪音的叠加，被广泛应用于信号处理、生物信息学等领域。
+          令\(\{\bmu_i\}_{i \in [d]}\)为不可观测的隐式信号向量。
+          可观测的数据可表示为 \(\x = \bxi + \sum_{i \in [d]} \alpha_i \bmu_i\)，其中\(\{\alpha_i\}_{i \in [d]}\)为一族稀疏的系数，表示信号在数据中的权重；\(\bxi \in \R^d\)为噪音向量，用于增加数据的表达能力。
+    \item \textbf{背景-主体模型：}该模型将图像建模为含有语义信息的块（patch）与噪音块的组合，被广泛地用于刻图像识别、分割与重构任务中。
+          以经典的猫-狗二元分类问题为例。
+          一张标签为“猫”的图片可能包含猫眼、皮毛、猫耳等包含任务语义信息的块，以及一些无关的块，如背景、模糊、装饰等。
+          具体来说，一张图片可以被建模成若干个块的组合，即\(\x = (\z_1, \z_2, \cdots, \z_P)\)，其中\(\z \in \R^d\)为图像块的向量化表示。
+          对于任意\(i \in [P]\)，\(\z_i\)被表示为信号与噪音的线性组合，即\(\z_i = \alpha_1\bmu_{j_i} + \alpha_2\bxi\)。
+    \item \textbf{冗余语义模型：}在自然语言处理任务中，文本通常被建模为词元（token）序列。
+          为更精确地建模高维语义信息，每个词元会被映射为向量并嵌入至高维空间中；
+          该向量通常被称为\textit{词嵌入}（word embedding）或\textit{隐藏状态}（hidden state），对应的空间则称为嵌入空间或隐藏空间。
+          与图像类似，词元序列也被建模为\(\x = (\z_1, \z_2, \cdots, \z_P)\)，其中\(\z_i\)为隐藏向量。
+          由于在一句话中，
+          例如在一个简单的问答（Question Answering, QA）任务中，数据“\textit{张三的衣服是什么颜色的？张三的衣服是绿色的}”中只有“张三”、“衣服”、“颜色”和“绿色”为核心语义，其他的内容则为冗余语义。
+          因此
+  \end{enumerate}
+  本文剩余部分将采用类似的建模思路；详见第\ref{chap3}至\ref{chap5}章中的具体定义。
+\end{example}
 
 \begin{proposition}[高维正交性]\label{prop-almost-ortho-in-high-d-space}
-设$d \in \mathbb{N}^{+}$为向量维度，$\x_1, \x_2 \in \R^d$为从单位球面$\{\x \in \R^d : \|\x\| = 1\}$上独立均匀随机抽取的向量。
-对于任意常数$c > 0$，向量内积的概率上界满足：
-\begin{equation}\label{eq-prop-high-dim-ortho}
-\P\left[\left|\x_1^{\top} \x_2\right| \geq \frac{c}{\sqrt{d-1}}\right] \leq \frac{2}{c} e^{-\frac{c^2}{2}}.
-\end{equation}
-特别地，当$d \to \infty$时，对于任意$\epsilon > 0$，有
-\begin{equation}
-\P\left[\left|\x_1^{\top} \x_2\right| \geq \epsilon\right] \to 0.
-\end{equation}
-换言之，高维空间中随机抽取的单位向量以高概率近似正交。
+  设\(d \in \mathbb{N}^{+}\)为向量维度，\(\bmu_1, \bmu_2 \in \R^d\)为从单位球面\(\{\bmu \in \R^d : \|\bmu\|_2 = 1\}\)上独立均匀随机抽取的向量。
+  对于任意常数\(c > 0\)，向量内积的概率上界满足：
+  \begin{equation}\label{eq-prop-high-dim-ortho}
+    \prob\left[\left|\bmu_1^{\top} \bmu_2\right| \geq \frac{c}{\sqrt{d-1}}\right] \leq \frac{2}{c} e^{-\frac{c^2}{2}}.
+  \end{equation}
+  特别地，当\(d \to \infty\)时，对于任意\(\epsilon > 0\)，有
+  \begin{equation}
+    \prob\left[\left|\bmu_1^{\top} \bmu_2\right| \geq \epsilon\right] \to 0.
+  \end{equation}
+  换言之，高维空间中随机抽取的单位向量以高概率近似正交。
 \end{proposition}
-性质\ref{prop-almost-ortho-in-high-d-space}说明了正交假设的合理性，因为高位空间中的总是趋近于正交的。
+注意，不等式(\ref{eq-prop-high-dim-ortho})右侧的表达式以平方指数速度收敛。
+不难发现，当\(c = 5\)时，不等式（\ref{eq-prop-high-dim-ortho}）右侧的概率便已经达到\(10^{-6}\)量级，说明
+因此，命题 \ref{prop-almost-ortho-in-high-d-space} 说明了正交假设的合理性。
+为证明命题 \ref{prop-almost-ortho-in-high-d-space}，我们须引入下述技术引理。
+\begin{lemma}\label{lemma:gaussian uniform equiv}
+  设\(\z \sim \mathcal{N}(0, \boldsymbol{I}_d)\)服从\(d\)维标准正态分布。令
+  \begin{equation}
+    \bmu = \frac{\z}{\| \z \|_2},
+  \end{equation}
+  则\(\bmu\)服从\(d\)维单位球面上的均匀分布。
+\end{lemma}
+\begin{proof}
+  观察 \(\z\) 的概率密度：
+  \[
+    p(\z) = \frac{1}{(2\pi)^{d/2}} e^{-\|\z\|^2/2},
+  \]
+  不难发现\(p(\z)\)只关于\(\z\)的模长\(\|\z\|_2\)。
+  因此，对任意正交矩阵 \(\boldsymbol{U} \in\mathbb{R}^{d\times d}\)，有 \(\boldsymbol{U}\z\) 与 \(\z\) 同分布，也即 \(z\) 的分布在旋转下不变。
+  令 \(\bmu = \z / \| \z \|_2\)，则对任意正交矩阵 \(\boldsymbol{U}\)：
+  \[
+    \boldsymbol{U} \bmu = \frac{\boldsymbol{U}\z}{\|\boldsymbol{U}\z\|} \stackrel{d}{=} \frac{\z}{\|\z\|} = \bmu.
+  \]
+  \(d\)维单位球面上唯一在正交变换下不变的分布是均匀分布，命题得证。
+\end{proof}
 
-\section{特征与特征学学习}\label{sec-feature-and-feature-learning}
+我们接下来利用引理 \ref{lemma:gaussian uniform equiv} 证明命题 \ref{prop-almost-ortho-in-high-d-space}。
+\begin{proof}
+  由引理 \ref{lemma:gaussian uniform equiv}，可以找到\(d\)维标准高斯变量\(\z_1, \z_2\)使得
+  \begin{equation}
+    \bmu_i = \frac{\z_i}{\|\z_i\|_2}, \  i \in \{1, 2\}.
+  \end{equation}
+  令
+  \begin{equation}
+    Z := \bmu_1^{\top} \bmu_2 \|\z_2\|_2 = \frac{\z_1^{\top}\z_2}{\|\z_1\|_2}.
+  \end{equation}
+  容易证明\(Z \sim \mathcal{N}(0, 1)\)，且与\(\z_1\)独立。
+\end{proof}
 
-
+综上所述，本文假设空间。
+因此，本文将信号向量刻画为\(\R^d\)的一组标准正交基。
+\begin{definition}[信号向量]
+  令\(\{\bmu_1, \bmu_2, \cdots, \bmu_d\}\)为\(\R^d\)的一组标准正交基，满足\(\bmu_i^{\top} \bmu_j = \delta_{i,j}\)，其中
+  \begin{equation}
+    \delta_{i,j} =
+    \begin{cases}
+      1, & i = j,    \\
+      0, & i \neq j,
+    \end{cases}
+  \end{equation}
+  为克罗内克（Kronecker）符号。
+\end{definition}
 
 \section{特征学习理论的分析框架}\label{sec-feature-learning-theory-analysis-framework}
+
+特征学习理论关注模型参数从初始化到收敛的全过程。
+根据迭代进程，特征学习理论的分析可以自然地分成三个阶段：初始化阶段、特征提取阶段，以及收敛与后训练阶段。
+% 首先是初始化阶段。
+% 在这一阶段，过参数化的设定加上Kaiming初始化的一些优良性质可以被用于推导一些集中不等式。
+% 初始化后，由于初始模型性能较差，优化目标会给出较强的反馈，因此参数会经历一个快速变化的阶段。
+% 在训练后期，接近收敛，模型的变化也变慢，此时会有更精细的变化。
+% 这一阶段被称为
+
+\subsection{初始化分析}\label{subsec:prelim initialization}
+
+在优化问题中，一个合适的初始化可以让随后的迭代更快、更稳定，在机器学习中也是如此。
+在早期机器学习研究中，\(\relu\)激活函数会导致前向传播的信号方差与反向传播的梯度方差出现指数级放大或衰减的线性，制约了深度网络的训练效率与稳定性。
+为解决该问题，参考文献\cite{DBLP:conf/iccv/HeZRS15}提出了Kaiming初始化，定义如下。
+\begin{equation}\label{eq:def kaiming initialization}
+  \btheta^{\iter{0}} \sim \mathcal{N}(\boldsymbol{0}, \sigma_0^2 \boldsymbol{I}_m)
+\end{equation}
+其中\(\boldsymbol{I}_m\)为\(m\)维（即参数维度）单位矩阵；标准差\(\sigma_0 = \sqrt{2}d^{-1/2}\)保证层间方差稳定的关键参数。
+不难看出，Kaiming初始化本质是是经过缩放的多元正态分布初始化。
+为分析该初始化在特征学习中的应用，我们首先给出一元标准正态分布的一些结论。
+
+我们首先引入一些定义与符号。
+令\(x \sim \mathcal{N}(0,1)\)为服从标准正态分布的随机变量。
+对任意实数\(t \in \R\)，\(\Phi(t)\)与\(\phi(t)\)分别为\(x\)的\textit{累积分布函数}（Cumulative Distribution Function, CDF）与\textit{概率密度函数}（Probability Density Function, PDF），其中PDF与其导数\(\phi'\)满足
+\begin{equation}
+  \phi(t) = \frac{1}{\sqrt{2\pi}} e^{-t^2/2}, \ \phi'(x)=-t\phi(t),
+\end{equation}
+具有解析形式。
+根据定义，\(\Phi(t)\)表示\(x\)落在集合\((-\infty, t]\)中的概率，即
+\begin{equation}
+  \Phi(t) := \prob_x[x \leq t] = \int_{-\infty}^{t} \phi(x) dx.
+\end{equation}
+记\(\bar{\Phi}(t) := 1 - \Phi(t) = \prob_x[x > t]\)，则\(\bar{\Phi}(t)\)满足下述性质。
+\begin{lemma}[标准正态分布的尾概率上下界]
+  对任意服从标准正态分布的随机变量\(x \sim \mathcal{N}(0,1)\)，任取\(t \in \R\)，有
+  \begin{equation}\label{eq:gaussian tail bound}
+    \frac{1}{\sqrt{2\pi}} \frac{t}{t^2 + 1} e^{-\frac{t^2}{2}}
+    \leq
+    \prob_{x}[x > t]
+    \leq \frac{1}{\sqrt{2\pi}} \frac{1}{t} e^{-\frac{t^2}{2}}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  根据定义，公式(\ref{eq:gaussian tail bound})等价于：
+  \begin{equation}
+    \frac{t}{t^2+1}\phi(t)
+    \leq
+    \bar{\Phi}(t)
+    \leq
+    \frac{1}{t}\phi(t).
+  \end{equation}
+  先证明左侧不等号。考虑辅助函数 \(h(t)=(t^2+1)\bar{\Phi}(t)-t\phi(t)\)，求导得
+  \[
+    h'(t)=2t\bar{\Phi}(t)-2\phi(t)\le 0,
+  \]
+  即 \(h(t)\) 单调递减。又 \(\lim_{t\to\infty}h(t)=0\)，故 \(h(t)\ge 0\)，即
+  \[
+    \bar{\Phi}(t)\ge \frac{t}{t^2+1}\phi(t).
+  \]
+  同理，我们可以证明右侧不等号。对 \(t\ge t>0\)，有 \(\frac{\phi(t)}{t}\le\frac{\phi(t)}{t}\)，
+  利用 \(\phi'(t)=-t\phi(t)\) 积分得
+  \[
+    \bar{\Phi}(t)
+    = \int_t^\infty\phi(t)dt
+    \le \frac{1}{t}\int_t^\infty t\phi(t)dt
+    = \frac{\phi(t)}{t}.
+  \]
+  综上，对任意 \(t>0\)，有
+  \[
+    \frac{t}{t^2+1}\phi(t)
+    \leq
+    \bar{\Phi}(t)
+    \leq
+    \frac{1}{t}\phi(t),
+  \]
+  命题得证。
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:lucky init}
+
+\end{lemma}
+
+引理 \ref{lemma:lucky init} 表明一些参数会被“幸运”地初始化，即在\(t=0\)时就与某个数据特征具有相对较高的相关性。
+
+\subsection{特征提取阶段}\label{subsec:prelim feature extraction}
+
+在完成参数的随机初始化后，若不考虑数据增强（data augmentation）、随机失活（dropout）等人为引入的随机性操作，则神经网络参数的迭代过程本质上遵循一种确定性（deterministic，又称非概率（non-probabilistic））的规律。
+在本文的第\ref{chap3}至\ref{chap5}章，我们将证明在不同任务中，网络参数的迭代规律具有下述相似的核心逻辑：
+由于网络的过参数化，一些模组的参数以高概率地（with high probability）在初始化时便与数据特征体现出较高的相关性（参见引理 \ref{lemma:lucky init}）。
+这种相关性会在迭代过程中被放大，并逐渐具备在任务中占据主导性。
+在本节中，我们通过一个简单的例子来展示上述规律。
+在神经网络中，一个最基础也最常用的模组是线性层，或称感知机（perceptron）。令\(\boldsymbol{W} = (\w_1, \w_2, \cdots, \w_L)^{\top}\)，\(\b = (b_1, b_2, \cdots, b_L)\)，则\(f(\x) = \relu(\W \x + \b)\)被称为感知机。
+
+\begin{theorem}[GD下\(\boldsymbol{w}_i\)的迭代规律]
+  \label{thm:bp of perceptron}
+  ReLU感知机的第 \(i\) 个权重向量 \(\boldsymbol{w}_i\) 在梯度下降迭代中的更新规律为：
+  \[
+    \boldsymbol{w}_{i,t+1} = \boldsymbol{w}_{i,t} - \eta \cdot \frac{1}{n}\sum_{k=1}^n \left[ \frac{\partial l(\boldsymbol{\theta}_t, f(\boldsymbol{x}_k))}{\partial [f(\boldsymbol{x}_k)]_i} \cdot \mathbb{I}\left(\boldsymbol{w}_{i,t}^\top \boldsymbol{x}_k + b_{i,t} > 0\right) \cdot \boldsymbol{x}_k \right],
+  \]
+  其中：
+  \begin{enumerate}
+    \item \(\mathbb{I}(\cdot)\) 为指示函数（条件成立时取1，否则取0）；
+    \item \([f(\boldsymbol{x}_k)]_i = \text{ReLU}(\boldsymbol{w}_{i,t}^\top \boldsymbol{x}_k + b_{i,t})\) 为 \(f(\boldsymbol{x}_k)\) 的第 \(i\) 个元素；
+    \item 偏置 \(b_i\) 的迭代规律为：
+          \[
+            b_{i,t+1} = b_{i,t} - \eta \cdot \frac{1}{n}\sum_{k=1}^n \left[ \frac{\partial l(\boldsymbol{\theta}_t, f(\boldsymbol{x}_k))}{\partial [f(\boldsymbol{x}_k)]_i} \cdot \mathbb{I}\left(\boldsymbol{w}_{i,t}^\top \boldsymbol{x}_k + b_{i,t} > 0\right) \right].
+          \]
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \noindent \textbf{步骤1：损失对\(\boldsymbol{w}_i\)的梯度分解} \\
+  经验损失对 \(\boldsymbol{w}_i\) 的梯度可分解为样本梯度的均值：
+  \[
+    \nabla_{\boldsymbol{w}_i} L(\boldsymbol{\theta}) = \frac{1}{n}\sum_{k=1}^n \nabla_{\boldsymbol{w}_i} l(\boldsymbol{\theta}, f(\boldsymbol{x}_k)).
+  \]
+  由链式求导法则，\(\nabla_{\boldsymbol{w}_i} l = \frac{\partial l}{\partial [f(\boldsymbol{x}_k)]_i} \cdot \frac{\partial [f(\boldsymbol{x}_k)]_i}{\partial \boldsymbol{w}_i}\)。
+
+  \noindent \textbf{步骤2：\(\relu\)激活的导数计算} \\
+  记 \(z_{i,k} = \boldsymbol{w}_i^\top \boldsymbol{x}_k + b_i\)，则 \([f(\boldsymbol{x}_k)]_i = \text{ReLU}(z_{i,k})\)，其导数为：
+  \[
+    \frac{\partial \text{ReLU}(z_{i,k})}{\partial z_{i,k}} = \mathbb{I}(z_{i,k} > 0) = \mathbb{I}(\boldsymbol{w}_i^\top \boldsymbol{x}_k + b_i > 0).
+  \]
+  又 \(\frac{\partial z_{i,k}}{\partial \boldsymbol{w}_i} = \boldsymbol{x}_k\)，因此：
+  \[
+    \frac{\partial [f(\boldsymbol{x}_k)]_i}{\partial \boldsymbol{w}_i} = \mathbb{I}(\boldsymbol{w}_i^\top \boldsymbol{x}_k + b_i > 0) \cdot \boldsymbol{x}_k.
+  \]
+
+  \noindent \textbf{步骤3：代入梯度下降迭代公式} \\
+  梯度下降的核心迭代规则为 \(\boldsymbol{w}_{i,t+1} = \boldsymbol{w}_{i,t} - \eta \nabla_{\boldsymbol{w}_i} L(\boldsymbol{\theta}_t)\)，将上述梯度代入即得 \(\boldsymbol{w}_i\) 的迭代公式。
+
+  偏置 \(b_i\) 的迭代规律同理，仅需注意 \(\frac{\partial z_{i,k}}{\partial b_i} = 1\)，代入后即可得证。
+\end{proof}
+
+\subsubsection{关键推论}
+\begin{corollary}[梯度稀疏性]
+  若样本 \(\boldsymbol{x}_k\) 满足 \(\boldsymbol{w}_{i,t}^\top \boldsymbol{x}_k + b_{i,t} \leq 0\)，则该样本对 \(\boldsymbol{w}_{i,t+1}\) 的更新无贡献（梯度项为0）；仅当神经元被激活（\(z_{i,k} > 0\)）时，\(\boldsymbol{x}_k\) 才参与 \(\boldsymbol{w}_i\) 的迭代。
+\end{corollary}
+
+\begin{corollary}[迭代确定性]
+  在随机初始化完成后，若排除数据增强、随机失活等人造随机性，且学习率 \(\eta\) 固定，则 \(\boldsymbol{w}_{i,t}\) 的迭代仅由初始值 \(\boldsymbol{w}_{i,0}\)、数据集 \(\mathcal{D}\) 和损失函数 \(l\) 决定，是完全确定性的过程。
+\end{corollary}
+
+定理 \ref{thm:bp of perceptron}
+
+
+\subsection{收敛与后训练阶段}\label{subsec:prelim TPT}
+
+在传统分析框架中，经验风险的收敛便标志着训练过程的结束。
+然而，模型蒸馏、神经塌缩、微调与RLHF等技术、现象的出现让研究者们意识到了一些在收敛过程中甚至收敛结束后对模型的处理仍可以有效地提升模型的性能。
+
+
+
+\section{本章小结}
+
+本文的第\ref{chap3}至\ref{chap5}章将，可以视为对本章所提出分析框架的填充；
+我们在第\ref{chap6}章得以横向地分析模型与数据之间的适配关系，也要归功于本章所建立的统一分析框架。

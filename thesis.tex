@@ -1,10 +1,11 @@
-\documentclass{WHUPhd}
+% \documentclass{WHUPhd}
 % \documentclass[forprint]{WHUPhd}
-% \documentclass[forlib]{WHUPhd}
+\documentclass[forlib]{WHUPhd}
 
 \input{settings/compile_config}
 \input{settings/shortcuts}
 \input{settings/misc}
+\input{settings/cleveref-chinese}
 
 \begin{document}
 
@@ -13,8 +14,8 @@
 \UDC{} %《国际十进制分类法UDC》的类号. 选填.
 \bianhao{10486} % 学校编号, 10486是武汉大学的编号. 不用改动.
 
-\title{神经网络特征学习的动力学特性研究}
-\Etitle{A Research on the Feature Learning Dynamics of Neural Networks} % 英文题目
+\title{关于神经网络特征学习机理的理论分析}
+\Etitle{A Theoretical Analysis of the Feature Learning Mechanism of Neural Networks} % 英文题目
 \author{陈彦伯}
 \Eauthor{CHEN Yanbo} %作者英文名
 \Csupervisor{刘威威\quad 教授} %指导教师中文名、职称
@@ -68,8 +69,12 @@
 
 % Appendix
 \appendix
+\input{appendix/notations}
+\input{appendix/related_works}
+\input{appendix/proofs}
 \input{appendix/app3}
 \input{appendix/app4}
+\input{appendix/app5}
 
 % References
 \cleardoublepage\phantomsection

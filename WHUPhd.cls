@@ -8,11 +8,11 @@
 \DeclareOption{forprint}{\printtrue}
 \ProcessOptions
 
- \iflib
- \LoadClass[a4paper,zihao=-4,twoside,openany]{ctexbook}
- \else
- \LoadClass[a4paper,zihao=-4,twoside]{ctexbook}
- \fi
+\iflib
+  \LoadClass[a4paper,zihao=-4,twoside,openany]{ctexbook}
+\else
+  \LoadClass[a4paper,zihao=-4,twoside]{ctexbook}
+\fi
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions
@@ -31,8 +31,8 @@
   linkcolor=black,
   urlcolor=darkblue}
 \RequirePackage[top=3truecm,bottom=2.9truecm,left=2.8truecm,right=2.5truecm,
-            %includehead,%includefoot,
-           xetex]{geometry}    % 页面设置%
+  %includehead,%includefoot,
+  xetex]{geometry}    % 页面设置%
 
 \newtoks\fenleihao        %中图分类号
 \newtoks\bianhao          %学校编号
@@ -57,15 +57,16 @@
 
 \let\ps@oldplain\ps@plain
 
- \fancyhf{}  %清除以前对页眉页脚的设置
- \fancyhead[CE]{武汉大学博士学位论文}                       %偶数页页眉居中位置的设置. 不填则为空.
- \fancyhead[CO]{\@title}    %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
- \fancyfoot[C]{-\,\thepage\,-}                     %页面下侧的设置. 大括号内置空, 表示什么也不填. 反之, 没有此命令的话, 会在页脚出现页码
- \newcommand{\fancyfancy}{\fancypagestyle{plain}{%
-  \fancyhf{}
-   \fancyhead[CE]{武汉大学博士学位论文}                       %偶数页页眉居中位置的设置. 不填则为空.
- \fancyhead[CO]{\@title}    %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
- \fancyfoot[C]{-\,\thepage\,-} }}
+\fancyhf{}  %清除以前对页眉页脚的设置
+\fancyhead[CE]{武汉大学博士学位论文}                       %偶数页页眉居中位置的设置. 不填则为空.
+\fancyhead[CO]{\@title}    %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
+\fancyfoot[C]{-\,\thepage\,-}                     %页面下侧的设置. 大括号内置空, 表示什么也不填. 反之, 没有此命令的话, 会在页脚出现页码
+\newcommand{\fancyfancy}{\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyhead[CE]{武汉大学博士学位论文}                       %偶数页页眉居中位置的设置. 不填则为空.
+    \fancyhead[CO]{\@title}    %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
+    \fancyfoot[C]{-\,\thepage\,-} }}
+    
 %%%=== 封面 ===%%%
 \def\maketitle{%
   \null
@@ -73,48 +74,48 @@
   %\vspace*{-2cm}
   \begin{center}\leavevmode
     {\fangsong \zihao{4}%
-    \begin{tabular}{lp{2cm}p{5cm}lp{2cm}l}
-      \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{分\hfill 类\hfill 号}} & {}\hfill\raisebox{-0.5ex}[0pt]{\the\fenleihao}\hfill{} &  &
-      \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{密\hfill 级}} & {}\hfill\raisebox{-0.5ex}[0pt]{\the\miji}\hfill{} & \\ \cline{2-2}\cline{5-5}
-      \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{U\hfill D\hfill C} } & {}\hfill\raisebox{-0.5ex}[0pt]{\the\UDC}\hfill{}      &  &
-      \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{编\hfill 号}} & {}\hfill\raisebox{-0.5ex}[0pt]{\the\bianhao}\hfill{}   & \\ \cline{2-2}\cline{5-5}
-    \end{tabular}
+      \begin{tabular}{lp{2cm}p{5cm}lp{2cm}l}
+        \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{分\hfill 类\hfill 号}}  & {}\hfill\raisebox{-0.5ex}[0pt]{\the\fenleihao}\hfill{} &   &
+        \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{密\hfill 级}}          & {}\hfill\raisebox{-0.5ex}[0pt]{\the\miji}\hfill{}      &     \\ \cline{2-2}\cline{5-5}
+        \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{U\hfill D\hfill C} } & {}\hfill\raisebox{-0.5ex}[0pt]{\the\UDC}\hfill{}       &   &
+        \raisebox{-0.5ex}[0pt]{\makebox[1.5cm][s]{编\hfill 号}}          & {}\hfill\raisebox{-0.5ex}[0pt]{\the\bianhao}\hfill{}   &     \\ \cline{2-2}\cline{5-5}
+      \end{tabular}
     }
     \par
     \vspace*{15mm} %插入空白
     {\songti \zihao{2} \ziju{1} %武汉大学 
-    \includegraphics[width=0.4\textwidth]{figures/template/wudaname.png}
-    \\[3mm]  博士学位论文}\\
+      \includegraphics[width=0.4\textwidth]{figures/template/wudaname.png}
+      \\[3mm]  博士学位论文}\\
     \vspace{2cm}
     {\kaishu \zihao{1}  \@title \par}%
-%    \vspace{4cm}
-     \vfill\vfill\vfill
+    %    \vspace{4cm}
+    \vfill\vfill\vfill
     {\songti\zihao{4}
-    \begin{tabular}{cp{5.5cm}c}
-      \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{研\hfill 究\hfill 生\hfill 姓\hfill 名: }} & {\songti {}\raisebox{-3ex}[0pt]{\@author}\hfill{}} & \\[3ex]
-      \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{指\hfill 导\hfill 教\hfill 师\hfill 姓\hfill 名、\hfill 职\hfill 称: }} & {\songti
-      {}\raisebox{-3ex}[0pt]{\the\Csupervisor}\hfill{}} & \\[3ex] % \cline{2-2}
-      \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{学\hfill 科、\hfill 专\hfill 业\hfill 名\hfill 称: }} & {\songti {}\raisebox{-3ex}[0pt]{\the\Cmajor}\hfill{}} &
-      \\[3ex]
-      \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{研\hfill 究\hfill 方\hfill 向: }} & {\songti{}\raisebox{-3ex}[0pt]{\the\Cspeciality}\hfill{}} & \\[3ex]
-     \end{tabular}
+      \begin{tabular}{cp{5.5cm}c}
+        \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{研\hfill 究\hfill 生\hfill 姓\hfill 名: }}                          & {\songti {}\raisebox{-3ex}[0pt]{\@author}\hfill{}}        & \\[3ex]
+        \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{指\hfill 导\hfill 教\hfill 师\hfill 姓\hfill 名、\hfill 职\hfill 称: }} & {\songti
+        {}\raisebox{-3ex}[0pt]{\the\Csupervisor}\hfill{}}                                                      &                                                             \\[3ex] % \cline{2-2}
+        \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{学\hfill 科、\hfill 专\hfill 业\hfill 名\hfill 称: }}                 & {\songti {}\raisebox{-3ex}[0pt]{\the\Cmajor}\hfill{}}     &
+        \\[3ex]
+        \raisebox{-3ex}[0pt]{\makebox[4.8cm][s]{研\hfill 究\hfill 方\hfill 向: }}                                  & {\songti{}\raisebox{-3ex}[0pt]{\the\Cspeciality}\hfill{}} & \\[3ex]
+      \end{tabular}
     }
     \par
     \vspace{25mm}
     {
-%    {\heiti \zihao{3} \the\year~年 ~\the\month~月 ~\the\day~日 \par}%
-    {\heiti \zihao{3} \@date \par}%
+      %    {\heiti \zihao{3} \the\year~年 ~\the\month~月 ~\the\day~日 \par}%
+      {\heiti \zihao{3} \@date \par}%
     }
     %\vspace*{-0.7cm}
   \end{center}%
   \null
   \iflib
   \else
-  \newpage
-  \thispagestyle{empty}
-  \cleardoublepage
+    \newpage
+    \thispagestyle{empty}
+    \cleardoublepage
   \fi
-  }
+}
 
 %------------------------ Abstract & Keywords -------------------------
 \newcommand\cnabstractname{摘要}
@@ -125,23 +126,23 @@
 \newcommand\enkeywordsname{Key words}
 
 \newenvironment{cnabstract}{
-    \newpage
-    \chapter[\cnabstractname]{\ziju{2}{\cnabstractname}}   %%%终于解决了书签乱码的问题 2005-04-12.huangzh
-    \songti\zihao{-4}
-    \@afterheading}
-    {\par}
+  \newpage
+  \chapter[\cnabstractname]{\ziju{2}{\cnabstractname}}   %%%终于解决了书签乱码的问题 2005-04-12.huangzh
+  \songti\zihao{-4}
+  \@afterheading}
+{\par}
 
 \newenvironment{enabstract}{
-    \newpage
-    \chapter{\enabstractname}
-    \songti\zihao{-4}
-    \@afterheading}
-    {\par}
+  \newpage
+  \chapter{\enabstractname}
+  \songti\zihao{-4}
+  \@afterheading}
+{\par}
 %%------------------------常用宏包-----------------------------------
 \RequirePackage{amsmath,amssymb}% AMSLaTeX宏包.
 \RequirePackage[amsmath,thmmarks]{ntheorem}
 \RequirePackage{graphicx}                 % 图形
-\RequirePackage{cite} % 参考文献引用, 得到形如 [3-7] 的样式.
+% \RequirePackage{cite} % 参考文献引用, 得到形如 [3-7] 的样式.
 \RequirePackage{url}
 \RequirePackage{enumerate}
 %%----------------------- Theorems -----------------------------------
@@ -169,65 +170,65 @@
 \theoremheaderfont{\heiti}
 \theorembodyfont{\normalfont \rm \songti}
 \theoremindent0em \theoremseparator{\hspace{1em}}
-\theoremsymbol{$\square$}
+\theoremsymbol{\(\square\)}
 \newtheorem{proof}{\hspace{2em}证明}
 
 %%%---  Publications -------------------------------
 \newenvironment{publications}[1]
-  {\renewcommand\bibname{}\begin{thebibliography}{#1}}
-  {\end{thebibliography}}
+{\renewcommand\bibname{}\begin{thebibliography}{#1}}
+    {\end{thebibliography}}
 
 %%%--- \upcite ----------------------------------------
 \newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}  %自定义新命令\upcite, 使参考文献引用以上标出现
 
 %%%%%%%--判断是否需要彩色链接-----------------------------
-  \iflib
-  \else
-  \fi
+\iflib
+\else
+\fi
 %%%%%%%-------------------------------------------------
 %%%%%%%--判断是否需要彩色链接-----------------------------
-  \ifprint
+\ifprint
   \hypersetup{allcolors=black}
-  \else
-  \fi
+\else
+\fi
 %%%%%%%-------------------------------------------------
 %%%===  suppress extra inter-line spacing in \list environments
 \makeatletter \setlength\partopsep{0pt}
 \def\@listI{\leftmargin\leftmargini
-            \parsep 0pt
-            \topsep \parsep
-            \itemsep \parsep}
+  \parsep 0pt
+  \topsep \parsep
+  \itemsep \parsep}
 \@listI
 \def\@listii {\leftmargin\leftmarginii
-              \labelwidth\leftmarginii
-              \advance\labelwidth-\labelsep
-              \parsep    \z@ \@plus\z@  \@minus\z@
-              \topsep    \parsep
-              \itemsep   \parsep}
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \parsep    \z@ \@plus\z@  \@minus\z@
+  \topsep    \parsep
+  \itemsep   \parsep}
 \def\@listiii{\leftmargin\leftmarginiii
-              \labelwidth\leftmarginiii
-              \advance\labelwidth-\labelsep
-              \parsep    \z@ \@plus\z@  \@minus\z@
-              \topsep    \parsep
-              \itemsep   \parsep}
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \parsep    \z@ \@plus\z@  \@minus\z@
+  \topsep    \parsep
+  \itemsep   \parsep}
 \def\@listiv{\leftmargin\leftmarginiv
-              \labelwidth\leftmarginiv
-              \advance\labelwidth-\labelsep
-              \parsep    \z@ \@plus\z@  \@minus\z@
-              \topsep    \parsep
-              \itemsep   \parsep}
+  \labelwidth\leftmarginiv
+  \advance\labelwidth-\labelsep
+  \parsep    \z@ \@plus\z@  \@minus\z@
+  \topsep    \parsep
+  \itemsep   \parsep}
 \def\@listv{\leftmargin\leftmarginv
-              \labelwidth\leftmarginv
-              \advance\labelwidth-\labelsep
-              \parsep    \z@ \@plus\z@  \@minus\z@
-              \topsep    \parsep
-              \itemsep   \parsep}
+  \labelwidth\leftmarginv
+  \advance\labelwidth-\labelsep
+  \parsep    \z@ \@plus\z@  \@minus\z@
+  \topsep    \parsep
+  \itemsep   \parsep}
 \def\@listvi{\leftmargin\leftmarginvi
-              \labelwidth\leftmarginvi
-              \advance\labelwidth-\labelsep
-              \parsep    \z@ \@plus\z@  \@minus\z@
-              \topsep    \parsep
-              \itemsep   \parsep}
+  \labelwidth\leftmarginvi
+  \advance\labelwidth-\labelsep
+  \parsep    \z@ \@plus\z@  \@minus\z@
+  \topsep    \parsep
+  \itemsep   \parsep}
 %
 % Change default margins for \list environments
 \setlength\leftmargini   {2\ccwd} \setlength\leftmarginii
@@ -240,7 +241,7 @@
 \setlength\listparindent{2\ccwd}
 % Change \listparindent to 2\ccwd in \list
 \def\list#1#2{\ifnum \@listdepth >5\relax \@toodeep
-     \else \global\advance\@listdepth\@ne \fi
+  \else \global\advance\@listdepth\@ne \fi
   \rightmargin \z@ \listparindent2\ccwd \itemindent \z@
   \csname @list\romannumeral\the\@listdepth\endcsname
   \def\@itemlabel{#1}\let\makelabel\@mklab \@nmbrlistfalse #2\relax
@@ -259,8 +260,8 @@
 
 %%% ---- 章节标题设置 ----- %%%%
 \ctexset{bibname={\large 参考文献}}
-\setcounter{tocdepth}{4}
-\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 \RequirePackage[font=small,textfont=it]{caption}
 
 %%%=== 图片路径=== %%%

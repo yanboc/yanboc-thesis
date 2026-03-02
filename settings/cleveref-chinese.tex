@@ -17,8 +17,11 @@
 \crefname{remark}{注}{注}
 \crefname{chapter}{章}{章}
 \crefname{section}{节}{节}
-\crefname{subsection}{节}{节}
-\crefname{subsubsection}{节}{节}
+\crefname{subsection}{小节}{小节}
+% 句首引用用 \Cref；与 \crefname 一致以便 subsection 等正确解析
+\Crefname{chapter}{章}{章}
+\Crefname{section}{节}{节}
+\Crefname{subsection}{小节}{小节}
 
 \crefformat{equation}{#2式 (#1) #3}
 \crefformat{figure}{#2图 (#1) #3}
@@ -36,18 +39,15 @@
 
 \crefformat{chapter}{#2第#1章#3}
 \crefformat{section}{#2第#1节#3}
-\crefformat{subsection}{#2第#1节#3}
-\crefformat{subsubsection}{#2第#1节#3}
+\crefformat{subsection}{#2第#1小节#3}
 
 \crefmultiformat{chapter}{#2第#1章#3}{和#2第#1章#3}{，#2第#1章#3}{和#2第#1章#3}
 \crefmultiformat{section}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
-\crefmultiformat{subsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
-\crefmultiformat{subsubsection}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
+\crefmultiformat{subsection}{#2第#1小节#3}{和#2第#1小节#3}{，#2第#1小节#3}{和#2第#1小节#3}
 
 \crefrangemultiformat{chapter}{#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}{，#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}
 \crefrangemultiformat{section}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
-\crefrangemultiformat{subsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
-\crefrangemultiformat{subsubsection}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
+\crefrangemultiformat{subsection}{#3第#1小节#4至#5第#2小节#6}{和#3第#1小节#4至#5第#2小节#6}{，#3第#1小节#4至#5第#2小节#6}{和#3第#1小节#4至#5第#2小节#6}
 
 \newcommand{\crefpairconjunction}{~和~}
 \newcommand{\crefmiddleconjunction}{, }

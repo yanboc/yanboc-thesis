@@ -145,26 +145,31 @@
 % \RequirePackage{cite} % 参考文献引用, 得到形如 [3-7] 的样式.
 \RequirePackage{url}
 \RequirePackage{enumerate}
-%%----------------------- Theorems -----------------------------------
+
+%% 定理样式
 \theoremstyle{plain}
-\theoremheaderfont{\heiti}
-\theorembodyfont{\songti} \theoremindent0em
-\theorempreskip{0pt}
-\theorempostskip{0pt}
-%\theoremseparator{\hspace{1em}}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont \rm \songti}
+\theoremindent0em
+\theorempreskip{3pt}
+\theorempostskip{3pt}
 \theoremnumbering{arabic}
 
 \newtheorem{thm-like}{}[chapter]
-\newtheorem{theorem}[thm-like]{\vspace{6pt}\noindent 定理}
-\newtheorem{lemma}[thm-like]{\vspace{6pt}\noindent 引理}
-\newtheorem{corollary}[thm-like]{\vspace{6pt}\noindent 推论}
-\newtheorem{proposition}[thm-like]{\vspace{6pt}\noindent 性质}
+\newtheorem{theorem}[thm-like]{\noindent 定理}
+\renewtheorem*{theorem*}[thm-like]{\noindent 定理}
+\newtheorem{lemma}[thm-like]{\noindent 引理}
+\renewtheorem*{lemma*}[thm-like]{\noindent 引理}
+\newtheorem{corollary}[thm-like]{\noindent 推论}
+\renewtheorem*{corollary*}[thm-like]{\noindent 推论}
+\newtheorem{proposition}[thm-like]{\noindent 性质}
+\renewtheorem*{proposition*}[thm-like]{\noindent 性质}
 
 \newtheorem{def-like}{}[chapter]
-\newtheorem{definition}[def-like]{\vspace{6pt}\noindent 定义}
-\newtheorem{example}[def-like]{\vspace{6pt}\noindent 例}
-\newtheorem{remark}[def-like]{\vspace{6pt}\noindent 注}
-\newtheorem{assumption}[def-like]{\vspace{6pt}\noindent 假设}
+\newtheorem{definition}[def-like]{\noindent 定义}
+\newtheorem{example}[def-like]{\noindent 例}
+\newtheorem{remark}[def-like]{\noindent 注}
+\newtheorem{assumption}[def-like]{\noindent 假设}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\heiti}

@@ -11,24 +11,6 @@
 \usepackage{bm}
 \usepackage{float}
 \usepackage{subcaption}
-\usepackage[most]{tcolorbox}
-
-% ========================================
-% tcolorbox 定义
-% ========================================
-\newtcolorbox{mybox}[1]{
-  colback=darkgray-background!40,
-  coltitle=black,
-  colframe=darkgray-background,
-  colbacktitle=darkgray-background!60,
-  fonttitle=\heiti,
-  title={#1}
-}
-
-\newtcolorbox{mynotice}{
-  colback=darkgray-background!40,
-  colframe=darkgray-background,
-}
 
 % ========================================
 % 命令定义（按字母顺序）
@@ -42,6 +24,7 @@
 \newcommand{\btheta}{\boldsymbol{\theta}}
 \newcommand{\bTheta}{\boldsymbol{\Theta}}
 \newcommand{\bxi}{\boldsymbol{\xi}}
+\renewcommand{\c}{\boldsymbol{c}}
 \newcommand{\C}{\mathcal{C}}
 \newcommand{\calD}{\mathcal{D}}
 \newcommand{\calF}{\mathcal{F}}
@@ -58,6 +41,7 @@
 \newcommand{\ip}[1]{\left\langle #1 \right\rangle}
 \newcommand{\ipsmall}[1]{\langle #1 \rangle}
 \newcommand{\iter}[1]{\{#1\}}
+\newcommand{\myqed}{\hfill$\blacksquare$\par\vspace{0.2\baselineskip}}
 \newcommand{\M}{\boldsymbol{M}}
 \newcommand{\MM}{\mathbf{M}}
 \newcommand{\N}{\mathcal{N}}
@@ -71,6 +55,7 @@
 \newcommand{\Rstd}{R_{\rm{std}}}
 \newcommand{\relup}[1]{ \sigma^{\prime} \left( #1 \right)} % ReLU
 \newcommand{\risk}{\mathcal{R}}
+\renewcommand{\S}{\mathcal{S}}
 \newcommand{\sless}{\S_{less}}
 \newcommand{\slessbound}{t \sigma_0 f_r}
 \newcommand{\smost}{\tilde{\S}}
@@ -79,7 +64,7 @@
 \renewcommand{\u}{\boldsymbol{u}}
 \renewcommand{\v}{\boldsymbol{v}}
 \newcommand{\V}{\mbox{Vol}}
-\newcommand{\w}{\mathbf{w}}
+\newcommand{\w}{\boldsymbol{w}}
 \newcommand{\wbound}{t \sigma_0 f_h}
 \newcommand{\W}{\boldsymbol{W}}
 \newcommand{\x}{\boldsymbol{x}}

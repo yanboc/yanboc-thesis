@@ -1,65 +1,58 @@
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{2.{1}}{}}{11}{thm-like.2.1}%
-\contentsline {proof}{{\hspace {2em}证明}{1}{\cref {thm:example concentration inequality}}}{12}{proof.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{2.{1}}{学习任务}}{12}{def-like.2.1}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{2.{2}}{定义 \ref {def:learning task} 的局限性}}{12}{def-like.2.2}%
-\contentsline {example}{{\vspace {6pt}\noindent 例}{2.{3}}{信号-噪音模型}}{13}{def-like.2.3}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{2.{2}}{高维正交性}}{14}{thm-like.2.2}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{2.{3}}{}}{14}{thm-like.2.3}%
-\contentsline {proof}{{\hspace {2em}证明}{2}{}}{14}{proof.2}%
-\contentsline {proof}{{\hspace {2em}证明}{3}{}}{14}{proof.3}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{2.{4}}{信号向量}}{15}{def-like.2.4}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{2.{4}}{标准正态分布的尾概率上下界}}{15}{thm-like.2.4}%
-\contentsline {proof}{{\hspace {2em}证明}{4}{}}{16}{proof.4}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{2.{5}}{}}{16}{thm-like.2.5}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{2.{6}}{GD下\(\boldsymbol {w}_i\)的迭代规律}}{16}{thm-like.2.6}%
-\contentsline {proof}{{\hspace {2em}证明}{5}{}}{17}{proof.5}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{2.{7}}{梯度稀疏性}}{17}{thm-like.2.7}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{2.{8}}{迭代确定性}}{17}{thm-like.2.8}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{1}}{}}{21}{def-like.3.1}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{2}}{特征塌缩}}{23}{def-like.3.2}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{3}}{广义单纯形等角紧框架\cite {neural-collapse}}}{24}{def-like.3.3}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{3.{4}}{训练终止阶段}}{25}{def-like.3.4}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{1}}{}}{25}{thm-like.3.1}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{3.{5}}{自对偶性}}{25}{def-like.3.5}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{2}}{NC2}}{27}{thm-like.3.2}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{3.{3}}{单纯形压缩}}{27}{thm-like.3.3}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{3.{4}}{}}{31}{thm-like.3.4}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{5}}{}}{32}{thm-like.3.5}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{3.{6}}{}}{34}{thm-like.3.6}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{7}}{}}{34}{thm-like.3.7}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{8}}{标准训练的训练终止阶段}}{34}{thm-like.3.8}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{3.{9}}{对抗训练的训练终止阶段}}{39}{thm-like.3.9}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{4.{1}}{正常数据模型}}{43}{def-like.4.1}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{4.{1}}{}}{47}{thm-like.4.1}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{2}}{}}{47}{thm-like.4.2}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{2}}{参数分析}}{47}{def-like.4.2}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{4.{3}}{锥集}}{48}{def-like.4.3}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{4}}{锥集直觉}}{48}{def-like.4.4}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{3}}{}}{48}{thm-like.4.3}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{4}}{}}{48}{thm-like.4.4}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{5}}{定理\ref {theorem-Stk-subset-st+1k}的解释}}{48}{def-like.4.5}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{5}}{}}{48}{thm-like.4.5}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{6}}{非正式}}{49}{thm-like.4.6}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{7}}{}}{50}{thm-like.4.7}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{6}}{语义异常难以检测}}{50}{def-like.4.6}%
-\contentsline {proof}{{\hspace {2em}证明}{6}{Proof of Proposition \ref {prop-gradient}}}{51}{proof.6}%
-\contentsline {proof}{{\hspace {2em}证明}{7}{Proof of Lemma \ref {lemma-size-of-wj-in-paper}}}{52}{proof.7}%
-\contentsline {proof}{{\hspace {2em}证明}{8}{}}{53}{proof.8}%
-\contentsline {proof}{{\hspace {2em}证明}{9}{Proof of \ref {theorem-initial-size-in-paper}}}{54}{proof.9}%
-\contentsline {proof}{{\hspace {2em}证明}{10}{Proof of \ref {theorem-Stk-subset-st+1k}}}{55}{proof.10}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{7}}{过参数化模型是必要的}}{58}{def-like.4.7}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{8}}{}}{58}{thm-like.4.8}%
-\contentsline {theorem}{{\vspace {6pt}\noindent 定理}{4.{9}}{}}{58}{thm-like.4.9}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{10}}{上尾}}{59}{thm-like.4.10}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{11}}{下尾}}{59}{thm-like.4.11}%
-\contentsline {corollary}{{\vspace {6pt}\noindent 推论}{4.{12}}{}}{59}{thm-like.4.12}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{13}}{卡方随机变量的集中不等式}}{59}{thm-like.4.13}%
-\contentsline {lemma}{{\vspace {6pt}\noindent 引理}{4.{14}}{}}{59}{thm-like.4.14}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{4.{8}}{对\ref {sec-inner-product-experiments}-{sec-kernel-norm-growth-experiments}中结果的讨论}}{63}{def-like.4.8}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{5.{1}}{隐式唤起}}{68}{def-like.5.1}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{5.{1}}{\ref {chap5-thm:1} 的非正式版本}}{69}{thm-like.5.1}%
-\contentsline {proposition}{{\vspace {6pt}\noindent 性质}{5.{2}}{\ref {chap5-thm:2} 的非正式版本}}{70}{thm-like.5.2}%
-\contentsline {definition}{{\vspace {6pt}\noindent 定义}{5.{2}}{概念}}{76}{def-like.5.2}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{5.{3}}{参见 \citet {DBLP:conf/iclr/0001CJV25} 中的定理 8}}{76}{def-like.5.3}%
-\contentsline {remark}{{\vspace {6pt}\noindent 注}{5.{4}}{}}{76}{def-like.5.4}%
-\contentsline {assumption}{{\vspace {6pt}\noindent 假设}{5.{5}}{}}{76}{def-like.5.5}%
+\contentsline {theorem}{{\noindent 定理}{2.{1}}{}}{11}{thm-like.2.1}%
+\contentsline {remark}{{\noindent 注}{2.{1}}{}}{12}{def-like.2.1}%
+\contentsline {definition}{{\noindent 定义}{2.{2}}{学习任务}}{12}{def-like.2.2}%
+\contentsline {remark}{{\noindent 注}{2.{3}}{定义 \ref {def:learning task} 的局限性}}{12}{def-like.2.3}%
+\contentsline {example}{{\noindent 例}{2.{4}}{信号-噪音模型}}{13}{def-like.2.4}%
+\contentsline {proposition}{{\noindent 性质}{2.{2}}{高维正交性}}{14}{thm-like.2.2}%
+\contentsline {lemma}{{\noindent 引理}{2.{3}}{}}{14}{thm-like.2.3}%
+\contentsline {proof}{{\hspace {2em}证明}{1}{}}{14}{proof.1}%
+\contentsline {proof}{{\hspace {2em}证明}{2}{}}{15}{proof.2}%
+\contentsline {definition}{{\noindent 定义}{2.{5}}{信号向量}}{15}{def-like.2.5}%
+\contentsline {lemma}{{\noindent 引理}{2.{4}}{标准正态分布的尾概率上下界}}{16}{thm-like.2.4}%
+\contentsline {lemma}{{\noindent 引理}{2.{5}}{}}{17}{thm-like.2.5}%
+\contentsline {theorem}{{\noindent 定理}{2.{6}}{GD下\(\boldsymbol {w}_i\)的迭代规律}}{17}{thm-like.2.6}%
+\contentsline {proof}{{\hspace {2em}证明}{3}{}}{17}{proof.3}%
+\contentsline {corollary}{{\noindent 推论}{2.{7}}{梯度稀疏性}}{18}{thm-like.2.7}%
+\contentsline {corollary}{{\noindent 推论}{2.{8}}{迭代确定性}}{18}{thm-like.2.8}%
+\contentsline {definition}{{\noindent 定义}{3.{1}}{}}{23}{def-like.3.1}%
+\contentsline {definition}{{\noindent 定义}{3.{2}}{特征塌缩}}{24}{def-like.3.2}%
+\contentsline {definition}{{\noindent 定义}{3.{3}}{广义单纯形等角紧框架\cite {neural-collapse}}}{25}{def-like.3.3}%
+\contentsline {definition}{{\noindent 定义}{3.{4}}{训练终止阶段}}{26}{def-like.3.4}%
+\contentsline {corollary}{{\noindent 推论}{3.{1}}{}}{27}{thm-like.3.1}%
+\contentsline {assumption}{{\noindent 假设}{3.{5}}{自对偶性}}{27}{def-like.3.5}%
+\contentsline {theorem}{{\noindent 定理}{3.{2}}{}}{29}{thm-like.3.2}%
+\contentsline {theorem}{{\noindent 定理}{3.{3}}{}}{29}{thm-like.3.3}%
+\contentsline {proposition}{{\noindent 性质}{3.{4}}{}}{33}{thm-like.3.4}%
+\contentsline {corollary}{{\noindent 推论}{3.{5}}{}}{34}{thm-like.3.5}%
+\contentsline {corollary}{{\noindent 推论}{3.{6}}{}}{36}{thm-like.3.6}%
+\contentsline {lemma}{{\noindent 引理}{3.{7}}{}}{36}{thm-like.3.7}%
+\contentsline {lemma}{{\noindent 引理}{3.{8}}{标准训练的训练终止阶段}}{36}{thm-like.3.8}%
+\contentsline {lemma}{{\noindent 引理}{3.{9}}{对抗训练的训练终止阶段}}{41}{thm-like.3.9}%
+\contentsline {definition}{{\noindent 定义}{4.{1}}{正常数据模型}}{47}{def-like.4.1}%
+\contentsline {remark}{{\noindent 注}{4.{2}}{最大值池化与非重叠、单特征块假设}}{48}{def-like.4.2}%
+\contentsline {proposition}{{\noindent 性质}{4.{1}}{}}{50}{thm-like.4.1}%
+\contentsline {lemma}{{\noindent 引理}{4.{2}}{}}{50}{thm-like.4.2}%
+\contentsline {remark}{{\noindent 注}{4.{3}}{控制参数}}{52}{def-like.4.3}%
+\contentsline {definition}{{\noindent 定义}{4.{4}}{锥集}}{52}{def-like.4.4}%
+\contentsline {remark}{{\noindent 注}{4.{5}}{锥集直觉}}{52}{def-like.4.5}%
+\contentsline {lemma}{{\noindent 引理}{4.{3}}{}}{53}{thm-like.4.3}%
+\contentsline {theorem}{{\noindent 定理}{4.{4}}{}}{53}{thm-like.4.4}%
+\contentsline {theorem}{{\noindent 定理}{4.{5}}{}}{53}{thm-like.4.5}%
+\contentsline {theorem}{{\noindent 定理}{4.{6}}{}}{55}{thm-like.4.6}%
+\contentsline {remark}{{\noindent 注}{4.{6}}{语义异常难以检测}}{55}{def-like.4.6}%
+\contentsline {remark}{{\noindent 注}{4.{7}}{过参数化模型是必要的}}{67}{def-like.4.7}%
+\contentsline {theorem*}{{\noindent 定理}{4.{7}}{重述\cref {theorem-small-convolution-in-paper}}}{67}{thm-like.4.7}%
+\contentsline {lemma}{{\noindent 引理}{4.{8}}{尾概率上界}}{68}{thm-like.4.8}%
+\contentsline {lemma}{{\noindent 引理}{4.{9}}{尾概率下界}}{68}{thm-like.4.9}%
+\contentsline {corollary}{{\noindent 推论}{4.{10}}{}}{68}{thm-like.4.10}%
+\contentsline {lemma}{{\noindent 引理}{4.{11}}{卡方随机变量的集中不等式}}{68}{thm-like.4.11}%
+\contentsline {lemma}{{\noindent 引理}{4.{12}}{}}{68}{thm-like.4.12}%
+\contentsline {definition}{{\noindent 定义}{5.{1}}{概念}}{73}{def-like.5.1}%
+\contentsline {definition}{{\noindent 定义}{5.{2}}{}}{74}{def-like.5.2}%
+\contentsline {remark}{{\noindent 注}{5.{3}}{}}{74}{def-like.5.3}%
+\contentsline {assumption}{{\noindent 假设}{5.{4}}{}}{74}{def-like.5.4}%
+\contentsline {definition}{{\noindent 定义}{5.{5}}{隐式唤起}}{75}{def-like.5.5}%
+\contentsline {proposition}{{\noindent 性质}{5.{1}}{\cref {thm:1} 的非正式版本}}{78}{thm-like.5.1}%
+\contentsline {proposition}{{\noindent 性质}{5.{2}}{\cref {thm:2} 的非正式版本}}{79}{thm-like.5.2}%
+\contentsline {theorem}{{\noindent 定理}{5.{3}}{}}{79}{thm-like.5.3}%
+\contentsline {theorem}{{\noindent 定理}{5.{4}}{}}{79}{thm-like.5.4}%

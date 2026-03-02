@@ -26,7 +26,7 @@
   \node (PAC) at ($(A)!0.5!(B)+(0,-0.6)$) [below] {PAC\ VCD\ SC};
   \node (NTK) at ($(B)!0.5!(C)+(0.4,0.7)$) [right] {NTK};
   \node (EA) at ([xshift=-1pt,yshift=-10pt]NTK) [right] {EA};
-  \node at ($(C)!0.5!(A)+(-0.2,0.6)$) [left] {MF\ GF};
+  \node at ($(C)!0.5!(A)+(-0.35,0.6)$) [left] {MF\ GF};
 
   % 三圆交集文字
   \node (FLT) at ($(C)+(0,-0.6)$) {FLT};
@@ -42,7 +42,7 @@
   \coordinate (caption4) at ([yshift=-12pt]caption3);
   \node at (caption4) [right] {概率近似正确（PAC）: \cite{DBLP:conf/focs/Allen-ZhuL21}};
   \coordinate (caption5) at ([yshift=-12pt]caption4);
-  \node at (caption5) [right] {可表示性理论（EA）: \cite{DBLP:conf/focs/Allen-ZhuL21}};
+  \node at (caption5) [right] {可表示性分析（EA）: \cite{DBLP:conf/focs/Allen-ZhuL21}};
   \coordinate (caption6) at ([yshift=-12pt]caption5);
   \node at (caption6) [right] {VC 维理论（VCD）: \cite{DBLP:conf/focs/Allen-ZhuL21}};
   \coordinate (caption7) at ([yshift=-12pt]caption6);
@@ -50,6 +50,6 @@
   \end{tikzpicture}
   \fi
 
-  \caption{学习理论分类图。}
+  \caption{机器学习领域主流的理论框架示意图。左：各理论框架常见译名、英文缩写与相关参考文献。右：我们从算法相关性、有限性与离散性三个维度评价各理论框架对于不同学习任务的适用性，以突出FLT与其他理论框架的差异性。如第 \ref{sec-related-works-learning-paradigms} 小节所述，FLT 是一种算法相关、维度有限，且迭代过程离散的理论框架，适用于刻画神经网络的特征学习过程。}
   \label{fig-learning-theory-taxonomy}
 \end{figure}

@@ -1,13 +1,14 @@
 % !TeX root = ../thesis.tex
 \chapter{特征学习理论的分析框架}\label{chap2}
 
-特征学习理论作为机器学习领域新兴的基础理论分支，既承袭了传统学习理论的系统化分析框架，又与机器学习的实际工程应用高度贴合，为传统理论引入了更精细的分析机制。
+特征学习理论作为机器学习领域新兴的基础理论分支，既承袭了传统学习理论的系统化分析框架，又与机器学习的实际应用高度贴合，为传统理论引入了更精细的分析机制。
 它可以被用于分析、解释深度神经网络的一些区别于传统机器学习模型的特有属性，且能够为多模态、多任务、跨场景的机器学习任务提供统一的分析框架。
-本章将从一般\textit{学习任务}（learning task）的数学定义出发，系统阐述特征学习理论的核心概念与关注焦点，同时引入后续分析中所用到的一些共性概念与定义。
-我们首先分开来看学习任务的各个组成部分，随后介绍特征学习理论对数据特征的建模，并给出了一些必要的概率统计、矩阵分析结论。
-最后，我们将归纳、总结适用于不同场景的特征学习理论的统一分析框架。
+本章将从\textit{学习任务}（learning task）的数学定义出发，系统阐述特征学习理论的核心概念与关注焦点，同时引入后续分析中所用到的一些共性的概念与定义。
+我们首先分开来看学习任务的各个组成部分，随后介绍数据特征与模型特征的概念，并给出了一些必要的概率统计、矩阵分析结论。
+最后，我们将总结适用于不同场景的特征学习理论的分析框架。
+本文后续章节中的分析将紧密围绕该框架展开。
 
-\section{学习任务的数学定义}\label{chap2-sec-learning-task}
+\section{学习任务的数学定义}\label{sec-learning-task}
 
 在本文中，我们用粗体字母来表示多维变量，如向量（以\(\x\)为例）或矩阵（以\(\boldsymbol{W}\)为例）。
 由于数学证明与计算机程序中对向量与矩阵表示方式的惯例稍有不同，为避免歧义，我们约定本文中所涉及的向量均采用列向量表示。
@@ -17,7 +18,6 @@
 具有均值\(\mu\)与方差\(\sigma^2\)正态分布被记为\(\mathcal{N}(\mu, \sigma^2)\)；
 集合\(S\)上的均匀分布写为\(\unif(S)\)。
 对任意随机变量\(\x\)，\(\E_{\x}[\cdot]\)与\(\prob_{\x}[\cdot]\)分别表示中括号中关于\(\x\)的表达式、统计量或随机事件的数学期望与概率。
-更多常见分布与函数的符号约定请参看附录\ref{app:notations}。
 
 \subsection{数据与模型}
 我们首先分开来看学习任务的各个组成部分。
@@ -106,7 +106,7 @@
 \(\btheta^{\iter{0}}\)是参数的初始化，主要分为均匀初始化与高斯初始化两大类，具体方法包括Xavier初始化\cite{DBLP:journals/jmlr/GlorotB10}与Kaiming初始化\cite{DBLP:conf/iccv/HeZRS15}等。
 本文采用Kaiming初始化；更多细节将在本章的第\ref{subsec:prelim initialization}小节中讨论。
 
-\subsubsection{关于模型泛化性的讨论}
+\paragraph{关于模型泛化性的讨论}
 在本节的剩余部分，我们将花费一些必要的篇幅来讨论特征学习理论与模型泛化性（generalization）之间的关系。
 泛化性是统计学习理论中的研究重点之一。
 当\(S = \hat{\calD}\)时，传统统计学习理论可以借助集中不等式给出一些非渐近的结论。
@@ -125,12 +125,15 @@
 \begin{equation}\label{eq:rademacher complexity}
   \mathcal{R}_{n}(\calF) := \E_{\x, \epsilon} \left[ \sup_{f \in \calF} \left| \frac{1}{n} \sum_{i \in [N]} \epsilon_i f(\x_i) \right|  \right] , \ \epsilon_i \sim \unif(\{ -1, 1 \}).
 \end{equation}
-\begin{proof}[\cref{thm:example concentration inequality}]
-  参看附录\ref{app:proofs}。
-\end{proof}
-借助拉德马赫复杂度（或其他模型类表示能力的度量，如VC维（Vapnik–Chervonenkis dimension）、\(\delta\)-覆盖数（\(\delta\)-covering number）等）的概念，一系列类似公式(\ref{eq:generalization bound})的结论被用于限制经验风险与真实风险之间的最大误差，从统计的角度保证了模型类在理想情况下的泛化性。
-之所以强调“在理想情况下”，是因为类似定理 \ref{thm:example concentration inequality} 的结论高度依赖数据的独立同分布假设，且是算法无关（algorithm-irrelevant）的。
-此类定理保证了模型类中\textit{存在}一个泛化性能足够好的模型，却无法通过某一确定的迭代算法真正\textit{得到}一个具体的模型并分析其除了泛化性之外的特性与能力，如良性过拟合、对抗鲁棒性与上下文学习能力等。
+\begin{myproof}[\cref{thm:example concentration inequality}]
+参看\cref{app:proofs}\!。
+\end{myproof}
+
+\begin{remark}\label{remark:generalization bound}
+借助拉德马赫复杂度（或其他模型类表示能力的度量，如VC维、\(\delta\)-覆盖数（\(\delta\)-covering number）等）的概念，一系列类似\cref{eq:generalization bound}的结论被用于限制经验风险与真实风险之间的最大误差，从统计的角度保证了模型类在理想情况下的泛化性。
+之所以强调“在理想情况下”，是因为类似\cref{thm:example concentration inequality}的结论高度依赖数据的独立同分布假设，且是算法无关的。
+此类定理保证了模型类中{\kaishu 存在}一个泛化性能足够好的模型，却无法通过某一确定的迭代算法真正{\kaishu 得到}一个具体的模型并分析其除了泛化性之外的特性与能力，如良性过拟合、对抗鲁棒性与上下文学习能力等。
+\end{remark}
 
 \subsection{学习任务的数学定义}
 
@@ -139,7 +142,7 @@
 \begin{definition}[学习任务]\label{def:learning task}
   本文通过以下四个核心要素来明确一个具体的学习任务。
   \begin{enumerate}
-    \item \textbf{数据集}：包括训练数据集\(S_{tr}\)（参见定义 \ref{sec-feature-and-feature-learning}）与测试数据集\(S_{te}\)。
+    \item \textbf{数据集}：包括训练数据集\(S_{tr}\)（参见\cref{sec-feature-and-feature-learning}）与测试数据集\(S_{te}\)。
           测试集的数据格式由具体任务目标指定。
           % $S_{tr} \subset \R^{d \times P}$为训练数据集。
           特别地，本文不要求\(S_{tr}\)与\(S_{te}\)满足独立同分布假设。
@@ -161,7 +164,7 @@
   非前向神经网络（如循环神经网络（Recurrent Neural Network, RNN）、长短期记忆（Long Short-Term Memory, LSTM））与图神经网络（Graph Neural Network, GNN）虽然也可以作为特征学习理论的分析对象且已有一些代表性成果，但由于其结构与前向网络有较大区别，难以统一地刻画，因此也不在本文的讨论范围内。
 \end{remark}
 
-\section{数据特征}\label{sec-feature-and-feature-learning}
+\section{数据特征与模型特征}\label{sec-feature-and-feature-learning}
 
 在上一章中，我们曾对数据特征和网络特征有过一个粗略的界定。
 简要地说，数据特征即数据本身的低维结构，记录了数据中蕴含的核心语义信息；而网络特征则是模型通过训练拟合得到的近似的数据特征，被用于实现面向任务的功能。
@@ -175,20 +178,20 @@
 \begin{example}[信号-噪音模型]
   在此我们讨论三个来自不同任务场景中的信号-噪音模型的实例。
   \begin{enumerate}
-    \item \textbf{稀疏编码模型}\cite{DBLP:journals/corr/abs-2108-06622}（sparse coding model）：该模型将观测数据分解为低维稀疏信号与噪音的叠加，被广泛应用于信号处理、生物信息学等领域。
+    \item {\heiti 稀疏编码模型}\cite{DBLP:journals/corr/abs-2108-06622}（sparse coding model）：该模型将观测数据分解为低维稀疏信号与噪音的叠加，被广泛应用于信号处理、生物信息学等领域。
           令\(\{\bmu_i\}_{i \in [d]}\)为不可观测的隐式信号向量。
           可观测的数据可表示为 \(\x = \bxi + \sum_{i \in [d]} \alpha_i \bmu_i\)，其中\(\{\alpha_i\}_{i \in [d]}\)为一族稀疏的系数，表示信号在数据中的权重；\(\bxi \in \R^d\)为噪音向量，用于增加数据的表达能力。
-    \item \textbf{背景-主体模型：}该模型将图像建模为含有语义信息的块（patch）与噪音块的组合，被广泛地用于刻图像识别、分割与重构任务中。
+    \item {\heiti 背景-主体模型：}该模型将图像建模为含有语义信息的块（patch）与噪音块的组合，被广泛地用于刻图像识别、分割与重构任务中。
           以经典的猫-狗二元分类问题为例。
           一张标签为“猫”的图片可能包含猫眼、皮毛、猫耳等包含任务语义信息的块，以及一些无关的块，如背景、模糊、装饰等。
           具体来说，一张图片可以被建模成若干个块的组合，即\(\x = (\z_1, \z_2, \cdots, \z_P)\)，其中\(\z \in \R^d\)为图像块的向量化表示。
           对于任意\(i \in [P]\)，\(\z_i\)被表示为信号与噪音的线性组合，即\(\z_i = \alpha_1\bmu_{j_i} + \alpha_2\bxi\)。
-    \item \textbf{冗余语义模型：}在自然语言处理任务中，文本通常被建模为词元（token）序列。
+    \item {\heiti 冗余语义模型：}在自然语言处理任务中，文本通常被建模为词元（token）序列。
           为更精确地建模高维语义信息，每个词元会被映射为向量并嵌入至高维空间中；
-          该向量通常被称为\textit{词嵌入}（word embedding）或\textit{隐藏状态}（hidden state），对应的空间则称为嵌入空间或隐藏空间。
+          该向量通常被称为{\kaishu 词嵌入}（word embedding）或{\kaishu 隐藏状态}（hidden state），对应的空间则称为嵌入空间或隐藏空间。
           与图像类似，词元序列也被建模为\(\x = (\z_1, \z_2, \cdots, \z_P)\)，其中\(\z_i\)为隐藏向量。
           由于在一句话中，
-          例如在一个简单的问答（Question Answering, QA）任务中，数据“\textit{张三的衣服是什么颜色的？张三的衣服是绿色的}”中只有“张三”、“衣服”、“颜色”和“绿色”为核心语义，其他的内容则为冗余语义。
+          例如在一个简单的问答（Question Answering, QA）任务中，数据“{\kaishu 张三的衣服是什么颜色的？张三的衣服是绿色的}”中只有“{\kaishu 张三}”、“{\kaishu 衣服}”、“{\kaishu 颜色}”和“{\kaishu 绿色}”为核心语义，其他的内容则为冗余语义。
           因此
   \end{enumerate}
   本文剩余部分将采用类似的建模思路；详见第\ref{chap3}至\ref{chap5}章中的具体定义。
@@ -260,16 +263,27 @@
 
 \section{特征学习理论的分析框架}\label{sec-feature-learning-theory-analysis-framework}
 
-特征学习理论关注模型参数从初始化到收敛的全过程。
-根据迭代进程，特征学习理论的分析可以自然地分成三个阶段：初始化阶段、特征提取阶段，以及收敛与后训练阶段。
+特征学习理论的本质是关于模型参数迭代过程的分析：
+从$t=0$迭代步开始，模型参数$\theta^{\iter{t}}$在损失函数的负梯度的指引下迭代更新，直到$t=T$迭代步结束。
+在此过程中，模型逐渐提取数据中的特征，并在迭代结束后被用于处理新数据。
+因此，特征学习理论的分析也可以被粗略地分成三个主要问题。
+首先是关于迭代\emph{起始点}的分析，即$t=0$迭代步时参数的性质；
+\emph{特征学习阶段}
 % 首先是初始化阶段。
 % 在这一阶段，过参数化的设定加上Kaiming初始化的一些优良性质可以被用于推导一些集中不等式。
 % 初始化后，由于初始模型性能较差，优化目标会给出较强的反馈，因此参数会经历一个快速变化的阶段。
 % 在训练后期，接近收敛，模型的变化也变慢，此时会有更精细的变化。
 % 这一阶段被称为
 
-\subsection{初始化分析}\label{subsec:prelim initialization}
+\subsection{迭代起始点}\label{subsec:prelim initialization}
 
+在本文中，我们主要讨论两种参数初始化的情况：
+\begin{itemize}
+  \item {\heiti 随机初始化：}即网络参数被设置为随机噪音、不包含任何先验知识的情况，适用于大部分传统机器学习任务以及大模型的预训练。
+  \item {\heiti 断点续训：}网络参数已经经过一定程度的训练，可能已经提取了一部分数据特征，但还需要进一步微调。
+\end{itemize}
+
+我们首先讨论随机初始化。
 在优化问题中，一个合适的初始化可以让随后的迭代更快、更稳定，在机器学习中也是如此。
 在早期机器学习研究中，\(\relu\)激活函数会导致前向传播的信号方差与反向传播的梯度方差出现指数级放大或衰减的线性，制约了深度网络的训练效率与稳定性。
 为解决该问题，参考文献\cite{DBLP:conf/iccv/HeZRS15}提出了Kaiming初始化，定义如下。
@@ -293,6 +307,7 @@
 \end{equation}
 记\(\bar{\Phi}(t) := 1 - \Phi(t) = \prob_x[x > t]\)，则\(\bar{\Phi}(t)\)满足下述性质。
 \begin{lemma}[标准正态分布的尾概率上下界]
+\label{lemma:gaussian tail bound}
   对任意服从标准正态分布的随机变量\(x \sim \mathcal{N}(0,1)\)，任取\(t \in \R\)，有
   \begin{equation}\label{eq:gaussian tail bound}
     \frac{1}{\sqrt{2\pi}} \frac{t}{t^2 + 1} e^{-\frac{t^2}{2}}
@@ -301,7 +316,7 @@
     \leq \frac{1}{\sqrt{2\pi}} \frac{1}{t} e^{-\frac{t^2}{2}}
   \end{equation}
 \end{lemma}
-\begin{proof}
+\begin{myproof}[\cref{lemma:gaussian tail bound}]
   根据定义，公式(\ref{eq:gaussian tail bound})等价于：
   \begin{equation}
     \frac{t}{t^2+1}\phi(t)
@@ -335,7 +350,7 @@
     \frac{1}{t}\phi(t),
   \]
   命题得证。
-\end{proof}
+\end{myproof}
 
 \begin{lemma}
   \label{lemma:lucky init}
@@ -346,7 +361,7 @@
 
 \subsection{特征提取阶段}\label{subsec:prelim feature extraction}
 
-在完成参数的随机初始化后，若不考虑数据增强（data augmentation）、随机失活（dropout）等人为引入的随机性操作，则神经网络参数的迭代过程本质上遵循一种确定性（deterministic，又称非概率（non-probabilistic））的规律。
+在参数完成上一小节中讨论的初始化后，若不考虑数据增强（data augmentation）、随机失活（dropout）等人为引入的随机性操作，则神经网络参数的迭代过程本质上遵循一种确定性（deterministic，又称非概率性（non-probabilistic））的规律。
 在本文的第\ref{chap3}至\ref{chap5}章，我们将证明在不同任务中，网络参数的迭代规律具有下述相似的核心逻辑：
 由于网络的过参数化，一些模组的参数以高概率地（with high probability）在初始化时便与数据特征体现出较高的相关性（参见引理 \ref{lemma:lucky init}）。
 这种相关性会在迭代过程中被放大，并逐渐具备在任务中占据主导性。
@@ -415,5 +430,6 @@
 
 \section{本章小结}
 
-本文的第\ref{chap3}至\ref{chap5}章将，可以视为对本章所提出分析框架的填充；
-我们在第\ref{chap6}章得以横向地分析模型与数据之间的适配关系，也要归功于本章所建立的统一分析框架。
+本章总结了特征学习理论的分析框架，并引入了一些必要的概率统计、矩阵分析结论，是后续章节的基础。
+本文的第\ref{chap3}至\ref{chap5}章将针对不同的学习任务，对本章所提出的分析框架进行拓展与细化，推导出一系列特征学习理论的结论，可以视为对本章所提出分析框架的填充；
+在上述章节的支持下，我们在\cref{chap6}章横向地分析模型与数据之间的适配关系，揭示模型与数据之间的内在关联。

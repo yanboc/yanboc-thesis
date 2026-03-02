@@ -15,7 +15,3 @@ __pycache__/
 *.synctex.gz
 *.gz
 *.thm
-*.pdf
-
-# 字体文件
-*.otf

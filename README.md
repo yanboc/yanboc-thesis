@@ -60,6 +60,7 @@
 
 - WHUTUG 模板：<https://github.com/whutug/whu-thesis>
 - Overleaf 模板（黄正华老师）：<https://www.overleaf.com/latex/templates/wu-yi-da-xue-bo-shi-lun-wen-latex-mo-ban/rcdzgvqgkddk>
+- GB/T 7714—2015 宏包：<https://github.com/zepinglee/gbt7714-bibtex-style>
 
 ## 📄 License
 

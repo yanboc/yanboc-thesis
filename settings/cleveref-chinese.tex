@@ -1,6 +1,46 @@
-% !TEX root = ../thesis.tex
+% 
+% cleverref for chinese
+% project-level custom config
+% https://www.dr-qubit.org/latex/cleveref.pdf
 
+% Current issues
+% 1. subsection（小节）和 section（节）目前共用一个 cross-ref name，即第 xx 节。文档中这样说：
+%
+% For convenience, if they have not been otherwise customised by the end of the
+% preamble, the cross-reference name (and label format) for subsection is by default
+% inherited from that of section, and that of subsubsection is inherited from
+% subsection (which might itself have been inherited from section). Similarly for
+% subappendix, subsubappendix and subsubsubappendix. The enumii, enumiii,
+% enumiv and enumv formats each inherit from the preceding one, with enumii
+% inheriting from enumi. Finally, subfigure, subtable and subequation inherit
+% from figure, table and equation, respectively.
+% 
+% 强行设置 subsection 为 第 xx 小节可能出 bug
+% 
+% 2. 标点符号前的空格问题
+% 
+% 考虑两种情况：1. 定理 xxx 说明...，2. （参见定理 xxx）。
+% 第一种情况 xxx 前后都要加空格，第二种前面要加，后面不用加
+% 现在这个版本只能照顾到第一种情况，第二种情况需要手动去掉空格，或者用 \ref 临时代替
+% 
+
+\usepackage{hyperref}
 \usepackage{cleveref}
+
+
+\crefalias{equation}{equation}
+\crefalias{figure}{figure}
+\crefalias{table}{table}
+\crefalias{appendix}{appendix}
+\crefalias{theorem}{theorem}
+\crefalias{lemma}{lemma}
+\crefalias{corollary}{corollary}
+\crefalias{proposition}{proposition}
+\crefalias{definition}{definition}
+\crefalias{example}{example}
+\crefalias{algorithm}{algorithm}
+\crefalias{assumption}{assumption}
+\crefalias{remark}{remark}
 
 \crefname{equation}{式}{式}
 \crefname{figure}{图}{图}
@@ -17,15 +57,26 @@
 \crefname{remark}{注}{注}
 \crefname{chapter}{章}{章}
 \crefname{section}{节}{节}
-\crefname{subsection}{小节}{小节}
-% 句首引用用 \Cref；与 \crefname 一致以便 subsection 等正确解析
+
+\Crefname{equation}{式}{式}
+\Crefname{figure}{图}{图}
+\Crefname{table}{表}{表}
+\Crefname{appendix}{附录}{附录}
+\Crefname{theorem}{定理}{定理}
+\Crefname{lemma}{引理}{引理}
+\Crefname{corollary}{推论}{推论}
+\Crefname{proposition}{性质}{性质}
+\Crefname{definition}{定义}{定义}
+\Crefname{example}{例}{例}
+\Crefname{algorithm}{算法}{算法}
+\Crefname{assumption}{假设}{假设}
+\Crefname{remark}{注}{注}
 \Crefname{chapter}{章}{章}
 \Crefname{section}{节}{节}
-\Crefname{subsection}{小节}{小节}
 
 \crefformat{equation}{#2式 (#1) #3}
-\crefformat{figure}{#2图 (#1) #3}
-\crefformat{table}{#2表 (#1) #3}
+\crefformat{figure}{#2图 #1 #3}
+\crefformat{table}{#2表 #1 #3}
 \crefformat{appendix}{#2附录 #1 #3}
 \crefformat{theorem}{#2定理 #1 #3}
 \crefformat{lemma}{#2引理 #1 #3}
@@ -37,17 +88,17 @@
 \crefformat{assumption}{#2假设 #1 #3}
 \crefformat{remark}{#2注 #1 #3}
 
-\crefformat{chapter}{#2第#1章#3}
-\crefformat{section}{#2第#1节#3}
-\crefformat{subsection}{#2第#1小节#3}
+\crefformat{chapter}{#2第{#1}章#3} % 如果章节名不是中文，改为 #2第 {#1} 章#3，下同
+\crefformat{section}{#2第 {#1} 节#3}
 
 \crefmultiformat{chapter}{#2第#1章#3}{和#2第#1章#3}{，#2第#1章#3}{和#2第#1章#3}
-\crefmultiformat{section}{#2第#1节#3}{和#2第#1节#3}{，#2第#1节#3}{和#2第#1节#3}
-\crefmultiformat{subsection}{#2第#1小节#3}{和#2第#1小节#3}{，#2第#1小节#3}{和#2第#1小节#3}
+\crefmultiformat{section}{#2第 {#1} 节#3}{和#2第 {#1} 节#3}{，#2第 {#1} 节#3}{和#2第 {#1} 节#3}
 
-\crefrangemultiformat{chapter}{#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}{，#3第#1章#4至#5第#2章#6}{和#3第#1章#4至#5第#2章#6}
-\crefrangemultiformat{section}{#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}{，#3第#1节#4至#5第#2节#6}{和#3第#1节#4至#5第#2节#6}
-\crefrangemultiformat{subsection}{#3第#1小节#4至#5第#2小节#6}{和#3第#1小节#4至#5第#2小节#6}{，#3第#1小节#4至#5第#2小节#6}{和#3第#1小节#4至#5第#2小节#6}
+\crefrangemultiformat{chapter}{#3第{#1}{#4}至{#5}{#2}章#6}{和#3第{#1}{#4}至{#5}{#2}章#6}{，#3第{#1}{#4}至{#5}{#2}章#6}{和#3第{#1}{#4}至{#5}{#2}章#6}
+\crefrangemultiformat{section}{#3第 {#1} {#4}至{#5} {#2} 节#6}{和#3第 {#1} {#4}至{#5} {#2} 节#6}{，#3第 {#1} {#4}至{#5} {#2} 节#6}{和#3第 {#1} {#4}至{#5} {#2} 节#6}
+
+\crefrangeformat{chapter}{#3第{#1}{#4}至{#5}{#2}章#6}
+\crefrangeformat{section}{#3第 {#1} {#4}至{#5} {#2} 节#6}
 
 \newcommand{\crefpairconjunction}{~和~}
 \newcommand{\crefmiddleconjunction}{, }

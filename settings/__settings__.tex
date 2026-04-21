@@ -1,8 +1,27 @@
-\input{settings/bib_style}
-\input{settings/compile_config}
-\input{settings/design}
-\input{settings/misc}
-\input{settings/plotting}
-\input{settings/shortcuts}
-% cleveref 放在最后加载，确保在 ctexset 等节标题设置之后生效，subsection 才能正确显示「第xx小节」
-\input{settings/cleveref-chinese}
+\usepackage{booktabs}
+
+\input{settings/bib_style} % 参考文献样式
+\input{settings/design} % 页面设计
+\input{settings/gls} % glossaries 包，用于导入术语与符号
+\input{settings/plotting} % 绘图
+\input{settings/shortcuts} % 快捷键
+\input{settings/cleveref-chinese} % cleveref 包，用于自动添加章节、图表、表格等引用
+\input{settings/quick_compile} % 快速编译模式
+
+% 章节标题设置
+\ctexset{
+  secnumdepth = 3,
+  chapter = {
+    format = \zihao{-2}\bfseries\centering,
+    number = \chinese{chapter},
+    name = {第,章}},
+  section = {
+    format = \zihao{-3}\bfseries},
+  subsection = {
+    format = \zihao{4}\bfseries}}
+
+% 段落不加入编号
+\renewcommand{\paragraph}[1]{
+  \par\vspace{0.5\baselineskip}\noindent{\bfseries #1}\quad}
+
+\newenvironment{myproof}[1][\textbf{证明}]{\par\noindent{\heiti #1的证明}\quad}{\hfill$\square$\par\vspace{0.5\baselineskip}}

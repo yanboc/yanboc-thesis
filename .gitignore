@@ -1,17 +1,24 @@
-# python
-.venv/
-__pycache__/
-
 # 参考文献
 /literature
 
-# 临时文件等
+# LaTeX 临时文件和辅助文件
 *.aux
 *.bbl
 *.blg
 *.log
 *.out
 *.thm
+*.toc
 *.synctex.gz
 *.gz
-*.thm
+
+# glossaries/算法/索引生成的中间文件
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.thmtoc
+*.xdy
+*.synctex.gz

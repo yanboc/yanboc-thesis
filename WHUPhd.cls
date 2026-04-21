@@ -1,4 +1,4 @@
-﻿% !Mode:: "TeX:UTF-8"
+% !Mode:: "TeX:UTF-8"
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{WHUPhd}[2015/11/07 4.0 Wuhan University Thesis Template for PHD -- TeX Live 2015  version]
 
@@ -16,7 +16,9 @@
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions
+
 %------------------------ Page layout ----------------------------------
+
 \RequirePackage{fancyhdr,hyperref}
 \RequirePackage{color,xcolor}             %支持彩色
 \definecolor{darkblue}{RGB}{21,4,150}
@@ -25,14 +27,24 @@
 \definecolor{myblue}{RGB}{112, 161, 215}
 \definecolor{myyellow}{RGB}{247, 244, 139}
 \hypersetup{
-  pdfencoding=auto,
   colorlinks=true,
   citecolor=darkblue,
   linkcolor=black,
-  urlcolor=darkblue}
+  urlcolor=darkblue
+}
+
 \RequirePackage[top=3truecm,bottom=2.9truecm,left=2.8truecm,right=2.5truecm,
   %includehead,%includefoot,
   xetex]{geometry}    % 页面设置%
+
+\hypersetup{
+  plainpages=false,
+  pageanchor=false,
+  hypertexnames=false,
+  bookmarksnumbered=true,
+  linktocpage=true,       % 链接到页码而非文本（更稳定）
+  pdfencoding=auto
+}
 
 \newtoks\fenleihao        %中图分类号
 \newtoks\bianhao          %学校编号
@@ -51,15 +63,16 @@
 
 
 %===============================================页眉设置=====================================================%
+
 \setlength{\headheight}{15pt}           % 设置页眉高度，避免 fancyhdr 警告
-\renewcommand{\headrulewidth}{0.5pt}    %在页眉下画一个0.5pt宽的分隔线
+\renewcommand{\headrulewidth}{0.7pt}    %在页眉下画一个0.5pt宽的分隔线
 \renewcommand{\footrulewidth}{0pt}      % 在页脚不画分隔线。
 
 \let\ps@oldplain\ps@plain
 
-\fancyhf{}  %清除以前对页眉页脚的设置
-\fancyhead[CE]{武汉大学博士学位论文}                       %偶数页页眉居中位置的设置. 不填则为空.
-\fancyhead[CO]{\@title}    %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
+\fancyhf{}                              %清除以前对页眉页脚的设置
+\fancyhead[CE]{武汉大学博士学位论文}      %偶数页页眉居中位置的设置. 不填则为空.
+\fancyhead[CO]{\@title}                 %L,C,R 是左中右; O,E 是奇偶. 可以自己组合调整.
 \fancyfoot[C]{-\,\thepage\,-}                     %页面下侧的设置. 大括号内置空, 表示什么也不填. 反之, 没有此命令的话, 会在页脚出现页码
 \newcommand{\fancyfancy}{\fancypagestyle{plain}{%
     \fancyhf{}
@@ -118,10 +131,10 @@
 }
 
 %------------------------ Abstract & Keywords -------------------------
-\newcommand\cnabstractname{摘要}
-\newcommand\enabstractname{ABSTRACT}
-\newcommand\cnkeywords[1]{ {\heiti\zihao{-4}\cnkeywordsname: }#1}
-\newcommand\cnkeywordsname{关键词}
+\newcommand\cnabstractname{{\centering 摘要}}
+\newcommand\enabstractname{{\centering ABSTRACT}}
+\newcommand\cnkeywords[1]{ {\heiti\zihao{-4}\cnkeywordsname：}#1}
+\newcommand\cnkeywordsname{\noindent 关键词}
 \newcommand\enkeywords[1]{ {\bfseries\zihao{-4}\enkeywordsname: }#1}
 \newcommand\enkeywordsname{Key words}
 
@@ -138,6 +151,7 @@
   \songti\zihao{-4}
   \@afterheading}
 {\par}
+
 %%------------------------常用宏包-----------------------------------
 \RequirePackage{amsmath,amssymb}% AMSLaTeX宏包.
 \RequirePackage[amsmath,thmmarks]{ntheorem}
@@ -155,21 +169,20 @@
 \theorempostskip{3pt}
 \theoremnumbering{arabic}
 
-\newtheorem{thm-like}{}[chapter]
-\newtheorem{theorem}[thm-like]{\noindent 定理}
-\renewtheorem*{theorem*}[thm-like]{\noindent 定理}
-\newtheorem{lemma}[thm-like]{\noindent 引理}
-\renewtheorem*{lemma*}[thm-like]{\noindent 引理}
-\newtheorem{corollary}[thm-like]{\noindent 推论}
-\renewtheorem*{corollary*}[thm-like]{\noindent 推论}
-\newtheorem{proposition}[thm-like]{\noindent 性质}
-\renewtheorem*{proposition*}[thm-like]{\noindent 性质}
+\newtheorem{theorem}{\noindent 定理}[chapter]
+\renewtheorem*{theorem*}{\noindent 定理}
+\newtheorem{lemma}{\noindent 引理}[chapter]
+\renewtheorem*{lemma*}{\noindent 引理}
+\newtheorem{proposition}{\noindent 性质}[chapter]
+\renewtheorem*{proposition*}{\noindent 性质}
+\newtheorem{corollary}{\noindent 推论}[chapter]
+\renewtheorem*{corollary*}{\noindent 推论}
 
-\newtheorem{def-like}{}[chapter]
-\newtheorem{definition}[def-like]{\noindent 定义}
-\newtheorem{example}[def-like]{\noindent 例}
-\newtheorem{remark}[def-like]{\noindent 注}
-\newtheorem{assumption}[def-like]{\noindent 假设}
+\newtheorem{definition}{\noindent 定义}[chapter]
+\newtheorem{example}{\noindent 例}[chapter]
+\newtheorem{remark}{\noindent 注}[chapter]
+\renewtheorem*{remark*}{\noindent 注}
+\newtheorem{assumption}{\noindent 假设}[chapter]
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\heiti}
@@ -261,7 +274,7 @@
 %---------------------------------------------------
 \renewcommand{\contentsname}{目\qquad 录}
 \newcommand\acknowledgement{\backmatter\chapter[致谢]{\ziju{2}致谢}}
-\newcommand\reseachresult{\backmatter\chapter{攻博期间发表的科研成果目录}}
+\newcommand\reseachresult{\backmatter\chapter{攻博期间的科研成果与学术服务}}
 
 %%% ---- 章节标题设置 ----- %%%%
 \ctexset{bibname={\large 参考文献}}

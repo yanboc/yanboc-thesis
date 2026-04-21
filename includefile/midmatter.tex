@@ -21,18 +21,35 @@
 %%% ------------ 中文摘要 ---------------%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 \begin{cnabstract}
-    深度学习的快速发展为人工智能领域带来了突破性进展, 然而神经网络内部的特征提取与作用机制缺乏合理的可解释性, 制约着该技术的进一步发展与可信应用. 特征学习理论 (Feature Learning Theory, FLT) 作为深度学习领域的新兴基础理论, 致力于揭示神经网络从数据中提取并利用特征的内在规律, 为深度学习的可解释性与可信性提供理论依据. 
-    
-    本文围绕特征学习理论的核心科学问题, 系统研究了神经网络在不同任务场景下的特征学习机制. 首先, 在通用任务场景下, 本文聚焦对抗训练 (Adversarial Training) 中的特征塌缩现象, 通过大量实证研究发现了单纯形压缩现象：在对抗训练的最终阶段, 特征会收敛到单纯形等角紧框架 (Simplex ETF) 结构, 但其几何尺寸较标准训练显著缩小, 且压缩程度与扰动半径呈负相关关系. 本文从理论层面阐释了对抗训练引发该现象的作用机制, 证明了单纯形范数与扰动半径之间的负相关关系, 为对抗训练下的特征演化提供了理论解释. 
-    
-    其次, 在图像任务场景下, 本文针对基于重构的异常检测 (Reconstruction-Based Anomaly Detection, RBAD) 问题, 建立了分析卷积自编码器特征学习的理论框架. 通过引入锥集直觉, 本文刻画了神经网络如何从正常训练数据中提取特征, 以及学习到的特征在重构阶段的作用机制. 理论分析表明, 在正常数据上训练的两层卷积自编码器以高概率无法准确重构异常, 从而为RBAD的有效性提供了理论支撑. 实验验证了理论分析的准确性, 并在真实世界数据集上展示了清晰的特征学习过程. 
-    
-    本文的研究成果不仅丰富了特征学习理论的内涵, 也为对抗训练和异常检测等实际应用场景提供了理论指导, 对推动深度学习技术的可解释性和可信应用具有重要意义. 
+
+本模板面向中文学位论文写作，提供可复用的章节组织方式与可配置的排版体系，旨在帮助用户聚焦于内容写作而非排版及其他简单重复性工作。
+此模板基于黄正华老师上传至 Overleaf 的\href{https://www.overleaf.com/latex/templates/wu-yi-da-xue-bo-shi-lun-wen-latex-mo-ban/rcdzgvqgkddk}{武汉大学学位论文 LaTeX 模板}，且参考了 \href{https://github.com/whutug/whu-thesis}{WHUTUG 模板}的一些设计思路，在此表示感谢。
+
+配置层面，模板以 \texttt{settings/\_\_settings\_\_.tex}
+作为总入口，通过 \texttt{\textbackslash input} 命令加载参考文献样式、中文交叉引用、字体与配色、术语系统、绘图样式、快捷命令与快速编译等模块。
+这种分层组织方式能够降低耦合度，方便用户在不破坏整体结构的前提下完成局部定制。
+
+模板的具体配置文件被统一放在 \texttt{settings/} 目录下，便于用户集中管理、按需加载。
+其中，\texttt{bib\_style.tex}
+用于设置参考文献样式；
+\texttt{cleveref-chinese.tex} 用于定义图、表、公式、章节等对象的中文引用名称与格式；
+\texttt{design.tex} 统一字体、颜色等样式；
+\texttt{plotting.tex} 统一 TikZ 与 PGFPlots 的绘图库和图元样式；
+\texttt{shortcuts.tex} 提供常用数学符号与算子命令，提升写作效率与表达一致性；
+\texttt{quick\_compile.tex} 通过占位图机制减少编译开销，适用于高频迭代阶段。
+
+此外，模板支持基于 \texttt{glossaries} 宏包的术语表与缩略语管理。
+\texttt{gls.tex} 配合术语定义文件可实现术语首现、索引输出与术语列表统一管理，便于长文档保持术语表达一致。
+在参考文献管理方面，我们使用了 \href{https://github.com/zepinglee/gbt7714-bibtex-style}{GB/T 7714—2015宏包}，并结合 \texttt{natbib} 宏包实现了国标参考文献样式与条目间距调节。
+
+总体而言，本模板强调“结构稳定、配置集中、内容可替换”三项原则。
+用户可在保留模板骨架的基础上，将个性化内容逐步填入章节与附录，从而在满足学校格式要求的同时提升写作与维护效率。
+
 \end{cnabstract}
 \vspace{1em}\par\vfill
 
 %%%--------- 关键词 -------- %%%
-\cnkeywords{神经网络, 特征学习, 对抗训练, 异常检测}
+\cnkeywords{论文模板；LaTeX}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,17 +59,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{enabstract}
-    The rapid development of deep learning has brought breakthrough progress to the field of artificial intelligence. However, the lack of reasonable interpretability regarding the feature extraction and mechanism within neural networks constrains the further development and trustworthy application of this technology. Feature Learning Theory (FLT), as an emerging fundamental theory in the field of deep learning, is dedicated to revealing the intrinsic laws of how neural networks extract and utilize features from data, providing theoretical foundations for the interpretability and trustworthiness of deep learning.
-    
-    This thesis systematically investigates the feature learning mechanisms of neural networks in different task scenarios, focusing on the core scientific problems of feature learning theory. First, in the general task scenario, this thesis focuses on the neural collapse phenomenon in adversarial training (AT). Through extensive empirical research, we discover the simplex compression phenomenon: in the terminal phase of adversarial training, features converge to a simplex equiangular tight frame (Simplex ETF) structure, but its geometric size is significantly smaller than that of standard training, and the compression degree exhibits a negative correlation with the perturbation radius. This thesis theoretically explains the mechanism by which adversarial training induces this phenomenon, proves the negative correlation between the simplex norm and the perturbation radius, and provides a theoretical explanation for feature evolution under adversarial training.
-    
-    Second, in the image task scenario, this thesis addresses the reconstruction-based anomaly detection (RBAD) problem and establishes a theoretical framework for analyzing feature learning in convolutional autoencoders. By introducing the cone set intuition, this thesis characterizes how neural networks extract features from normal training data and the mechanism of learned features in the reconstruction phase. Theoretical analysis shows that a two-layer convolutional autoencoder trained on normal data cannot accurately reconstruct anomalies with high probability, thereby providing theoretical support for the effectiveness of RBAD. Experiments validate the accuracy of the theoretical analysis and demonstrate a clear feature learning process on real-world datasets.
-    
-    The research results of this thesis not only enrich the connotation of feature learning theory but also provide theoretical guidance for practical application scenarios such as adversarial training and anomaly detection, which is of great significance for promoting the interpretability and trustworthy application of deep learning technology.
+This template is designed for Chinese academic thesis writing, with a reusable document structure and a centralized configuration system.
+It is adapted from the Wuhan University thesis template by Prof. Huang Zhenghua (Overleaf) and also references the WHUTUG template design.
+
+The configuration entry is \texttt{settings/\_\_settings\_\_.tex}, which loads modular files for bibliography style, Chinese cross-reference formatting, font and color settings, glossary management, plotting, shortcuts, and quick compilation.
+Key modules include \texttt{bib\_style.tex}, \texttt{cleveref-chinese.tex}, \texttt{design.tex}, \texttt{plotting.tex}, \texttt{shortcuts.tex}, \texttt{quick\_compile.tex}, and \texttt{gls.tex}.
+
+The template supports GB/T 7714 bibliography formatting (with \texttt{natbib}) and glossary workflows (with \texttt{glossaries}).
+Overall, it follows three principles: stable structure, centralized configuration, and replaceable content, so users can focus on writing while keeping format control.
 \end{enabstract}
 \vspace{1em}\par\vfill
 
 %%%------ 英文关键词 ------- %%%
-\enkeywords{Neural Networks, Feature Learning, Adversarial Training, Anomaly Detection}
-
-
+\enkeywords{Thesis Template, LaTeX, Typesetting Configuration, Bibliography Management, Chinese Cross-Reference, Quick Compilation, Glossary}

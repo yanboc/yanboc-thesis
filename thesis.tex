@@ -11,67 +11,60 @@
 \UDC{} %《国际十进制分类法UDC》的类号. 选填.
 \bianhao{10486} % 学校编号, 10486是武汉大学的编号. 不用改动.
 
-\title{关于神经网络特征学习机理的理论分析}
-\Etitle{A Theoretical Analysis of the Feature Learning Mechanism of Neural Networks} % 英文题目
-\author{陈彦伯}
-\Eauthor{CHEN Yanbo} %作者英文名
-\Csupervisor{刘威威\quad 教授} %指导教师中文名、职称
-\Esupervisor{Prof.~LIU Weiwei} %指导教师英文名、职称
-\Cmajor{计算机科学与技术} %  学科、专业名称
-\Emajor{Computer Science and Technology} % 专业英文名
-\Cspeciality{机器学习} % 研究方向
-\Especiality{Machine Learning} % 研究方向
-\Schoolname{School of Computer Science} %学院英文名. 不确定的话, 请看一下自己学院的网页上是怎么写的. 别搞错了!
-\date{二〇二五年十二月九日} %  要注意和英文日期一致!!
-\Edate{December 9, 2025} % 英文封面日期
+\title{武汉大学学位论文 \LaTeX 模板}
+\Etitle{Thesis Template in \LaTeX \ for Wuhan University}
 
-\iffastcompile
-    \frontmatter
-    \begin{center}    
-       快速编译模式, 跳过封面、目录、摘要等部分.
-    \end{center}
-\else
-    %-----------------------------------------------------------------------------
-    \pdfbookmark[0]{封面}{title}
+\author{作者姓名}
+\Eauthor{Author Name} %作者英文名
+\Csupervisor{指导教师中文名\quad 职称} %指导教师中文名、职称
+\Esupervisor{Prof.~Supervisor Name} %指导教师英文名、职称
+\Cmajor{学科专业名称} %  学科、专业名称
+\Emajor{Major Name} % 专业英文名
+\Cspeciality{研究方向} % 研究方向
+\Especiality{Research Direction} % 研究方向
+\Schoolname{Department Name} 
 
-    \maketitle
-    %-----------------------------------------------------------------------------
-    \newpage
-    \input{includefile/frontmatter} % 加入英文封面, 论文创新点, 等等目录之前的部分.
-    \frontmatter
-    \pagenumbering{Roman} % 正文之前的页码用大写罗马字母编号.
+\date{二〇二六年四月} %  要注意和英文日期一致!!
+\Edate{April, 2026} % 英文封面日期
 
-    %---把目录加入到书签---%%%%%%%%%%%%%%
-    \pdfbookmark[0]{目录}{toc}
-    \pagestyle{oldplain}
-    \tableofcontents
-    \pagestyle{oldplain}\cleardoublepage
-    \newpage  \pagestyle{fancy} \fancyfancy
-    %------------------------------------------------------------------------------
-    \input{includefile/midmatter} % 加入中英文摘要.
-\fi
+%-----------------------------------------------------------------------------
+\pdfbookmark[0]{封面}{title}
 
+\maketitle
+
+%-----------------------------------------------------------------------------
+\newpage
+\input{includefile/frontmatter} % 加入英文封面, 论文创新点, 等等目录之前的部分.
+\frontmatter
+
+%---把目录加入到书签---%%%%%%%%%%%%%%
+\pdfbookmark[0]{目录}{toc}
+\pagestyle{oldplain}
+\tableofcontents
+\pagestyle{oldplain}\cleardoublepage
+\newpage  \pagestyle{fancy} \fancyfancy
+%------------------------------------------------------------------------------
+\input{includefile/midmatter} % 加入中英文摘要.
 
 %------------------------------------------------------------------------------
 \mainmatter %% 以下是正文
-\baselineskip=20pt  % 正文行距为 20 磅
+\cleardoublepage
+
+\hypersetup{pageanchor=false}
+\setcounter{page}{1}
+\hypersetup{pageanchor=true}
+
+\glsresetall
+\glsunsetall
 
 % Chapters
 \input{chapters/chap1}
 \input{chapters/chap2}
 \input{chapters/chap3}
-\input{chapters/chap4}
-\input{chapters/chap5}
-\input{chapters/chap6}
 
 % Appendix
-% \appendix
-% \input{appendix/notations}
-% \input{appendix/related_works}
-% \input{appendix/proofs}
-% \input{appendix/app3}
-% \input{appendix/app4}
-% \input{appendix/app5}
+\appendix
+\input{appendix/notations}
 
 % References
 \cleardoublepage\phantomsection
@@ -79,14 +72,7 @@
 \bibliography{refs/ref}
 
 % backmatter
-\iffastcompile
-    \backmatter
-    \begin{center}    
-        快速编译模式, 跳过致谢、作品列表等部分.
-    \end{center}
-\else
-    \backmatter
-    \input{includefile/backmatter} %%%致谢、作品列表 ．
-    \cleardoublepage
-\fi
+\backmatter
+\input{includefile/backmatter} %%%致谢、作品列表 ．
+\cleardoublepage
 \end{document}

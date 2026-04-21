@@ -1,139 +1,96 @@
-\chapter{绪论}\label{chap1}
+\chapter{快速开始}
+\label{chap1}
 
-近十年来，基于神经网络（neural network）的深度学习（deep learning）技术凭借其卓越的任务性能与广泛的应用场景，已逐渐成为人工智能领域的支柱性技术，在计算机视觉\cite{he2016deep,ch-cv1}、自然语言处理\cite{DBLP:conf/nips/VaswaniSPUJGKP17,ch-nlp1}、智能推荐\cite{ch-re1}等领域实现了突破性进展。
-然而，神经网络的 “黑盒” 特性始终制约着该技术的可信应用。
-深度学习模型内部特征（feature）的提取与作用机制缺乏合理的理论解释，导致此类模型在安全攸关场景中的部署面临挑战，同时也使得深度学习的发展长期依赖经验驱动，缺乏先验的理论指导。
+本章给出模板的快速启动流程，分为本地部署与线上部署两种方式。推荐优先使用本地部署（以 \glsfirst{cursor} 或 \glsfirst{vscode} 为例），因为可以获得更稳定的编译速度、清晰的日志定位和更完整的工程管理体验。
 
-传统学习理论（learning theory）的分析范式深受统计学与最优化理论的影响，然而此类理论难以应对深度学习模型所具有的高维性、非线性和动态演化等特性所带来的挑战，其分析能力与深度学习应用的实际需求之间存在较大差异。
-为弥补这一差异，一系列现代机器学习理论应运而生。
-本文所关注的\textit{特征学习理论}
-（Feature Learning Theory，FLT）\cite{DBLP:conf/nips/0006CBG22,DBLP:conf/focs/Allen-ZhuL21,DBLP:conf/iclr/Allen-ZhuL23,doi:10.1073/pnas.2421593122}便是其中的倍受关注的研究方向之一。
-% \footnote{在本文中，FLT特指一类新兴的深度学习理论分支，而非广义上所有与特征相关研究的统称。为避免概念歧义，我们将在第 \ref{sec-related-works-learning-paradigms} 小节中明确FLT的内涵与外延，并探讨FLT与相关理论体系的异同。}
-FLT致力于揭示神经网络从数据中提取、优化并利用特征的内在规律，为深度学习的可信性与可解释性提供理论支撑。
-本章将首先阐述FLT的研究背景与意义，然后系统梳理国内外研究现状并明确本研究的主要目标与贡献，最后介绍论文的整体结构安排。
+\section{本地部署}
 
-\section{研究背景与意义}
+本节以 VS Code 为例（Cursor 等同理），介绍在自己的电脑上部署本模板的流程。
 
-FLT作为深度学习领域的新兴基础理论，聚焦于揭示神经网络如何在学习算法的驱动下从数据中自动提取、优化并利用有效特征，其研究不仅具有深刻的学术理论价值，更对人工智能的高效、安全落地具有关键的指导意义。
+\subsection{基础环境准备}
 
-\paragraph{FLT的理论价值}
-首先，FLT对神经网络的诸多特有属性具有良好的解释能力。
-相较于支持向量机、逻辑回归等传统机器学习模型，以卷积神经网络（Convolutional Neural Network, CNN）、自编码器（Autoencoder, AE）、Transformer（TF）等为代表的神经网络模型具备从图像、语音、视频等高维、多模态数据中自动提取有效特征的核心能力，从而在图像分类、自然语言处理等复杂任务中实现了性能的跨越式提升。
-然而，人们对神经网络如何自动从数据中筛选、提取并利用特征等诸多核心问题缺乏系统性认知，这导致深度学习模型常被视为不可解释的黑盒子，严重阻碍了其理论发展与可信应用。
-FLT通过数学建模、理论推导与实证分析，清晰刻画了模型结构、参数初始化与优化算法对特征学习过程的影响，揭示了诸多神经网络模型特有属性的内在机理（如良性过拟合\cite{DBLP:conf/nips/0006CBG22}（benign overfitting）、模型蒸馏\cite{DBLP:conf/iclr/Allen-ZhuL23}（model distillation）等），填补了传统理论与深度实践之间的鸿沟，为深度学习的可解释性提供了有力支撑。
-
-此外，特征学习理论还为不同领域的机器学习问题提供了统一的理论分析框架。
-在传统学习理论中，不同领域、场景下问题的分析框架一般也各自独立，所得结论无法相互参考比对。
-特征学习理论的研究，能够提炼不同领域场景、不同数据与模型假设下特征提取、优化、迭代的共性规律，构建统一的理论分析框架，打破各研究方向的壁垒。
-例如，特征学习理论可以在统一理论框架下分析并揭示知识蒸馏\cite{DBLP:conf/iclr/Allen-ZhuL23}、自监督对比学习\cite{DBLP:conf/icml/WenL21}与图神经网络学习\cite{DBLP:journals/corr/abs-2306-13926}等多个不同场景下的前沿问题的底层原理，实现理论认知在计算机视觉、自然语言处理、智能推荐等不同领域的跨场景迁移，推动机器学习理论体系的进一步系统化与完善化。
-
-\paragraph{FLT对深度学习实践的指导意义}
-在实践中，FLT可以指导深度学习模型的设计与优化。
-传统深度学习模型设计多依赖研究者的经验与大量试错，具有封闭性与随机性的特点。
-特征学习理论的研究成果，能够为模型结构设计、训练策略选择提供明确的理论指导。
-例如，FLT研究揭示了“随机梯度下降法（Stochastic Gradient Descent, SGD）先挖掘后优化特征”的规律\cite{DBLP:conf/iclr/LuWYZ24}，由此可以针对性地优化模型训练的学习率调度策略；
-基于“特征纯化提升鲁棒性\cite{DBLP:conf/focs/Allen-ZhuL21}” 的机理，研究者可改进对抗训练算法以增强模型的鲁棒性；“混合增强（Mixup）对特征学习的增益机制\cite{DBLP:conf/icml/ZouCLG23}”则给出了更高效的数据增强方案。上述三个例子均展示了FLT研究成果在深度学习模型设计与优化中的实际应用。
-
-此外，FLT的研究还有助于提升模型的鲁棒性与泛化能力。
-在深度模型的实际应用场景中，数据往往存在分布偏移、噪声干扰、样本稀缺等问题，对深度学习模型的泛化能力与鲁棒性提出了较高的需求。
-FLT针对分布外泛化\cite{DBLP:journals/corr/abs-2304-11327,ch-ood1}（out-of-distribution generalization）、异常检验（anomaly detection）\cite{ch-rbad1,ch-rbad2}、小样本学习\cite{DBLP:conf/iclr/ChenDLG24}（few-shot learning）等场景的研究，能够帮助模型开发者从根本上理解的特征学习过程，进而提升模型的鲁棒性与泛化能力。
-在上述示例中，FLT通过挖掘特征与真实任务标签的内在关联，抑制虚假特征的干扰；通过学习可迁移的通用特征，提升模型在未知数据分布下的泛化性能；通过特征多样化学习，缓解了小样本场景下的过拟合问题。
-上述分析推动了AI模型在医疗影像诊断、工业质检、智能驾驶、金融风控等安全攸关领域的规模化落地，解决实际场景中的核心技术痛点。
-
-\section{国内外研究现状}\label{sec-related-works}
-
-特征，有时也被称作表示、表征（representation），广义上泛指数据在特定任务空间内的低维刻画，是一个跨越传统机器学习、深度学习与大语言模型（Large Language Model，LLM）时代的关键概念。
-针对特征的研究始终是机器学习领域的核心热点之一，其研究范式与主要关注的问题也随着技术进步与时代变迁经历了深刻演变。
-本节将从以下两个视角系统梳理国内外关于特征学习理论的研究现状：从横向对比FLT与相关研究范式、突出差异性；从纵向追踪FLT近年来的发展历程、总结其核心研究问题与主要研究成果。
-由于该领域的研究发展较快，相关工作极其丰富，本文仅选择部分代表性成果进行讨论。
-
-\subsection{学习理论的范式演变}\label{sec-related-works-learning-paradigms}
-
-% 神经网络具备可以自动从数据中提取有效特征的能力，却也因此被视为 “黑盒” ；
-% 关于神经网络特征学习机制的理论解释始终是学界研究的热点。
-早期特征学习理论多基于统计学习理论（statistical learning theory）框架。
-该框架数理基础坚实、分析过程严谨，衍生出诸多形式优美的理论成果。
-Bengio等\cite{BCV2013Representation}的综述文章系统总结了包括概率PCA（Probabilistic Principal Component Analysis，PPCA）、受限玻尔兹曼机（Restricted Boltzmann Machine，RBM）、自编码器（Auto Encoders，AE）等模型的特征学习原理。
-然而，早期特征学习理论始终受限于统计学习理论范式，研究重心集中于经验风险最小化（Empirical Risk Minimization, ERM）与归纳偏置（Inductive Bias）约束两大宏观优化目标，而对数据与模型间的匹配关系、神经元的微观动力学行为缺乏足够关注；以网络\emph{表示能力分析}（Expressiveness Analysis, EA）、\emph{VC维}（Vapnik-Chervonenkis Dimension, VCD）和\emph{样本复杂度}（Sample Complexity, SC）等为代表的早期理论框架无法分析神经网络的精细结构与特性，难以解释实践中所呈现的一系列神经网络特有现象。
-
-随着深度学习技术的蓬勃发展，许多新型学习理论框架相继涌现，一些传统的理论框架也取得了若干新成果。
-例如，\emph{神经正切核}（Neural Tangent Kernel, NTK）\cite{chntk-1}通过网络输出对参数梯度的内积定义核函数，在无限宽极限下将神经网络训练动态线性化为核回归问题，为超宽网络的收敛性与泛化性分析提供解析工具；
-\emph{平均场理论}（mean field theory）以群体平均行为近似大规模系统中个体的复杂交互，将高维动力学降维为可解的自洽方程，适用于刻画神经网络特征学习动态或多智能体交互机制；
-\emph{梯度流}（gradient flow）作为梯度下降的连续时间极限，通过常微分方程描述参数演化轨迹，是分析非凸损失曲面几何性质与优化收敛行为的核心框架；
-另一方面，而作为传统学习理论的代表，\emph{概率近似正确}（Probably Approximately Correct，PAC）理论也被应用到了神经网络上。
-该理论通过样本复杂度与置信度量化模型泛化能力，为算法的近似正确性提供概率保证，在深度学习时代也取得了若干新的研究成果。
-我们在\cref{fig-learning-theory-taxonomy}中列举了当前机器学习领域若干主流的学习理论框架与各框架的相关研究成果。
-
-2021年前后，Allen-Zhu与Li\cite{DBLP:conf/focs/Allen-ZhuL21,DBLP:conf/iclr/Allen-ZhuL23}提出了现代特征学习理论研究范式，并引发了学界的广泛关注与讨论。
-如无特殊说明，本文中的“特征学习理论”一词或其英文缩写“FLT”特指这类新型研究范式；“早期特征学习”或“传统特征学习”一词则用来指代早期基于统计学习理论的研究。
-鉴于FLT尚处于快速发展阶段，学术界对于FLT与其他理论方法的差异性及其核心研究问题的界定尚未达成一致共识。
-为严谨起见，我们为本文所讨论的 FLT 作出如下界定。
-\begin{mynote}{{\bfseries FLT}与其他理论框架的主要差异及其核心研究问题}
-  \textit{本文所讨论的FLT是一类有限、离散，且算法相关的理论分析框架，主要用于分析具体学习任务（由数据集、模型类、模型评价标准与优化算法共同决定，参见\cref{sec-learning-task}）中模型参数的迭代规律。
-  }
-\end{mynote}
-\noindent 其中，我们对有限、离散与算法相关这三大特性的解释如下：
+建议使用 \glsfirst{texlive}（或 \glsfirst{miktex}）并确保 \texttt{xelatex} 可用。
+本模板默认中文环境与字体配置基于 \glsfirst{xelatex} 工作流，一次完整的编译链路如下：
+\begin{mynotice}
+\begin{enumerate}
+  \item \texttt{xelatex}（首轮生成辅助文件）；
+  \item \texttt{bibtex}（如有文献引用）；
+  \item \texttt{glossaries}（如有术语表）；
+  \item \texttt{xelatex}（回填文献与交叉引用）；
+  \item \texttt{xelatex}（稳定目录、页码与引用）。
+\end{enumerate}
+\end{mynotice}
+在实际使用中，建议使用下述编译链路以提高编译速度：
+\begin{mynotice}
+  \begin{enumerate}
+    \item \texttt{xelatex}（首轮生成辅助文件）；
+    \item \texttt{bibtex}（在文献引用发生变化时重新生成）；
+    \item \texttt{glossaries}（在术语表发生变化时重新生成）。
+  \end{enumerate}
+  \end{mynotice}
+在 VS Code 中，推荐安装 \gls{latexworkshop} 扩展并启用自动构建。
+下述配置仅供参考：
 \begin{itemize}
-  \item \textbf{网络参数的有限性}：FLT以有限宽度网络为研究对象，并不要求网络宽度趋向无穷。相比NTK等无限维理论分析框架，FLT可以得到关于网络参数量（如网络宽度、卷积网络通道数等）的非渐近（non-asymptomatic）的结论，帮助研究者更深入地理解网络参数如何定量地影响网络的表现。
-  \item \textbf{迭代过程的离散性}：FLT聚焦于模型参数的离散迭代优化过程，而非将其近似为连续的优化流。因此，FLT不同与梯度流、均值场理论等连续化分析框架，可以得到关于迭代步数的非渐近结论，且不需要对优化目标做过于理想化的假设。
-  \item \textbf{结论的算法相关性}：FLT考虑具体学习算法对特征学习过程的影响，其所得结论与优化算法的特性相关。这与 PAC 学习、VC 维理论、表示性理论等传统学习理论的核心假设存在本质区别。
+  \item 自动构建：\texttt{latex-workshop.latex.autoBuild.run = onSave}，保存后会自动触发最近一次配方；
+  \item 默认配方：\texttt{latex-workshop.latex.recipe.default = lastUsed}，建议首次手动选择一次完整配方后固定使用；
+  \item 查看方式：\texttt{latex-workshop.view.pdf.viewer = tab}，PDF 直接在编辑器标签页中打开。
 \end{itemize}
-\cref{fig-learning-theory-taxonomy}展示了FLT与同时期其他常见学习理论分析框架的关系并突出了各理论框架在有限性、离散性与算法相关性上的差异。
 
-\input{figures/tikz/learning_theory_taxonomy.tex}
+推荐的构建配方可按场景使用：
+\begin{mynotice}
+\begin{enumerate}
+  \item \texttt{xelatex-draft}（\texttt{xelatex + bibtex}）；
+  \item \texttt{xelatex}（\texttt{xelatex + bibtex + gls + 2 * xelatex }）；
+  \item \texttt{xelatex-bibtex-gls (draft)}（\texttt{xelatex + bibtex + gls}）。
+\end{enumerate}
+\end{mynotice}
 
-\subsection{FLT的研究进展}
-\label{subsec: advance of FLT research}
+与本模板最匹配的建议是：日常写作用 \texttt{xelatex-draft}，提交或发布前切换到 \texttt{xelatex} 全量构建；当术语表有更新时，使用包含 \texttt{makeglossaries} 的配方。
 
-FLT是一套面向实践应用的理论体系；凡是在实际训练、推理过程中神经网络表现出的性质、现象，都可作为FLT的分析对象与研究载体。
-在 FLT 发展初期，研究者主要关注神经网络的一些普遍性质，例如良性过拟合的发生机制\cite{DBLP:conf/nips/0006CBG22}、SGD 算法的优化动力学机理 \cite{DBLP:conf/iclr/LuWYZ24}，以及对比学习（contrastive learning）范式下特征表征的学习机制与优化策略\cite{DBLP:conf/icml/WenL21}等。
-在本文的\cref{chap3}，我们分析了对抗训练（adversarial training）的特征学习过程，并聚焦于\emph{特征塌缩}（neural collapse）这一普遍存在于神经网络最后一层特征中的性质。我们将标准训练的结论自然地推广到了对抗训练场景，并量化地分析了特征随对抗训练强度的变化规律及其对模型鲁棒性的影响。
+\subsection{编辑器工作流建议}
 
-随着与 FLT 相关探索的不断深入，关于神经网络共性的研究已日趋完善。
-在此背景下，研究者的关注焦点开始转向更为细分、具体的实践场景或技术环节，例如知识蒸馏的特征迁移机制优化\cite{DBLP:conf/iclr/Allen-ZhuL23}、混合数据增强策略下的特征分布演化规律\cite{DBLP:conf/icml/ZouCLG23}等。
-这类研究均旨在从细粒度层面挖掘特征学习的内在机理，为特定技术方案的优化提供理论支撑。
-本文\cref{chap4}聚焦重构式异常检测（Reconstruction-Based Anomaly Detection, RBAD）场景下的特征学习动力学过程展开系统分析，最终证实：仅在正常数据上完成训练的生成式网络，在对异常样本进行重构时会产生显著更大的误差，基于这一特性可实现对异常点的有效检测。
+在 \gls{vscode} 中，推荐安装 \glsfirst{latexworkshop} 扩展并启用自动构建。典型流程如下：
+\begin{enumerate}
+  \item 打开项目根目录并定位主文件 \texttt{thesis.tex}。一般来说，\gls{latexworkshop} 会自动识别该文件并将其设为根文件（大概是通过查找 \texttt{begin\{document\}} 命令）。
+  \item 触发构建并观察问题 \texttt{PROBLEMS} 与输出 \texttt{OUTPUT} 面板（\texttt{CTRL+J}唤出）；
+  \item 若编译失败，建议先检查路径（文件、图片等）、字体与引用标签是否有效。
+\end{enumerate}
 
-随着大语言模型（Large Language Model，LLM）时代到来，关于语言模型（比如TF）与扩散模型（diffusion）的相关问题收到广泛的关注。
-% TODO 多CITE一些FLT参考文献
-本文基于神经网络研究了QA问题中的知识提取。
+\subsection{配置文件解析}
 
-综上所述，本文紧跟国内外FLT的研究进展，针对对抗训练、异常检测与机器遗忘这三个学习任务中模型的特征学习机制展开分析。
-
-\section{主要研究问题与技术路线}
-
-在第 \ref{subsec: advance of FLT research} 小节中，我们总结了近几年FLT的研究进展，并
-本研究计划围绕特征学习理论的核心科学问题（见\cref{sec-research-questions}），总结现有理论与与相关参考文献，建立统一的分析框架。
-随后，我们聚焦对抗训练（adversarial training）、重构式异常检测（reconstruction-based anomaly detection, RBAD）、与LLM问答（question answering, QA）为例，深入考察神经网络在不同任务下的特征提取与演化机制，并总结归纳特征学习的共性特点与不同模型的适配机制。
-
-\subsection{研究问题}\label{sec-research-questions}
-
-本文主要关注下述三个特征学习领域的核心问题。
-\begin{mynote}{本文的核心研究问题}
-  \begin{itemize}
-    \item 特征提取机制：神经网络如何自动从训练数据中提取有效特征？
-    \item 特征演化机制：网络提取的特征如何随训练过程演化？
-    \item 网络适配机制：为何特定结构的网络只能在一部分学习任务中表现出色？
-  \end{itemize}
-\end{mynote}
-本文将围绕上述三个问题展开研究，并在第六章对每个问题给出简短的回答。
-
-\subsection{技术路线}
-
-\input{figures/tikz/research_roadmap.tex}
-
-\section{本文的主要贡献}
-
-\section{论文结构安排}
-
-本文共有六章，其中\cref{chap1}为绪论，介绍了特征学习理论的研究背景与意义，总结了该领域国内外发展近况，并概括了本文的研究内容与主要贡献。
-在\cref{chap2}中，我们结合传统学习理论与现代深度学习的实际应用，总结出了适用于特征学习理论分析的统一分析框架。
-在第\ref{chap3}至第\ref{chap5}章中，我们深入探讨了FLT在分析、阐释及优化深度学习实际应用问题中的具体作用与成效。
-其中：
+模板的配置入口集中在 \texttt{settings/\_\_settings\_\_.tex}，其余文件按功能拆分：
 \begin{itemize}
-  \item 第三章以对抗训练为研究场景，分析全连接神经网络特征学习动力学基础与神经塌缩特性，探究单纯形压缩现象的表征、成因及其与神经塌缩的关联差异，验证其对模型鲁棒性的影响。
-  \item 第四章聚焦RBAD场景，探究图像数据与RBAD的适配性，构建卷积神经网络特征学习动力学模型，推导特征提取与数据重建的关联机制并开展实验验证。
-  \item 第五章针对问答任务，构建Transformers知识提取动力学模型，解析自注意力机制驱动的知识捕捉与表达逻辑并验证其有效性。第六章对全文研究成果进行总结，分析研究局限性，并展望未来研究方向。
+  \item \texttt{settings/bib\_style.tex}：参考文献样式与条目间距；
+  \item \texttt{settings/cleveref-chinese.tex}：中文交叉引用名称与格式；
+  \item \texttt{settings/design.tex}：中文字体、颜色与提示框样式；
+  \item \texttt{settings/gls.tex}：术语索引与缩略语系统；
+  \item \texttt{settings/plotting.tex}：\glsfirst{tikz}/\glsfirst{pgfplots} 绘图配置；
+  \item \texttt{settings/shortcuts.tex}：常用宏、算子与算法环境；
+  \item \texttt{settings/quick\_compile.tex}：快速编译开关与占位图策略。
 \end{itemize}
-本文第\ref{chap3}到第\ref{chap5}章的分析始终围绕着我们在\cref{sec-research-questions}中提到的三个研究问题，即“网络如何自动提取有效特征”、“特征如何随训练过程演化”与“为何特定结构的网络在特定类型的数据上具有更优特征学习能力”。
-在第六章，我们总结了全文的核心工作，为上述研究问题提供了一份详细的分析、回答。并就未来的潜在研究方向进行了深入思考。
+
+建议优先在上述文件中完成个性化配置，而不是在正文中临时覆盖，以保持模板可维护性。
+
+\section{线上部署}
+
+\gls{overleaf} 的优势是免安装、可共享与快速演示。
+用户可以通过将本模板的压缩包上传至 \gls{overleaf} 并解压来使用。
+然而，在大型中文论文场景中，在线编译可能受到网络与资源限制，容易出现构建耗时长甚至超时（这对于免费用户而言几乎是必然的）。
+此外，\gls{overleaf} 不支持绝大多数 AI 功能（特别是 agentic 的那些）。
+因此，本模板不建议将 \gls{overleaf} 作为主力写作环境。
+
+\begin{mynote}{线上部署的适用场景}
+\begin{itemize}
+  \item 跨设备临时查看（这个功能可以通过 GitHub 私有仓库实现）。
+  PS. 我个人非常推荐项目化管理自己的每一篇论文；
+  \item 与合作者共同编辑、修改与审阅（也许这更常见于小论文场景，因为学位论文主要由自己完成，很少有导师会直接帮忙改源文件）；
+  \item TikZ 画图：我觉得这是最值得推荐的功能。在 \gls{overleaf} 中，你可以更专注于当前的图片，而且不用担心引入太多宏包而拖慢编译速度。
+  将在 \gls{overleaf} 中使用 \texttt{standalone} 模式画好的 PDF插入大论文几乎不会影响编译速度。
+\end{itemize}
+\end{mynote}
+
+\paragraph{风险与建议}
+当章节、图片和引用规模增大时，在线编译的稳定性通常弱于本地编译；
+同时，在线编译的可定制化水平也相对较低。
+在线环境字体与工具链版本可能与本地不一致；
+若必须在线协作，建议保留本地作为主分支并定期同步。

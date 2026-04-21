@@ -1,0 +1,23 @@
+% 快速编译模式开关
+% 快速编译模式下，跳过封面、目录、摘要等部分，直接编译正文
+\newif\iffastcompile
+% \fastcompiletrue  % 快速编译模式
+\fastcompilefalse  % 正常编译模式
+
+\usepackage{xparse}
+\let\oldincludegraphics\includegraphics
+\RenewDocumentCommand{\includegraphics}{O{} m}{
+    \iffastcompile
+        \oldincludegraphics[width=0.2\textwidth]{figures/dummy.pdf}
+    \else
+        \oldincludegraphics[#1]{#2}
+    \fi
+}
+
+\newcommand{\inputtikz}[1]{
+    \iffastcompile
+        \includegraphics[width=0.2\textwidth]{figures/dummy.pdf}
+    \else
+        \input{#1}
+    \fi
+}
